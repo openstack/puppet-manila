@@ -1,34 +1,13 @@
 #
 class cinder::volume::iscsi (
-  $iscsi_settings   = false,
-  $iscsi_helper     = 'tgtadm'
+  $iscsi_ip_address,
+  $volume_group      = 'cinder-volumes',
+  $iscsi_helper      = $cinder::params::iscsi_helper,
 ) {
 
-  include cinder::params
-
-  if $iscsi_settings {
-    multini($::cinder::params::cinder_conf, $iscsi_settings)
+  cinder::backend::iscsi { 'DEFAULT':
+    iscsi_ip_address   => $iscsi_ip_address,
+    volume_group       => $volume_group,
+    iscsi_helper       => $iscsi_helper
   }
-
-  case $iscsi_helper {
-    'tgtadm': {
-      package { 'tgt':
-        name   => $::cinder::params::tgt_package_name,
-        ensure => present,
-      }
-      service { 'tgtd':
-        name    => $::cinder::params::tgt_service_name,
-        ensure  => running,
-        enable  => true,
-        require => Class['cinder::volume'],
-      }
-
-      multini($::cinder::params::cinder_conf, { 'DEFAULT' => { 'iscsi_helper' => 'tgtadm' } } )
-    }
-
-    default: {
-      fail("Unsupported iscsi helper: ${iscsi_helper}.")
-    }
-  }
-  
 }

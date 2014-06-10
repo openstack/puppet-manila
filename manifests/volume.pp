@@ -1,27 +1,40 @@
-#
+# $volume_name_template = volume-%s
 class cinder::volume (
-  $package_ensure = 'latest',
-  $enabled        = true
+  $package_ensure = 'present',
+  $enabled        = true,
+  $manage_service = true
 ) {
 
   include cinder::params
 
-  package { 'cinder-volume':
-    name   => $::cinder::params::volume_package,
-    ensure => $package_ensure,
-    require => Class['cinder'],
+  Cinder_config<||> ~> Service['cinder-volume']
+  Cinder_api_paste_ini<||> ~> Service['cinder-volume']
+  Exec<| title == 'cinder-manage db_sync' |> ~> Service['cinder-volume']
+
+  if $::cinder::params::volume_package {
+    Package['cinder-volume'] -> Cinder_config<||>
+    Package['cinder-volume'] -> Cinder_api_paste_ini<||>
+    Package['cinder']        -> Package['cinder-volume']
+    Package['cinder-volume'] -> Service['cinder-volume']
+    package { 'cinder-volume':
+      ensure => $package_ensure,
+      name   => $::cinder::params::volume_package,
+    }
   }
 
-  if $enabled {
-    $ensure = 'running'
-  } else {
-    $ensure = 'stopped'
+  if $manage_service {
+    if $enabled {
+      $ensure = 'running'
+    } else {
+      $ensure = 'stopped'
+    }
   }
 
-  service { $::cinder::params::volume_service:
-    enable    => $enabled,
+  service { 'cinder-volume':
     ensure    => $ensure,
-    require   => Package[$::cinder::params::volume_package],
-    subscribe => File[$::cinder::params::cinder_conf],
+    name      => $::cinder::params::volume_service,
+    enable    => $enabled,
+    hasstatus => true,
+    require   => Package['cinder'],
   }
 }
