@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'cinder::type_set' do
+describe 'manila::type_set' do
 
   let(:title) {'hippo'}
 
@@ -17,13 +17,13 @@ describe 'cinder::type_set' do
   end
 
   it 'should have its execs' do
-    should contain_exec('cinder type-key sith set monchichi=hippo').with(
-      :command => 'cinder type-key sith set monchichi=hippo',
+    should contain_exec('manila type-key sith set monchichi=hippo').with(
+      :command => 'manila type-key sith set monchichi=hippo',
       :environment => [
         'OS_TENANT_NAME=admin',
         'OS_USERNAME=admin',
         'OS_PASSWORD=asdf',
         'OS_AUTH_URL=http://127.127.127.1:5000/v2.0/'],
-      :require => 'Package[python-cinderclient]')
+      :require => 'Package[python-manilaclient]')
   end
 end

@@ -1,6 +1,6 @@
-# ==Define: cinder::type
+# ==Define: manila::type
 #
-# Creates cinder type and assigns backends.
+# Creates manila type and assigns backends.
 #
 # === Parameters
 #
@@ -26,7 +26,7 @@
 #
 # Author: Andrew Woodward <awoodward@mirantis.com>
 
-define cinder::type (
+define manila::type (
   $os_password,
   $set_key        = undef,
   $set_value      = undef,
@@ -40,22 +40,22 @@ define cinder::type (
 # TODO: (xarses) This should be moved to a ruby provider so that among other
 #   reasons, the credential discovery magic can occur like in neutron.
 
-  exec {"cinder type-create ${volume_name}":
-    command     => "cinder type-create ${volume_name}",
-    unless      => "cinder type-list | grep ${volume_name}",
+  exec {"manila type-create ${volume_name}":
+    command     => "manila type-create ${volume_name}",
+    unless      => "manila type-list | grep ${volume_name}",
     environment => [
       "OS_TENANT_NAME=${os_tenant_name}",
       "OS_USERNAME=${os_username}",
       "OS_PASSWORD=${os_password}",
       "OS_AUTH_URL=${os_auth_url}",
     ],
-    require     => Package['python-cinderclient']
+    require     => Package['python-manilaclient']
   }
 
   if ($set_value and $set_key) {
 
-    Exec["cinder type-create ${volume_name}"] ->
-    cinder::type_set { $set_value:
+    Exec["manila type-create ${volume_name}"] ->
+    manila::type_set { $set_value:
       type            => $volume_name,
       key             => $set_key,
       os_password     => $os_password,

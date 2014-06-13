@@ -1,6 +1,6 @@
-# == Class: cinder::ceilometer
+# == Class: manila::ceilometer
 #
-# Setup Cinder to enable ceilometer can retrieve volume samples
+# Setup Manila to enable ceilometer can retrieve volume samples
 # Ref: http://docs.openstack.org/developer/ceilometer/install/manual.html
 #
 # === Parameters
@@ -11,11 +11,11 @@
 #
 
 
-class cinder::ceilometer (
-  $notification_driver = 'cinder.openstack.common.notifier.rpc_notifier'
+class manila::ceilometer (
+  $notification_driver = 'manila.openstack.common.notifier.rpc_notifier'
 ) {
 
-  cinder_config {
+  manila_config {
     'DEFAULT/notification_driver':     value => $notification_driver;
   }
 }

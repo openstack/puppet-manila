@@ -1,4 +1,4 @@
-# ==define cinder::backend::nfs
+# ==define manila::backend::nfs
 #
 # ===Paramiters
 # [*volume_backend_name*]
@@ -6,28 +6,28 @@
 #   Defaults to: $name
 #
 #
-define cinder::backend::nfs (
+define manila::backend::nfs (
   $volume_backend_name = $name,
   $nfs_servers = [],
   $nfs_mount_options = undef,
   $nfs_disk_util = undef,
   $nfs_sparsed_volumes = undef,
   $nfs_mount_point_base = undef,
-  $nfs_shares_config = '/etc/cinder/shares.conf',
+  $nfs_shares_config = '/etc/manila/shares.conf',
   $nfs_used_ratio = '0.95',
   $nfs_oversub_ratio = '1.0',
 ) {
 
   file {$nfs_shares_config:
     content => join($nfs_servers, "\n"),
-    require => Package['cinder'],
-    notify  => Service['cinder-volume']
+    require => Package['manila'],
+    notify  => Service['manila-volume']
   }
 
-  cinder_config {
+  manila_config {
     "${name}/volume_backend_name":  value => $volume_backend_name;
     "${name}/volume_driver":        value =>
-      'cinder.volume.drivers.nfs.NfsDriver';
+      'manila.volume.drivers.nfs.NfsDriver';
     "${name}/nfs_shares_config":    value => $nfs_shares_config;
     "${name}/nfs_mount_options":    value => $nfs_mount_options;
     "${name}/nfs_disk_util":        value => $nfs_disk_util;

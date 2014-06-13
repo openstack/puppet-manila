@@ -15,12 +15,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# Unit tests for cinder::backends class
+# Unit tests for manila::backends class
 #
 
 require 'spec_helper'
 
-describe 'cinder::backends' do
+describe 'manila::backends' do
 
   let :default_params do
     {}
@@ -30,13 +30,13 @@ describe 'cinder::backends' do
     {}
   end
 
-  shared_examples_for 'cinder backends' do
+  shared_examples_for 'manila backends' do
 
     let :p do
       default_params.merge(params)
     end
 
-    context 'configure cinder with default parameters' do
+    context 'configure manila with default parameters' do
       before :each do
         params.merge!(
          :enabled_backends => ['lowcost', 'regular', 'premium'],
@@ -44,12 +44,12 @@ describe 'cinder::backends' do
         )
       end
 
-      it 'configures cinder.conf with default params' do
-        should contain_cinder_config('DEFAULT/enabled_backends').with_value(p[:enabled_backends].join(','))
+      it 'configures manila.conf with default params' do
+        should contain_manila_config('DEFAULT/enabled_backends').with_value(p[:enabled_backends].join(','))
       end
     end
 
-    context 'configure cinder with a default volume type' do
+    context 'configure manila with a default volume type' do
       before :each do
         params.merge!(
          :enabled_backends    => ['foo', 'bar'],
@@ -58,7 +58,7 @@ describe 'cinder::backends' do
       end
 
       it 'should fail to configure default volume type' do
-        expect { subject }.to raise_error(Puppet::Error, /The default_volume_type parameter is deprecated in this class, you should declare it in cinder::api./)
+        expect { subject }.to raise_error(Puppet::Error, /The default_volume_type parameter is deprecated in this class, you should declare it in manila::api./)
       end
     end
 
@@ -69,7 +69,7 @@ describe 'cinder::backends' do
       { :osfamily => 'Debian' }
     end
 
-    it_configures 'cinder backends'
+    it_configures 'manila backends'
   end
 
   context 'on RedHat platforms' do
@@ -77,7 +77,7 @@ describe 'cinder::backends' do
       { :osfamily => 'RedHat' }
     end
 
-    it_configures 'cinder backends'
+    it_configures 'manila backends'
   end
 
 end

@@ -1,30 +1,30 @@
 require 'spec_helper'
 
-describe 'cinder::volume::glusterfs' do
+describe 'manila::volume::glusterfs' do
 
   shared_examples_for 'glusterfs volume driver' do
     let :params do
       {
         :glusterfs_shares           => ['10.10.10.10:/volumes', '10.10.10.11:/volumes'],
-        :glusterfs_shares_config    => '/etc/cinder/other_shares.conf',
+        :glusterfs_shares_config    => '/etc/manila/other_shares.conf',
         :glusterfs_sparsed_volumes  => true,
-        :glusterfs_mount_point_base => '/cinder_mount_point',
+        :glusterfs_mount_point_base => '/manila_mount_point',
       }
     end
 
     it 'configures glusterfs volume driver' do
-      should contain_cinder_config('DEFAULT/volume_driver').with_value(
-        'cinder.volume.drivers.glusterfs.GlusterfsDriver')
-      should contain_cinder_config('DEFAULT/glusterfs_shares_config').with_value(
-        '/etc/cinder/other_shares.conf')
-      should contain_cinder_config('DEFAULT/glusterfs_sparsed_volumes').with_value(
+      should contain_manila_config('DEFAULT/volume_driver').with_value(
+        'manila.volume.drivers.glusterfs.GlusterfsDriver')
+      should contain_manila_config('DEFAULT/glusterfs_shares_config').with_value(
+        '/etc/manila/other_shares.conf')
+      should contain_manila_config('DEFAULT/glusterfs_sparsed_volumes').with_value(
         true)
-      should contain_cinder_config('DEFAULT/glusterfs_mount_point_base').with_value(
-        '/cinder_mount_point')
-      should contain_file('/etc/cinder/other_shares.conf').with(
+      should contain_manila_config('DEFAULT/glusterfs_mount_point_base').with_value(
+        '/manila_mount_point')
+      should contain_file('/etc/manila/other_shares.conf').with(
         :content => "10.10.10.10:/volumes\n10.10.10.11:/volumes\n",
-        :require => 'Package[cinder]',
-        :notify  => 'Service[cinder-volume]'
+        :require => 'Package[manila]',
+        :notify  => 'Service[manila-volume]'
       )
     end
 

@@ -1,6 +1,6 @@
-# == Class: cinder::volume::nexenta
+# == Class: manila::volume::nexenta
 #
-# Setups Cinder with Nexenta volume driver.
+# Setups Manila with Nexenta volume driver.
 #
 # === Parameters
 #
@@ -14,13 +14,13 @@
 #   (required) IP address of Nexenta SA.
 #
 # [*nexenta_volume*]
-#   (optional) Pool on SA that will hold all volumes. Defaults to 'cinder'.
+#   (optional) Pool on SA that will hold all volumes. Defaults to 'manila'.
 #
 # [*nexenta_target_prefix*]
 #   (optional) IQN prefix for iSCSI targets. Defaults to 'iqn:'.
 #
 # [*nexenta_target_group_prefix*]
-#   (optional) Prefix for iSCSI target groups on SA. Defaults to 'cinder/'.
+#   (optional) Prefix for iSCSI target groups on SA. Defaults to 'manila/'.
 #
 # [*nexenta_blocksize*]
 #   (optional) Block size for volumes. Defaults to '8k'.
@@ -28,18 +28,18 @@
 # [*nexenta_sparse*]
 #   (optional) Flag to create sparse volumes. Defaults to true.
 #
-class cinder::volume::nexenta (
+class manila::volume::nexenta (
   $nexenta_user,
   $nexenta_password,
   $nexenta_host,
-  $nexenta_volume               = 'cinder',
+  $nexenta_volume               = 'manila',
   $nexenta_target_prefix        = 'iqn:',
-  $nexenta_target_group_prefix  = 'cinder/',
+  $nexenta_target_group_prefix  = 'manila/',
   $nexenta_blocksize            = '8k',
   $nexenta_sparse               = true
 ) {
 
-  cinder::backend::nexenta { 'DEFAULT':
+  manila::backend::nexenta { 'DEFAULT':
     nexenta_user                => $nexenta_user,
     nexenta_password            => $nexenta_password,
     nexenta_host                => $nexenta_host,

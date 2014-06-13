@@ -15,9 +15,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# == Class: cinder::backup::swift
+# == Class: manila::backup::swift
 #
-# Setup Cinder to backup volumes into Swift
+# Setup Manila to backup volumes into Swift
 #
 # === Parameters
 #
@@ -43,8 +43,8 @@
 #   Defaults to '2'
 #
 
-class cinder::backup::swift (
-  $backup_driver               = 'cinder.backup.drivers.swift',
+class manila::backup::swift (
+  $backup_driver               = 'manila.backup.drivers.swift',
   $backup_swift_url            = 'http://localhost:8080/v1/AUTH_',
   $backup_swift_container      = 'volumes_backup',
   $backup_swift_object_size    = '52428800',
@@ -52,7 +52,7 @@ class cinder::backup::swift (
   $backup_swift_retry_backoff  = '2'
 ) {
 
-  cinder_config {
+  manila_config {
     'DEFAULT/backup_driver':               value => $backup_driver;
     'DEFAULT/backup_swift_url':            value => $backup_swift_url;
     'DEFAULT/backup_swift_container':      value => $backup_swift_container;

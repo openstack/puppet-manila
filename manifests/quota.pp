@@ -1,6 +1,6 @@
-# == Class: cinder::quota
+# == Class: manila::quota
 #
-# Setup and configure Cinder quotas.
+# Setup and configure Manila quotas.
 #
 # === Parameters
 #
@@ -16,16 +16,16 @@
 #
 # [*quota_driver*]
 #   (optional) Default driver to use for quota checks.
-#   Defaults to 'cinder.quota.DbQuotaDriver'.
+#   Defaults to 'manila.quota.DbQuotaDriver'.
 #
-class cinder::quota (
+class manila::quota (
   $quota_volumes = 10,
   $quota_snapshots = 10,
   $quota_gigabytes = 1000,
-  $quota_driver = 'cinder.quota.DbQuotaDriver'
+  $quota_driver = 'manila.quota.DbQuotaDriver'
 ) {
 
-  cinder_config {
+  manila_config {
     'DEFAULT/quota_volumes':   value => $quota_volumes;
     'DEFAULT/quota_snapshots': value => $quota_snapshots;
     'DEFAULT/quota_gigabytes': value => $quota_gigabytes;

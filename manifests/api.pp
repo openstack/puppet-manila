@@ -1,6 +1,6 @@
-# == Class: cinder::api
+# == Class: manila::api
 #
-# Setup and configure the cinder API endpoint
+# Setup and configure the manila API endpoint
 #
 # === Parameters
 #
@@ -17,7 +17,7 @@
 #
 # [*keystone_user*]
 #   (optional) The name of the auth user
-#   Defaults to cinder
+#   Defaults to manila
 #
 # [*keystone_auth_host*]
 #   (optional) The keystone host
@@ -32,7 +32,7 @@
 #   Defaults to http.
 #
 # [*os_region_name*]
-#   (optional) Some operations require cinder to make API requests
+#   (optional) Some operations require manila to make API requests
 #   to Nova. This sets the keystone region to be used for these
 #   requests. For example, boot-from-volume.
 #   Defaults to undef.
@@ -45,7 +45,7 @@
 #   leading '/' and no trailing '/'.
 #
 # [*service_port*]
-#   (optional) The cinder api port
+#   (optional) The manila api port
 #   Defaults to 5000
 #
 # [*package_ensure*]
@@ -53,7 +53,7 @@
 #   Defaults to present
 #
 # [*bind_host*]
-#   (optional) The cinder api bind address
+#   (optional) The manila api bind address
 #   Defaults to 0.0.0.0
 #
 # [*enabled*]
@@ -70,7 +70,7 @@
 #
 # [*ratelimits_factory*]
 #   (optional) Factory to use for ratelimiting
-#   Defaults to 'cinder.api.v1.limits:RateLimitingMiddleware.factory'
+#   Defaults to 'manila.api.v1.limits:RateLimitingMiddleware.factory'
 #
 # [*default_volume_type*]
 #   (optional) default volume type to use.
@@ -78,11 +78,11 @@
 #   If not configured, it produces an error when creating a volume
 #   without specifying a type.
 #   Defaults to 'false'.
-class cinder::api (
+class manila::api (
   $keystone_password,
   $keystone_enabled           = true,
   $keystone_tenant            = 'services',
-  $keystone_user              = 'cinder',
+  $keystone_user              = 'manila',
   $keystone_auth_host         = 'localhost',
   $keystone_auth_port         = '35357',
   $keystone_auth_protocol     = 'http',
@@ -97,35 +97,35 @@ class cinder::api (
   $ratelimits                 = undef,
   $default_volume_type        = false,
   $ratelimits_factory =
-    'cinder.api.v1.limits:RateLimitingMiddleware.factory'
+    'manila.api.v1.limits:RateLimitingMiddleware.factory'
 ) {
 
-  include cinder::params
+  include manila::params
 
-  Cinder_config<||> ~> Service['cinder-api']
-  Cinder_api_paste_ini<||> ~> Service['cinder-api']
+  Manila_config<||> ~> Service['manila-api']
+  Manila_api_paste_ini<||> ~> Service['manila-api']
 
-  if $::cinder::params::api_package {
-    Package['cinder-api'] -> Cinder_config<||>
-    Package['cinder-api'] -> Cinder_api_paste_ini<||>
-    Package['cinder-api'] -> Service['cinder-api']
-    package { 'cinder-api':
+  if $::manila::params::api_package {
+    Package['manila-api'] -> Manila_config<||>
+    Package['manila-api'] -> Manila_api_paste_ini<||>
+    Package['manila-api'] -> Service['manila-api']
+    package { 'manila-api':
       ensure  => $package_ensure,
-      name    => $::cinder::params::api_package,
+      name    => $::manila::params::api_package,
     }
   }
 
   if $enabled {
 
-    Cinder_config<||> ~> Exec['cinder-manage db_sync']
+    Manila_config<||> ~> Exec['manila-manage db_sync']
 
-    exec { 'cinder-manage db_sync':
-      command     => $::cinder::params::db_sync_command,
+    exec { 'manila-manage db_sync':
+      command     => $::manila::params::db_sync_command,
       path        => '/usr/bin',
-      user        => 'cinder',
+      user        => 'manila',
       refreshonly => true,
       logoutput   => 'on_failure',
-      require     => Package['cinder'],
+      require     => Package['manila'],
     }
     if $manage_service {
       $ensure = 'running'
@@ -136,35 +136,35 @@ class cinder::api (
     }
   }
 
-  service { 'cinder-api':
+  service { 'manila-api':
     ensure    => $ensure,
-    name      => $::cinder::params::api_service,
+    name      => $::manila::params::api_service,
     enable    => $enabled,
     hasstatus => true,
-    require   => Package['cinder'],
+    require   => Package['manila'],
   }
 
-  cinder_config {
+  manila_config {
     'DEFAULT/osapi_volume_listen': value => $bind_host
   }
 
   if $os_region_name {
-    cinder_config {
+    manila_config {
       'DEFAULT/os_region_name': value => $os_region_name;
     }
   }
 
   if $keystone_auth_uri {
-    cinder_api_paste_ini { 'filter:authtoken/auth_uri': value => $keystone_auth_uri; }
+    manila_api_paste_ini { 'filter:authtoken/auth_uri': value => $keystone_auth_uri; }
   } else {
-    cinder_api_paste_ini { 'filter:authtoken/auth_uri': value => "${keystone_auth_protocol}://${keystone_auth_host}:${service_port}/"; }
+    manila_api_paste_ini { 'filter:authtoken/auth_uri': value => "${keystone_auth_protocol}://${keystone_auth_host}:${service_port}/"; }
   }
 
   if $keystone_enabled {
-    cinder_config {
+    manila_config {
       'DEFAULT/auth_strategy':     value => 'keystone' ;
     }
-    cinder_api_paste_ini {
+    manila_api_paste_ini {
       'filter:authtoken/service_protocol':  value => $keystone_auth_protocol;
       'filter:authtoken/service_host':      value => $keystone_auth_host;
       'filter:authtoken/service_port':      value => $service_port;
@@ -177,7 +177,7 @@ class cinder::api (
     }
 
   if ($ratelimits != undef) {
-    cinder_api_paste_ini {
+    manila_api_paste_ini {
       'filter:ratelimit/paste.filter_factory': value => $ratelimits_factory;
       'filter:ratelimit/limits':               value => $ratelimits;
     }
@@ -185,22 +185,22 @@ class cinder::api (
 
     if $keystone_auth_admin_prefix {
       validate_re($keystone_auth_admin_prefix, '^(/.+[^/])?$')
-      cinder_api_paste_ini {
+      manila_api_paste_ini {
         'filter:authtoken/auth_admin_prefix': value => $keystone_auth_admin_prefix;
       }
     } else {
-      cinder_api_paste_ini {
+      manila_api_paste_ini {
         'filter:authtoken/auth_admin_prefix': ensure => absent;
       }
     }
   }
 
   if $default_volume_type {
-    cinder_config {
+    manila_config {
       'DEFAULT/default_volume_type': value => $default_volume_type;
     }
   } else {
-    cinder_config {
+    manila_config {
       'DEFAULT/default_volume_type': ensure => absent;
     }
   }

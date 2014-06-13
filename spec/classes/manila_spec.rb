@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'cinder' do
+describe 'manila' do
   let :req_params do
     {:rabbit_password => 'guest', :database_connection => 'mysql://user:password@host/database'}
   end
@@ -13,75 +13,75 @@ describe 'cinder' do
       req_params
     end
 
-    it { should contain_class('cinder::params') }
+    it { should contain_class('manila::params') }
     it { should contain_class('mysql::python') }
 
     it 'should contain default config' do
-      should contain_cinder_config('DEFAULT/rpc_backend').with(
-        :value => 'cinder.openstack.common.rpc.impl_kombu'
+      should contain_manila_config('DEFAULT/rpc_backend').with(
+        :value => 'manila.openstack.common.rpc.impl_kombu'
       )
-      should contain_cinder_config('DEFAULT/control_exchange').with(
+      should contain_manila_config('DEFAULT/control_exchange').with(
         :value => 'openstack'
       )
-      should contain_cinder_config('DEFAULT/rabbit_password').with(
+      should contain_manila_config('DEFAULT/rabbit_password').with(
         :value => 'guest',
         :secret => true
       )
-      should contain_cinder_config('DEFAULT/rabbit_host').with(
+      should contain_manila_config('DEFAULT/rabbit_host').with(
         :value => '127.0.0.1'
       )
-      should contain_cinder_config('DEFAULT/rabbit_port').with(
+      should contain_manila_config('DEFAULT/rabbit_port').with(
         :value => '5672'
       )
-      should contain_cinder_config('DEFAULT/rabbit_hosts').with(
+      should contain_manila_config('DEFAULT/rabbit_hosts').with(
         :value => '127.0.0.1:5672'
       )
-      should contain_cinder_config('DEFAULT/rabbit_ha_queues').with(
+      should contain_manila_config('DEFAULT/rabbit_ha_queues').with(
         :value => false
       )
-      should contain_cinder_config('DEFAULT/rabbit_virtual_host').with(
+      should contain_manila_config('DEFAULT/rabbit_virtual_host').with(
         :value => '/'
       )
-      should contain_cinder_config('DEFAULT/rabbit_userid').with(
+      should contain_manila_config('DEFAULT/rabbit_userid').with(
         :value => 'guest'
       )
-      should contain_cinder_config('database/connection').with(
+      should contain_manila_config('database/connection').with(
         :value  => 'mysql://user:password@host/database',
         :secret => true
       )
-      should contain_cinder_config('database/idle_timeout').with(
+      should contain_manila_config('database/idle_timeout').with(
         :value => '3600'
       )
-      should contain_cinder_config('DEFAULT/verbose').with(
+      should contain_manila_config('DEFAULT/verbose').with(
         :value => false
       )
-      should contain_cinder_config('DEFAULT/debug').with(
+      should contain_manila_config('DEFAULT/debug').with(
         :value => false
       )
-      should contain_cinder_config('DEFAULT/storage_availability_zone').with(
+      should contain_manila_config('DEFAULT/storage_availability_zone').with(
         :value => 'nova'
       )
-      should contain_cinder_config('DEFAULT/default_availability_zone').with(
+      should contain_manila_config('DEFAULT/default_availability_zone').with(
         :value => 'nova'
       )
-      should contain_cinder_config('DEFAULT/api_paste_config').with(
-        :value => '/etc/cinder/api-paste.ini'
+      should contain_manila_config('DEFAULT/api_paste_config').with(
+        :value => '/etc/manila/api-paste.ini'
       )
-      should contain_cinder_config('DEFAULT/log_dir').with(:value => '/var/log/cinder')
+      should contain_manila_config('DEFAULT/log_dir').with(:value => '/var/log/manila')
     end
 
-    it { should contain_file('/etc/cinder/cinder.conf').with(
-      :owner   => 'cinder',
-      :group   => 'cinder',
+    it { should contain_file('/etc/manila/manila.conf').with(
+      :owner   => 'manila',
+      :group   => 'manila',
       :mode    => '0600',
-      :require => 'Package[cinder]'
+      :require => 'Package[manila]'
     ) }
 
-    it { should contain_file('/etc/cinder/api-paste.ini').with(
-      :owner   => 'cinder',
-      :group   => 'cinder',
+    it { should contain_file('/etc/manila/api-paste.ini').with(
+      :owner   => 'manila',
+      :group   => 'manila',
       :mode    => '0600',
-      :require => 'Package[cinder]'
+      :require => 'Package[manila]'
     ) }
 
   end
@@ -91,12 +91,12 @@ describe 'cinder' do
     end
 
     it 'should contain many' do
-      should_not contain_cinder_config('DEFAULT/rabbit_host')
-      should_not contain_cinder_config('DEFAULT/rabbit_port')
-      should contain_cinder_config('DEFAULT/rabbit_hosts').with(
+      should_not contain_manila_config('DEFAULT/rabbit_host')
+      should_not contain_manila_config('DEFAULT/rabbit_port')
+      should contain_manila_config('DEFAULT/rabbit_hosts').with(
         :value => 'rabbit1:5672,rabbit2:5672'
       )
-      should contain_cinder_config('DEFAULT/rabbit_ha_queues').with(
+      should contain_manila_config('DEFAULT/rabbit_ha_queues').with(
         :value => true
       )
     end
@@ -108,12 +108,12 @@ describe 'cinder' do
     end
 
     it 'should contain many' do
-      should_not contain_cinder_config('DEFAULT/rabbit_host')
-      should_not contain_cinder_config('DEFAULT/rabbit_port')
-      should contain_cinder_config('DEFAULT/rabbit_hosts').with(
+      should_not contain_manila_config('DEFAULT/rabbit_host')
+      should_not contain_manila_config('DEFAULT/rabbit_port')
+      should contain_manila_config('DEFAULT/rabbit_hosts').with(
         :value => 'rabbit1:5672'
       )
-      should contain_cinder_config('DEFAULT/rabbit_ha_queues').with(
+      should contain_manila_config('DEFAULT/rabbit_ha_queues').with(
         :value => true
       )
     end
@@ -125,25 +125,25 @@ describe 'cinder' do
       {
         :database_connection => 'mysql://user:password@host/database',
         :qpid_password       => 'guest',
-        :rpc_backend         => 'cinder.openstack.common.rpc.impl_qpid'
+        :rpc_backend         => 'manila.openstack.common.rpc.impl_qpid'
       }
     end
 
-    it { should contain_cinder_config('database/connection').with_value('mysql://user:password@host/database') }
-    it { should contain_cinder_config('DEFAULT/rpc_backend').with_value('cinder.openstack.common.rpc.impl_qpid') }
-    it { should contain_cinder_config('DEFAULT/qpid_hostname').with_value('localhost') }
-    it { should contain_cinder_config('DEFAULT/qpid_port').with_value('5672') }
-    it { should contain_cinder_config('DEFAULT/qpid_username').with_value('guest') }
-    it { should contain_cinder_config('DEFAULT/qpid_password').with_value('guest').with_secret(true) }
-    it { should contain_cinder_config('DEFAULT/qpid_reconnect').with_value(true) }
-    it { should contain_cinder_config('DEFAULT/qpid_reconnect_timeout').with_value('0') }
-    it { should contain_cinder_config('DEFAULT/qpid_reconnect_limit').with_value('0') }
-    it { should contain_cinder_config('DEFAULT/qpid_reconnect_interval_min').with_value('0') }
-    it { should contain_cinder_config('DEFAULT/qpid_reconnect_interval_max').with_value('0') }
-    it { should contain_cinder_config('DEFAULT/qpid_reconnect_interval').with_value('0') }
-    it { should contain_cinder_config('DEFAULT/qpid_heartbeat').with_value('60') }
-    it { should contain_cinder_config('DEFAULT/qpid_protocol').with_value('tcp') }
-    it { should contain_cinder_config('DEFAULT/qpid_tcp_nodelay').with_value(true) }
+    it { should contain_manila_config('database/connection').with_value('mysql://user:password@host/database') }
+    it { should contain_manila_config('DEFAULT/rpc_backend').with_value('manila.openstack.common.rpc.impl_qpid') }
+    it { should contain_manila_config('DEFAULT/qpid_hostname').with_value('localhost') }
+    it { should contain_manila_config('DEFAULT/qpid_port').with_value('5672') }
+    it { should contain_manila_config('DEFAULT/qpid_username').with_value('guest') }
+    it { should contain_manila_config('DEFAULT/qpid_password').with_value('guest').with_secret(true) }
+    it { should contain_manila_config('DEFAULT/qpid_reconnect').with_value(true) }
+    it { should contain_manila_config('DEFAULT/qpid_reconnect_timeout').with_value('0') }
+    it { should contain_manila_config('DEFAULT/qpid_reconnect_limit').with_value('0') }
+    it { should contain_manila_config('DEFAULT/qpid_reconnect_interval_min').with_value('0') }
+    it { should contain_manila_config('DEFAULT/qpid_reconnect_interval_max').with_value('0') }
+    it { should contain_manila_config('DEFAULT/qpid_reconnect_interval').with_value('0') }
+    it { should contain_manila_config('DEFAULT/qpid_heartbeat').with_value('60') }
+    it { should contain_manila_config('DEFAULT/qpid_protocol').with_value('tcp') }
+    it { should contain_manila_config('DEFAULT/qpid_tcp_nodelay').with_value(true) }
   end
 
   describe 'with qpid rpc and no qpid_sasl_mechanisms' do
@@ -151,11 +151,11 @@ describe 'cinder' do
       {
         :database_connection  => 'mysql://user:password@host/database',
         :qpid_password        => 'guest',
-        :rpc_backend          => 'cinder.openstack.common.rpc.impl_qpid'
+        :rpc_backend          => 'manila.openstack.common.rpc.impl_qpid'
       }
     end
 
-    it { should contain_cinder_config('DEFAULT/qpid_sasl_mechanisms').with_ensure('absent') }
+    it { should contain_manila_config('DEFAULT/qpid_sasl_mechanisms').with_ensure('absent') }
   end
 
   describe 'with qpid rpc and qpid_sasl_mechanisms string' do
@@ -164,11 +164,11 @@ describe 'cinder' do
         :database_connection  => 'mysql://user:password@host/database',
         :qpid_password        => 'guest',
         :qpid_sasl_mechanisms => 'PLAIN',
-        :rpc_backend          => 'cinder.openstack.common.rpc.impl_qpid'
+        :rpc_backend          => 'manila.openstack.common.rpc.impl_qpid'
       }
     end
 
-    it { should contain_cinder_config('DEFAULT/qpid_sasl_mechanisms').with_value('PLAIN') }
+    it { should contain_manila_config('DEFAULT/qpid_sasl_mechanisms').with_value('PLAIN') }
   end
 
   describe 'with qpid rpc and qpid_sasl_mechanisms array' do
@@ -177,11 +177,11 @@ describe 'cinder' do
         :database_connection  => 'mysql://user:password@host/database',
         :qpid_password        => 'guest',
         :qpid_sasl_mechanisms => [ 'DIGEST-MD5', 'GSSAPI', 'PLAIN' ],
-        :rpc_backend          => 'cinder.openstack.common.rpc.impl_qpid'
+        :rpc_backend          => 'manila.openstack.common.rpc.impl_qpid'
       }
     end
 
-    it { should contain_cinder_config('DEFAULT/qpid_sasl_mechanisms').with_value('DIGEST-MD5 GSSAPI PLAIN') }
+    it { should contain_manila_config('DEFAULT/qpid_sasl_mechanisms').with_value('DIGEST-MD5 GSSAPI PLAIN') }
   end
 
   describe 'with SSL enabled' do
@@ -196,11 +196,11 @@ describe 'cinder' do
     end
 
     it do
-      should contain_cinder_config('DEFAULT/rabbit_use_ssl').with_value('true')
-      should contain_cinder_config('DEFAULT/kombu_ssl_ca_certs').with_value('/path/to/ssl/ca/certs')
-      should contain_cinder_config('DEFAULT/kombu_ssl_certfile').with_value('/path/to/ssl/cert/file')
-      should contain_cinder_config('DEFAULT/kombu_ssl_keyfile').with_value('/path/to/ssl/keyfile')
-      should contain_cinder_config('DEFAULT/kombu_ssl_version').with_value('SSLv3')
+      should contain_manila_config('DEFAULT/rabbit_use_ssl').with_value('true')
+      should contain_manila_config('DEFAULT/kombu_ssl_ca_certs').with_value('/path/to/ssl/ca/certs')
+      should contain_manila_config('DEFAULT/kombu_ssl_certfile').with_value('/path/to/ssl/cert/file')
+      should contain_manila_config('DEFAULT/kombu_ssl_keyfile').with_value('/path/to/ssl/keyfile')
+      should contain_manila_config('DEFAULT/kombu_ssl_version').with_value('SSLv3')
     end
   end
 
@@ -216,11 +216,11 @@ describe 'cinder' do
     end
 
     it do
-      should contain_cinder_config('DEFAULT/rabbit_use_ssl').with_value('false')
-      should contain_cinder_config('DEFAULT/kombu_ssl_ca_certs').with_ensure('absent')
-      should contain_cinder_config('DEFAULT/kombu_ssl_certfile').with_ensure('absent')
-      should contain_cinder_config('DEFAULT/kombu_ssl_keyfile').with_ensure('absent')
-      should contain_cinder_config('DEFAULT/kombu_ssl_version').with_ensure('absent')
+      should contain_manila_config('DEFAULT/rabbit_use_ssl').with_value('false')
+      should contain_manila_config('DEFAULT/kombu_ssl_ca_certs').with_ensure('absent')
+      should contain_manila_config('DEFAULT/kombu_ssl_certfile').with_ensure('absent')
+      should contain_manila_config('DEFAULT/kombu_ssl_keyfile').with_ensure('absent')
+      should contain_manila_config('DEFAULT/kombu_ssl_version').with_ensure('absent')
     end
   end
 
@@ -229,7 +229,7 @@ describe 'cinder' do
       req_params
     end
 
-    it { should contain_cinder_config('DEFAULT/use_syslog').with_value(false) }
+    it { should contain_manila_config('DEFAULT/use_syslog').with_value(false) }
   end
 
   describe 'with syslog enabled' do
@@ -239,8 +239,8 @@ describe 'cinder' do
       })
     end
 
-    it { should contain_cinder_config('DEFAULT/use_syslog').with_value(true) }
-    it { should contain_cinder_config('DEFAULT/syslog_log_facility').with_value('LOG_USER') }
+    it { should contain_manila_config('DEFAULT/use_syslog').with_value(true) }
+    it { should contain_manila_config('DEFAULT/syslog_log_facility').with_value('LOG_USER') }
   end
 
   describe 'with syslog enabled and custom settings' do
@@ -251,13 +251,13 @@ describe 'cinder' do
      })
     end
 
-    it { should contain_cinder_config('DEFAULT/use_syslog').with_value(true) }
-    it { should contain_cinder_config('DEFAULT/syslog_log_facility').with_value('LOG_LOCAL0') }
+    it { should contain_manila_config('DEFAULT/use_syslog').with_value(true) }
+    it { should contain_manila_config('DEFAULT/syslog_log_facility').with_value('LOG_LOCAL0') }
   end
 
   describe 'with log_dir disabled' do
     let(:params) { req_params.merge!({:log_dir => false}) }
-    it { should contain_cinder_config('DEFAULT/log_dir').with_ensure('absent') }
+    it { should contain_manila_config('DEFAULT/log_dir').with_ensure('absent') }
   end
 
   describe 'with amqp_durable_queues disabled' do
@@ -265,7 +265,7 @@ describe 'cinder' do
       req_params
     end
 
-    it { should contain_cinder_config('DEFAULT/amqp_durable_queues').with_value(false) }
+    it { should contain_manila_config('DEFAULT/amqp_durable_queues').with_value(false) }
   end
 
   describe 'with amqp_durable_queues enabled' do
@@ -275,7 +275,7 @@ describe 'cinder' do
       })
     end
 
-    it { should contain_cinder_config('DEFAULT/amqp_durable_queues').with_value(true) }
+    it { should contain_manila_config('DEFAULT/amqp_durable_queues').with_value(true) }
   end
 
   describe 'with postgresql' do
@@ -286,7 +286,7 @@ describe 'cinder' do
       }
     end
 
-    it { should contain_cinder_config('database/connection').with(
+    it { should contain_manila_config('database/connection').with(
       :value  => 'postgresql://user:drowssap@host/database',
       :secret => true
     ) }
@@ -306,9 +306,9 @@ describe 'cinder' do
       }
     end
 
-    it { should contain_cinder_config('DEFAULT/ssl_ca_file').with_value('/path/to/ca') }
-    it { should contain_cinder_config('DEFAULT/ssl_cert_file').with_value('/path/to/cert') }
-    it { should contain_cinder_config('DEFAULT/ssl_key_file').with_value('/path/to/key') }
+    it { should contain_manila_config('DEFAULT/ssl_ca_file').with_value('/path/to/ca') }
+    it { should contain_manila_config('DEFAULT/ssl_cert_file').with_value('/path/to/cert') }
+    it { should contain_manila_config('DEFAULT/ssl_key_file').with_value('/path/to/key') }
   end
 
   describe 'with SSL socket options set to false' do
@@ -322,9 +322,9 @@ describe 'cinder' do
       }
     end
 
-    it { should contain_cinder_config('DEFAULT/ssl_ca_file').with_ensure('absent') }
-    it { should contain_cinder_config('DEFAULT/ssl_cert_file').with_ensure('absent') }
-    it { should contain_cinder_config('DEFAULT/ssl_key_file').with_ensure('absent') }
+    it { should contain_manila_config('DEFAULT/ssl_ca_file').with_ensure('absent') }
+    it { should contain_manila_config('DEFAULT/ssl_cert_file').with_ensure('absent') }
+    it { should contain_manila_config('DEFAULT/ssl_key_file').with_ensure('absent') }
   end
 
   describe 'with SSL socket options set wrongly configured' do

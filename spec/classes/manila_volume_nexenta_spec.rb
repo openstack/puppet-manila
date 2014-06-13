@@ -1,9 +1,9 @@
 # author 'Aimon Bustardo <abustardo at morphlabs dot com>'
 # license 'Apache License 2.0'
-# description 'configures openstack cinder nexenta driver'
+# description 'configures openstack manila nexenta driver'
 require 'spec_helper'
 
-describe 'cinder::volume::nexenta' do
+describe 'manila::volume::nexenta' do
 
   let :params do
     { :nexenta_user     => 'nexenta',
@@ -12,9 +12,9 @@ describe 'cinder::volume::nexenta' do
   end
 
   let :default_params do
-    { :nexenta_volume              => 'cinder',
+    { :nexenta_volume              => 'manila',
       :nexenta_target_prefix       => 'iqn:',
-      :nexenta_target_group_prefix => 'cinder/',
+      :nexenta_target_group_prefix => 'manila/',
       :nexenta_blocksize           => '8k',
       :nexenta_sparse              => true }
   end
@@ -31,7 +31,7 @@ describe 'cinder::volume::nexenta' do
 
     it 'configures nexenta volume driver' do
       params_hash.each_pair do |config, value|
-        should contain_cinder_config("DEFAULT/#{config}").with_value(value)
+        should contain_manila_config("DEFAULT/#{config}").with_value(value)
       end
     end
   end

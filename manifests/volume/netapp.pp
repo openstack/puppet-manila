@@ -1,6 +1,6 @@
-# == Class: cinder::volume::netapp
+# == Class: manila::volume::netapp
 #
-# Configures Cinder to use the NetApp unified volume driver
+# Configures Manila to use the NetApp unified volume driver
 #
 # === Parameters
 #
@@ -64,7 +64,7 @@
 #   (optional) This parameter specifies the virtual storage server (Vserver)
 #   name on the storage cluster on which provisioning of block storage volumes
 #   should occur. If using the NFS storage protocol, this parameter is mandatory
-#   for storage service catalog support (utilized by Cinder volume type
+#   for storage service catalog support (utilized by Manila volume type
 #   extra_specs support). If this parameter is specified, the exports belonging
 #   to the Vserver will only be used for provisioning in the future. Block
 #   storage volumes on exports not belonging to the Vserver specified by
@@ -99,7 +99,7 @@
 # [*netapp_copyoffload_tool_path*]
 #   (optional) This option specifies the path of the NetApp Copy Offload tool
 #   binary. Ensure that the binary has execute permissions set which allow the
-#   effective user of the cinder-volume process to execute the file.
+#   effective user of the manila-volume process to execute the file.
 #   Defaults to ''
 #
 # [*netapp_controller_ips*]
@@ -131,7 +131,7 @@
 #
 # === Examples
 #
-#  class { 'cinder::volume::netapp':
+#  class { 'manila::volume::netapp':
 #    netapp_login => 'clusterAdmin',
 #    netapp_password => 'password',
 #    netapp_server_hostname => 'netapp.mycorp.com',
@@ -148,7 +148,7 @@
 #
 # Copyright 2013 NetApp, Inc.
 #
-class cinder::volume::netapp (
+class manila::volume::netapp (
   $netapp_login,
   $netapp_password,
   $netapp_server_hostname,
@@ -171,7 +171,7 @@ class cinder::volume::netapp (
   $netapp_webservice_path       = '/devmgr/v2',
 ) {
 
-  cinder::backend::netapp { 'DEFAULT':
+  manila::backend::netapp { 'DEFAULT':
     netapp_login                 => $netapp_login,
     netapp_password              => $netapp_password,
     netapp_server_hostname       => $netapp_server_hostname,

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::keystone::auth' do
+describe 'manila::keystone::auth' do
 
   let :req_params do
     {:password => 'pw'}
@@ -14,35 +14,35 @@ describe 'cinder::keystone::auth' do
 
     it 'should contain auth info' do
 
-      should contain_keystone_user('cinder').with(
+      should contain_keystone_user('manila').with(
         :ensure   => 'present',
         :password => 'pw',
-        :email    => 'cinder@localhost',
+        :email    => 'manila@localhost',
         :tenant   => 'services'
       )
-      should contain_keystone_user_role('cinder@services').with(
+      should contain_keystone_user_role('manila@services').with(
         :ensure  => 'present',
         :roles   => 'admin'
       )
-      should contain_keystone_service('cinder').with(
+      should contain_keystone_service('manila').with(
         :ensure      => 'present',
         :type        => 'volume',
-        :description => 'Cinder Service'
+        :description => 'Manila Service'
       )
-      should contain_keystone_service('cinderv2').with(
+      should contain_keystone_service('manilav2').with(
         :ensure      => 'present',
         :type        => 'volumev2',
-        :description => 'Cinder Service v2'
+        :description => 'Manila Service v2'
       )
 
     end
-    it { should contain_keystone_endpoint('RegionOne/cinder').with(
+    it { should contain_keystone_endpoint('RegionOne/manila').with(
       :ensure       => 'present',
       :public_url   => 'http://127.0.0.1:8776/v1/%(tenant_id)s',
       :admin_url    => 'http://127.0.0.1:8776/v1/%(tenant_id)s',
       :internal_url => 'http://127.0.0.1:8776/v1/%(tenant_id)s'
     ) }
-    it { should contain_keystone_endpoint('RegionOne/cinderv2').with(
+    it { should contain_keystone_endpoint('RegionOne/manilav2').with(
       :ensure       => 'present',
       :public_url   => 'http://127.0.0.1:8776/v2/%(tenant_id)s',
       :admin_url    => 'http://127.0.0.1:8776/v2/%(tenant_id)s',
@@ -66,7 +66,7 @@ describe 'cinder::keystone::auth' do
       )
      end
 
-    it { should contain_keystone_endpoint('RegionThree/cinder').with(
+    it { should contain_keystone_endpoint('RegionThree/manila').with(
       :ensure       => 'present',
       :public_url   => 'https://10.0.42.1:4242/v42/%(tenant_id)s',
       :admin_url    => 'https://10.0.42.2:4242/v42/%(tenant_id)s',
@@ -83,8 +83,8 @@ describe 'cinder::keystone::auth' do
         :configure_endpoint_v2 => false
       )
     end
-    it { should_not contain_keystone_endpoint('RegionOne/cinder') }
-    it { should_not contain_keystone_endpoint('RegionOne/cinderv2') }
+    it { should_not contain_keystone_endpoint('RegionOne/manila') }
+    it { should_not contain_keystone_endpoint('RegionOne/manilav2') }
   end
 
 end

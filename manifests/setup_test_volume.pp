@@ -1,11 +1,11 @@
-# == Class: cinder::setup_test_volume
+# == Class: manila::setup_test_volume
 #
 # Setup a volume group on a loop device for test purposes.
 #
 # === Parameters
 #
 # [*volume_name*]
-#   Volume group name. Defaults to 'cinder-volumes'.
+#   Volume group name. Defaults to 'manila-volumes'.
 #
 # [*size*]
 #   Volume group size. Defaults to '4G'.
@@ -13,8 +13,8 @@
 # [*loopback_device*]
 #   Loop device name. Defaults to '/dev/loop2'.
 #
-class cinder::setup_test_volume(
-  $volume_name     = 'cinder-volumes',
+class manila::setup_test_volume(
+  $volume_name     = 'manila-volumes',
   $size            = '4G',
   $loopback_device = '/dev/loop2'
 ) {

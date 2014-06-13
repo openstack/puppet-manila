@@ -1,9 +1,9 @@
-Puppet::Type.newtype(:cinder_config) do
+Puppet::Type.newtype(:manila_config) do
 
   ensurable
 
   newparam(:name, :namevar => true) do
-    desc 'Section/setting name to manage from /etc/cinder/cinder.conf'
+    desc 'Section/setting name to manage from /etc/manila/manila.conf'
     newvalues(/\S+\/\S+/)
   end
 

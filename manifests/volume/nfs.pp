@@ -1,16 +1,16 @@
 #
-class cinder::volume::nfs (
+class manila::volume::nfs (
   $nfs_servers = [],
   $nfs_mount_options = undef,
   $nfs_disk_util = undef,
   $nfs_sparsed_volumes = undef,
   $nfs_mount_point_base = undef,
-  $nfs_shares_config = '/etc/cinder/shares.conf',
+  $nfs_shares_config = '/etc/manila/shares.conf',
   $nfs_used_ratio = '0.95',
   $nfs_oversub_ratio = '1.0',
 ) {
 
-  cinder::backend::nfs { 'DEFAULT':
+  manila::backend::nfs { 'DEFAULT':
     nfs_servers          => $nfs_servers,
     nfs_mount_options    => $nfs_mount_options,
     nfs_disk_util        => $nfs_disk_util,

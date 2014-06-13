@@ -1,13 +1,13 @@
-# == Class: cinder::volume::solidfire
+# == Class: manila::volume::solidfire
 #
-# Configures Cinder volume SolidFire driver.
+# Configures Manila volume SolidFire driver.
 # Parameters are particular to each volume driver.
 #
 # === Parameters
 #
 # [*volume_driver*]
-#   (optional) Setup cinder-volume to use SolidFire volume driver.
-#   Defaults to 'cinder.volume.drivers.solidfire.SolidFire'
+#   (optional) Setup manila-volume to use SolidFire volume driver.
+#   Defaults to 'manila.volume.drivers.solidfire.SolidFire'
 #
 # [*san_ip*]
 #   (required) IP address of SolidFire clusters MVIP.
@@ -34,18 +34,18 @@
 #   (optional) Port ID to use to connect to SolidFire API.
 #   Defaults to 443
 #
-class cinder::volume::solidfire(
+class manila::volume::solidfire(
   $san_ip,
   $san_login,
   $san_password,
-  $volume_driver       = 'cinder.volume.drivers.solidfire.SolidFire',
+  $volume_driver       = 'manila.volume.drivers.solidfire.SolidFire',
   $sf_emulate_512      = true,
   $sf_allow_tenant_qos = false,
   $sf_account_prefix   = '',
   $sf_api_port         = '443'
 ) {
 
-  cinder::backend::solidfire { 'DEFAULT':
+  manila::backend::solidfire { 'DEFAULT':
     san_ip              => $san_ip,
     san_login           => $san_login,
     san_password        => $san_password,

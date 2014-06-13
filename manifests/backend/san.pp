@@ -1,12 +1,12 @@
-# == Class: cinder::backend::san
+# == Class: manila::backend::san
 #
-# Configures Cinder volume SAN driver.
+# Configures Manila volume SAN driver.
 # Parameters are particular to each volume driver.
 #
 # === Parameters
 #
 # [*volume_driver*]
-#   (required) Setup cinder-volume to use volume driver.
+#   (required) Setup manila-volume to use volume driver.
 #
 # [*volume_backend_name*]
 #   (optional) Allows for the volume_backend_name to be separate of $name.
@@ -46,7 +46,7 @@
 # [*ssh_min_pool_conn*]
 #   (optional) Maximum ssh connections in the pool.
 #
-define cinder::backend::san (
+define manila::backend::san (
   $volume_driver,
   $volume_backend_name = $name,
   $san_thin_provision  = true,
@@ -62,7 +62,7 @@ define cinder::backend::san (
   $ssh_max_pool_conn   = 5
 ) {
 
-  cinder_config {
+  manila_config {
     "${name}/volume_backend_name": value => $volume_backend_name;
     "${name}/volume_driver":       value => $volume_driver;
     "${name}/san_thin_provision":  value => $san_thin_provision;

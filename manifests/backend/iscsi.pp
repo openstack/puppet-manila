@@ -1,5 +1,5 @@
 #
-# Define: cinder::backend::iscsi
+# Define: manila::backend::iscsi
 # Parameters:
 #
 # [*volume_backend_name*]
@@ -7,16 +7,16 @@
 #   Defaults to: $name
 #
 #
-define cinder::backend::iscsi (
+define manila::backend::iscsi (
   $iscsi_ip_address,
   $volume_backend_name = $name,
-  $volume_group        = 'cinder-volumes',
-  $iscsi_helper        = $::cinder::params::iscsi_helper,
+  $volume_group        = 'manila-volumes',
+  $iscsi_helper        = $::manila::params::iscsi_helper,
 ) {
 
-  include cinder::params
+  include manila::params
 
-  cinder_config {
+  manila_config {
     "${name}/volume_backend_name":  value => $volume_backend_name;
     "${name}/iscsi_ip_address":     value => $iscsi_ip_address;
     "${name}/iscsi_helper":         value => $iscsi_helper;
@@ -27,13 +27,13 @@ define cinder::backend::iscsi (
     'tgtadm': {
       package { 'tgt':
         ensure => present,
-        name   => $::cinder::params::tgt_package_name,
+        name   => $::manila::params::tgt_package_name,
       }
 
       if($::osfamily == 'RedHat') {
-        file_line { 'cinder include':
+        file_line { 'manila include':
           path    => '/etc/tgt/targets.conf',
-          line    => 'include /etc/cinder/volumes/*',
+          line    => 'include /etc/manila/volumes/*',
           match   => '#?include /',
           require => Package['tgt'],
           notify  => Service['tgtd'],
@@ -42,16 +42,16 @@ define cinder::backend::iscsi (
 
       service { 'tgtd':
         ensure  => running,
-        name    => $::cinder::params::tgt_service_name,
+        name    => $::manila::params::tgt_service_name,
         enable  => true,
-        require => Class['cinder::volume'],
+        require => Class['manila::volume'],
       }
     }
 
     'lioadm': {
       package { 'targetcli':
         ensure => present,
-        name   => $::cinder::params::lio_package_name,
+        name   => $::manila::params::lio_package_name,
       }
     }
 

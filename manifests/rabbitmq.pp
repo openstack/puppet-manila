@@ -1,6 +1,6 @@
-# == Class: cinder::rabbitmq
+# == Class: manila::rabbitmq
 #
-# Installs and manages rabbitmq server for cinder
+# Installs and manages rabbitmq server for manila
 #
 # == Parameters:
 #
@@ -30,7 +30,7 @@
 #   Use the default for 1.x, use 'rabbitmq' for 3.x
 #   Defaults to 'rabbitmq::server'
 #
-class cinder::rabbitmq(
+class manila::rabbitmq(
   $userid         = 'guest',
   $password       = 'guest',
   $port           = '5672',
@@ -39,8 +39,8 @@ class cinder::rabbitmq(
   $rabbitmq_class = 'rabbitmq::server',
 ) {
 
-  # only configure cinder after the queue is up
-  Class[$rabbitmq_class] -> Anchor<| title == 'cinder-start' |>
+  # only configure manila after the queue is up
+  Class[$rabbitmq_class] -> Anchor<| title == 'manila-start' |>
 
   if ($enabled) {
     if $userid == 'guest' {
@@ -59,7 +59,7 @@ class cinder::rabbitmq(
         write_permission     => '.*',
         read_permission      => '.*',
         provider             => 'rabbitmqctl',
-      }->Anchor<| title == 'cinder-start' |>
+      }->Anchor<| title == 'manila-start' |>
     }
     $service_ensure = 'running'
   } else {

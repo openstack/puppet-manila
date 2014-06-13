@@ -1,17 +1,17 @@
 #
-# Class that configures postgresql for cinder
+# Class that configures postgresql for manila
 #
 # Requires the Puppetlabs postgresql module.
-class cinder::db::postgresql(
+class manila::db::postgresql(
   $password,
-  $dbname = 'cinder',
-  $user   = 'cinder'
+  $dbname = 'manila',
+  $user   = 'manila'
 ) {
 
   require postgresql::python
 
-  Postgresql::Db[$dbname]    ~> Exec<| title == 'cinder-manage db_sync' |>
-  Package['python-psycopg2'] -> Exec<| title == 'cinder-manage db_sync' |>
+  Postgresql::Db[$dbname]    ~> Exec<| title == 'manila-manage db_sync' |>
+  Package['python-psycopg2'] -> Exec<| title == 'manila-manage db_sync' |>
 
   postgresql::db { $dbname:
     user      =>  $user,

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::volume::vmdk' do
+describe 'manila::volume::vmdk' do
 
   let :params do
     {
@@ -12,7 +12,7 @@ describe 'cinder::volume::vmdk' do
 
   let :optional_params do
     {
-        :volume_folder => 'cinder-volume-folder',
+        :volume_folder => 'manila-volume-folder',
         :api_retry_count => 5,
         :max_object_retrieval => 200,
         :task_poll_interval => 10,
@@ -21,17 +21,17 @@ describe 'cinder::volume::vmdk' do
     }
   end
 
-  it 'should configure vmdk driver in cinder.conf' do
-    should contain_cinder_config('DEFAULT/volume_driver').with_value('cinder.volume.drivers.vmware.vmdk.VMwareVcVmdkDriver')
-    should contain_cinder_config('DEFAULT/vmware_host_ip').with_value(params[:host_ip])
-    should contain_cinder_config('DEFAULT/vmware_host_username').with_value(params[:host_username])
-    should contain_cinder_config('DEFAULT/vmware_host_password').with_value(params[:host_password])
-    should contain_cinder_config('DEFAULT/vmware_volume_folder').with_value('cinder-volumes')
-    should contain_cinder_config('DEFAULT/vmware_api_retry_count').with_value(10)
-    should contain_cinder_config('DEFAULT/vmware_max_object_retrieval').with_value(100)
-    should contain_cinder_config('DEFAULT/vmware_task_poll_interval').with_value(5)
-    should contain_cinder_config('DEFAULT/vmware_image_transfer_timeout_secs').with_value(7200)
-    should_not contain_cinder_config('DEFAULT/vmware_wsdl_location')
+  it 'should configure vmdk driver in manila.conf' do
+    should contain_manila_config('DEFAULT/volume_driver').with_value('manila.volume.drivers.vmware.vmdk.VMwareVcVmdkDriver')
+    should contain_manila_config('DEFAULT/vmware_host_ip').with_value(params[:host_ip])
+    should contain_manila_config('DEFAULT/vmware_host_username').with_value(params[:host_username])
+    should contain_manila_config('DEFAULT/vmware_host_password').with_value(params[:host_password])
+    should contain_manila_config('DEFAULT/vmware_volume_folder').with_value('manila-volumes')
+    should contain_manila_config('DEFAULT/vmware_api_retry_count').with_value(10)
+    should contain_manila_config('DEFAULT/vmware_max_object_retrieval').with_value(100)
+    should contain_manila_config('DEFAULT/vmware_task_poll_interval').with_value(5)
+    should contain_manila_config('DEFAULT/vmware_image_transfer_timeout_secs').with_value(7200)
+    should_not contain_manila_config('DEFAULT/vmware_wsdl_location')
   end
 
   it 'installs vmdk python driver' do
@@ -45,13 +45,13 @@ describe 'cinder::volume::vmdk' do
       params.merge!(optional_params)
     end
 
-    it 'should configure vmdk driver in cinder.conf' do
-      should contain_cinder_config('DEFAULT/vmware_volume_folder').with_value(params[:volume_folder])
-      should contain_cinder_config('DEFAULT/vmware_api_retry_count').with_value(params[:api_retry_count])
-      should contain_cinder_config('DEFAULT/vmware_max_object_retrieval').with_value(params[:max_object_retrieval])
-      should contain_cinder_config('DEFAULT/vmware_task_poll_interval').with_value(params[:task_poll_interval])
-      should contain_cinder_config('DEFAULT/vmware_image_transfer_timeout_secs').with_value(params[:image_transfer_timeout_secs])
-      should contain_cinder_config('DEFAULT/vmware_wsdl_location').with_value(params[:wsdl_location])
+    it 'should configure vmdk driver in manila.conf' do
+      should contain_manila_config('DEFAULT/vmware_volume_folder').with_value(params[:volume_folder])
+      should contain_manila_config('DEFAULT/vmware_api_retry_count').with_value(params[:api_retry_count])
+      should contain_manila_config('DEFAULT/vmware_max_object_retrieval').with_value(params[:max_object_retrieval])
+      should contain_manila_config('DEFAULT/vmware_task_poll_interval').with_value(params[:task_poll_interval])
+      should contain_manila_config('DEFAULT/vmware_image_transfer_timeout_secs').with_value(params[:image_transfer_timeout_secs])
+      should contain_manila_config('DEFAULT/vmware_wsdl_location').with_value(params[:wsdl_location])
     end
   end
 end

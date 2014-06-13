@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::backend::eqlx' do
+describe 'manila::backend::eqlx' do
   let (:config_group_name) { 'eqlx-1' }
 
   let (:title) { config_group_name }
@@ -24,11 +24,11 @@ describe 'cinder::backend::eqlx' do
 
   describe 'eqlx volume driver' do
     it 'configure eqlx volume driver' do
-      should contain_cinder_config(
+      should contain_manila_config(
         "#{config_group_name}/volume_driver").with_value(
-        'cinder.volume.drivers.eqlx.DellEQLSanISCSIDriver')
+        'manila.volume.drivers.eqlx.DellEQLSanISCSIDriver')
       params.each_pair do |config,value|
-        should contain_cinder_config(
+        should contain_manila_config(
           "#{config_group_name}/#{config}").with_value(value)
       end
     end

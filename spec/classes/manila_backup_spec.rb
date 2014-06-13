@@ -15,18 +15,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# Unit tests for cinder::backup class
+# Unit tests for manila::backup class
 #
 
 require 'spec_helper'
 
-describe 'cinder::backup' do
+describe 'manila::backup' do
 
   let :default_params do
     { :enable               => true,
-      :backup_topic         => 'cinder-backup',
-      :backup_manager       => 'cinder.backup.manager.BackupManager',
-      :backup_api_class     => 'cinder.backup.api.API',
+      :backup_topic         => 'manila-backup',
+      :backup_manager       => 'manila.backup.manager.BackupManager',
+      :backup_api_class     => 'manila.backup.api.API',
       :backup_name_template => 'backup-%s' }
   end
 
@@ -34,33 +34,33 @@ describe 'cinder::backup' do
     {}
   end
 
-  shared_examples_for 'cinder backup' do
+  shared_examples_for 'manila backup' do
     let :p do
       default_params.merge(params)
     end
 
-    it { should contain_class('cinder::params') }
+    it { should contain_class('manila::params') }
 
-    it 'installs cinder backup package' do
+    it 'installs manila backup package' do
       if platform_params.has_key?(:backup_package)
-        should contain_package('cinder-backup').with(
+        should contain_package('manila-backup').with(
           :name   => platform_params[:backup_package],
           :ensure => 'present'
         )
-        should contain_package('cinder-backup').with_before(/Cinder_config\[.+\]/)
-        should contain_package('cinder-backup').with_before(/Service\[cinder-backup\]/)
+        should contain_package('manila-backup').with_before(/Manila_config\[.+\]/)
+        should contain_package('manila-backup').with_before(/Service\[manila-backup\]/)
       end
     end
 
-    it 'ensure cinder backup service is running' do
-      should contain_service('cinder-backup').with('hasstatus' => true)
+    it 'ensure manila backup service is running' do
+      should contain_service('manila-backup').with('hasstatus' => true)
     end
 
-    it 'configures cinder.conf' do
-      should contain_cinder_config('DEFAULT/backup_topic').with_value(p[:backup_topic])
-      should contain_cinder_config('DEFAULT/backup_manager').with_value(p[:backup_manager])
-      should contain_cinder_config('DEFAULT/backup_api_class').with_value(p[:backup_api_class])
-      should contain_cinder_config('DEFAULT/backup_name_template').with_value(p[:backup_name_template])
+    it 'configures manila.conf' do
+      should contain_manila_config('DEFAULT/backup_topic').with_value(p[:backup_topic])
+      should contain_manila_config('DEFAULT/backup_manager').with_value(p[:backup_manager])
+      should contain_manila_config('DEFAULT/backup_api_class').with_value(p[:backup_api_class])
+      should contain_manila_config('DEFAULT/backup_name_template').with_value(p[:backup_name_template])
     end
 
     context 'when overriding backup_name_template' do
@@ -68,7 +68,7 @@ describe 'cinder::backup' do
         params.merge!(:backup_name_template => 'foo-bar-%s')
       end
       it 'should replace default parameter with new value' do
-        should contain_cinder_config('DEFAULT/backup_name_template').with_value(p[:backup_name_template])
+        should contain_manila_config('DEFAULT/backup_name_template').with_value(p[:backup_name_template])
       end
     end
   end
@@ -79,11 +79,11 @@ describe 'cinder::backup' do
     end
 
     let :platform_params do
-      { :backup_package => 'cinder-backup',
-        :backup_service => 'cinder-backup' }
+      { :backup_package => 'manila-backup',
+        :backup_service => 'manila-backup' }
     end
 
-    it_configures 'cinder backup'
+    it_configures 'manila backup'
   end
 
   context 'on RedHat platforms' do
@@ -92,10 +92,10 @@ describe 'cinder::backup' do
     end
 
     let :platform_params do
-      { :backup_service => 'cinder-backup' }
+      { :backup_service => 'manila-backup' }
     end
 
-    it_configures 'cinder backup'
+    it_configures 'manila backup'
   end
 
 end

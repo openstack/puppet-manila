@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::backend::solidfire' do
+describe 'manila::backend::solidfire' do
   let (:title) { 'solidfire' }
 
   let :req_params do
@@ -17,13 +17,13 @@ describe 'cinder::backend::solidfire' do
 
   describe 'solidfire volume driver' do
     it 'configure solidfire volume driver' do
-      should contain_cinder_config('solidfire/volume_driver').with_value(
-        'cinder.volume.drivers.solidfire.SolidFire')
-      should contain_cinder_config('solidfire/san_ip').with_value(
+      should contain_manila_config('solidfire/volume_driver').with_value(
+        'manila.volume.drivers.solidfire.SolidFire')
+      should contain_manila_config('solidfire/san_ip').with_value(
         '127.0.0.2')
-      should contain_cinder_config('solidfire/san_login').with_value(
+      should contain_manila_config('solidfire/san_login').with_value(
         'solidfire')
-      should contain_cinder_config('solidfire/san_password').with_value(
+      should contain_manila_config('solidfire/san_password').with_value(
         'password')
     end
   end

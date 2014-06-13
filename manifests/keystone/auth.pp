@@ -1,27 +1,27 @@
-# == Class: cinder::keystone::auth
+# == Class: manila::keystone::auth
 #
-# Configures Cinder user, service and endpoint in Keystone.
+# Configures Manila user, service and endpoint in Keystone.
 #
 # === Parameters
 #
 # [*password*]
-#   Password for Cinder user. Required.
+#   Password for Manila user. Required.
 #
 # [*email*]
-#   Email for Cinder user. Optional. Defaults to 'cinder@localhost'.
+#   Email for Manila user. Optional. Defaults to 'manila@localhost'.
 #
 # [*auth_name*]
-#   Username for Cinder service. Optional. Defaults to 'cinder'.
+#   Username for Manila service. Optional. Defaults to 'manila'.
 #
 # [*auth_name_v2*]
-#   Username for Cinder v2 service. Optional. Defaults to 'cinder2'.
+#   Username for Manila v2 service. Optional. Defaults to 'manila2'.
 #
 # [*configure_endpoint*]
-#   Should Cinder endpoint be configured? Optional. Defaults to 'true'.
+#   Should Manila endpoint be configured? Optional. Defaults to 'true'.
 #   API v1 endpoint should be enabled in Icehouse for compatibility with Nova.
 #
 # [*configure_endpoint_v2*]
-#   Should Cinder v2 endpoint be configured? Optional. Defaults to 'true'.
+#   Should Manila v2 endpoint be configured? Optional. Defaults to 'true'.
 #
 # [*service_type*]
 #    Type of service. Optional. Defaults to 'volume'.
@@ -42,13 +42,13 @@
 #    Port for endpoint. Optional. Defaults to '8776'.
 #
 # [*volume_version*]
-#    Cinder API version. Optional. Defaults to 'v1'.
+#    Manila API version. Optional. Defaults to 'v1'.
 #
 # [*region*]
 #    Region for endpoint. Optional. Defaults to 'RegionOne'.
 #
 # [*tenant*]
-#    Tenant for Cinder user. Optional. Defaults to 'services'.
+#    Tenant for Manila user. Optional. Defaults to 'services'.
 #
 # [*public_protocol*]
 #    Protocol for public endpoint. Optional. Defaults to 'http'.
@@ -59,11 +59,11 @@
 # [*admin_protocol*]
 #    Protocol for admin endpoint. Optional. Defaults to 'http'.
 #
-class cinder::keystone::auth (
+class manila::keystone::auth (
   $password,
-  $auth_name             = 'cinder',
-  $auth_name_v2          = 'cinderv2',
-  $email                 = 'cinder@localhost',
+  $auth_name             = 'manila',
+  $auth_name_v2          = 'manilav2',
+  $email                 = 'manila@localhost',
   $tenant                = 'services',
   $configure_endpoint    = true,
   $configure_endpoint_v2 = true,
@@ -80,7 +80,7 @@ class cinder::keystone::auth (
   $internal_protocol     = 'http'
 ) {
 
-  Keystone_user_role["${auth_name}@${tenant}"] ~> Service <| name == 'cinder-api' |>
+  Keystone_user_role["${auth_name}@${tenant}"] ~> Service <| name == 'manila-api' |>
 
   keystone_user { $auth_name:
     ensure   => present,
@@ -95,12 +95,12 @@ class cinder::keystone::auth (
   keystone_service { $auth_name:
     ensure      => present,
     type        => $service_type,
-    description => 'Cinder Service',
+    description => 'Manila Service',
   }
   keystone_service { $auth_name_v2:
     ensure      => present,
     type        => $service_type_v2,
-    description => 'Cinder Service v2',
+    description => 'Manila Service v2',
   }
 
   if $configure_endpoint {

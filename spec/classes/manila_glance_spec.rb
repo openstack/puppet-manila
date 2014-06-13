@@ -15,12 +15,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# Unit tests for cinder::glance class
+# Unit tests for manila::glance class
 #
 
 require 'spec_helper'
 
-describe 'cinder::glance' do
+describe 'manila::glance' do
 
   let :default_params do
     { :glance_api_version         => '2',
@@ -33,32 +33,32 @@ describe 'cinder::glance' do
     {}
   end
 
-  shared_examples_for 'cinder with glance' do
+  shared_examples_for 'manila with glance' do
     let :p do
       default_params.merge(params)
     end
 
-    it 'configures cinder.conf with default params' do
-      should contain_cinder_config('DEFAULT/glance_api_version').with_value(p[:glance_api_version])
-      should contain_cinder_config('DEFAULT/glance_num_retries').with_value(p[:glance_num_retries])
-      should contain_cinder_config('DEFAULT/glance_api_insecure').with_value(p[:glance_api_insecure])
+    it 'configures manila.conf with default params' do
+      should contain_manila_config('DEFAULT/glance_api_version').with_value(p[:glance_api_version])
+      should contain_manila_config('DEFAULT/glance_num_retries').with_value(p[:glance_num_retries])
+      should contain_manila_config('DEFAULT/glance_api_insecure').with_value(p[:glance_api_insecure])
     end
 
-     context 'configure cinder with one glance server' do
+     context 'configure manila with one glance server' do
        before :each do
         params.merge!(:glance_api_servers => '10.0.0.1:9292')
        end
        it 'should configure one glance server' do
-         should contain_cinder_config('DEFAULT/glance_api_servers').with_value(p[:glance_api_servers])
+         should contain_manila_config('DEFAULT/glance_api_servers').with_value(p[:glance_api_servers])
        end
      end
 
-     context 'configure cinder with two glance servers' do
+     context 'configure manila with two glance servers' do
        before :each do
         params.merge!(:glance_api_servers => ['10.0.0.1:9292','10.0.0.2:9292'])
        end
        it 'should configure two glance servers' do
-         should contain_cinder_config('DEFAULT/glance_api_servers').with_value(p[:glance_api_servers].join(','))
+         should contain_manila_config('DEFAULT/glance_api_servers').with_value(p[:glance_api_servers].join(','))
        end
      end
   end
@@ -68,7 +68,7 @@ describe 'cinder::glance' do
       { :osfamily => 'Debian' }
     end
 
-    it_configures 'cinder with glance'
+    it_configures 'manila with glance'
   end
 
   context 'on RedHat platforms' do
@@ -76,7 +76,7 @@ describe 'cinder::glance' do
       { :osfamily => 'RedHat' }
     end
 
-    it_configures 'cinder with glance'
+    it_configures 'manila with glance'
   end
 
 end

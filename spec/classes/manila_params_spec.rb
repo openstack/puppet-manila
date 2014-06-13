@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::params' do
+describe 'manila::params' do
 
   let :facts do
     {:osfamily => 'Debian'}

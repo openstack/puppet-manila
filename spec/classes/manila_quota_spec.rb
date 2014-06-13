@@ -1,17 +1,17 @@
 require 'spec_helper'
 
-describe 'cinder::quota' do
+describe 'manila::quota' do
 
   describe 'with default parameters' do
     it 'contains default values' do
-      should contain_cinder_config('DEFAULT/quota_volumes').with(
+      should contain_manila_config('DEFAULT/quota_volumes').with(
         :value => 10)
-      should contain_cinder_config('DEFAULT/quota_snapshots').with(
+      should contain_manila_config('DEFAULT/quota_snapshots').with(
         :value => 10)
-      should contain_cinder_config('DEFAULT/quota_gigabytes').with(
+      should contain_manila_config('DEFAULT/quota_gigabytes').with(
         :value => 1000)
-      should contain_cinder_config('DEFAULT/quota_driver').with(
-        :value => 'cinder.quota.DbQuotaDriver')
+      should contain_manila_config('DEFAULT/quota_driver').with(
+        :value => 'manila.quota.DbQuotaDriver')
     end
   end
 
@@ -22,14 +22,14 @@ describe 'cinder::quota' do
         :quota_gigabytes => 100000 }
     end
     it 'contains overrided values' do
-      should contain_cinder_config('DEFAULT/quota_volumes').with(
+      should contain_manila_config('DEFAULT/quota_volumes').with(
         :value => 1000)
-      should contain_cinder_config('DEFAULT/quota_snapshots').with(
+      should contain_manila_config('DEFAULT/quota_snapshots').with(
         :value => 1000)
-      should contain_cinder_config('DEFAULT/quota_gigabytes').with(
+      should contain_manila_config('DEFAULT/quota_gigabytes').with(
         :value => 100000)
-      should contain_cinder_config('DEFAULT/quota_driver').with(
-        :value => 'cinder.quota.DbQuotaDriver')
+      should contain_manila_config('DEFAULT/quota_driver').with(
+        :value => 'manila.quota.DbQuotaDriver')
     end
   end
 end

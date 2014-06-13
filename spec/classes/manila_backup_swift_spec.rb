@@ -15,12 +15,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# Unit tests for cinder::backup::swift class
+# Unit tests for manila::backup::swift class
 #
 
 require 'spec_helper'
 
-describe 'cinder::backup::swift' do
+describe 'manila::backup::swift' do
 
   let :default_params do
     { :backup_swift_url            => 'http://localhost:8080/v1/AUTH_',
@@ -34,18 +34,18 @@ describe 'cinder::backup::swift' do
     {}
   end
 
-  shared_examples_for 'cinder backup with swift' do
+  shared_examples_for 'manila backup with swift' do
     let :p do
       default_params.merge(params)
     end
 
-    it 'configures cinder.conf' do
-      should contain_cinder_config('DEFAULT/backup_driver').with_value('cinder.backup.drivers.swift')
-      should contain_cinder_config('DEFAULT/backup_swift_url').with_value(p[:backup_swift_url])
-      should contain_cinder_config('DEFAULT/backup_swift_container').with_value(p[:backup_swift_container])
-      should contain_cinder_config('DEFAULT/backup_swift_object_size').with_value(p[:backup_swift_object_size])
-      should contain_cinder_config('DEFAULT/backup_swift_retry_attempts').with_value(p[:backup_swift_retry_attempts])
-      should contain_cinder_config('DEFAULT/backup_swift_retry_backoff').with_value(p[:backup_swift_retry_backoff])
+    it 'configures manila.conf' do
+      should contain_manila_config('DEFAULT/backup_driver').with_value('manila.backup.drivers.swift')
+      should contain_manila_config('DEFAULT/backup_swift_url').with_value(p[:backup_swift_url])
+      should contain_manila_config('DEFAULT/backup_swift_container').with_value(p[:backup_swift_container])
+      should contain_manila_config('DEFAULT/backup_swift_object_size').with_value(p[:backup_swift_object_size])
+      should contain_manila_config('DEFAULT/backup_swift_retry_attempts').with_value(p[:backup_swift_retry_attempts])
+      should contain_manila_config('DEFAULT/backup_swift_retry_backoff').with_value(p[:backup_swift_retry_backoff])
     end
 
     context 'when overriding default parameters' do
@@ -57,11 +57,11 @@ describe 'cinder::backup::swift' do
         params.merge!(:backup_swift_retry_backoff => '56')
       end
       it 'should replace default parameters with new values' do
-        should contain_cinder_config('DEFAULT/backup_swift_url').with_value(p[:backup_swift_url])
-        should contain_cinder_config('DEFAULT/backup_swift_container').with_value(p[:backup_swift_container])
-        should contain_cinder_config('DEFAULT/backup_swift_object_size').with_value(p[:backup_swift_object_size])
-        should contain_cinder_config('DEFAULT/backup_swift_retry_attempts').with_value(p[:backup_swift_retry_attempts])
-        should contain_cinder_config('DEFAULT/backup_swift_retry_backoff').with_value(p[:backup_swift_retry_backoff])
+        should contain_manila_config('DEFAULT/backup_swift_url').with_value(p[:backup_swift_url])
+        should contain_manila_config('DEFAULT/backup_swift_container').with_value(p[:backup_swift_container])
+        should contain_manila_config('DEFAULT/backup_swift_object_size').with_value(p[:backup_swift_object_size])
+        should contain_manila_config('DEFAULT/backup_swift_retry_attempts').with_value(p[:backup_swift_retry_attempts])
+        should contain_manila_config('DEFAULT/backup_swift_retry_backoff').with_value(p[:backup_swift_retry_backoff])
       end
     end
   end
@@ -71,7 +71,7 @@ describe 'cinder::backup::swift' do
       { :osfamily => 'Debian' }
     end
 
-    it_configures 'cinder backup with swift'
+    it_configures 'manila backup with swift'
   end
 
   context 'on RedHat platforms' do
@@ -79,7 +79,7 @@ describe 'cinder::backup::swift' do
       { :osfamily => 'RedHat' }
     end
 
-    it_configures 'cinder backup with swift'
+    it_configures 'manila backup with swift'
   end
 
 end

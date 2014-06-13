@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::db::mysql' do
+describe 'manila::db::mysql' do
 
   let :req_params do
     {:password => 'pw',
@@ -19,8 +19,8 @@ describe 'cinder::db::mysql' do
     let :params do
       req_params
     end
-    it { should contain_mysql__db('cinder').with(
-      :user         => 'cinder',
+    it { should contain_mysql__db('manila').with(
+      :user         => 'manila',
       :password     => 'pw',
       :host         => '127.0.0.1',
       :charset      => 'utf8'
@@ -29,49 +29,49 @@ describe 'cinder::db::mysql' do
   describe "overriding allowed_hosts param to array" do
     let :params do
       {
-        :password       => 'cinderpass',
+        :password       => 'manilapass',
         :allowed_hosts  => ['127.0.0.1','%']
       }
     end
 
-    it {should_not contain_cinder__db__mysql__host_access("127.0.0.1").with(
-      :user     => 'cinder',
-      :password => 'cinderpass',
-      :database => 'cinder'
+    it {should_not contain_manila__db__mysql__host_access("127.0.0.1").with(
+      :user     => 'manila',
+      :password => 'manilapass',
+      :database => 'manila'
     )}
-    it {should contain_cinder__db__mysql__host_access("%").with(
-      :user     => 'cinder',
-      :password => 'cinderpass',
-      :database => 'cinder'
+    it {should contain_manila__db__mysql__host_access("%").with(
+      :user     => 'manila',
+      :password => 'manilapass',
+      :database => 'manila'
     )}
   end
   describe "overriding allowed_hosts param to string" do
     let :params do
       {
-        :password       => 'cinderpass2',
+        :password       => 'manilapass2',
         :allowed_hosts  => '192.168.1.1'
       }
     end
 
-    it {should contain_cinder__db__mysql__host_access("192.168.1.1").with(
-      :user     => 'cinder',
-      :password => 'cinderpass2',
-      :database => 'cinder'
+    it {should contain_manila__db__mysql__host_access("192.168.1.1").with(
+      :user     => 'manila',
+      :password => 'manilapass2',
+      :database => 'manila'
     )}
   end
 
   describe "overriding allowed_hosts param equals to host param " do
     let :params do
       {
-        :password       => 'cinderpass2',
+        :password       => 'manilapass2',
         :allowed_hosts  => '127.0.0.1'
       }
     end
 
-    it {should_not contain_cinder__db__mysql__host_access("127.0.0.1").with(
-      :user     => 'cinder',
-      :password => 'cinderpass2',
-      :database => 'cinder'
+    it {should_not contain_manila__db__mysql__host_access("127.0.0.1").with(
+      :user     => 'manila',
+      :password => 'manilapass2',
+      :database => 'manila'
     )}
   end
 end

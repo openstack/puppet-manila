@@ -1,6 +1,6 @@
-# == Class: cinder::backend::nexenta
+# == Class: manila::backend::nexenta
 #
-# Setups Cinder with Nexenta volume driver.
+# Setups Manila with Nexenta volume driver.
 #
 # === Parameters
 #
@@ -18,13 +18,13 @@
 #   Defaults to: $name
 #
 # [*nexenta_volume*]
-#   (optional) Pool on SA that will hold all volumes. Defaults to 'cinder'.
+#   (optional) Pool on SA that will hold all volumes. Defaults to 'manila'.
 #
 # [*nexenta_target_prefix*]
 #   (optional) IQN prefix for iSCSI targets. Defaults to 'iqn:'.
 #
 # [*nexenta_target_group_prefix*]
-#   (optional) Prefix for iSCSI target groups on SA. Defaults to 'cinder/'.
+#   (optional) Prefix for iSCSI target groups on SA. Defaults to 'manila/'.
 #
 # [*nexenta_blocksize*]
 #   (optional) Block size for volumes. Defaults to '8k'.
@@ -32,19 +32,19 @@
 # [*nexenta_sparse*]
 #   (optional) Flag to create sparse volumes. Defaults to true.
 #
-define cinder::backend::nexenta (
+define manila::backend::nexenta (
   $nexenta_user,
   $nexenta_password,
   $nexenta_host,
   $volume_backend_name          = $name,
-  $nexenta_volume               = 'cinder',
+  $nexenta_volume               = 'manila',
   $nexenta_target_prefix        = 'iqn:',
-  $nexenta_target_group_prefix  = 'cinder/',
+  $nexenta_target_group_prefix  = 'manila/',
   $nexenta_blocksize            = '8k',
   $nexenta_sparse               = true
 ) {
 
-  cinder_config {
+  manila_config {
     "${name}/volume_backend_name":         value => $volume_backend_name;
     "${name}/nexenta_user":                value => $nexenta_user;
     "${name}/nexenta_password":            value => $nexenta_password;
@@ -54,6 +54,6 @@ define cinder::backend::nexenta (
     "${name}/nexenta_target_group_prefix": value => $nexenta_target_group_prefix;
     "${name}/nexenta_blocksize":           value => $nexenta_blocksize;
     "${name}/nexenta_sparse":              value => $nexenta_sparse;
-    "${name}/volume_driver":               value => 'cinder.volume.drivers.nexenta.volume.NexentaDriver';
+    "${name}/volume_driver":               value => 'manila.volume.drivers.nexenta.volume.NexentaDriver';
   }
 }

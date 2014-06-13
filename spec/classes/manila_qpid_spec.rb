@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::qpid' do
+describe 'manila::qpid' do
 
   let :facts do
     {:puppetversion => '2.7',

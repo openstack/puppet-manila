@@ -1,6 +1,6 @@
-# == define: cinder::volume::vmdk
+# == define: manila::volume::vmdk
 #
-# Configure the VMware VMDK driver for cinder.
+# Configure the VMware VMDK driver for manila.
 #
 # === Parameters
 #
@@ -32,7 +32,7 @@
 #   Defaults to 5.
 #
 # [*image_transfer_timeout_secs*]
-#   (optional) The timeout in seconds for VMDK volume transfer between Cinder and Glance.
+#   (optional) The timeout in seconds for VMDK volume transfer between Manila and Glance.
 #   Defaults to 7200.
 #
 # [*wsdl_location*]
@@ -42,15 +42,15 @@
 #   Defaults to None.
 #
 # [*volume_folder*]
-#   (optional) The name for the folder in the VC datacenter that will contain cinder volumes.
-#   Defaults to 'cinder-volumes'.
+#   (optional) The name for the folder in the VC datacenter that will contain manila volumes.
+#   Defaults to 'manila-volumes'.
 #
 
-class cinder::volume::vmdk(
+class manila::volume::vmdk(
   $host_ip,
   $host_username,
   $host_password,
-  $volume_folder               = 'cinder-volumes',
+  $volume_folder               = 'manila-volumes',
   $api_retry_count             = 10,
   $max_object_retrieval        = 100,
   $task_poll_interval          = 5,
@@ -58,7 +58,7 @@ class cinder::volume::vmdk(
   $wsdl_location               = undef
 ) {
 
-  cinder::backend::vmdk { 'DEFAULT':
+  manila::backend::vmdk { 'DEFAULT':
     host_ip                     => $host_ip,
     host_username               => $host_username,
     host_password               => $host_password,

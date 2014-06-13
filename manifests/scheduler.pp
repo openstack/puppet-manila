@@ -1,30 +1,30 @@
 #
-class cinder::scheduler (
+class manila::scheduler (
   $scheduler_driver = false,
   $package_ensure   = 'present',
   $enabled          = true,
   $manage_service   = true
 ) {
 
-  include cinder::params
+  include manila::params
 
-  Cinder_config<||> ~> Service['cinder-scheduler']
-  Cinder_api_paste_ini<||> ~> Service['cinder-scheduler']
-  Exec<| title == 'cinder-manage db_sync' |> ~> Service['cinder-scheduler']
+  Manila_config<||> ~> Service['manila-scheduler']
+  Manila_api_paste_ini<||> ~> Service['manila-scheduler']
+  Exec<| title == 'manila-manage db_sync' |> ~> Service['manila-scheduler']
 
   if $scheduler_driver {
-    cinder_config {
+    manila_config {
       'DEFAULT/scheduler_driver': value => $scheduler_driver;
     }
   }
 
-  if $::cinder::params::scheduler_package {
-    Package['cinder-scheduler'] -> Cinder_config<||>
-    Package['cinder-scheduler'] -> Cinder_api_paste_ini<||>
-    Package['cinder-scheduler'] -> Service['cinder-scheduler']
-    package { 'cinder-scheduler':
+  if $::manila::params::scheduler_package {
+    Package['manila-scheduler'] -> Manila_config<||>
+    Package['manila-scheduler'] -> Manila_api_paste_ini<||>
+    Package['manila-scheduler'] -> Service['manila-scheduler']
+    package { 'manila-scheduler':
       ensure => $package_ensure,
-      name   => $::cinder::params::scheduler_package,
+      name   => $::manila::params::scheduler_package,
     }
   }
 
@@ -36,11 +36,11 @@ class cinder::scheduler (
     }
   }
 
-  service { 'cinder-scheduler':
+  service { 'manila-scheduler':
     ensure    => $ensure,
-    name      => $::cinder::params::scheduler_service,
+    name      => $::manila::params::scheduler_service,
     enable    => $enabled,
     hasstatus => true,
-    require   => Package['cinder'],
+    require   => Package['manila'],
   }
 }

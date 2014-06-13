@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::volume::eqlx' do
+describe 'manila::volume::eqlx' do
 
   let :params do {
       :san_ip               => '192.168.100.10',
@@ -19,14 +19,14 @@ describe 'cinder::volume::eqlx' do
 
   describe 'eqlx volume driver' do
     it 'configures eqlx volume driver' do
-      should contain_cinder_config(
+      should contain_manila_config(
         "DEFAULT/volume_driver").with_value(
-        'cinder.volume.drivers.eqlx.DellEQLSanISCSIDriver')
-      should contain_cinder_config(
+        'manila.volume.drivers.eqlx.DellEQLSanISCSIDriver')
+      should contain_manila_config(
         "DEFAULT/volume_backend_name").with_value('DEFAULT')
 
       params.each_pair do |config,value|
-        should contain_cinder_config("DEFAULT/#{config}").with_value(value)
+        should contain_manila_config("DEFAULT/#{config}").with_value(value)
       end
     end
   end

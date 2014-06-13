@@ -1,8 +1,8 @@
 #
-# class for installing qpid server for cinder
+# class for installing qpid server for manila
 #
 #
-class cinder::qpid(
+class manila::qpid(
   $enabled = true,
   $user='guest',
   $password='guest',
@@ -10,8 +10,8 @@ class cinder::qpid(
   $realm='OPENSTACK'
 ) {
 
-  # only configure cinder after the queue is up
-  Class['qpid::server'] -> Package<| title == 'cinder' |>
+  # only configure manila after the queue is up
+  Class['qpid::server'] -> Package<| title == 'manila' |>
 
   if ($enabled) {
     $service_ensure = 'running'

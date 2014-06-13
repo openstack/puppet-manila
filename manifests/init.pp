@@ -3,7 +3,7 @@
 # [database_connection]
 #    Url used to connect to database.
 #    (Optional) Defaults to
-#    'sqlite:////var/lib/cinder/cinder.sqlite'
+#    'sqlite:////var/lib/manila/manila.sqlite'
 #
 # [database_idle_timeout]
 #   Timeout when db connections should be reaped.
@@ -46,7 +46,7 @@
 # [*log_dir*]
 #   (optional) Directory where logs should be stored.
 #   If set to boolean false, it will not log to any directory.
-#   Defaults to '/var/log/cinder'
+#   Defaults to '/var/log/manila'
 #
 # [*use_ssl*]
 #   (optional) Enable SSL on the API server
@@ -84,10 +84,10 @@
 # [sql_idle_timeout]
 #   DEPRECATED
 #
-class cinder (
-  $database_connection         = 'sqlite:////var/lib/cinder/cinder.sqlite',
+class manila (
+  $database_connection         = 'sqlite:////var/lib/manila/manila.sqlite',
   $database_idle_timeout       = '3600',
-  $rpc_backend                 = 'cinder.openstack.common.rpc.impl_kombu',
+  $rpc_backend                 = 'manila.openstack.common.rpc.impl_kombu',
   $control_exchange            = 'openstack',
   $rabbit_host                 = '127.0.0.1',
   $rabbit_port                 = 5672,
@@ -120,10 +120,10 @@ class cinder (
   $ca_file                     = false,
   $cert_file                   = false,
   $key_file                    = false,
-  $api_paste_config            = '/etc/cinder/api-paste.ini',
+  $api_paste_config            = '/etc/manila/api-paste.ini',
   $use_syslog                  = false,
   $log_facility                = 'LOG_USER',
-  $log_dir                     = '/var/log/cinder',
+  $log_dir                     = '/var/log/manila',
   $verbose                     = false,
   $debug                       = false,
   $mysql_module                = '0.9',
@@ -134,10 +134,10 @@ class cinder (
   $sql_idle_timeout            = undef,
 ) {
 
-  include cinder::params
+  include manila::params
 
-  Package['cinder'] -> Cinder_config<||>
-  Package['cinder'] -> Cinder_api_paste_ini<||>
+  Package['manila'] -> Manila_config<||>
+  Package['manila'] -> Manila_api_paste_ini<||>
 
   if $sql_connection {
     warning('The sql_connection parameter is deprecated, use database_connection instead.')
@@ -174,39 +174,39 @@ class cinder (
     }
   }
 
-  # this anchor is used to simplify the graph between cinder components by
-  # allowing a resource to serve as a point where the configuration of cinder begins
-  anchor { 'cinder-start': }
+  # this anchor is used to simplify the graph between manila components by
+  # allowing a resource to serve as a point where the configuration of manila begins
+  anchor { 'manila-start': }
 
-  package { 'cinder':
+  package { 'manila':
     ensure  => $package_ensure,
-    name    => $::cinder::params::package_name,
-    require => Anchor['cinder-start'],
+    name    => $::manila::params::package_name,
+    require => Anchor['manila-start'],
   }
 
-  file { $::cinder::params::cinder_conf:
+  file { $::manila::params::manila_conf:
     ensure  => present,
-    owner   => 'cinder',
-    group   => 'cinder',
+    owner   => 'manila',
+    group   => 'manila',
     mode    => '0600',
-    require => Package['cinder'],
+    require => Package['manila'],
   }
 
-  file { $::cinder::params::cinder_paste_api_ini:
+  file { $::manila::params::manila_paste_api_ini:
     ensure  => present,
-    owner   => 'cinder',
-    group   => 'cinder',
+    owner   => 'manila',
+    group   => 'manila',
     mode    => '0600',
-    require => Package['cinder'],
+    require => Package['manila'],
   }
 
-  if $rpc_backend == 'cinder.openstack.common.rpc.impl_kombu' {
+  if $rpc_backend == 'manila.openstack.common.rpc.impl_kombu' {
 
     if ! $rabbit_password {
       fail('Please specify a rabbit_password parameter.')
     }
 
-    cinder_config {
+    manila_config {
       'DEFAULT/rabbit_password':     value => $rabbit_password, secret => true;
       'DEFAULT/rabbit_userid':       value => $rabbit_userid;
       'DEFAULT/rabbit_virtual_host': value => $rabbit_virtual_host;
@@ -216,24 +216,24 @@ class cinder (
     }
 
     if $rabbit_hosts {
-      cinder_config { 'DEFAULT/rabbit_hosts':     value => join($rabbit_hosts, ',') }
-      cinder_config { 'DEFAULT/rabbit_ha_queues': value => true }
+      manila_config { 'DEFAULT/rabbit_hosts':     value => join($rabbit_hosts, ',') }
+      manila_config { 'DEFAULT/rabbit_ha_queues': value => true }
     } else {
-      cinder_config { 'DEFAULT/rabbit_host':      value => $rabbit_host }
-      cinder_config { 'DEFAULT/rabbit_port':      value => $rabbit_port }
-      cinder_config { 'DEFAULT/rabbit_hosts':     value => "${rabbit_host}:${rabbit_port}" }
-      cinder_config { 'DEFAULT/rabbit_ha_queues': value => false }
+      manila_config { 'DEFAULT/rabbit_host':      value => $rabbit_host }
+      manila_config { 'DEFAULT/rabbit_port':      value => $rabbit_port }
+      manila_config { 'DEFAULT/rabbit_hosts':     value => "${rabbit_host}:${rabbit_port}" }
+      manila_config { 'DEFAULT/rabbit_ha_queues': value => false }
     }
 
     if $rabbit_use_ssl {
-      cinder_config {
+      manila_config {
         'DEFAULT/kombu_ssl_ca_certs': value => $kombu_ssl_ca_certs;
         'DEFAULT/kombu_ssl_certfile': value => $kombu_ssl_certfile;
         'DEFAULT/kombu_ssl_keyfile':  value => $kombu_ssl_keyfile;
         'DEFAULT/kombu_ssl_version':  value => $kombu_ssl_version;
       }
     } else {
-      cinder_config {
+      manila_config {
         'DEFAULT/kombu_ssl_ca_certs': ensure => absent;
         'DEFAULT/kombu_ssl_certfile': ensure => absent;
         'DEFAULT/kombu_ssl_keyfile':  ensure => absent;
@@ -243,13 +243,13 @@ class cinder (
 
   }
 
-  if $rpc_backend == 'cinder.openstack.common.rpc.impl_qpid' {
+  if $rpc_backend == 'manila.openstack.common.rpc.impl_qpid' {
 
     if ! $qpid_password {
       fail('Please specify a qpid_password parameter.')
     }
 
-    cinder_config {
+    manila_config {
       'DEFAULT/qpid_hostname':               value => $qpid_hostname;
       'DEFAULT/qpid_port':                   value => $qpid_port;
       'DEFAULT/qpid_username':               value => $qpid_username;
@@ -267,15 +267,15 @@ class cinder (
     }
 
     if is_array($qpid_sasl_mechanisms) {
-      cinder_config {
+      manila_config {
         'DEFAULT/qpid_sasl_mechanisms': value => join($qpid_sasl_mechanisms, ' ');
       }
     } elsif $qpid_sasl_mechanisms {
-      cinder_config {
+      manila_config {
         'DEFAULT/qpid_sasl_mechanisms': value => $qpid_sasl_mechanisms;
       }
     } else {
-      cinder_config {
+      manila_config {
         'DEFAULT/qpid_sasl_mechanisms': ensure => absent;
       }
     }
@@ -287,7 +287,7 @@ class cinder (
     $default_availability_zone_real = $default_availability_zone
   }
 
-  cinder_config {
+  manila_config {
     'database/connection':               value => $database_connection_real, secret => true;
     'database/idle_timeout':             value => $database_idle_timeout_real;
     'DEFAULT/verbose':                   value => $verbose;
@@ -314,32 +314,32 @@ class cinder (
   }
 
   if $log_dir {
-    cinder_config {
+    manila_config {
       'DEFAULT/log_dir': value => $log_dir;
     }
   } else {
-    cinder_config {
+    manila_config {
       'DEFAULT/log_dir': ensure => absent;
     }
   }
 
   # SSL Options
   if $use_ssl {
-    cinder_config {
+    manila_config {
       'DEFAULT/ssl_cert_file' : value => $cert_file;
       'DEFAULT/ssl_key_file' :  value => $key_file;
     }
     if $ca_file {
-      cinder_config { 'DEFAULT/ssl_ca_file' :
+      manila_config { 'DEFAULT/ssl_ca_file' :
         value => $ca_file,
       }
     } else {
-      cinder_config { 'DEFAULT/ssl_ca_file' :
+      manila_config { 'DEFAULT/ssl_ca_file' :
         ensure => absent,
       }
     }
   } else {
-    cinder_config {
+    manila_config {
       'DEFAULT/ssl_cert_file' : ensure => absent;
       'DEFAULT/ssl_key_file' :  ensure => absent;
       'DEFAULT/ssl_ca_file' :   ensure => absent;
@@ -347,12 +347,12 @@ class cinder (
   }
 
   if $use_syslog {
-    cinder_config {
+    manila_config {
       'DEFAULT/use_syslog':           value => true;
       'DEFAULT/syslog_log_facility':  value => $log_facility;
     }
   } else {
-    cinder_config {
+    manila_config {
       'DEFAULT/use_syslog':           value => false;
     }
   }

@@ -1,6 +1,6 @@
-# == define: cinder::backend::rbd
+# == define: manila::backend::rbd
 #
-# Setup Cinder to use the RBD driver.
+# Setup Manila to use the RBD driver.
 # Compatible for multiple backends
 #
 # === Parameters
@@ -39,12 +39,12 @@
 #   Defaults to '5'
 #
 # [*glance_api_version*]
-#   (optional) DEPRECATED: Use cinder::glance Class instead.
+#   (optional) DEPRECATED: Use manila::glance Class instead.
 #   Glance API version. (Defaults to '2')
 #   Setting this parameter cause a duplicate resource declaration
-#   with cinder::glance
+#   with manila::glance
 #
-define cinder::backend::rbd (
+define manila::backend::rbd (
   $rbd_pool,
   $rbd_user,
   $volume_backend_name              = $name,
@@ -57,15 +57,15 @@ define cinder::backend::rbd (
   $glance_api_version               = undef,
 ) {
 
-  include cinder::params
+  include manila::params
 
   if $glance_api_version {
-    warning('The glance_api_version parameter is deprecated, use glance_api_version of cinder::glance class instead.')
+    warning('The glance_api_version parameter is deprecated, use glance_api_version of manila::glance class instead.')
   }
 
-  cinder_config {
+  manila_config {
     "${name}/volume_backend_name":              value => $volume_backend_name;
-    "${name}/volume_driver":                    value => 'cinder.volume.drivers.rbd.RBDDriver';
+    "${name}/volume_driver":                    value => 'manila.volume.drivers.rbd.RBDDriver';
     "${name}/rbd_ceph_conf":                    value => $rbd_ceph_conf;
     "${name}/rbd_user":                         value => $rbd_user;
     "${name}/rbd_pool":                         value => $rbd_pool;
@@ -74,15 +74,15 @@ define cinder::backend::rbd (
   }
 
   if $rbd_secret_uuid {
-    cinder_config {"${name}/rbd_secret_uuid": value => $rbd_secret_uuid;}
+    manila_config {"${name}/rbd_secret_uuid": value => $rbd_secret_uuid;}
   } else {
-    cinder_config {"${name}/rbd_secret_uuid": ensure => absent;}
+    manila_config {"${name}/rbd_secret_uuid": ensure => absent;}
   }
 
   if $volume_tmp_dir {
-    cinder_config {"${name}/volume_tmp_dir": value => $volume_tmp_dir;}
+    manila_config {"${name}/volume_tmp_dir": value => $volume_tmp_dir;}
   } else {
-    cinder_config {"${name}/volume_tmp_dir": ensure => absent;}
+    manila_config {"${name}/volume_tmp_dir": ensure => absent;}
   }
 
   case $::osfamily {
@@ -98,12 +98,12 @@ define cinder::backend::rbd (
   }
 
   # Creates an empty file if it doesn't yet exist
-  ensure_resource('file', $::cinder::params::ceph_init_override, {'ensure' => 'present'})
+  ensure_resource('file', $::manila::params::ceph_init_override, {'ensure' => 'present'})
 
   ensure_resource('file_line', 'set initscript env', {
     line   => $override_line,
-    path   => $::cinder::params::ceph_init_override,
-    notify => Service['cinder-volume']
+    path   => $::manila::params::ceph_init_override,
+    notify => Service['manila-volume']
   })
 
 }

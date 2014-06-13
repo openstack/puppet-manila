@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::vmware' do
+describe 'manila::vmware' do
 
   let :params do
     {:os_password => 'asdf',
@@ -11,23 +11,23 @@ describe 'cinder::vmware' do
 
   describe 'with defaults' do
     it 'should create vmware special types' do
-      should contain_cinder__type('vmware-thin').with(
+      should contain_manila__type('vmware-thin').with(
                  :set_key => 'vmware:vmdk_type',
                  :set_value => 'thin')
 
-      should contain_cinder__type('vmware-thick').with(
+      should contain_manila__type('vmware-thick').with(
                  :set_key => 'vmware:vmdk_type',
                  :set_value => 'thick')
 
-      should contain_cinder__type('vmware-eagerZeroedThick').with(
+      should contain_manila__type('vmware-eagerZeroedThick').with(
                  :set_key => 'vmware:vmdk_type',
                  :set_value => 'eagerZeroedThick')
 
-      should contain_cinder__type('vmware-full').with(
+      should contain_manila__type('vmware-full').with(
                  :set_key => 'vmware:clone_type',
                  :set_value => 'full')
 
-      should contain_cinder__type('vmware-linked').with(
+      should contain_manila__type('vmware-linked').with(
                  :set_key => 'vmware:clone_type',
                  :set_value => 'linked')
     end

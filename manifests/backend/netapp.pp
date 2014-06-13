@@ -1,6 +1,6 @@
-# == define: cinder::backend::netapp
+# == define: manila::backend::netapp
 #
-# Configures Cinder to use the NetApp unified volume driver
+# Configures Manila to use the NetApp unified volume driver
 # Compatible for multiple backends
 #
 # === Parameters
@@ -66,7 +66,7 @@
 #   (optional) This parameter specifies the virtual storage server (Vserver)
 #   name on the storage cluster on which provisioning of block storage volumes
 #   should occur. If using the NFS storage protocol, this parameter is mandatory
-#   for storage service catalog support (utilized by Cinder volume type
+#   for storage service catalog support (utilized by Manila volume type
 #   extra_specs support). If this parameter is specified, the exports belonging
 #   to the Vserver will only be used for provisioning in the future. Block
 #   storage volumes on exports not belonging to the Vserver specified by
@@ -101,7 +101,7 @@
 # [*netapp_copyoffload_tool_path*]
 #   (optional) This option specifies the path of the NetApp Copy Offload tool
 #   binary. Ensure that the binary has execute permissions set which allow the
-#   effective user of the cinder-volume process to execute the file.
+#   effective user of the manila-volume process to execute the file.
 #   Defaults to ''
 #
 # [*netapp_controller_ips*]
@@ -133,7 +133,7 @@
 #
 # === Examples
 #
-#  cinder::backend::netapp { 'myBackend':
+#  manila::backend::netapp { 'myBackend':
 #    netapp_login           => 'clusterAdmin',
 #    netapp_password        => 'password',
 #    netapp_server_hostname => 'netapp.mycorp.com',
@@ -150,7 +150,7 @@
 #
 # Copyright 2014 NetApp, Inc.
 #
-define cinder::backend::netapp (
+define manila::backend::netapp (
   $netapp_login,
   $netapp_password,
   $netapp_server_hostname,
@@ -174,9 +174,9 @@ define cinder::backend::netapp (
   $netapp_webservice_path       = '/devmgr/v2',
 ) {
 
-  cinder_config {
+  manila_config {
     "${volume_backend_name}/volume_backend_name":          value => $volume_backend_name;
-    "${volume_backend_name}/volume_driver":                value => 'cinder.volume.drivers.netapp.common.NetAppDriver';
+    "${volume_backend_name}/volume_driver":                value => 'manila.volume.drivers.netapp.common.NetAppDriver';
     "${volume_backend_name}/netapp_login":                 value => $netapp_login;
     "${volume_backend_name}/netapp_password":              value => $netapp_password, secret => true;
     "${volume_backend_name}/netapp_server_hostname":       value => $netapp_server_hostname;

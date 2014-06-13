@@ -1,4 +1,4 @@
-# Example: managing cinder controller services with pacemaker
+# Example: managing manila controller services with pacemaker
 #
 # By setting enabled to false, these services will not be started at boot.  By setting
 # manage_service to false, puppet will not kill these services on every run.  This
@@ -7,33 +7,33 @@
 #
 # The puppet commands below would ideally be applied to at least three nodes.
 #
-# Note that cinder-api is associated with the virtual IP address as
+# Note that manila-api is associated with the virtual IP address as
 # it is called from external services.  The remaining services connect to the
 # database and/or message broker independently.
 #
 # Example pacemaker resource configuration commands (configured once per cluster):
 #
-# sudo pcs resource create cinder_vip ocf:heartbeat:IPaddr2 params ip=192.0.2.3 \
+# sudo pcs resource create manila_vip ocf:heartbeat:IPaddr2 params ip=192.0.2.3 \
 #   cidr_netmask=24 op monitor interval=10s
 #
-# sudo pcs resource create cinder_api_service lsb:openstack-cinder-api
-# sudo pcs resource create cinder_scheduler_service lsb:openstack-cinder-scheduler
+# sudo pcs resource create manila_api_service lsb:openstack-manila-api
+# sudo pcs resource create manila_scheduler_service lsb:openstack-manila-scheduler
 #
-# sudo pcs constraint colocation add cinder_api_service with cinder_vip
+# sudo pcs constraint colocation add manila_api_service with manila_vip
 
-class { 'cinder':
-  database_connection  => 'mysql://cinder:secret_block_password@openstack-controller.example.com/cinder',
+class { 'manila':
+  database_connection  => 'mysql://manila:secret_block_password@openstack-controller.example.com/manila',
 }
 
-class { 'cinder::api':
+class { 'manila::api':
   keystone_password => 'CINDER_PW',
-  keystone_user     => 'cinder',
+  keystone_user     => 'manila',
   enabled           => false,
   manage_service    => false,
 }
 
-class { 'cinder::scheduler':
-  scheduler_driver => 'cinder.scheduler.simple.SimpleScheduler',
+class { 'manila::scheduler':
+  scheduler_driver => 'manila.scheduler.simple.SimpleScheduler',
   enabled          => false,
   manage_service   => false,
 }

@@ -1,4 +1,4 @@
-Puppet::Type.type(:cinder_config).provide(
+Puppet::Type.type(:manila_config).provide(
   :ini_setting,
   :parent => Puppet::Type.type(:ini_setting).provider(:ruby)
 ) do
@@ -16,7 +16,7 @@ Puppet::Type.type(:cinder_config).provide(
   end
 
   def self.file_path
-    '/etc/cinder/cinder.conf'
+    '/etc/manila/manila.conf'
   end
 
   # added for backwards compatibility with older versions of inifile

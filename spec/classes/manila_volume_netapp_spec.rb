@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::volume::netapp' do
+describe 'manila::volume::netapp' do
 
   let :params do
     {
@@ -39,15 +39,15 @@ describe 'cinder::volume::netapp' do
     end
 
     it 'configures netapp volume driver' do
-      should contain_cinder_config('DEFAULT/volume_driver').with_value(
-        'cinder.volume.drivers.netapp.common.NetAppDriver')
+      should contain_manila_config('DEFAULT/volume_driver').with_value(
+        'manila.volume.drivers.netapp.common.NetAppDriver')
       params_hash.each_pair do |config,value|
-        should contain_cinder_config("DEFAULT/#{config}").with_value( value )
+        should contain_manila_config("DEFAULT/#{config}").with_value( value )
       end
     end
 
     it 'marks netapp_password as secret' do
-      should contain_cinder_config('DEFAULT/netapp_password').with_secret( true )
+      should contain_manila_config('DEFAULT/netapp_password').with_secret( true )
     end
   end
 

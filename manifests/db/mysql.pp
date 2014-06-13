@@ -3,10 +3,10 @@
 #   Tested versions include 0.9 and 2.2
 #   Defaults to '0.9'
 #
-class cinder::db::mysql (
+class manila::db::mysql (
   $password,
-  $dbname        = 'cinder',
-  $user          = 'cinder',
+  $dbname        = 'manila',
+  $user          = 'manila',
   $host          = '127.0.0.1',
   $allowed_hosts = undef,
   $charset       = 'utf8',
@@ -15,10 +15,10 @@ class cinder::db::mysql (
   $mysql_module  = '0.9'
 ) {
 
-  Class['cinder::db::mysql'] -> Exec<| title == 'cinder-manage db_sync' |>
+  Class['manila::db::mysql'] -> Exec<| title == 'manila-manage db_sync' |>
 
   if ($mysql_module >= 2.2) {
-    Mysql_database[$dbname] ~> Exec<| title == 'cinder-manage db_sync' |>
+    Mysql_database[$dbname] ~> Exec<| title == 'manila-manage db_sync' |>
 
     mysql::db { $dbname:
       user         => $user,
@@ -30,7 +30,7 @@ class cinder::db::mysql (
     }
 
   } else {
-    Database[$dbname] ~> Exec<| title == 'cinder-manage db_sync' |>
+    Database[$dbname] ~> Exec<| title == 'manila-manage db_sync' |>
 
     mysql::db { $dbname:
       user         => $user,
@@ -51,7 +51,7 @@ class cinder::db::mysql (
 
   if $real_allowed_hosts {
     # TODO this class should be in the mysql namespace
-    cinder::db::mysql::host_access { $real_allowed_hosts:
+    manila::db::mysql::host_access { $real_allowed_hosts:
       user          => $user,
       password      => $password,
       database      => $dbname,

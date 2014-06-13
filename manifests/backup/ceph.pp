@@ -15,9 +15,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# == Class: cinder::backup::ceph
+# == Class: manila::backup::ceph
 #
-# Setup Cinder to backup volumes into Ceph
+# Setup Manila to backup volumes into Ceph
 #
 # === Parameters
 #
@@ -29,7 +29,7 @@
 # [*backup_ceph_user*]
 #   (optional) The Ceph user to connect with.
 #   Should be a valid user
-#   Defaults to 'cinder'
+#   Defaults to 'manila'
 #
 # [*backup_ceph_chunk_size*]
 #   (optional) The chunk size in bytes that a backup will be broken into
@@ -53,17 +53,17 @@
 #   Defaults to '0'
 #
 
-class cinder::backup::ceph (
-  $backup_driver            = 'cinder.backup.driver.ceph',
+class manila::backup::ceph (
+  $backup_driver            = 'manila.backup.driver.ceph',
   $backup_ceph_conf         = '/etc/ceph/ceph.conf',
-  $backup_ceph_user         = 'cinder',
+  $backup_ceph_user         = 'manila',
   $backup_ceph_chunk_size   = '134217728',
   $backup_ceph_pool         = 'backups',
   $backup_ceph_stripe_unit  = '0',
   $backup_ceph_stripe_count = '0'
 ) {
 
-  cinder_config {
+  manila_config {
     'DEFAULT/backup_driver':            value => $backup_driver;
     'DEFAULT/backup_ceph_conf':         value => $backup_ceph_conf;
     'DEFAULT/backup_ceph_user':         value => $backup_ceph_user;

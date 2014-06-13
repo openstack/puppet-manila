@@ -1,11 +1,11 @@
 #
-class cinder::volume::iscsi (
+class manila::volume::iscsi (
   $iscsi_ip_address,
-  $volume_group      = 'cinder-volumes',
-  $iscsi_helper      = $cinder::params::iscsi_helper,
+  $volume_group      = 'manila-volumes',
+  $iscsi_helper      = $manila::params::iscsi_helper,
 ) {
 
-  cinder::backend::iscsi { 'DEFAULT':
+  manila::backend::iscsi { 'DEFAULT':
     iscsi_ip_address   => $iscsi_ip_address,
     volume_group       => $volume_group,
     iscsi_helper       => $iscsi_helper

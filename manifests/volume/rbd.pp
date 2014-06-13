@@ -1,6 +1,6 @@
-# == Class: cinder::volume::rbd
+# == Class: manila::volume::rbd
 #
-# Setup Cinder to use the RBD driver.
+# Setup Manila to use the RBD driver.
 #
 # === Parameters
 #
@@ -34,12 +34,12 @@
 #   Defaults to '5'
 #
 # [*glance_api_version*]
-#   (optional) DEPRECATED: Use cinder::glance Class instead.
+#   (optional) DEPRECATED: Use manila::glance Class instead.
 #   Glance API version. (Defaults to '2')
 #   Setting this parameter cause a duplicate resource declaration
-#   with cinder::glance
+#   with manila::glance
 #
-class cinder::volume::rbd (
+class manila::volume::rbd (
   $rbd_pool,
   $rbd_user,
   $rbd_ceph_conf                    = '/etc/ceph/ceph.conf',
@@ -51,7 +51,7 @@ class cinder::volume::rbd (
   $glance_api_version               = undef,
 ) {
 
-  cinder::backend::rbd { 'DEFAULT':
+  manila::backend::rbd { 'DEFAULT':
     rbd_pool                         => $rbd_pool,
     rbd_user                         => $rbd_user,
     rbd_ceph_conf                    => $rbd_ceph_conf,

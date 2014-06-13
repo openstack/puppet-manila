@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::db::postgresql' do
+describe 'manila::db::postgresql' do
 
   let :req_params do
     {:password => 'pw'}
@@ -17,8 +17,8 @@ describe 'cinder::db::postgresql' do
     let :params do
       req_params
     end
-    it { should contain_postgresql__db('cinder').with(
-      :user         => 'cinder',
+    it { should contain_postgresql__db('manila').with(
+      :user         => 'manila',
       :password     => 'pw'
      ) }
   end

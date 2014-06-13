@@ -1,24 +1,24 @@
 # $volume_name_template = volume-%s
-class cinder::volume (
+class manila::volume (
   $package_ensure = 'present',
   $enabled        = true,
   $manage_service = true
 ) {
 
-  include cinder::params
+  include manila::params
 
-  Cinder_config<||> ~> Service['cinder-volume']
-  Cinder_api_paste_ini<||> ~> Service['cinder-volume']
-  Exec<| title == 'cinder-manage db_sync' |> ~> Service['cinder-volume']
+  Manila_config<||> ~> Service['manila-volume']
+  Manila_api_paste_ini<||> ~> Service['manila-volume']
+  Exec<| title == 'manila-manage db_sync' |> ~> Service['manila-volume']
 
-  if $::cinder::params::volume_package {
-    Package['cinder-volume'] -> Cinder_config<||>
-    Package['cinder-volume'] -> Cinder_api_paste_ini<||>
-    Package['cinder']        -> Package['cinder-volume']
-    Package['cinder-volume'] -> Service['cinder-volume']
-    package { 'cinder-volume':
+  if $::manila::params::volume_package {
+    Package['manila-volume'] -> Manila_config<||>
+    Package['manila-volume'] -> Manila_api_paste_ini<||>
+    Package['manila']        -> Package['manila-volume']
+    Package['manila-volume'] -> Service['manila-volume']
+    package { 'manila-volume':
       ensure => $package_ensure,
-      name   => $::cinder::params::volume_package,
+      name   => $::manila::params::volume_package,
     }
   }
 
@@ -30,11 +30,11 @@ class cinder::volume (
     }
   }
 
-  service { 'cinder-volume':
+  service { 'manila-volume':
     ensure    => $ensure,
-    name      => $::cinder::params::volume_service,
+    name      => $::manila::params::volume_service,
     enable    => $enabled,
     hasstatus => true,
-    require   => Package['cinder'],
+    require   => Package['manila'],
   }
 }

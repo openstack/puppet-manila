@@ -15,48 +15,48 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# == Class: cinder::backup
+# == Class: manila::backup
 #
-# Setup Cinder backup service
+# Setup Manila backup service
 #
 # === Parameters
 #
 # [*backup_topic*]
 #   (optional) The topic volume backup nodes listen on.
-#   Defaults to 'cinder-backup'
+#   Defaults to 'manila-backup'
 #
 # [*backup_manager*]
 #   (optional) Full class name for the Manager for volume backup.
-#   Defaults to 'cinder.backup.manager.BackupManager'
+#   Defaults to 'manila.backup.manager.BackupManager'
 #
 # [*backup_api_class*]
 #   (optional) The full class name of the volume backup API class.
-#   Defaults to 'cinder.backup.api.API'
+#   Defaults to 'manila.backup.api.API'
 #
 # [*backup_name_template*]
 #   (optional) Template string to be used to generate backup names.
 #   Defaults to 'backup-%s'
 #
 
-class cinder::backup (
+class manila::backup (
   $enabled              = true,
   $package_ensure       = 'present',
-  $backup_topic         = 'cinder-backup',
-  $backup_manager       = 'cinder.backup.manager.BackupManager',
-  $backup_api_class     = 'cinder.backup.api.API',
+  $backup_topic         = 'manila-backup',
+  $backup_manager       = 'manila.backup.manager.BackupManager',
+  $backup_api_class     = 'manila.backup.api.API',
   $backup_name_template = 'backup-%s'
 ) {
 
-  include cinder::params
+  include manila::params
 
-  Cinder_config<||> ~> Service['cinder-backup']
+  Manila_config<||> ~> Service['manila-backup']
 
-  if $::cinder::params::backup_package {
-    Package['cinder-backup'] -> Cinder_config<||>
-    Package['cinder-backup'] -> Service['cinder-backup']
-    package { 'cinder-backup':
+  if $::manila::params::backup_package {
+    Package['manila-backup'] -> Manila_config<||>
+    Package['manila-backup'] -> Service['manila-backup']
+    package { 'manila-backup':
       ensure => $package_ensure,
-      name   => $::cinder::params::backup_package,
+      name   => $::manila::params::backup_package,
     }
   }
 
@@ -66,15 +66,15 @@ class cinder::backup (
     $ensure = 'stopped'
   }
 
-  service { 'cinder-backup':
+  service { 'manila-backup':
     ensure    => $ensure,
-    name      => $::cinder::params::backup_service,
+    name      => $::manila::params::backup_service,
     enable    => $enabled,
     hasstatus => true,
-    require   => Package['cinder'],
+    require   => Package['manila'],
   }
 
-  cinder_config {
+  manila_config {
     'DEFAULT/backup_topic':         value => $backup_topic;
     'DEFAULT/backup_manager':       value => $backup_manager;
     'DEFAULT/backup_api_class':     value => $backup_api_class;

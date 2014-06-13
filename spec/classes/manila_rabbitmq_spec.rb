@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::rabbitmq' do
+describe 'manila::rabbitmq' do
 
   let :facts do
     { :puppetversion => '2.7',

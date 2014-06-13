@@ -15,16 +15,16 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# Unit tests for cinder::ceph class
+# Unit tests for manila::ceph class
 #
 
 require 'spec_helper'
 
-describe 'cinder::backup::ceph' do
+describe 'manila::backup::ceph' do
 
   let :default_params do
     { :backup_ceph_conf         => '/etc/ceph/ceph.conf',
-      :backup_ceph_user         => 'cinder',
+      :backup_ceph_user         => 'manila',
       :backup_ceph_chunk_size   => '134217728',
       :backup_ceph_pool         => 'backups',
       :backup_ceph_stripe_unit  => '0',
@@ -35,19 +35,19 @@ describe 'cinder::backup::ceph' do
     {}
   end
 
-  shared_examples_for 'cinder backup with ceph' do
+  shared_examples_for 'manila backup with ceph' do
     let :p do
       default_params.merge(params)
     end
 
-    it 'configures cinder.conf' do
-      should contain_cinder_config('DEFAULT/backup_driver').with_value('cinder.backup.driver.ceph')
-      should contain_cinder_config('DEFAULT/backup_ceph_conf').with_value(p[:backup_ceph_conf])
-      should contain_cinder_config('DEFAULT/backup_ceph_user').with_value(p[:backup_ceph_user])
-      should contain_cinder_config('DEFAULT/backup_ceph_chunk_size').with_value(p[:backup_ceph_chunk_size])
-      should contain_cinder_config('DEFAULT/backup_ceph_pool').with_value(p[:backup_ceph_pool])
-      should contain_cinder_config('DEFAULT/backup_ceph_stripe_unit').with_value(p[:backup_ceph_stripe_unit])
-      should contain_cinder_config('DEFAULT/backup_ceph_stripe_count').with_value(p[:backup_ceph_stripe_count])
+    it 'configures manila.conf' do
+      should contain_manila_config('DEFAULT/backup_driver').with_value('manila.backup.driver.ceph')
+      should contain_manila_config('DEFAULT/backup_ceph_conf').with_value(p[:backup_ceph_conf])
+      should contain_manila_config('DEFAULT/backup_ceph_user').with_value(p[:backup_ceph_user])
+      should contain_manila_config('DEFAULT/backup_ceph_chunk_size').with_value(p[:backup_ceph_chunk_size])
+      should contain_manila_config('DEFAULT/backup_ceph_pool').with_value(p[:backup_ceph_pool])
+      should contain_manila_config('DEFAULT/backup_ceph_stripe_unit').with_value(p[:backup_ceph_stripe_unit])
+      should contain_manila_config('DEFAULT/backup_ceph_stripe_count').with_value(p[:backup_ceph_stripe_count])
     end
 
     context 'when overriding default parameters' do
@@ -60,12 +60,12 @@ describe 'cinder::backup::ceph' do
         params.merge!(:backup_ceph_stripe_count => '67')
       end
       it 'should replace default parameters with new values' do
-        should contain_cinder_config('DEFAULT/backup_ceph_conf').with_value(p[:backup_ceph_conf])
-        should contain_cinder_config('DEFAULT/backup_ceph_user').with_value(p[:backup_ceph_user])
-        should contain_cinder_config('DEFAULT/backup_ceph_chunk_size').with_value(p[:backup_ceph_chunk_size])
-        should contain_cinder_config('DEFAULT/backup_ceph_pool').with_value(p[:backup_ceph_pool])
-        should contain_cinder_config('DEFAULT/backup_ceph_stripe_unit').with_value(p[:backup_ceph_stripe_unit])
-        should contain_cinder_config('DEFAULT/backup_ceph_stripe_count').with_value(p[:backup_ceph_stripe_count])
+        should contain_manila_config('DEFAULT/backup_ceph_conf').with_value(p[:backup_ceph_conf])
+        should contain_manila_config('DEFAULT/backup_ceph_user').with_value(p[:backup_ceph_user])
+        should contain_manila_config('DEFAULT/backup_ceph_chunk_size').with_value(p[:backup_ceph_chunk_size])
+        should contain_manila_config('DEFAULT/backup_ceph_pool').with_value(p[:backup_ceph_pool])
+        should contain_manila_config('DEFAULT/backup_ceph_stripe_unit').with_value(p[:backup_ceph_stripe_unit])
+        should contain_manila_config('DEFAULT/backup_ceph_stripe_count').with_value(p[:backup_ceph_stripe_count])
       end
     end
   end
@@ -75,7 +75,7 @@ describe 'cinder::backup::ceph' do
       { :osfamily => 'Debian' }
     end
 
-    it_configures 'cinder backup with ceph'
+    it_configures 'manila backup with ceph'
   end
 
   context 'on RedHat platforms' do
@@ -83,7 +83,7 @@ describe 'cinder::backup::ceph' do
       { :osfamily => 'RedHat' }
     end
 
-    it_configures 'cinder backup with ceph'
+    it_configures 'manila backup with ceph'
   end
 
 end

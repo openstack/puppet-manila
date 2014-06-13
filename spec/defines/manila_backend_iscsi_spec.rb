@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::backend::iscsi' do
+describe 'manila::backend::iscsi' do
 
   let(:title) {'hippo'}
 
@@ -21,14 +21,14 @@ describe 'cinder::backend::iscsi' do
   describe 'with default params' do
 
     it 'should configure iscsi driver' do
-      should contain_cinder_config('hippo/volume_backend_name').with(
+      should contain_manila_config('hippo/volume_backend_name').with(
         :value => 'hippo')
-      should contain_cinder_config('hippo/iscsi_ip_address').with(
+      should contain_manila_config('hippo/iscsi_ip_address').with(
         :value => '127.0.0.2')
-      should contain_cinder_config('hippo/iscsi_helper').with(
+      should contain_manila_config('hippo/iscsi_helper').with(
         :value => 'tgtadm')
-      should contain_cinder_config('hippo/volume_group').with(
-        :value => 'cinder-volumes')
+      should contain_manila_config('hippo/volume_group').with(
+        :value => 'manila-volumes')
     end
   end
 
@@ -38,8 +38,8 @@ describe 'cinder::backend::iscsi' do
       {:osfamily => 'RedHat'}
     end
 
-    it { should contain_file_line('cinder include').with(
-      :line => 'include /etc/cinder/volumes/*',
+    it { should contain_file_line('manila include').with(
+      :line => 'include /etc/manila/volumes/*',
       :path => '/etc/tgt/targets.conf'
     ) }
 

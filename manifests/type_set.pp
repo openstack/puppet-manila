@@ -1,4 +1,4 @@
-# ==Define: cinder::type_set
+# ==Define: manila::type_set
 #
 # Assigns keys after the volume type is set.
 #
@@ -25,7 +25,7 @@
 # Author: Andrew Woodward <awoodward@mirantis.com>
 
 
-define cinder::type_set (
+define manila::type_set (
   $type,
   $key,
   $os_password,
@@ -37,15 +37,15 @@ define cinder::type_set (
 # TODO: (xarses) This should be moved to a ruby provider so that among other
 #   reasons, the credential discovery magic can occur like in neutron.
 
-  exec {"cinder type-key ${type} set ${key}=${name}":
+  exec {"manila type-key ${type} set ${key}=${name}":
     path        => '/usr/bin',
-    command     => "cinder type-key ${type} set ${key}=${name}",
+    command     => "manila type-key ${type} set ${key}=${name}",
     environment => [
       "OS_TENANT_NAME=${os_tenant_name}",
       "OS_USERNAME=${os_username}",
       "OS_PASSWORD=${os_password}",
       "OS_AUTH_URL=${os_auth_url}",
     ],
-    require     => Package['python-cinderclient']
+    require     => Package['python-manilaclient']
   }
 }

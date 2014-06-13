@@ -1,7 +1,7 @@
 #
-# == Class: cinder::backend::glusterfs
+# == Class: manila::backend::glusterfs
 #
-# Configures Cinder to use GlusterFS as a volume driver
+# Configures Manila to use GlusterFS as a volume driver
 #
 # === Parameters
 #
@@ -26,21 +26,21 @@
 #
 # [*glusterfs_shares_config*]
 #   (optional) The config file to store the given $glusterfs_shares.
-#   Defaults to '/etc/cinder/shares.conf'
+#   Defaults to '/etc/manila/shares.conf'
 #
 # === Examples
 #
-# cinder::backend::glusterfs { 'myGluster':
+# manila::backend::glusterfs { 'myGluster':
 #   glusterfs_shares = ['192.168.1.1:/volumes'],
 # }
 #
-define cinder::backend::glusterfs (
+define manila::backend::glusterfs (
   $glusterfs_shares,
   $volume_backend_name        = $name,
   $glusterfs_disk_util        = false,
   $glusterfs_sparsed_volumes  = undef,
   $glusterfs_mount_point_base = undef,
-  $glusterfs_shares_config    = '/etc/cinder/shares.conf'
+  $glusterfs_shares_config    = '/etc/manila/shares.conf'
 ) {
 
   if $glusterfs_disk_util {
@@ -51,14 +51,14 @@ define cinder::backend::glusterfs (
 
   file { $glusterfs_shares_config:
     content => "${content}\n",
-    require => Package['cinder'],
-    notify  => Service['cinder-volume']
+    require => Package['manila'],
+    notify  => Service['manila-volume']
   }
 
-  cinder_config {
+  manila_config {
     "${name}/volume_backend_name":  value => $volume_backend_name;
     "${name}/volume_driver":        value =>
-      'cinder.volume.drivers.glusterfs.GlusterfsDriver';
+      'manila.volume.drivers.glusterfs.GlusterfsDriver';
     "${name}/glusterfs_shares_config":    value => $glusterfs_shares_config;
     "${name}/glusterfs_sparsed_volumes":  value => $glusterfs_sparsed_volumes;
     "${name}/glusterfs_mount_point_base": value => $glusterfs_mount_point_base;

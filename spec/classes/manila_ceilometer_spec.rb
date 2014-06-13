@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe 'cinder::ceilometer' do
+describe 'manila::ceilometer' do
 
   describe 'with default parameters' do
     it 'contains default values' do
-      should contain_cinder_config('DEFAULT/notification_driver').with(
-        :value => 'cinder.openstack.common.notifier.rpc_notifier')
+      should contain_manila_config('DEFAULT/notification_driver').with(
+        :value => 'manila.openstack.common.notifier.rpc_notifier')
     end
   end
 end

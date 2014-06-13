@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'cinder::volume::rbd' do
+describe 'manila::volume::rbd' do
   let :req_params do
     {
       :rbd_pool                         => 'volumes',
@@ -14,7 +14,7 @@ describe 'cinder::volume::rbd' do
     }
   end
 
-  it { should contain_class('cinder::params') }
+  it { should contain_class('manila::params') }
 
   let :params do
     req_params
@@ -26,30 +26,30 @@ describe 'cinder::volume::rbd' do
 
   describe 'rbd volume driver' do
     it 'configure rbd volume driver' do
-      should contain_cinder_config('DEFAULT/volume_driver').with_value('cinder.volume.drivers.rbd.RBDDriver')
+      should contain_manila_config('DEFAULT/volume_driver').with_value('manila.volume.drivers.rbd.RBDDriver')
 
-      should contain_cinder_config('DEFAULT/rbd_ceph_conf').with_value(req_params[:rbd_ceph_conf])
-      should contain_cinder_config('DEFAULT/rbd_flatten_volume_from_snapshot').with_value(req_params[:rbd_flatten_volume_from_snapshot])
-      should contain_cinder_config('DEFAULT/volume_tmp_dir').with_value(req_params[:volume_tmp_dir])
-      should contain_cinder_config('DEFAULT/rbd_max_clone_depth').with_value(req_params[:rbd_max_clone_depth])
-      should contain_cinder_config('DEFAULT/rbd_pool').with_value(req_params[:rbd_pool])
-      should contain_cinder_config('DEFAULT/rbd_user').with_value(req_params[:rbd_user])
-      should contain_cinder_config('DEFAULT/rbd_secret_uuid').with_value(req_params[:rbd_secret_uuid])
-      should contain_file('/etc/init/cinder-volume.override').with(:ensure => 'present')
+      should contain_manila_config('DEFAULT/rbd_ceph_conf').with_value(req_params[:rbd_ceph_conf])
+      should contain_manila_config('DEFAULT/rbd_flatten_volume_from_snapshot').with_value(req_params[:rbd_flatten_volume_from_snapshot])
+      should contain_manila_config('DEFAULT/volume_tmp_dir').with_value(req_params[:volume_tmp_dir])
+      should contain_manila_config('DEFAULT/rbd_max_clone_depth').with_value(req_params[:rbd_max_clone_depth])
+      should contain_manila_config('DEFAULT/rbd_pool').with_value(req_params[:rbd_pool])
+      should contain_manila_config('DEFAULT/rbd_user').with_value(req_params[:rbd_user])
+      should contain_manila_config('DEFAULT/rbd_secret_uuid').with_value(req_params[:rbd_secret_uuid])
+      should contain_file('/etc/init/manila-volume.override').with(:ensure => 'present')
       should contain_file_line('set initscript env').with(
         :line    => /env CEPH_ARGS=\"--id test\"/,
-        :path    => '/etc/init/cinder-volume.override',
-        :notify  => 'Service[cinder-volume]')
+        :path    => '/etc/init/manila-volume.override',
+        :notify  => 'Service[manila-volume]')
     end
 
     context 'with rbd_secret_uuid disabled' do
       let(:params) { req_params.merge!({:rbd_secret_uuid => false}) }
-      it { should contain_cinder_config('DEFAULT/rbd_secret_uuid').with_ensure('absent') }
+      it { should contain_manila_config('DEFAULT/rbd_secret_uuid').with_ensure('absent') }
     end
 
     context 'with volume_tmp_dir disabled' do
       let(:params) { req_params.merge!({:volume_tmp_dir => false}) }
-      it { should contain_cinder_config('DEFAULT/volume_tmp_dir').with_ensure('absent') }
+      it { should contain_manila_config('DEFAULT/volume_tmp_dir').with_ensure('absent') }
     end
 
   end
@@ -64,8 +64,8 @@ describe 'cinder::volume::rbd' do
       req_params
     end
 
-    it 'should ensure that the cinder-volume sysconfig file is present' do
-      should contain_file('/etc/sysconfig/openstack-cinder-volume').with(
+    it 'should ensure that the manila-volume sysconfig file is present' do
+      should contain_file('/etc/sysconfig/openstack-manila-volume').with(
         :ensure => 'present'
       )
     end
@@ -73,8 +73,8 @@ describe 'cinder::volume::rbd' do
     it 'should configure RedHat init override' do
       should contain_file_line('set initscript env').with(
         :line    => /export CEPH_ARGS=\"--id test\"/,
-        :path    => '/etc/sysconfig/openstack-cinder-volume',
-        :notify  => 'Service[cinder-volume]')
+        :path    => '/etc/sysconfig/openstack-manila-volume',
+        :notify  => 'Service[manila-volume]')
     end
   end
 

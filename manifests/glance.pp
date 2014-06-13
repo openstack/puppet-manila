@@ -15,14 +15,14 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# == Class: cinder::glance
+# == Class: manila::glance
 #
-# Glance drive Cinder as a block storage backend to store image data.
+# Glance drive Manila as a block storage backend to store image data.
 #
 # === Parameters
 #
 # [*glance_api_servers*]
-#   (optional) A list of the glance api servers available to cinder.
+#   (optional) A list of the glance api servers available to manila.
 #   Should be an array with [hostname|ip]:port
 #   Defaults to undef
 #
@@ -52,7 +52,7 @@
 #   Defaults to undef
 #
 
-class cinder::glance (
+class manila::glance (
   $glance_api_servers         = undef,
   $glance_api_version         = '2',
   $glance_num_retries         = '0',
@@ -62,16 +62,16 @@ class cinder::glance (
 ) {
 
   if is_array($glance_api_servers) {
-    cinder_config {
+    manila_config {
       'DEFAULT/glance_api_servers': value => join($glance_api_servers, ',');
     }
   } elsif is_string($glance_api_servers) {
-    cinder_config {
+    manila_config {
       'DEFAULT/glance_api_servers': value => $glance_api_servers;
     }
   }
 
-  cinder_config {
+  manila_config {
     'DEFAULT/glance_api_version':         value => $glance_api_version;
     'DEFAULT/glance_num_retries':         value => $glance_num_retries;
     'DEFAULT/glance_api_insecure':        value => $glance_api_insecure;

@@ -1,6 +1,6 @@
-# == define: cinder::backend::eqlx
+# == define: manila::backend::eqlx
 #
-# Configure the Dell EqualLogic driver for cinder.
+# Configure the Dell EqualLogic driver for manila.
 #
 # === Parameters
 #
@@ -49,7 +49,7 @@
 #   (optional) The maximum retry count for reconnection.
 #   Defaults to 5
 #
-define cinder::backend::eqlx (
+define manila::backend::eqlx (
   $san_ip,
   $san_login,
   $san_password,
@@ -63,9 +63,9 @@ define cinder::backend::eqlx (
   $eqlx_cli_timeout     = 30,
   $eqlx_cli_max_retries = 5,
 ) {
-  cinder_config {
+  manila_config {
     "${name}/volume_backend_name":  value => $volume_backend_name;
-    "${name}/volume_driver":        value => 'cinder.volume.drivers.eqlx.DellEQLSanISCSIDriver';
+    "${name}/volume_driver":        value => 'manila.volume.drivers.eqlx.DellEQLSanISCSIDriver';
     "${name}/san_ip":               value => $san_ip;
     "${name}/san_login":            value => $san_login;
     "${name}/san_password":         value => $san_password;
@@ -78,7 +78,7 @@ define cinder::backend::eqlx (
   }
 
   if(str2bool($eqlx_use_chap)) {
-    cinder_config {
+    manila_config {
       "${name}/eqlx_chap_login":      value => $eqlx_chap_login;
       "${name}/eqlx_chap_password":   value => $eqlx_chap_password;
     }

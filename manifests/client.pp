@@ -1,20 +1,20 @@
-# == Class: cinder::client
+# == Class: manila::client
 #
-# Installs Cinder python client.
+# Installs Manila python client.
 #
 # === Parameters
 #
 # [*ensure*]
 #   Ensure state for package. Defaults to 'present'.
 #
-class cinder::client(
+class manila::client(
   $package_ensure = 'present'
 ) {
 
-  include cinder::params
+  include manila::params
 
-  package { 'python-cinderclient':
+  package { 'python-manilaclient':
     ensure => $package_ensure,
-    name   => $::cinder::params::client_package,
+    name   => $::manila::params::client_package,
   }
 }

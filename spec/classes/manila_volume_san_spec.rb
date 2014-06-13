@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe 'cinder::volume::san' do
+describe 'manila::volume::san' do
 
   let :params do
-    { :volume_driver   => 'cinder.volume.san.SolarisISCSIDriver',
+    { :volume_driver   => 'manila.volume.san.SolarisISCSIDriver',
       :san_ip          => '127.0.0.1',
       :san_login       => 'cluster_operator',
       :san_password    => '007',
@@ -25,9 +25,9 @@ describe 'cinder::volume::san' do
       default_params.merge(params)
     end
 
-    it 'configures cinder volume driver' do
+    it 'configures manila volume driver' do
       params_hash.each_pair do |config,value|
-        should contain_cinder_config("DEFAULT/#{config}").with_value( value )
+        should contain_manila_config("DEFAULT/#{config}").with_value( value )
       end
     end
   end

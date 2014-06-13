@@ -1,14 +1,14 @@
 #
-class cinder::db::sync {
+class manila::db::sync {
 
-  include cinder::params
+  include manila::params
 
-  exec { 'cinder-manage db_sync':
-    command     => $::cinder::params::db_sync_command,
+  exec { 'manila-manage db_sync':
+    command     => $::manila::params::db_sync_command,
     path        => '/usr/bin',
-    user        => 'cinder',
+    user        => 'manila',
     refreshonly => true,
-    require     => [File[$::cinder::params::cinder_conf], Class['cinder']],
+    require     => [File[$::manila::params::manila_conf], Class['manila']],
     logoutput   => 'on_failure',
   }
 }

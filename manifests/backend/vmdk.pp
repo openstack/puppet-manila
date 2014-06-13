@@ -1,6 +1,6 @@
-# == define: cinder::backend::vmdk
+# == define: manila::backend::vmdk
 #
-# Configure the VMware VMDK driver for cinder.
+# Configure the VMware VMDK driver for manila.
 #
 # === Parameters
 #
@@ -36,7 +36,7 @@
 #   Defaults to 5.
 #
 # [*image_transfer_timeout_secs*]
-#   (optional) The timeout in seconds for VMDK volume transfer between Cinder and Glance.
+#   (optional) The timeout in seconds for VMDK volume transfer between Manila and Glance.
 #   Defaults to 7200.
 #
 # [*wsdl_location*]
@@ -46,15 +46,15 @@
 #   Defaults to None.
 #
 # [*volume_folder*]
-#   (optional) The name for the folder in the VC datacenter that will contain cinder volumes.
-#   Defaults to 'cinder-volumes'.
+#   (optional) The name for the folder in the VC datacenter that will contain manila volumes.
+#   Defaults to 'manila-volumes'.
 #
-define cinder::backend::vmdk (
+define manila::backend::vmdk (
   $host_ip,
   $host_username,
   $host_password,
   $volume_backend_name         = $name,
-  $volume_folder               = 'cinder-volumes',
+  $volume_folder               = 'manila-volumes',
   $api_retry_count             = 10,
   $max_object_retrieval        = 100,
   $task_poll_interval          = 5,
@@ -62,9 +62,9 @@ define cinder::backend::vmdk (
   $wsdl_location               = undef
   ) {
 
-  cinder_config {
+  manila_config {
     "${name}/volume_backend_name":                value => $volume_backend_name;
-    "${name}/volume_driver":                      value => 'cinder.volume.drivers.vmware.vmdk.VMwareVcVmdkDriver';
+    "${name}/volume_driver":                      value => 'manila.volume.drivers.vmware.vmdk.VMwareVcVmdkDriver';
     "${name}/vmware_host_ip":                     value => $host_ip;
     "${name}/vmware_host_username":               value => $host_username;
     "${name}/vmware_host_password":               value => $host_password;
@@ -76,7 +76,7 @@ define cinder::backend::vmdk (
   }
 
   if $wsdl_location {
-    cinder_config {
+    manila_config {
       "${name}/vmware_wsdl_location":               value => $wsdl_location;
     }
   }
