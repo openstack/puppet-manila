@@ -1,9 +1,9 @@
-name    'puppetlabs-manila'
+name    'netapp-puppet-manila'  #NTAP: right name?
 version '4.0.0'
 source  'https://github.com/stackforge/puppet-manila'
-author  'Puppet Labs'
+author  'NetApp'
 license 'Apache License 2.0'
-summary 'Puppet Labs Manila Module'
+summary 'NetApp Manila Module'
 description  'Puppet module to install and configure the Openstack Manila block storage service'
 project_page 'https://launchpad.net/puppet-manila'
 

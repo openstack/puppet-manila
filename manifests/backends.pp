@@ -9,7 +9,7 @@
 #     This should contain names used in ceph::backend::* resources.
 #     Example: ['volume1', 'volume2', 'sata3']
 #
-# Author: Andrew Woodward <awoodward@mirantis.com>
+# Author: Andrew Woodward <awoodward@mirantis.com> #NTAP: leaving author intact?
 class manila::backends (
   $enabled_backends    = undef,
   # DEPRECATED
