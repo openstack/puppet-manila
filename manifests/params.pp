@@ -9,8 +9,6 @@ class manila::params {
     $client_package     = 'python-manilaclient'
     $api_package        = 'manila-api'
     $api_service        = 'manila-api'
-    $backup_package     = 'manila-backup'
-    $backup_service     = 'manila-backup'
     $scheduler_package  = 'manila-scheduler'
     $scheduler_service  = 'manila-scheduler'
     $volume_package     = 'manila-volume'
