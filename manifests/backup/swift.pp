@@ -17,7 +17,7 @@
 #
 # == Class: manila::backup::swift
 #
-# Setup Manila to backup volumes into Swift
+# Setup Manila to backup shares into Swift
 #
 # === Parameters
 #
@@ -28,7 +28,7 @@
 #
 # [*backup_swift_container*]
 #   (optional) The default Swift container to use.
-#   Defaults to 'volumes_backup'
+#   Defaults to 'shares_backup'
 #
 # [*backup_swift_object_size*]
 #   (optional) The size in bytes of Swift backup objects.
@@ -46,7 +46,7 @@
 class manila::backup::swift (
   $backup_driver               = 'manila.backup.drivers.swift',
   $backup_swift_url            = 'http://localhost:8080/v1/AUTH_',
-  $backup_swift_container      = 'volumes_backup',
+  $backup_swift_container      = 'shares_backup',
   $backup_swift_object_size    = '52428800',
   $backup_swift_retry_attempts = '3',
   $backup_swift_retry_backoff  = '2'

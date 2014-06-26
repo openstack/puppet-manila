@@ -40,7 +40,7 @@ describe 'manila::backends' do
       before :each do
         params.merge!(
          :enabled_backends => ['lowcost', 'regular', 'premium'],
-         :default_volume_type => false
+         :default_share_type => false
         )
       end
 
@@ -49,16 +49,16 @@ describe 'manila::backends' do
       end
     end
 
-    context 'configure manila with a default volume type' do
+    context 'configure manila with a default share type' do
       before :each do
         params.merge!(
          :enabled_backends    => ['foo', 'bar'],
-         :default_volume_type => 'regular'
+         :default_share_type => 'regular'
         )
       end
 
-      it 'should fail to configure default volume type' do
-        expect { subject }.to raise_error(Puppet::Error, /The default_volume_type parameter is deprecated in this class, you should declare it in manila::api./)
+      it 'should fail to configure default share type' do
+        expect { subject }.to raise_error(Puppet::Error, /The default_share_type parameter is deprecated in this class, you should declare it in manila::api./)
       end
     end
 

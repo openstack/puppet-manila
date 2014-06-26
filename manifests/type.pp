@@ -35,14 +35,14 @@ define manila::type (
   $os_auth_url    = 'http://127.0.0.1:5000/v2.0/',
   ) {
 
-  $volume_name = $name
+  $share_name = $name
 
 # TODO: (xarses) This should be moved to a ruby provider so that among other
 #   reasons, the credential discovery magic can occur like in neutron.
 
-  exec {"manila type-create ${volume_name}":
-    command     => "manila type-create ${volume_name}",
-    unless      => "manila type-list | grep ${volume_name}",
+  exec {"manila type-create ${share_name}":
+    command     => "manila type-create ${share_name}",
+    unless      => "manila type-list | grep ${share_name}",
     environment => [
       "OS_TENANT_NAME=${os_tenant_name}",
       "OS_USERNAME=${os_username}",
@@ -54,9 +54,9 @@ define manila::type (
 
   if ($set_value and $set_key) {
 
-    Exec["manila type-create ${volume_name}"] ->
+    Exec["manila type-create ${share_name}"] ->
     manila::type_set { $set_value:
-      type            => $volume_name,
+      type            => $share_name,
       key             => $set_key,
       os_password     => $os_password,
       os_tenant_name  => $os_tenant_name,

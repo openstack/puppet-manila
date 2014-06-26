@@ -1,6 +1,6 @@
 # == define: manila::backend::netapp
 #
-# Configures Manila to use the NetApp unified volume driver
+# Configures Manila to use the NetApp unified share driver
 # Compatible for multiple backends
 #
 # === Parameters
@@ -25,9 +25,9 @@
 #   Defaults to 80
 #
 # [*netapp_size_multiplier*]
-#   (optional) The quantity to be multiplied by the requested volume size to
+#   (optional) The quantity to be multiplied by the requested share size to
 #   ensure enough space is available on the virtual storage server (Vserver) to
-#   fulfill the volume creation request.
+#   fulfill the share creation request.
 #   Defaults to 1.2
 #
 # [*netapp_storage_family*]
@@ -47,29 +47,29 @@
 #   Defaults to http
 #
 # [*netapp_vfiler*]
-#   (optional) The vFiler unit on which provisioning of block storage volumes
+#   (optional) The vFiler unit on which provisioning of block storage shares
 #   will be done. This parameter is only used by the driver when connecting to
 #   an instance with a storage family of Data ONTAP operating in 7-Mode and the
 #   storage protocol selected is iSCSI. Only use this parameter when utilizing
 #   the MultiStore feature on the NetApp storage system.
 #   Defaults to ''
 #
-# [*netapp_volume_list*]
+# [*netapp_share_list*]
 #   (optional) This parameter is only utilized when the storage protocol is
 #   configured to use iSCSI. This parameter is used to restrict provisioning to
-#   the specified controller volumes. Specify the value of this parameter to be
-#   a comma separated list of NetApp controller volume names to be used for
+#   the specified controller shares. Specify the value of this parameter to be
+#   a comma separated list of NetApp controller share names to be used for
 #   provisioning.
 #   Defaults to ''
 #
 # [*netapp_vserver*]
 #   (optional) This parameter specifies the virtual storage server (Vserver)
-#   name on the storage cluster on which provisioning of block storage volumes
+#   name on the storage cluster on which provisioning of block storage shares
 #   should occur. If using the NFS storage protocol, this parameter is mandatory
-#   for storage service catalog support (utilized by Manila volume type
+#   for storage service catalog support (utilized by Manila share type
 #   extra_specs support). If this parameter is specified, the exports belonging
 #   to the Vserver will only be used for provisioning in the future. Block
-#   storage volumes on exports not belonging to the Vserver specified by
+#   storage shares on exports not belonging to the Vserver specified by
 #   this parameter will continue to function normally.
 #   Defaults to ''
 #
@@ -101,7 +101,7 @@
 # [*netapp_copyoffload_tool_path*]
 #   (optional) This option specifies the path of the NetApp Copy Offload tool
 #   binary. Ensure that the binary has execute permissions set which allow the
-#   effective user of the manila-volume process to execute the file.
+#   effective user of the manila-share process to execute the file.
 #   Defaults to ''
 #
 # [*netapp_controller_ips*]
@@ -154,14 +154,14 @@ define manila::backend::netapp (
   $netapp_login,
   $netapp_password,
   $netapp_server_hostname,
-  $volume_backend_name          = $name,
+  $share_backend_name          = $name,
   $netapp_server_port           = '80',
   $netapp_size_multiplier       = '1.2',
   $netapp_storage_family        = 'ontap_cluster',
   $netapp_storage_protocol      = 'nfs',
   $netapp_transport_type        = 'http',
   $netapp_vfiler                = '',
-  $netapp_volume_list           = '',
+  $netapp_share_list           = '',
   $netapp_vserver               = '',
   $expiry_thres_minutes         = '720',
   $thres_avl_size_perc_start    = '20',
@@ -175,27 +175,27 @@ define manila::backend::netapp (
 ) {
 
   manila_config {
-    "${volume_backend_name}/volume_backend_name":          value => $volume_backend_name;
-    "${volume_backend_name}/volume_driver":                value => 'manila.volume.drivers.netapp.common.NetAppDriver';
-    "${volume_backend_name}/netapp_login":                 value => $netapp_login;
-    "${volume_backend_name}/netapp_password":              value => $netapp_password, secret => true;
-    "${volume_backend_name}/netapp_server_hostname":       value => $netapp_server_hostname;
-    "${volume_backend_name}/netapp_server_port":           value => $netapp_server_port;
-    "${volume_backend_name}/netapp_size_multiplier":       value => $netapp_size_multiplier;
-    "${volume_backend_name}/netapp_storage_family":        value => $netapp_storage_family;
-    "${volume_backend_name}/netapp_storage_protocol":      value => $netapp_storage_protocol;
-    "${volume_backend_name}/netapp_transport_type":        value => $netapp_transport_type;
-    "${volume_backend_name}/netapp_vfiler":                value => $netapp_vfiler;
-    "${volume_backend_name}/netapp_volume_list":           value => $netapp_volume_list;
-    "${volume_backend_name}/netapp_vserver":               value => $netapp_vserver;
-    "${volume_backend_name}/expiry_thres_minutes":         value => $expiry_thres_minutes;
-    "${volume_backend_name}/thres_avl_size_perc_start":    value => $thres_avl_size_perc_start;
-    "${volume_backend_name}/thres_avl_size_perc_stop":     value => $thres_avl_size_perc_stop;
-    "${volume_backend_name}/nfs_shares_config":            value => $nfs_shares_config;
-    "${volume_backend_name}/netapp_copyoffload_tool_path": value => $netapp_copyoffload_tool_path;
-    "${volume_backend_name}/netapp_controller_ips":        value => $netapp_controller_ips;
-    "${volume_backend_name}/netapp_sa_password":           value => $netapp_sa_password;
-    "${volume_backend_name}/netapp_storage_pools":         value => $netapp_storage_pools;
-    "${volume_backend_name}/netapp_webservice_path":       value => $netapp_webservice_path;
+    "${share_backend_name}/share_backend_name":          value => $share_backend_name;
+    "${share_backend_name}/share_driver":                value => 'manila.share.drivers.netapp.common.NetAppDriver';
+    "${share_backend_name}/netapp_login":                 value => $netapp_login;
+    "${share_backend_name}/netapp_password":              value => $netapp_password, secret => true;
+    "${share_backend_name}/netapp_server_hostname":       value => $netapp_server_hostname;
+    "${share_backend_name}/netapp_server_port":           value => $netapp_server_port;
+    "${share_backend_name}/netapp_size_multiplier":       value => $netapp_size_multiplier;
+    "${share_backend_name}/netapp_storage_family":        value => $netapp_storage_family;
+    "${share_backend_name}/netapp_storage_protocol":      value => $netapp_storage_protocol;
+    "${share_backend_name}/netapp_transport_type":        value => $netapp_transport_type;
+    "${share_backend_name}/netapp_vfiler":                value => $netapp_vfiler;
+    "${share_backend_name}/netapp_share_list":           value => $netapp_share_list;
+    "${share_backend_name}/netapp_vserver":               value => $netapp_vserver;
+    "${share_backend_name}/expiry_thres_minutes":         value => $expiry_thres_minutes;
+    "${share_backend_name}/thres_avl_size_perc_start":    value => $thres_avl_size_perc_start;
+    "${share_backend_name}/thres_avl_size_perc_stop":     value => $thres_avl_size_perc_stop;
+    "${share_backend_name}/nfs_shares_config":            value => $nfs_shares_config;
+    "${share_backend_name}/netapp_copyoffload_tool_path": value => $netapp_copyoffload_tool_path;
+    "${share_backend_name}/netapp_controller_ips":        value => $netapp_controller_ips;
+    "${share_backend_name}/netapp_sa_password":           value => $netapp_sa_password;
+    "${share_backend_name}/netapp_storage_pools":         value => $netapp_storage_pools;
+    "${share_backend_name}/netapp_webservice_path":       value => $netapp_webservice_path;
   }
 }

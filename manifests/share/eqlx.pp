@@ -1,4 +1,4 @@
-# == define: manila::volume::eqlx
+# == define: manila::share::eqlx
 #
 # Configure the Dell EqualLogic driver for manila.
 #
@@ -14,7 +14,7 @@
 #   (required) The password for the specified SSH account.
 #
 # [*san_thin_provision*]
-#   (optional) Whether or not to use thin provisioning for volumes.
+#   (optional) Whether or not to use thin provisioning for shares.
 #   Defaults to false
 #
 # [*eqlx_group_name*]
@@ -22,7 +22,7 @@
 #   Defaults to 'group-0'
 #
 # [*eqlx_pool*]
-#   (optional) The pool in which volumes will be created.
+#   (optional) The pool in which shares will be created.
 #   Defaults to 'default'
 #
 # [*eqlx_use_chap*]
@@ -45,7 +45,7 @@
 #   (optional) The maximum retry count for reconnection.
 #   Defaults to 5
 #
-class manila::volume::eqlx (
+class manila::share::eqlx (
   $san_ip,
   $san_login,
   $san_password,

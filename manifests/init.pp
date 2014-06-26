@@ -74,9 +74,9 @@
 #   Defaults to 'nova'
 #
 # [*default_availability_zone*]
-#   (optional) Default availability zone for new volumes.
+#   (optional) Default availability zone for new shares.
 #   If not set, the storage_availability_zone option value is used as
-#   the default for new volumes.
+#   the default for new shares.
 #   Defaults to false
 #
 # [sql_connection]

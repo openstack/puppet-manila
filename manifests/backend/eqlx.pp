@@ -14,10 +14,10 @@
 #   (required) The password for the specified SSH account.
 #
 # [*san_thin_provision*]
-#   (optional) Whether or not to use thin provisioning for volumes.
+#   (optional) Whether or not to use thin provisioning for shares.
 #   Defaults to false
 #
-# [*volume_backend_name*]
+# [*share_backend_name*]
 #   (optional) The backend name.
 #   Defaults to the name of the resource
 #
@@ -26,7 +26,7 @@
 #   Defaults to 'group-0'
 #
 # [*eqlx_pool*]
-#   (optional) The pool in which volumes will be created.
+#   (optional) The pool in which shares will be created.
 #   Defaults to 'default'
 #
 # [*eqlx_use_chap*]
@@ -54,7 +54,7 @@ define manila::backend::eqlx (
   $san_login,
   $san_password,
   $san_thin_provision   = false,
-  $volume_backend_name  = $name,
+  $share_backend_name  = $name,
   $eqlx_group_name      = 'group-0',
   $eqlx_pool            = 'default',
   $eqlx_use_chap        = false,
@@ -64,8 +64,8 @@ define manila::backend::eqlx (
   $eqlx_cli_max_retries = 5,
 ) {
   manila_config {
-    "${name}/volume_backend_name":  value => $volume_backend_name;
-    "${name}/volume_driver":        value => 'manila.volume.drivers.eqlx.DellEQLSanISCSIDriver';
+    "${name}/share_backend_name":  value => $share_backend_name;
+    "${name}/share_driver":        value => 'manila.share.drivers.eqlx.DellEQLSanISCSIDriver';
     "${name}/san_ip":               value => $san_ip;
     "${name}/san_login":            value => $san_login;
     "${name}/san_password":         value => $san_password;

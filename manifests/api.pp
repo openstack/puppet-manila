@@ -34,7 +34,7 @@
 # [*os_region_name*]
 #   (optional) Some operations require manila to make API requests
 #   to Nova. This sets the keystone region to be used for these
-#   requests. For example, boot-from-volume.
+#   requests. For example, boot-from-share.
 #   Defaults to undef.
 #
 # [*keystone_auth_admin_prefix*]
@@ -72,10 +72,10 @@
 #   (optional) Factory to use for ratelimiting
 #   Defaults to 'manila.api.v1.limits:RateLimitingMiddleware.factory'
 #
-# [*default_volume_type*]
-#   (optional) default volume type to use.
-#   This should contain the name of the default volume type to use.
-#   If not configured, it produces an error when creating a volume
+# [*default_share_type*]
+#   (optional) default share type to use.
+#   This should contain the name of the default share type to use.
+#   If not configured, it produces an error when creating a share
 #   without specifying a type.
 #   Defaults to 'false'.
 class manila::api (
@@ -95,7 +95,7 @@ class manila::api (
   $enabled                    = true,
   $manage_service             = true,
   $ratelimits                 = undef,
-  $default_volume_type        = false,
+  $default_share_type        = false,
   $ratelimits_factory =
     'manila.api.v1.limits:RateLimitingMiddleware.factory'
 ) {
@@ -145,7 +145,7 @@ class manila::api (
   }
 
   manila_config {
-    'DEFAULT/osapi_volume_listen': value => $bind_host
+    'DEFAULT/osapi_share_listen': value => $bind_host
   }
 
   if $os_region_name {
@@ -195,13 +195,13 @@ class manila::api (
     }
   }
 
-  if $default_volume_type {
+  if $default_share_type {
     manila_config {
-      'DEFAULT/default_volume_type': value => $default_volume_type;
+      'DEFAULT/default_share_type': value => $default_share_type;
     }
   } else {
     manila_config {
-      'DEFAULT/default_volume_type': ensure => absent;
+      'DEFAULT/default_share_type': ensure => absent;
     }
   }
 

@@ -1,6 +1,6 @@
-# == Class: manila::volume::netapp
+# == Class: manila::share::netapp
 #
-# Configures Manila to use the NetApp unified volume driver
+# Configures Manila to use the NetApp unified share driver
 #
 # === Parameters
 #
@@ -23,9 +23,9 @@
 #   Defaults to 80
 #
 # [*netapp_size_multiplier*]
-#   (optional) The quantity to be multiplied by the requested volume size to
+#   (optional) The quantity to be multiplied by the requested share size to
 #   ensure enough space is available on the virtual storage server (Vserver) to
-#   fulfill the volume creation request.
+#   fulfill the share creation request.
 #   Defaults to 1.2
 #
 # [*netapp_storage_family*]
@@ -45,29 +45,29 @@
 #   Defaults to http
 #
 # [*netapp_vfiler*]
-#   (optional) The vFiler unit on which provisioning of block storage volumes
+#   (optional) The vFiler unit on which provisioning of block storage shares
 #   will be done. This parameter is only used by the driver when connecting to
 #   an instance with a storage family of Data ONTAP operating in 7-Mode and the
 #   storage protocol selected is iSCSI. Only use this parameter when utilizing
 #   the MultiStore feature on the NetApp storage system.
 #   Defaults to ''
 #
-# [*netapp_volume_list*]
+# [*netapp_share_list*]
 #   (optional) This parameter is only utilized when the storage protocol is
 #   configured to use iSCSI. This parameter is used to restrict provisioning to
-#   the specified controller volumes. Specify the value of this parameter to be
-#   a comma separated list of NetApp controller volume names to be used for
+#   the specified controller shares. Specify the value of this parameter to be
+#   a comma separated list of NetApp controller share names to be used for
 #   provisioning.
 #   Defaults to ''
 #
 # [*netapp_vserver*]
 #   (optional) This parameter specifies the virtual storage server (Vserver)
-#   name on the storage cluster on which provisioning of block storage volumes
+#   name on the storage cluster on which provisioning of block storage shares
 #   should occur. If using the NFS storage protocol, this parameter is mandatory
-#   for storage service catalog support (utilized by Manila volume type
+#   for storage service catalog support (utilized by Manila share type
 #   extra_specs support). If this parameter is specified, the exports belonging
 #   to the Vserver will only be used for provisioning in the future. Block
-#   storage volumes on exports not belonging to the Vserver specified by
+#   storage shares on exports not belonging to the Vserver specified by
 #   this parameter will continue to function normally.
 #   Defaults to ''
 #
@@ -99,7 +99,7 @@
 # [*netapp_copyoffload_tool_path*]
 #   (optional) This option specifies the path of the NetApp Copy Offload tool
 #   binary. Ensure that the binary has execute permissions set which allow the
-#   effective user of the manila-volume process to execute the file.
+#   effective user of the manila-share process to execute the file.
 #   Defaults to ''
 #
 # [*netapp_controller_ips*]
@@ -131,7 +131,7 @@
 #
 # === Examples
 #
-#  class { 'manila::volume::netapp':
+#  class { 'manila::share::netapp':
 #    netapp_login => 'clusterAdmin',
 #    netapp_password => 'password',
 #    netapp_server_hostname => 'netapp.mycorp.com',
@@ -148,7 +148,7 @@
 #
 # Copyright 2013 NetApp, Inc.
 #
-class manila::volume::netapp (
+class manila::share::netapp (
   $netapp_login,
   $netapp_password,
   $netapp_server_hostname,
@@ -158,7 +158,7 @@ class manila::volume::netapp (
   $netapp_storage_protocol      = 'nfs',
   $netapp_transport_type        = 'http',
   $netapp_vfiler                = '',
-  $netapp_volume_list           = '',
+  $netapp_share_list           = '',
   $netapp_vserver               = '',
   $expiry_thres_minutes         = '720',
   $thres_avl_size_perc_start    = '20',
@@ -181,7 +181,7 @@ class manila::volume::netapp (
     netapp_storage_protocol      => $netapp_storage_protocol,
     netapp_transport_type        => $netapp_transport_type,
     netapp_vfiler                => $netapp_vfiler,
-    netapp_volume_list           => $netapp_volume_list,
+    netapp_share_list           => $netapp_share_list,
     netapp_vserver               => $netapp_vserver,
     expiry_thres_minutes         => $expiry_thres_minutes,
     thres_avl_size_perc_start    => $thres_avl_size_perc_start,

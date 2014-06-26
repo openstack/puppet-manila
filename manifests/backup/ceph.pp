@@ -17,7 +17,7 @@
 #
 # == Class: manila::backup::ceph
 #
-# Setup Manila to backup volumes into Ceph
+# Setup Manila to backup shares into Ceph
 #
 # === Parameters
 #

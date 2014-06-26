@@ -79,9 +79,9 @@ class { 'manila':
   verbose                 => true,
 }
 
-class { 'manila::volume': }
+class { 'manila::share': }
 
-class { 'manila::volume::iscsi':
+class { 'manila::share::iscsi':
   iscsi_ip_address => '10.0.0.2',
 }
 ```
@@ -96,7 +96,7 @@ class { 'manila':
   verbose                 => true,
 }
 
-class { 'manila::volume': }
+class { 'manila::share': }
 
 manila::backend::iscsi {'iscsi1':
   iscsi_ip_address => '10.0.0.2',
@@ -108,12 +108,12 @@ manila::backend::iscsi {'iscsi2':
 
 manila::backend::iscsi {'iscsi3':
   iscsi_ip_address    => '10.0.0.4',
-  volume_backend_name => 'iscsi',
+  share_backend_name => 'iscsi',
 }
 
 manila::backend::iscsi {'iscsi4':
   iscsi_ip_address    => '10.0.0.5',
-  volume_backend_name => 'iscsi',
+  share_backend_name => 'iscsi',
 }
 
 manila::backend::rbd {'rbd-images':
@@ -130,12 +130,12 @@ Manila::Type {
 }
 
 manila::type {'iscsi':
-  set_key   => 'volume_backend_name',
+  set_key   => 'share_backend_name',
   set_value => ['iscsi1', 'iscsi2', 'iscsi']
 }
 
 manila::type {'rbd':
-  set_key   => 'volume_backend_name',
+  set_key   => 'share_backend_name',
   set_value => 'rbd-images',
 }
 
@@ -161,7 +161,7 @@ manila is a combination of Puppet manifest and ruby code to delivery configurati
 Limitations
 ------------
 
-* Setup of storage nodes is limited to Linux and LVM, i.e. Puppet won't configure a Nexenta appliance but nova can be configured to use the Nexenta driver with Class['manila::volume::nexenta'].
+* Setup of storage nodes is limited to Linux and LVM, i.e. Puppet won't configure a Nexenta appliance but nova can be configured to use the Nexenta driver with Class['manila::share::nexenta'].
 
 * The Manila Openstack service depends on a sqlalchemy database. If you are using puppetlabs-mysql to achieve this, there is a parameter called mysql_module that can be used to swap between the two supported versions: 0.9 and 2.2. This is needed because the puppetlabs-mysql module was rewritten and the custom type names have changed between versions.
 Development
@@ -200,7 +200,7 @@ Release Notes
 
 **3.1.0**
 
-* Added default_volume_type as a Manila API parameter.
+* Added default_share_type as a Manila API parameter.
 * Added parameter for endpoint procols.
 * Deprecated glance_api_version.
 * Added support for VMDK.
@@ -213,7 +213,7 @@ Release Notes
 * Major release for OpenStack Havana.
 * Added support for SolidFire.
 * Added support for ceilometer.
-* Fixed bug for manila-volume requirement.
+* Fixed bug for manila-share requirement.
 
 **2.2.0**
 
@@ -242,7 +242,7 @@ Release Notes
 **2.0.0**
 
 * Upstream is now part of stackfoge.
-* Nexenta, NFS, and SAN support added as manila volume drivers.
+* Nexenta, NFS, and SAN support added as manila share drivers.
 * Postgres support added.
 * The Apache Qpid and the RabbitMQ message brokers available as RPC backends.
 * Configurability of scheduler_driver.

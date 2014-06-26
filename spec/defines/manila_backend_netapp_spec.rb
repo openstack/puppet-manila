@@ -6,7 +6,7 @@ describe 'manila::backend::netapp' do
 
   let :params do
     {
-      :volume_backend_name    => 'netapp-cdot-nfs',
+      :share_backend_name    => 'netapp-cdot-nfs',
       :netapp_login           => 'netapp',
       :netapp_password        => 'password',
       :netapp_server_hostname => '127.0.0.2',
@@ -21,7 +21,7 @@ describe 'manila::backend::netapp' do
       :netapp_storage_protocol      => 'nfs',
       :netapp_transport_type        => 'http',
       :netapp_vfiler                => '',
-      :netapp_volume_list           => '',
+      :netapp_share_list           => '',
       :netapp_vserver               => '',
       :expiry_thres_minutes         => '720',
       :thres_avl_size_perc_start    => '20',
@@ -35,21 +35,21 @@ describe 'manila::backend::netapp' do
     }
   end
 
-  shared_examples_for 'netapp volume driver' do
+  shared_examples_for 'netapp share driver' do
     let :params_hash do
       default_params.merge(params)
     end
 
-    it 'configures netapp volume driver' do
-      should contain_manila_config("#{params_hash[:volume_backend_name]}/volume_driver").with_value(
-        'manila.volume.drivers.netapp.common.NetAppDriver')
+    it 'configures netapp share driver' do
+      should contain_manila_config("#{params_hash[:share_backend_name]}/share_driver").with_value(
+        'manila.share.drivers.netapp.common.NetAppDriver')
       params_hash.each_pair do |config,value|
-        should contain_manila_config("#{params_hash[:volume_backend_name]}/#{config}").with_value( value )
+        should contain_manila_config("#{params_hash[:share_backend_name]}/#{config}").with_value( value )
       end
     end
 
     it 'marks netapp_password as secret' do
-      should contain_manila_config("#{params_hash[:volume_backend_name]}/netapp_password").with_secret( true )
+      should contain_manila_config("#{params_hash[:share_backend_name]}/netapp_password").with_secret( true )
     end
   end
 
@@ -59,11 +59,11 @@ describe 'manila::backend::netapp' do
       params = {}
     end
 
-    it_configures 'netapp volume driver'
+    it_configures 'netapp share driver'
   end
 
   context 'with provided parameters' do
-    it_configures 'netapp volume driver'
+    it_configures 'netapp share driver'
   end
 
 end

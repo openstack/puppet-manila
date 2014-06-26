@@ -1,23 +1,23 @@
 #
-# == Class: manila::volume::glusterfs
+# == Class: manila::share::glusterfs
 #
-# Configures Manila to use GlusterFS as a volume driver
+# Configures Manila to use GlusterFS as a share driver
 #
 # === Parameters
 #
 # [*glusterfs_shares*]
-#   (required) An array of GlusterFS volume locations.
-#   Must be an array even if there is only one volume.
+#   (required) An array of GlusterFS share locations.
+#   Must be an array even if there is only one share.
 #
 # [*glusterfs_disk_util*]
 #   Removed in Icehouse.
 #
-# [*glusterfs_sparsed_volumes*]
-#   (optional) Whether or not to use sparse (thin) volumes.
+# [*glusterfs_sparsed_shares*]
+#   (optional) Whether or not to use sparse (thin) shares.
 #   Defaults to undef which uses the driver's default of "true".
 #
 # [*glusterfs_mount_point_base*]
-#   (optional) Where to mount the Gluster volumes.
+#   (optional) Where to mount the Gluster shares.
 #   Defaults to undef which uses the driver's default of "$state_path/mnt".
 #
 # [*glusterfs_shares_config*]
@@ -26,14 +26,14 @@
 #
 # === Examples
 #
-# class { 'manila::volume::glusterfs':
-#   glusterfs_shares = ['192.168.1.1:/volumes'],
+# class { 'manila::share::glusterfs':
+#   glusterfs_shares = ['192.168.1.1:/shares'],
 # }
 #
-class manila::volume::glusterfs (
+class manila::share::glusterfs (
   $glusterfs_shares,
   $glusterfs_disk_util        = false,
-  $glusterfs_sparsed_volumes  = undef,
+  $glusterfs_sparsed_shares  = undef,
   $glusterfs_mount_point_base = undef,
   $glusterfs_shares_config    = '/etc/manila/shares.conf'
 ) {
@@ -41,7 +41,7 @@ class manila::volume::glusterfs (
   manila::backend::glusterfs { 'DEFAULT':
     glusterfs_shares           => $glusterfs_shares,
     glusterfs_disk_util        => $glusterfs_disk_util,
-    glusterfs_sparsed_volumes  => $glusterfs_sparsed_volumes,
+    glusterfs_sparsed_shares  => $glusterfs_sparsed_shares,
     glusterfs_mount_point_base => $glusterfs_mount_point_base,
     glusterfs_shares_config    => $glusterfs_shares_config,
   }

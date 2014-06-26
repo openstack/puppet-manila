@@ -11,12 +11,12 @@ class manila::params {
     $api_service        = 'manila-api'
     $scheduler_package  = 'manila-scheduler'
     $scheduler_service  = 'manila-scheduler'
-    $volume_package     = 'manila-volume'
-    $volume_service     = 'manila-volume'
+    $share_package     = 'manila-share'
+    $share_service     = 'manila-share'
     $db_sync_command    = 'manila-manage db sync'
     $tgt_package_name   = 'tgt'
     $tgt_service_name   = 'tgt'
-    $ceph_init_override = '/etc/init/manila-volume.override'
+    $ceph_init_override = '/etc/init/manila-share.override'
     $iscsi_helper       = 'tgtadm'
     $lio_package_name   = 'targetcli'
 
@@ -30,12 +30,12 @@ class manila::params {
     $backup_service     = 'openstack-manila-backup'
     $scheduler_package  = false
     $scheduler_service  = 'openstack-manila-scheduler'
-    $volume_package     = false
-    $volume_service     = 'openstack-manila-volume'
+    $share_package     = false
+    $share_service     = 'openstack-manila-share'
     $db_sync_command    = 'manila-manage db sync'
     $tgt_package_name   = 'scsi-target-utils'
     $tgt_service_name   = 'tgtd'
-    $ceph_init_override = '/etc/sysconfig/openstack-manila-volume'
+    $ceph_init_override = '/etc/sysconfig/openstack-manila-share'
     $lio_package_name   = 'targetcli'
 
     if $::operatingsystem == 'RedHat' and $::operatingsystemrelease >= 7 {

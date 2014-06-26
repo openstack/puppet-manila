@@ -1,6 +1,6 @@
 # == Class: manila::ceilometer
 #
-# Setup Manila to enable ceilometer can retrieve volume samples
+# Setup Manila to enable ceilometer can retrieve share samples
 # Ref: http://docs.openstack.org/developer/ceilometer/install/manual.html
 #
 # === Parameters

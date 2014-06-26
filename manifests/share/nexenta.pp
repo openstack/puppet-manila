@@ -1,6 +1,6 @@
-# == Class: manila::volume::nexenta
+# == Class: manila::share::nexenta
 #
-# Setups Manila with Nexenta volume driver.
+# Setups Manila with Nexenta share driver.
 #
 # === Parameters
 #
@@ -13,8 +13,8 @@
 # [*nexenta_host*]
 #   (required) IP address of Nexenta SA.
 #
-# [*nexenta_volume*]
-#   (optional) Pool on SA that will hold all volumes. Defaults to 'manila'.
+# [*nexenta_share*]
+#   (optional) Pool on SA that will hold all shares. Defaults to 'manila'.
 #
 # [*nexenta_target_prefix*]
 #   (optional) IQN prefix for iSCSI targets. Defaults to 'iqn:'.
@@ -23,16 +23,16 @@
 #   (optional) Prefix for iSCSI target groups on SA. Defaults to 'manila/'.
 #
 # [*nexenta_blocksize*]
-#   (optional) Block size for volumes. Defaults to '8k'.
+#   (optional) Block size for shares. Defaults to '8k'.
 #
 # [*nexenta_sparse*]
-#   (optional) Flag to create sparse volumes. Defaults to true.
+#   (optional) Flag to create sparse shares. Defaults to true.
 #
-class manila::volume::nexenta (
+class manila::share::nexenta (
   $nexenta_user,
   $nexenta_password,
   $nexenta_host,
-  $nexenta_volume               = 'manila',
+  $nexenta_share               = 'manila',
   $nexenta_target_prefix        = 'iqn:',
   $nexenta_target_group_prefix  = 'manila/',
   $nexenta_blocksize            = '8k',
@@ -43,7 +43,7 @@ class manila::volume::nexenta (
     nexenta_user                => $nexenta_user,
     nexenta_password            => $nexenta_password,
     nexenta_host                => $nexenta_host,
-    nexenta_volume              => $nexenta_volume,
+    nexenta_share              => $nexenta_share,
     nexenta_target_prefix       => $nexenta_target_prefix,
     nexenta_target_group_prefix => $nexenta_target_group_prefix,
     nexenta_blocksize           => $nexenta_blocksize,

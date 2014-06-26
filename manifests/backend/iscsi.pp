@@ -2,25 +2,25 @@
 # Define: manila::backend::iscsi
 # Parameters:
 #
-# [*volume_backend_name*]
-#   (optional) Allows for the volume_backend_name to be separate of $name.
+# [*share_backend_name*]
+#   (optional) Allows for the share_backend_name to be separate of $name.
 #   Defaults to: $name
 #
 #
 define manila::backend::iscsi (
   $iscsi_ip_address,
-  $volume_backend_name = $name,
-  $volume_group        = 'manila-volumes',
+  $share_backend_name = $name,
+  $share_group        = 'manila-shares',
   $iscsi_helper        = $::manila::params::iscsi_helper,
 ) {
 
   include manila::params
 
   manila_config {
-    "${name}/volume_backend_name":  value => $volume_backend_name;
+    "${name}/share_backend_name":  value => $share_backend_name;
     "${name}/iscsi_ip_address":     value => $iscsi_ip_address;
     "${name}/iscsi_helper":         value => $iscsi_helper;
-    "${name}/volume_group":         value => $volume_group;
+    "${name}/share_group":         value => $share_group;
   }
 
   case $iscsi_helper {
@@ -33,7 +33,7 @@ define manila::backend::iscsi (
       if($::osfamily == 'RedHat') {
         file_line { 'manila include':
           path    => '/etc/tgt/targets.conf',
-          line    => 'include /etc/manila/volumes/*',
+          line    => 'include /etc/manila/shares/*',
           match   => '#?include /',
           require => Package['tgt'],
           notify  => Service['tgtd'],
@@ -44,7 +44,7 @@ define manila::backend::iscsi (
         ensure  => running,
         name    => $::manila::params::tgt_service_name,
         enable  => true,
-        require => Class['manila::volume'],
+        require => Class['manila::share'],
       }
     }
 

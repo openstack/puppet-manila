@@ -24,10 +24,10 @@
 #   Should Manila v2 endpoint be configured? Optional. Defaults to 'true'.
 #
 # [*service_type*]
-#    Type of service. Optional. Defaults to 'volume'.
+#    Type of service. Optional. Defaults to 'share'.
 #
 # [*service_type_v2*]
-#    Type of API v2 service. Optional. Defaults to 'volume2'.
+#    Type of API v2 service. Optional. Defaults to 'share2'.
 #
 # [*public_address*]
 #    Public address for endpoint. Optional. Defaults to '127.0.0.1'.
@@ -41,7 +41,7 @@
 # [*port*]
 #    Port for endpoint. Optional. Defaults to '8776'.
 #
-# [*volume_version*]
+# [*share_version*]
 #    Manila API version. Optional. Defaults to 'v1'.
 #
 # [*region*]
@@ -67,13 +67,13 @@ class manila::keystone::auth (
   $tenant                = 'services',
   $configure_endpoint    = true,
   $configure_endpoint_v2 = true,
-  $service_type          = 'volume',
-  $service_type_v2       = 'volumev2',
+  $service_type          = 'share',
+  $service_type_v2       = 'sharev2',
   $public_address        = '127.0.0.1',
   $admin_address         = '127.0.0.1',
   $internal_address      = '127.0.0.1',
   $port                  = '8776',
-  $volume_version        = 'v1',
+  $share_version        = 'v1',
   $region                = 'RegionOne',
   $public_protocol       = 'http',
   $admin_protocol        = 'http',
@@ -106,9 +106,9 @@ class manila::keystone::auth (
   if $configure_endpoint {
     keystone_endpoint { "${region}/${auth_name}":
       ensure       => present,
-      public_url   => "${public_protocol}://${public_address}:${port}/${volume_version}/%(tenant_id)s",
-      admin_url    => "${admin_protocol}://${admin_address}:${port}/${volume_version}/%(tenant_id)s",
-      internal_url => "${internal_protocol}://${internal_address}:${port}/${volume_version}/%(tenant_id)s",
+      public_url   => "${public_protocol}://${public_address}:${port}/${share_version}/%(tenant_id)s",
+      admin_url    => "${admin_protocol}://${admin_address}:${port}/${share_version}/%(tenant_id)s",
+      internal_url => "${internal_protocol}://${internal_address}:${port}/${share_version}/%(tenant_id)s",
     }
   }
   if $configure_endpoint_v2 {

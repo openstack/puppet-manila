@@ -15,10 +15,10 @@ describe 'manila::backend::solidfire' do
     req_params
   end
 
-  describe 'solidfire volume driver' do
-    it 'configure solidfire volume driver' do
-      should contain_manila_config('solidfire/volume_driver').with_value(
-        'manila.volume.drivers.solidfire.SolidFire')
+  describe 'solidfire share driver' do
+    it 'configure solidfire share driver' do
+      should contain_manila_config('solidfire/share_driver').with_value(
+        'manila.share.drivers.solidfire.SolidFire')
       should contain_manila_config('solidfire/san_ip').with_value(
         '127.0.0.2')
       should contain_manila_config('solidfire/san_login').with_value(

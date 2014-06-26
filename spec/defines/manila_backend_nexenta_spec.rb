@@ -13,7 +13,7 @@ describe 'manila::backend::nexenta' do
   end
 
   let :default_params do
-    { :nexenta_volume              => 'manila',
+    { :nexenta_share              => 'manila',
       :nexenta_target_prefix       => 'iqn:',
       :nexenta_target_group_prefix => 'manila/',
       :nexenta_blocksize           => '8k',
@@ -30,7 +30,7 @@ describe 'manila::backend::nexenta' do
       default_params.merge(params)
     end
 
-    it 'configures nexenta volume driver' do
+    it 'configures nexenta share driver' do
       params_hash.each_pair do |config, value|
         should contain_manila_config("nexenta/#{config}").with_value(value)
       end

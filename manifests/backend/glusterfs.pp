@@ -1,27 +1,27 @@
 #
 # == Class: manila::backend::glusterfs
 #
-# Configures Manila to use GlusterFS as a volume driver
+# Configures Manila to use GlusterFS as a share driver
 #
 # === Parameters
 #
 # [*glusterfs_shares*]
-#   (required) An array of GlusterFS volume locations.
-#   Must be an array even if there is only one volume.
+#   (required) An array of GlusterFS share locations.
+#   Must be an array even if there is only one share.
 #
-# [*volume_backend_name*]
-#   (optional) Allows for the volume_backend_name to be separate of $name.
+# [*share_backend_name*]
+#   (optional) Allows for the share_backend_name to be separate of $name.
 #   Defaults to: $name
 #
 # [*glusterfs_disk_util*]
 #   Removed in Icehouse.
 #
-# [*glusterfs_sparsed_volumes*]
-#   (optional) Whether or not to use sparse (thin) volumes.
+# [*glusterfs_sparsed_shares*]
+#   (optional) Whether or not to use sparse (thin) shares.
 #   Defaults to undef which uses the driver's default of "true".
 #
 # [*glusterfs_mount_point_base*]
-#   (optional) Where to mount the Gluster volumes.
+#   (optional) Where to mount the Gluster shares.
 #   Defaults to undef which uses the driver's default of "$state_path/mnt".
 #
 # [*glusterfs_shares_config*]
@@ -31,14 +31,14 @@
 # === Examples
 #
 # manila::backend::glusterfs { 'myGluster':
-#   glusterfs_shares = ['192.168.1.1:/volumes'],
+#   glusterfs_shares = ['192.168.1.1:/shares'],
 # }
 #
 define manila::backend::glusterfs (
   $glusterfs_shares,
-  $volume_backend_name        = $name,
+  $share_backend_name        = $name,
   $glusterfs_disk_util        = false,
-  $glusterfs_sparsed_volumes  = undef,
+  $glusterfs_sparsed_shares  = undef,
   $glusterfs_mount_point_base = undef,
   $glusterfs_shares_config    = '/etc/manila/shares.conf'
 ) {
@@ -52,15 +52,15 @@ define manila::backend::glusterfs (
   file { $glusterfs_shares_config:
     content => "${content}\n",
     require => Package['manila'],
-    notify  => Service['manila-volume']
+    notify  => Service['manila-share']
   }
 
   manila_config {
-    "${name}/volume_backend_name":  value => $volume_backend_name;
-    "${name}/volume_driver":        value =>
-      'manila.volume.drivers.glusterfs.GlusterfsDriver';
+    "${name}/share_backend_name":  value => $share_backend_name;
+    "${name}/share_driver":        value =>
+      'manila.share.drivers.glusterfs.GlusterfsDriver';
     "${name}/glusterfs_shares_config":    value => $glusterfs_shares_config;
-    "${name}/glusterfs_sparsed_volumes":  value => $glusterfs_sparsed_volumes;
+    "${name}/glusterfs_sparsed_shares":  value => $glusterfs_sparsed_shares;
     "${name}/glusterfs_mount_point_base": value => $glusterfs_mount_point_base;
   }
 }

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'manila::volume::eqlx' do
+describe 'manila::share::eqlx' do
 
   let :params do {
       :san_ip               => '192.168.100.10',
@@ -17,13 +17,13 @@ describe 'manila::volume::eqlx' do
   }
   end
 
-  describe 'eqlx volume driver' do
-    it 'configures eqlx volume driver' do
+  describe 'eqlx share driver' do
+    it 'configures eqlx share driver' do
       should contain_manila_config(
-        "DEFAULT/volume_driver").with_value(
-        'manila.volume.drivers.eqlx.DellEQLSanISCSIDriver')
+        "DEFAULT/share_driver").with_value(
+        'manila.share.drivers.eqlx.DellEQLSanISCSIDriver')
       should contain_manila_config(
-        "DEFAULT/volume_backend_name").with_value('DEFAULT')
+        "DEFAULT/share_backend_name").with_value('DEFAULT')
 
       params.each_pair do |config,value|
         should contain_manila_config("DEFAULT/#{config}").with_value(value)

@@ -7,13 +7,13 @@
 # [*enabled_backends*]
 #   (required) a list of ini sections to enable.
 #     This should contain names used in ceph::backend::* resources.
-#     Example: ['volume1', 'volume2', 'sata3']
+#     Example: ['share1', 'share2', 'sata3']
 #
 # Author: Andrew Woodward <awoodward@mirantis.com>
 class manila::backends (
   $enabled_backends    = undef,
   # DEPRECATED
-  $default_volume_type = false
+  $default_share_type = false
   ){
 
   # Maybe this could be extented to dynamicly find the enabled names
@@ -21,8 +21,8 @@ class manila::backends (
     'DEFAULT/enabled_backends': value => join($enabled_backends, ',');
   }
 
-  if $default_volume_type {
-    fail('The default_volume_type parameter is deprecated in this class, you should declare it in manila::api.')
+  if $default_share_type {
+    fail('The default_share_type parameter is deprecated in this class, you should declare it in manila::api.')
   }
 
 }

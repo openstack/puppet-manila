@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe 'manila::volume::san' do
+describe 'manila::share::san' do
 
   let :params do
-    { :volume_driver   => 'manila.volume.san.SolarisISCSIDriver',
+    { :share_driver   => 'manila.share.san.SolarisISCSIDriver',
       :san_ip          => '127.0.0.1',
       :san_login       => 'cluster_operator',
       :san_password    => '007',
@@ -20,12 +20,12 @@ describe 'manila::volume::san' do
       :ssh_max_pool_conn  => 5 }
   end
 
-  shared_examples_for 'a san volume driver' do
+  shared_examples_for 'a san share driver' do
     let :params_hash do
       default_params.merge(params)
     end
 
-    it 'configures manila volume driver' do
+    it 'configures manila share driver' do
       params_hash.each_pair do |config,value|
         should contain_manila_config("DEFAULT/#{config}").with_value( value )
       end
@@ -34,6 +34,6 @@ describe 'manila::volume::san' do
 
 
   context 'with parameters' do
-    it_configures 'a san volume driver'
+    it_configures 'a san share driver'
   end
 end

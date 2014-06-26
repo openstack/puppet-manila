@@ -1,17 +1,17 @@
 # == Class: manila::backend::solidfire
 #
-# Configures Manila volume SolidFire driver.
-# Parameters are particular to each volume driver.
+# Configures Manila share SolidFire driver.
+# Parameters are particular to each share driver.
 #
 # === Parameters
 #
-# [*volume_backend_name*]
-#   (optional) Allows for the volume_backend_name to be separate of $name.
+# [*share_backend_name*]
+#   (optional) Allows for the share_backend_name to be separate of $name.
 #   Defaults to: $name
 #
-# [*volume_driver*]
-#   (optional) Setup manila-volume to use SolidFire volume driver.
-#   Defaults to 'manila.volume.drivers.solidfire.SolidFire'
+# [*share_driver*]
+#   (optional) Setup manila-share to use SolidFire share driver.
+#   Defaults to 'manila.share.drivers.solidfire.SolidFire'
 #
 # [*san_ip*]
 #   (required) IP address of SolidFire clusters MVIP.
@@ -23,11 +23,11 @@
 #   (required) Password for SolidFire admin account.
 #
 # [*sf_emulate_512*]
-#   (optional) Use 512 byte emulation for volumes.
+#   (optional) Use 512 byte emulation for shares.
 #   Defaults to True
 #
 # [*sf_allow_tenant_qos*]
-#   (optional) Allow tenants to specify QoS via volume metadata.
+#   (optional) Allow tenants to specify QoS via share metadata.
 #   Defaults to False
 #
 # [*sf_account_prefix*]
@@ -42,8 +42,8 @@ define manila::backend::solidfire(
   $san_ip,
   $san_login,
   $san_password,
-  $volume_backend_name = $name,
-  $volume_driver       = 'manila.volume.drivers.solidfire.SolidFire',
+  $share_backend_name = $name,
+  $share_driver       = 'manila.share.drivers.solidfire.SolidFire',
   $sf_emulate_512      = true,
   $sf_allow_tenant_qos = false,
   $sf_account_prefix   = '',
@@ -51,8 +51,8 @@ define manila::backend::solidfire(
 ) {
 
   manila_config {
-    "${name}/volume_backend_name": value => $volume_backend_name;
-    "${name}/volume_driver":       value => $volume_driver;
+    "${name}/share_backend_name": value => $share_backend_name;
+    "${name}/share_driver":       value => $share_driver;
     "${name}/san_ip":              value => $san_ip;
     "${name}/san_login":           value => $san_login;
     "${name}/san_password":        value => $san_password;

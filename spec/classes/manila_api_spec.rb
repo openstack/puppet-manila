@@ -23,10 +23,10 @@ describe 'manila::api' do
       should contain_manila_config('DEFAULT/auth_strategy').with(
        :value => 'keystone'
       )
-      should contain_manila_config('DEFAULT/osapi_volume_listen').with(
+      should contain_manila_config('DEFAULT/osapi_share_listen').with(
        :value => '0.0.0.0'
       )
-      should contain_manila_config('DEFAULT/default_volume_type').with(
+      should contain_manila_config('DEFAULT/default_share_type').with(
        :ensure => 'absent'
       )
       should contain_manila_api_paste_ini('filter:authtoken/service_protocol').with(
@@ -80,12 +80,12 @@ describe 'manila::api' do
     end
   end
 
-  describe 'with a default volume type' do
+  describe 'with a default share type' do
     let :params do
-      req_params.merge({'default_volume_type' => 'foo'})
+      req_params.merge({'default_share_type' => 'foo'})
     end
-    it 'should configure the default volume type for manila' do
-      should contain_manila_config('DEFAULT/default_volume_type').with(
+    it 'should configure the default share type for manila' do
+      should contain_manila_config('DEFAULT/default_share_type').with(
         :value => 'foo'
       )
     end
@@ -107,7 +107,7 @@ describe 'manila::api' do
       req_params.merge({'bind_host' => '192.168.1.3'})
     end
     it 'should configure manila api correctly' do
-      should contain_manila_config('DEFAULT/osapi_volume_listen').with(
+      should contain_manila_config('DEFAULT/osapi_share_listen').with(
        :value => '192.168.1.3'
       )
     end

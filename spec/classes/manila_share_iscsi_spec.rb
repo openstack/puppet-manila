@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'manila::volume::iscsi' do
+describe 'manila::share::iscsi' do
 
   let :req_params do {
     :iscsi_ip_address => '127.0.0.2',
@@ -24,8 +24,8 @@ describe 'manila::volume::iscsi' do
     it { should contain_manila_config('DEFAULT/iscsi_helper').with(
       :value => 'tgtadm'
     ) }
-    it { should contain_manila_config('DEFAULT/volume_group').with(
-      :value => 'manila-volumes'
+    it { should contain_manila_config('DEFAULT/share_group').with(
+      :value => 'manila-shares'
     ) }
 
   end
@@ -41,7 +41,7 @@ describe 'manila::volume::iscsi' do
     end
 
     it { should contain_file_line('manila include').with(
-      :line => 'include /etc/manila/volumes/*',
+      :line => 'include /etc/manila/shares/*',
       :path => '/etc/tgt/targets.conf'
     ) }
 

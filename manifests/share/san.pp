@@ -1,15 +1,15 @@
-# == Class: manila::volume::san
+# == Class: manila::share::san
 #
-# Configures Manila volume SAN driver.
-# Parameters are particular to each volume driver.
+# Configures Manila share SAN driver.
+# Parameters are particular to each share driver.
 #
 # === Parameters
 #
-# [*volume_driver*]
-#   (required) Setup manila-volume to use volume driver.
+# [*share_driver*]
+#   (required) Setup manila-share to use share driver.
 #
 # [*san_thin_provision*]
-#   (optional) Use thin provisioning for SAN volumes? Defaults to true.
+#   (optional) Use thin provisioning for SAN shares? Defaults to true.
 #
 # [*san_ip*]
 #   (optional) IP address of SAN controller.
@@ -24,14 +24,14 @@
 #   (optional) Filename of private key to use for SSH authentication.
 #
 # [*san_clustername*]
-#   (optional) Cluster name to use for creating volumes.
+#   (optional) Cluster name to use for creating shares.
 #
 # [*san_ssh_port*]
 #   (optional) SSH port to use with SAN. Defaults to 22.
 #
 # [*san_is_local*]
 #   (optional) Execute commands locally instead of over SSH
-#   use if the volume service is running on the SAN device.
+#   use if the share service is running on the SAN device.
 #
 # [*ssh_conn_timeout*]
 #   (optional) SSH connection timeout in seconds. Defaults to 30.
@@ -42,8 +42,8 @@
 # [*ssh_min_pool_conn*]
 #   (optional) Maximum ssh connections in the pool.
 #
-class manila::volume::san (
-  $volume_driver,
+class manila::share::san (
+  $share_driver,
   $san_thin_provision = true,
   $san_ip             = undef,
   $san_login          = 'admin',
@@ -58,7 +58,7 @@ class manila::volume::san (
 ) {
 
   manila::backend::san { 'DEFAULT':
-    volume_driver      => $volume_driver,
+    share_driver      => $share_driver,
     san_thin_provision => $san_thin_provision,
     san_ip             => $san_ip,
     san_login          => $san_login,

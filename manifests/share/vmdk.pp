@@ -1,4 +1,4 @@
-# == define: manila::volume::vmdk
+# == define: manila::share::vmdk
 #
 # Configure the VMware VMDK driver for manila.
 #
@@ -32,7 +32,7 @@
 #   Defaults to 5.
 #
 # [*image_transfer_timeout_secs*]
-#   (optional) The timeout in seconds for VMDK volume transfer between Manila and Glance.
+#   (optional) The timeout in seconds for VMDK share transfer between Manila and Glance.
 #   Defaults to 7200.
 #
 # [*wsdl_location*]
@@ -41,16 +41,16 @@
 #   default location for bug work-arounds.
 #   Defaults to None.
 #
-# [*volume_folder*]
-#   (optional) The name for the folder in the VC datacenter that will contain manila volumes.
-#   Defaults to 'manila-volumes'.
+# [*share_folder*]
+#   (optional) The name for the folder in the VC datacenter that will contain manila shares.
+#   Defaults to 'manila-shares'.
 #
 
-class manila::volume::vmdk(
+class manila::share::vmdk(
   $host_ip,
   $host_username,
   $host_password,
-  $volume_folder               = 'manila-volumes',
+  $share_folder               = 'manila-shares',
   $api_retry_count             = 10,
   $max_object_retrieval        = 100,
   $task_poll_interval          = 5,
@@ -62,7 +62,7 @@ class manila::volume::vmdk(
     host_ip                     => $host_ip,
     host_username               => $host_username,
     host_password               => $host_password,
-    volume_folder               => $volume_folder,
+    share_folder               => $share_folder,
     api_retry_count             => $api_retry_count,
     max_object_retrieval        => $max_object_retrieval,
     task_poll_interval          => $task_poll_interval,

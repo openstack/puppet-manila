@@ -1,13 +1,13 @@
-# == Class: manila::volume::solidfire
+# == Class: manila::share::solidfire
 #
-# Configures Manila volume SolidFire driver.
-# Parameters are particular to each volume driver.
+# Configures Manila share SolidFire driver.
+# Parameters are particular to each share driver.
 #
 # === Parameters
 #
-# [*volume_driver*]
-#   (optional) Setup manila-volume to use SolidFire volume driver.
-#   Defaults to 'manila.volume.drivers.solidfire.SolidFire'
+# [*share_driver*]
+#   (optional) Setup manila-share to use SolidFire share driver.
+#   Defaults to 'manila.share.drivers.solidfire.SolidFire'
 #
 # [*san_ip*]
 #   (required) IP address of SolidFire clusters MVIP.
@@ -19,11 +19,11 @@
 #   (required) Password for SolidFire admin account.
 #
 # [*sf_emulate_512*]
-#   (optional) Use 512 byte emulation for volumes.
+#   (optional) Use 512 byte emulation for shares.
 #   Defaults to True
 #
 # [*sf_allow_tenant_qos*]
-#   (optional) Allow tenants to specify QoS via volume metadata.
+#   (optional) Allow tenants to specify QoS via share metadata.
 #   Defaults to False
 #
 # [*sf_account_prefix*]
@@ -34,11 +34,11 @@
 #   (optional) Port ID to use to connect to SolidFire API.
 #   Defaults to 443
 #
-class manila::volume::solidfire(
+class manila::share::solidfire(
   $san_ip,
   $san_login,
   $san_password,
-  $volume_driver       = 'manila.volume.drivers.solidfire.SolidFire',
+  $share_driver       = 'manila.share.drivers.solidfire.SolidFire',
   $sf_emulate_512      = true,
   $sf_allow_tenant_qos = false,
   $sf_account_prefix   = '',
@@ -49,7 +49,7 @@ class manila::volume::solidfire(
     san_ip              => $san_ip,
     san_login           => $san_login,
     san_password        => $san_password,
-    volume_driver       => $volume_driver,
+    share_driver       => $share_driver,
     sf_emulate_512      => $sf_emulate_512,
     sf_allow_tenant_qos => $sf_allow_tenant_qos,
     sf_account_prefix   => $sf_account_prefix,

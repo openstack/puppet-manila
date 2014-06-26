@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'manila::volume::netapp' do
+describe 'manila::share::netapp' do
 
   let :params do
     {
@@ -18,7 +18,7 @@ describe 'manila::volume::netapp' do
       :netapp_storage_protocol      => 'nfs',
       :netapp_transport_type        => 'http',
       :netapp_vfiler                => '',
-      :netapp_volume_list           => '',
+      :netapp_share_list           => '',
       :netapp_vserver               => '',
       :expiry_thres_minutes         => '720',
       :thres_avl_size_perc_start    => '20',
@@ -33,14 +33,14 @@ describe 'manila::volume::netapp' do
   end
 
 
-  shared_examples_for 'netapp volume driver' do
+  shared_examples_for 'netapp share driver' do
     let :params_hash do
       default_params.merge(params)
     end
 
-    it 'configures netapp volume driver' do
-      should contain_manila_config('DEFAULT/volume_driver').with_value(
-        'manila.volume.drivers.netapp.common.NetAppDriver')
+    it 'configures netapp share driver' do
+      should contain_manila_config('DEFAULT/share_driver').with_value(
+        'manila.share.drivers.netapp.common.NetAppDriver')
       params_hash.each_pair do |config,value|
         should contain_manila_config("DEFAULT/#{config}").with_value( value )
       end
@@ -57,10 +57,10 @@ describe 'manila::volume::netapp' do
       params = {}
     end
 
-    it_configures 'netapp volume driver'
+    it_configures 'netapp share driver'
   end
 
   context 'with provided parameters' do
-    it_configures 'netapp volume driver'
+    it_configures 'netapp share driver'
   end
 end

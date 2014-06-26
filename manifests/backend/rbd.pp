@@ -11,30 +11,30 @@
 # [*rbd_user*]
 #   (required) A required parameter to configure OS init scripts and cephx.
 #
-# [*volume_backend_name*]
-#   (optional) Allows for the volume_backend_name to be separate of $name.
+# [*share_backend_name*]
+#   (optional) Allows for the share_backend_name to be separate of $name.
 #   Defaults to: $name
 #
 # [*rbd_ceph_conf*]
 #   (optional) Path to the ceph configuration file to use
 #   Defaults to '/etc/ceph/ceph.conf'
 #
-# [*rbd_flatten_volume_from_snapshot*]
-#   (optional) Enable flatten volumes created from snapshots.
+# [*rbd_flatten_share_from_snapshot*]
+#   (optional) Enable flatten shares created from snapshots.
 #   Defaults to false
 #
 # [*rbd_secret_uuid*]
 #   (optional) A required parameter to use cephx.
 #   Defaults to false
 #
-# [*volume_tmp_dir*]
-#   (optional) Location to store temporary image files if the volume
-#   driver does not write them directly to the volume
+# [*share_tmp_dir*]
+#   (optional) Location to store temporary image files if the share
+#   driver does not write them directly to the share
 #   Defaults to false
 #
 # [*rbd_max_clone_depth*]
 #   (optional) Maximum number of nested clones that can be taken of a
-#   volume before enforcing a flatten prior to next clone.
+#   share before enforcing a flatten prior to next clone.
 #   A value of zero disables cloning
 #   Defaults to '5'
 #
@@ -47,11 +47,11 @@
 define manila::backend::rbd (
   $rbd_pool,
   $rbd_user,
-  $volume_backend_name              = $name,
+  $share_backend_name              = $name,
   $rbd_ceph_conf                    = '/etc/ceph/ceph.conf',
-  $rbd_flatten_volume_from_snapshot = false,
+  $rbd_flatten_share_from_snapshot = false,
   $rbd_secret_uuid                  = false,
-  $volume_tmp_dir                   = false,
+  $share_tmp_dir                   = false,
   $rbd_max_clone_depth              = '5',
   # DEPRECATED PARAMETERS
   $glance_api_version               = undef,
@@ -64,13 +64,13 @@ define manila::backend::rbd (
   }
 
   manila_config {
-    "${name}/volume_backend_name":              value => $volume_backend_name;
-    "${name}/volume_driver":                    value => 'manila.volume.drivers.rbd.RBDDriver';
+    "${name}/share_backend_name":              value => $share_backend_name;
+    "${name}/share_driver":                    value => 'manila.share.drivers.rbd.RBDDriver';
     "${name}/rbd_ceph_conf":                    value => $rbd_ceph_conf;
     "${name}/rbd_user":                         value => $rbd_user;
     "${name}/rbd_pool":                         value => $rbd_pool;
     "${name}/rbd_max_clone_depth":              value => $rbd_max_clone_depth;
-    "${name}/rbd_flatten_volume_from_snapshot": value => $rbd_flatten_volume_from_snapshot;
+    "${name}/rbd_flatten_share_from_snapshot": value => $rbd_flatten_share_from_snapshot;
   }
 
   if $rbd_secret_uuid {
@@ -79,10 +79,10 @@ define manila::backend::rbd (
     manila_config {"${name}/rbd_secret_uuid": ensure => absent;}
   }
 
-  if $volume_tmp_dir {
-    manila_config {"${name}/volume_tmp_dir": value => $volume_tmp_dir;}
+  if $share_tmp_dir {
+    manila_config {"${name}/share_tmp_dir": value => $share_tmp_dir;}
   } else {
-    manila_config {"${name}/volume_tmp_dir": ensure => absent;}
+    manila_config {"${name}/share_tmp_dir": ensure => absent;}
   }
 
   case $::osfamily {
@@ -103,7 +103,7 @@ define manila::backend::rbd (
   ensure_resource('file_line', 'set initscript env', {
     line   => $override_line,
     path   => $::manila::params::ceph_init_override,
-    notify => Service['manila-volume']
+    notify => Service['manila-share']
   })
 
 }

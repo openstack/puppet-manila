@@ -26,12 +26,12 @@ describe 'manila::keystone::auth' do
       )
       should contain_keystone_service('manila').with(
         :ensure      => 'present',
-        :type        => 'volume',
+        :type        => 'share',
         :description => 'Manila Service'
       )
       should contain_keystone_service('manilav2').with(
         :ensure      => 'present',
-        :type        => 'volumev2',
+        :type        => 'sharev2',
         :description => 'Manila Service v2'
       )
 
@@ -62,7 +62,7 @@ describe 'manila::keystone::auth' do
         :admin_protocol    => 'https',
         :internal_protocol => 'https',
         :public_protocol   => 'https',
-        :volume_version    => 'v42'
+        :share_version    => 'v42'
       )
      end
 

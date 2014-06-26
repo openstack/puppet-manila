@@ -1,6 +1,6 @@
 # ==Define: manila::type_set
 #
-# Assigns keys after the volume type is set.
+# Assigns keys after the share type is set.
 #
 # === Parameters
 #

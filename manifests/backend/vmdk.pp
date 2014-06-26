@@ -13,8 +13,8 @@
 # [*host_password*]
 #   The password for connection to VMware vCenter server.
 #
-# [*volume_backend_name*]
-#   Used to set the volume_backend_name in multiple backends.
+# [*share_backend_name*]
+#   Used to set the share_backend_name in multiple backends.
 #   Defaults to $name as passed in the title.
 #
 # [*api_retry_count*]
@@ -36,7 +36,7 @@
 #   Defaults to 5.
 #
 # [*image_transfer_timeout_secs*]
-#   (optional) The timeout in seconds for VMDK volume transfer between Manila and Glance.
+#   (optional) The timeout in seconds for VMDK share transfer between Manila and Glance.
 #   Defaults to 7200.
 #
 # [*wsdl_location*]
@@ -45,16 +45,16 @@
 #   default location for bug work-arounds.
 #   Defaults to None.
 #
-# [*volume_folder*]
-#   (optional) The name for the folder in the VC datacenter that will contain manila volumes.
-#   Defaults to 'manila-volumes'.
+# [*share_folder*]
+#   (optional) The name for the folder in the VC datacenter that will contain manila shares.
+#   Defaults to 'manila-shares'.
 #
 define manila::backend::vmdk (
   $host_ip,
   $host_username,
   $host_password,
-  $volume_backend_name         = $name,
-  $volume_folder               = 'manila-volumes',
+  $share_backend_name         = $name,
+  $share_folder               = 'manila-shares',
   $api_retry_count             = 10,
   $max_object_retrieval        = 100,
   $task_poll_interval          = 5,
@@ -63,12 +63,12 @@ define manila::backend::vmdk (
   ) {
 
   manila_config {
-    "${name}/volume_backend_name":                value => $volume_backend_name;
-    "${name}/volume_driver":                      value => 'manila.volume.drivers.vmware.vmdk.VMwareVcVmdkDriver';
+    "${name}/share_backend_name":                value => $share_backend_name;
+    "${name}/share_driver":                      value => 'manila.share.drivers.vmware.vmdk.VMwareVcVmdkDriver';
     "${name}/vmware_host_ip":                     value => $host_ip;
     "${name}/vmware_host_username":               value => $host_username;
     "${name}/vmware_host_password":               value => $host_password;
-    "${name}/vmware_volume_folder":               value => $volume_folder;
+    "${name}/vmware_share_folder":               value => $share_folder;
     "${name}/vmware_api_retry_count":             value => $api_retry_count;
     "${name}/vmware_max_object_retrieval":        value => $max_object_retrieval;
     "${name}/vmware_task_poll_interval":          value => $task_poll_interval;
