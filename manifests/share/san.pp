@@ -58,7 +58,7 @@ class manila::share::san (
 ) {
 
   manila::backend::san { 'DEFAULT':
-    share_driver      => $share_driver,
+    share_driver       => $share_driver,
     san_thin_provision => $san_thin_provision,
     san_ip             => $san_ip,
     san_login          => $san_login,

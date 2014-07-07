@@ -73,7 +73,7 @@ class manila::keystone::auth (
   $admin_address         = '127.0.0.1',
   $internal_address      = '127.0.0.1',
   $port                  = '8776',
-  $share_version        = 'v1',
+  $share_version         = 'v1',
   $region                = 'RegionOne',
   $public_protocol       = 'http',
   $admin_protocol        = 'http',

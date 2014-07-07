@@ -49,7 +49,7 @@ class manila::share::solidfire(
     san_ip              => $san_ip,
     san_login           => $san_login,
     san_password        => $san_password,
-    share_driver       => $share_driver,
+    share_driver        => $share_driver,
     sf_emulate_512      => $sf_emulate_512,
     sf_allow_tenant_qos => $sf_allow_tenant_qos,
     sf_account_prefix   => $sf_account_prefix,

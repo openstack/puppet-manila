@@ -33,7 +33,7 @@
 class manila::share::glusterfs (
   $glusterfs_shares,
   $glusterfs_disk_util        = false,
-  $glusterfs_sparsed_shares  = undef,
+  $glusterfs_sparsed_shares   = undef,
   $glusterfs_mount_point_base = undef,
   $glusterfs_shares_config    = '/etc/manila/shares.conf'
 ) {
@@ -41,7 +41,7 @@ class manila::share::glusterfs (
   manila::backend::glusterfs { 'DEFAULT':
     glusterfs_shares           => $glusterfs_shares,
     glusterfs_disk_util        => $glusterfs_disk_util,
-    glusterfs_sparsed_shares  => $glusterfs_sparsed_shares,
+    glusterfs_sparsed_shares   => $glusterfs_sparsed_shares,
     glusterfs_mount_point_base => $glusterfs_mount_point_base,
     glusterfs_shares_config    => $glusterfs_shares_config,
   }

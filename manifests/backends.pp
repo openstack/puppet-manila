@@ -11,18 +11,12 @@
 #
 # Author: Andrew Woodward <awoodward@mirantis.com>
 class manila::backends (
-  $enabled_backends    = undef,
-  # DEPRECATED
-  $default_share_type = false
+  $enabled_backends    = undef
   ){
 
   # Maybe this could be extented to dynamicly find the enabled names
   manila_config {
     'DEFAULT/enabled_backends': value => join($enabled_backends, ',');
-  }
-
-  if $default_share_type {
-    fail('The default_share_type parameter is deprecated in this class, you should declare it in manila::api.')
   }
 
 }

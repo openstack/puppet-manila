@@ -14,7 +14,7 @@ class manila::share::nfs (
     nfs_servers          => $nfs_servers,
     nfs_mount_options    => $nfs_mount_options,
     nfs_disk_util        => $nfs_disk_util,
-    nfs_sparsed_shares  => $nfs_sparsed_shares,
+    nfs_sparsed_shares   => $nfs_sparsed_shares,
     nfs_mount_point_base => $nfs_mount_point_base,
     nfs_shares_config    => $nfs_shares_config,
     nfs_used_ratio       => $nfs_used_ratio,

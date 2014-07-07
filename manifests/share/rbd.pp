@@ -43,9 +43,9 @@ class manila::share::rbd (
   $rbd_pool,
   $rbd_user,
   $rbd_ceph_conf                    = '/etc/ceph/ceph.conf',
-  $rbd_flatten_share_from_snapshot = false,
+  $rbd_flatten_share_from_snapshot  = false,
   $rbd_secret_uuid                  = false,
-  $share_tmp_dir                   = false,
+  $share_tmp_dir                    = false,
   $rbd_max_clone_depth              = '5',
   # DEPRECATED PARAMETERS
   $glance_api_version               = undef,
@@ -55,9 +55,9 @@ class manila::share::rbd (
     rbd_pool                         => $rbd_pool,
     rbd_user                         => $rbd_user,
     rbd_ceph_conf                    => $rbd_ceph_conf,
-    rbd_flatten_share_from_snapshot => $rbd_flatten_share_from_snapshot,
+    rbd_flatten_share_from_snapshot  => $rbd_flatten_share_from_snapshot,
     rbd_secret_uuid                  => $rbd_secret_uuid,
-    share_tmp_dir                   => $share_tmp_dir,
+    share_tmp_dir                    => $share_tmp_dir,
     rbd_max_clone_depth              => $rbd_max_clone_depth,
     glance_api_version               => $glance_api_version,
   }
