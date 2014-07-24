@@ -79,11 +79,6 @@
 #   the default for new shares.
 #   Defaults to false
 #
-# [sql_connection]
-#   DEPRECATED
-# [sql_idle_timeout]
-#   DEPRECATED
-#
 class manila (
   $database_connection         = 'sqlite:////var/lib/manila/manila.sqlite',
   $database_idle_timeout       = '3600',
@@ -270,9 +265,11 @@ class manila (
     $default_availability_zone_real = $default_availability_zone
   }
 
+  # NTAP: in cinder, sql_connection is deprecated. If this is the case in manila,
+  # add back the deprecated parameters, etc. from cinder's init.pp
   manila_config {
-    'database/connection':               value => $database_connection_real, secret => true;
-    'database/idle_timeout':             value => $database_idle_timeout_real;
+    'DEFAULT/sql_connection':            value => $database_connection, secret => true;
+    'DEFAULT/sql_idle_timeout':          value => $database_idle_timeout;
     'DEFAULT/verbose':                   value => $verbose;
     'DEFAULT/debug':                     value => $debug;
     'DEFAULT/api_paste_config':          value => $api_paste_config;
@@ -281,19 +278,17 @@ class manila (
     'DEFAULT/default_availability_zone': value => $default_availability_zone_real;
   }
 
-  if($database_connection_real =~ /mysql:\/\/\S+:\S+@\S+\/\S+/) {
-    if ($mysql_module >= 2.2) {
-      require 'mysql::bindings'
-      require 'mysql::bindings::python'
-    } else {
-      require 'mysql::python'
-    }
-  } elsif($database_connection_real =~ /postgresql:\/\/\S+:\S+@\S+\/\S+/) {
-
-  } elsif($database_connection_real =~ /sqlite:\/\//) {
-
-  } else {
-    fail("Invalid db connection ${database_connection_real}")
+  #NTAP: removed postgresql and sqlite flags here
+  if($database_connection =~ /mysql:\/\/\S+:\S+@\S+\/\S+/) {
+      if ($mysql_module >= 2.2) {
+          require 'mysql::bindings'
+          require 'mysql::bindings::python'
+      } else {
+          require 'mysql::python'
+      }
+  }
+  else {
+      fail("Invalid db connection ${database_connection_real}")
   }
 
   if $log_dir {

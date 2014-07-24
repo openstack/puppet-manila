@@ -36,7 +36,7 @@ class manila::params {
     $ceph_init_override = '/etc/sysconfig/openstack-manila-share'
     $lio_package_name   = 'targetcli'
 
-    if $::operatingsystem == 'RedHat' and $::operatingsystemrelease >= 7 {
+    if $::operatingsystem == 'RedHat' and $::operatingsystemmajrelease >= 7 {
       $iscsi_helper = 'lioadm'
     } else {
       $iscsi_helper = 'tgtadm'

@@ -62,17 +62,14 @@
 class manila::keystone::auth (
   $password,
   $auth_name             = 'manila',
-  $auth_name_v2          = 'manilav2',
   $email                 = 'manila@localhost',
   $tenant                = 'services',
   $configure_endpoint    = true,
-  $configure_endpoint_v2 = true,
   $service_type          = 'share',
-  $service_type_v2       = 'sharev2',
   $public_address        = '127.0.0.1',
   $admin_address         = '127.0.0.1',
   $internal_address      = '127.0.0.1',
-  $port                  = '8776',
+  $port                  = '8786',
   $share_version         = 'v1',
   $region                = 'RegionOne',
   $public_protocol       = 'http',
@@ -97,11 +94,6 @@ class manila::keystone::auth (
     type        => $service_type,
     description => 'Manila Service',
   }
-  keystone_service { $auth_name_v2:
-    ensure      => present,
-    type        => $service_type_v2,
-    description => 'Manila Service v2',
-  }
 
   if $configure_endpoint {
     keystone_endpoint { "${region}/${auth_name}":
@@ -109,14 +101,6 @@ class manila::keystone::auth (
       public_url   => "${public_protocol}://${public_address}:${port}/${share_version}/%(tenant_id)s",
       admin_url    => "${admin_protocol}://${admin_address}:${port}/${share_version}/%(tenant_id)s",
       internal_url => "${internal_protocol}://${internal_address}:${port}/${share_version}/%(tenant_id)s",
-    }
-  }
-  if $configure_endpoint_v2 {
-    keystone_endpoint { "${region}/${auth_name_v2}":
-      ensure       => present,
-      public_url   => "${public_protocol}://${public_address}:${port}/v2/%(tenant_id)s",
-      admin_url    => "http://${admin_address}:${port}/v2/%(tenant_id)s",
-      internal_url => "http://${internal_address}:${port}/v2/%(tenant_id)s",
     }
   }
 }

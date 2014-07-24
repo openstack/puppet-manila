@@ -1,6 +1,6 @@
 # ==define manila::backend::nfs
 #
-# ===Paramiters
+# ===Parameters
 # [*share_backend_name*]
 #   (optional) Allows for the share_backend_name to be separate of $name.
 #   Defaults to: $name
