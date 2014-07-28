@@ -79,6 +79,10 @@
 #   the default for new shares.
 #   Defaults to false
 #
+# [*rootwrap_config*]
+# (optional) Path to the rootwrap configuration file to use for
+# running commands as root
+#
 class manila (
   $database_connection         = 'sqlite:////var/lib/manila/manila.sqlite',
   $database_idle_timeout       = '3600',
@@ -124,6 +128,7 @@ class manila (
   $mysql_module                = '0.9',
   $storage_availability_zone   = 'nova',
   $default_availability_zone   = false,
+  $rootwrap_config             = "/etc/manila/rootwrap.conf",
 ) {
 
   include manila::params
@@ -191,6 +196,7 @@ class manila (
       'DEFAULT/rabbit_use_ssl':      value => $rabbit_use_ssl;
       'DEFAULT/control_exchange':    value => $control_exchange;
       'DEFAULT/amqp_durable_queues': value => $amqp_durable_queues;
+      'DEFAULT/rootwrap_config':     value => $rootwrap_config;
     }
 
     if $rabbit_hosts {
