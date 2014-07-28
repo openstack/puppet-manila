@@ -13,6 +13,7 @@ class manila::share::generic (
   $service_network_name = 'manila_service_network',
   $service_network_cidr = '10.254.0.0/16',
   $interface_driver = 'manila.network.linux.interface.OVSInterfaceDriver',
+  $os_region_name = undef,
 ) {
 
   manila::backend::generic { 'DEFAULT':
@@ -29,5 +30,6 @@ class manila::share::generic (
     service_network_name              => $service_network_name,
     service_network_cidr              => $service_network_cidr,
     interface_driver                  => $interface_driver,
+    os_region_name                    => $os_region_name,
   }
 }
