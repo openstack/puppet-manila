@@ -74,6 +74,11 @@
 #  }
 #
 #NTAP: are these intented right?
+
+#NTAP: What are the right packages?
+# This driver supports NFS and CIFS
+
+
 define manila::backend::netapp (
   $share_backend_name = $name,
   $netapp_nas_storage_family = 'ontap_cluster',
@@ -101,6 +106,7 @@ define manila::backend::netapp (
   }
 
   manila_config {
+    "DEFAULT/enabled_share_backends":                             value => $share_backend_name;
     "${share_backend_name}/share_backend_name":                   value => $share_backend_name;
     "${share_backend_name}/share_driver":                         value => $netapp_share_driver;
     "${share_backend_name}/netapp_nas_transport_type":		        value => $netapp_nas_transport_type;
@@ -116,4 +122,6 @@ define manila::backend::netapp (
     "${share_backend_name}/netapp_root_volume_aggregate":			    value => $netapp_root_volume_aggregate;
     "${share_backend_name}/netapp_root_volume_name":			        value => $netapp_root_volume_name;
   }
+
+  package { 'nfs-utils': ensure => present }
 }

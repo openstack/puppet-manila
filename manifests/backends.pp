@@ -16,7 +16,7 @@ class manila::backends (
 
   # Maybe this could be extented to dynamicly find the enabled names
   manila_config {
-    'DEFAULT/enabled_backends': value => join($enabled_backends, ',');
+    'DEFAULT/enabled_share_backends': value => join($enabled_backends, ',');
   }
 
 }
