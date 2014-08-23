@@ -1,3 +1,4 @@
+#NTAP: only specify debian here - what about rhel?
 require 'spec_helper'
 
 describe 'manila::client' do
