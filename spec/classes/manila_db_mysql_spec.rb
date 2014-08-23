@@ -4,7 +4,7 @@ describe 'manila::db::mysql' do
 
   let :req_params do
     {:password => 'pw',
-     :mysql_module => '0.9'}
+     :mysql_module => '2.2'}
   end
 
   let :facts do

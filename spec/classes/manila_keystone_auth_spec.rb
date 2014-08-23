@@ -29,24 +29,13 @@ describe 'manila::keystone::auth' do
         :type        => 'share',
         :description => 'Manila Service'
       )
-      should contain_keystone_service('manilav2').with(
-        :ensure      => 'present',
-        :type        => 'sharev2',
-        :description => 'Manila Service v2'
-      )
 
     end
     it { should contain_keystone_endpoint('RegionOne/manila').with(
       :ensure       => 'present',
-      :public_url   => 'http://127.0.0.1:8776/v1/%(tenant_id)s',
-      :admin_url    => 'http://127.0.0.1:8776/v1/%(tenant_id)s',
-      :internal_url => 'http://127.0.0.1:8776/v1/%(tenant_id)s'
-    ) }
-    it { should contain_keystone_endpoint('RegionOne/manilav2').with(
-      :ensure       => 'present',
-      :public_url   => 'http://127.0.0.1:8776/v2/%(tenant_id)s',
-      :admin_url    => 'http://127.0.0.1:8776/v2/%(tenant_id)s',
-      :internal_url => 'http://127.0.0.1:8776/v2/%(tenant_id)s'
+      :public_url   => 'http://127.0.0.1:8786/v1/%(tenant_id)s',
+      :admin_url    => 'http://127.0.0.1:8786/v1/%(tenant_id)s',
+      :internal_url => 'http://127.0.0.1:8786/v1/%(tenant_id)s'
     ) }
 
   end
@@ -80,11 +69,9 @@ describe 'manila::keystone::auth' do
     let :params do
       req_params.merge(
         :configure_endpoint    => false,
-        :configure_endpoint_v2 => false
       )
     end
     it { should_not contain_keystone_endpoint('RegionOne/manila') }
-    it { should_not contain_keystone_endpoint('RegionOne/manilav2') }
   end
 
 end
