@@ -28,16 +28,6 @@ describe 'manila::share::glusterfs' do
       )
     end
 
-    context "with an parameter which has been removed" do
-      before do
-        params.merge!({
-          :glusterfs_disk_util => 'foo',
-        })
-      end
-      it 'should fails' do
-        expect { subject }.to raise_error(Puppet::Error, /glusterfs_disk_util is removed in Icehouse./)
-      end
-    end
   end
 
   context 'on Debian platforms' do
