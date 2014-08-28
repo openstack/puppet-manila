@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'manila::share' do
 
   let :pre_condition do
-    'class { "manila": rabbit_password => "fpp", database_connection => "mysql://a:b@c/d" }'
+    'class { "manila": rabbit_password => "fpp", sql_connection => "mysql://a:b@c/d" }'
   end
 
   let :facts do

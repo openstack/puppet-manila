@@ -1,6 +1,6 @@
 #
 # == Parameters
-# [database_connection]
+# [sql_connection]
 #    Url used to connect to database.
 #    (Optional) Defaults to
 #    'sqlite:////var/lib/manila/manila.sqlite'
@@ -67,25 +67,19 @@
 # [*mysql_module*]
 #   (optional) Puppetlabs-mysql module version to use
 #   Tested versions include 0.9 and 2.2
-#   Defaults to '0.9'
+#   Defaults to '2.2'
 #
 # [*storage_availability_zone*]
 #   (optional) Availability zone of the node.
 #   Defaults to 'nova'
-#
-# [*default_availability_zone*]
-#   (optional) Default availability zone for new shares.
-#   If not set, the storage_availability_zone option value is used as
-#   the default for new shares.
-#   Defaults to false
 #
 # [*rootwrap_config*]
 # (optional) Path to the rootwrap configuration file to use for
 # running commands as root
 #
 class manila (
-  $database_connection         = 'sqlite:////var/lib/manila/manila.sqlite',
-  $database_idle_timeout       = '3600',
+  $sql_connection              = 'sqlite:////var/lib/manila/manila.sqlite',
+  $sql_idle_timeout            = '3600',
   $rpc_backend                 = 'manila.openstack.common.rpc.impl_kombu',
   $control_exchange            = 'openstack',
   $rabbit_host                 = '127.0.0.1',
@@ -125,9 +119,8 @@ class manila (
   $log_dir                     = '/var/log/manila',
   $verbose                     = false,
   $debug                       = false,
-  $mysql_module                = '0.9',
+  $mysql_module                = '2.2',
   $storage_availability_zone   = 'nova',
-  $default_availability_zone   = false,
   $rootwrap_config             = "/etc/manila/rootwrap.conf",
 ) {
 
@@ -196,7 +189,6 @@ class manila (
       'DEFAULT/rabbit_use_ssl':      value => $rabbit_use_ssl;
       'DEFAULT/control_exchange':    value => $control_exchange;
       'DEFAULT/amqp_durable_queues': value => $amqp_durable_queues;
-      'DEFAULT/rootwrap_config':     value => $rootwrap_config;
     }
 
     if $rabbit_hosts {
@@ -265,36 +257,30 @@ class manila (
     }
   }
 
-  if ! $default_availability_zone {
-    $default_availability_zone_real = $storage_availability_zone
-  } else {
-    $default_availability_zone_real = $default_availability_zone
-  }
-
-  # NTAP: in cinder, sql_connection is deprecated. If this is the case in manila,
-  # add back the deprecated parameters, etc. from cinder's init.pp
   manila_config {
-    'DEFAULT/sql_connection':            value => $database_connection, secret => true;
+    'DEFAULT/sql_connection':            value => $sql_connection, secret => true;
     'DEFAULT/sql_idle_timeout':          value => $database_idle_timeout;
     'DEFAULT/verbose':                   value => $verbose;
     'DEFAULT/debug':                     value => $debug;
     'DEFAULT/api_paste_config':          value => $api_paste_config;
     'DEFAULT/rpc_backend':               value => $rpc_backend;
     'DEFAULT/storage_availability_zone': value => $storage_availability_zone;
-    'DEFAULT/default_availability_zone': value => $default_availability_zone_real;
+    'DEFAULT/rootwrap_config':           value => $rootwrap_config;
   }
 
-  #NTAP: removed postgresql and sqlite flags here
-  if($database_connection =~ /mysql:\/\/\S+:\S+@\S+\/\S+/) {
-      if ($mysql_module >= 2.2) {
-          require 'mysql::bindings'
-          require 'mysql::bindings::python'
-      } else {
-          require 'mysql::python'
-      }
-  }
-  else {
-      fail("Invalid db connection ${database_connection_real}")
+  if($sql_connection =~ /mysql:\/\/\S+:\S+@\S+\/\S+/) {
+    if ($mysql_module >= 2.2) {
+      require 'mysql::bindings'
+      require 'mysql::bindings::python'
+    } else {
+      require 'mysql::python'
+    }
+  } elsif($sql_connection =~ /postgresql:\/\/\S+:\S+@\S+\/\S+/) {
+
+  } elsif($sql_connection =~ /sqlite:\/\//) {
+
+  } else {
+    fail("Invalid db connection ${sql_connection}")
   }
 
   if $log_dir {
