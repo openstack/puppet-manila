@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'manila::setup_test_share' do
 
-  it { should contain_package('lvm2').with(
-        :ensure => 'present'
-      ) }
-
   it { should contain_file('/var/lib/manila').with(
         :ensure => 'directory',
         :require => 'Package[manila]'
