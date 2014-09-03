@@ -17,6 +17,9 @@ describe 'manila' do
     it { should contain_class('mysql::bindings::python') }
 
     it 'should contain default config' do
+      should contain_manila_config('DEFAULT/sql_idle_timeout').with(
+        :value => '3600'
+      )
       should contain_manila_config('DEFAULT/rpc_backend').with(
         :value => 'manila.openstack.common.rpc.impl_kombu'
       )
@@ -49,9 +52,6 @@ describe 'manila' do
         :value  => 'mysql://user:password@host/database',
         :secret => true
       )
-      should contain_manila_config('DEFAULT/sql_idle_timeout').with(
-        :value => '3600'
-      )
       should contain_manila_config('DEFAULT/verbose').with(
         :value => false
       )
@@ -61,11 +61,11 @@ describe 'manila' do
       should contain_manila_config('DEFAULT/storage_availability_zone').with(
         :value => 'nova'
       )
-      should contain_manila_config('DEFAULT/default_availability_zone').with(
-        :value => 'nova'
-      )
       should contain_manila_config('DEFAULT/api_paste_config').with(
         :value => '/etc/manila/api-paste.ini'
+      )
+      should contain_manila_config('DEFAULT/rootwrap_config').with(
+        :value => '/etc/manila/rootwrap.conf'
       )
       should contain_manila_config('DEFAULT/log_dir').with(:value => '/var/log/manila')
     end
@@ -278,16 +278,16 @@ describe 'manila' do
     it { should contain_manila_config('DEFAULT/amqp_durable_queues').with_value(true) }
   end
 
-  describe 'with postgresql' do
+  describe 'with sqlite' do
     let :params do
       {
-        :sql_connection        => 'postgresql://user:drowssap@host/database',
+        :sql_connection        => 'sqlite:////var/lib/manila/manila.sqlite',
         :rabbit_password       => 'guest',
       }
     end
 
-    it { should contain_manila_config('database/connection').with(
-      :value  => 'postgresql://user:drowssap@host/database',
+    it { should contain_manila_config('DEFAULT/sql_connection').with(
+      :value  => 'sqlite:////var/lib/manila/manila.sqlite',
       :secret => true
     ) }
     it { should_not contain_class('mysql::python') }

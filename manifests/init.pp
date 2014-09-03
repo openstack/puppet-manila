@@ -259,7 +259,7 @@ class manila (
 
   manila_config {
     'DEFAULT/sql_connection':            value => $sql_connection, secret => true;
-    'DEFAULT/sql_idle_timeout':          value => $database_idle_timeout;
+    'DEFAULT/sql_idle_timeout':          value => $sql_idle_timeout;
     'DEFAULT/verbose':                   value => $verbose;
     'DEFAULT/debug':                     value => $debug;
     'DEFAULT/api_paste_config':          value => $api_paste_config;

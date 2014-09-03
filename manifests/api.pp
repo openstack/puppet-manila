@@ -72,12 +72,6 @@
 #   (optional) Factory to use for ratelimiting
 #   Defaults to 'manila.api.v1.limits:RateLimitingMiddleware.factory'
 #
-# [*default_share_type*]
-#   (optional) default share type to use.
-#   This should contain the name of the default share type to use.
-#   If not configured, it produces an error when creating a share
-#   without specifying a type.
-#   Defaults to 'false'.
 class manila::api (
   $keystone_password,
   $keystone_enabled           = true,
@@ -95,7 +89,6 @@ class manila::api (
   $enabled                    = true,
   $manage_service             = true,
   $ratelimits                 = undef,
-  $default_share_type        = false,
   $ratelimits_factory =
     'manila.api.v1.limits:RateLimitingMiddleware.factory'
 ) {
@@ -192,16 +185,6 @@ class manila::api (
       manila_api_paste_ini {
         'filter:authtoken/auth_admin_prefix': ensure => absent;
       }
-    }
-  }
-
-  if $default_share_type {
-    manila_config {
-      'DEFAULT/default_share_type': value => $default_share_type;
-    }
-  } else {
-    manila_config {
-      'DEFAULT/default_share_type': ensure => absent;
     }
   }
 

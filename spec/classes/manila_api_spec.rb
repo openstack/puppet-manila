@@ -26,9 +26,6 @@ describe 'manila::api' do
       should contain_manila_config('DEFAULT/osapi_share_listen').with(
        :value => '0.0.0.0'
       )
-      should contain_manila_config('DEFAULT/default_share_type').with(
-       :ensure => 'absent'
-      )
       should contain_manila_api_paste_ini('filter:authtoken/service_protocol').with(
         :value => 'http'
       )
@@ -76,17 +73,6 @@ describe 'manila::api' do
     it 'should configure the region for nova' do
       should contain_manila_config('DEFAULT/os_region_name').with(
         :value => 'MyRegion'
-      )
-    end
-  end
-
-  describe 'with a default share type' do
-    let :params do
-      req_params.merge({'default_share_type' => 'foo'})
-    end
-    it 'should configure the default share type for manila' do
-      should contain_manila_config('DEFAULT/default_share_type').with(
-        :value => 'foo'
       )
     end
   end

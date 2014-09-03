@@ -40,25 +40,11 @@ describe 'manila::backends' do
       before :each do
         params.merge!(
          :enabled_share_backends => ['lowcost', 'regular', 'premium'],
-         :default_share_type => false
         )
       end
 
       it 'configures manila.conf with default params' do
         should contain_manila_config('DEFAULT/enabled_share_backends').with_value(p[:enabled_share_backends].join(','))
-      end
-    end
-
-    context 'configure manila with a default share type' do
-      before :each do
-        params.merge!(
-         :enabled_share_backends    => ['foo', 'bar'],
-         :default_share_type => 'regular'
-        )
-      end
-
-      it 'should fail to configure default share type' do
-        expect { subject }.to raise_error(Puppet::Error, /The default_share_type parameter is deprecated in this class, you should declare it in manila::api./)
       end
     end
 
