@@ -1,35 +1,69 @@
+# == Class: manila::share::generic
 #
+# Configures Manila to use the NetApp share driver
+#
+# ===Parameters
+# [*smb_template_config_path*]
+#   (optional) Path to smb config.
+#   Defaults to: $state_path/smb.conf
+#
+# [*volume_name_template*]
+#   (optional) Volume name template.
+#   Defaults to: manila-share-%s
+#
+# [*volume_snapshot_name_template*]
+#   (optional) Volume snapshot name template.
+#   Defaults to: manila-snapshot-%s
+#
+# [*share_mount_path*]
+#   (optional) Parent path in service instance where shares will be mounted.
+#   Defaults to: /shares
+#
+# [*max_time_to_create_volume*]
+#   (optional) Maximum time to wait for creating cinder volume.
+#   Defaults to: 180
+#
+# [*max_time_to_attach*]
+#   (optional) Maximum time to wait for attaching cinder volume.
+#   Defaults to: 120
+#
+# [*service_instance_smb_config_path*]
+#   (optional) Path to smb config in service instance.
+#   Defaults to: $share_mount_path/smb.conf
+#
+# [*share_helpers*]
+#   (optional) Specify list of share export helpers.
+#   Defaults to: ['CIFS=manila.share.drivers.generic.CIFSHelper',
+#                 'NFS=manila.share.drivers.generic.NFSHelper']
+#
+# [*share_volume_fstype*]
+#   (optional) Filesystem type of the share volume.
+#   Choices: 'ext4', 'ext3'
+#   Defaults to: ext4
+#
+
 class manila::share::generic (
-  $service_image_name = 'manila-service-image',
-  $service_instance_name_template = 'manila_service_instance_%s',
-  $service_instance_user = undef,
-  $service_instance_password = undef,
-  $manila_service_keypair_name = 'manila-service',
-  $path_to_public_key = '~/.ssh/id_rsa.pub',
-  $path_to_private_key = '~/.ssh/id_rsa',
-  $max_time_to_build_instance = 300,
-  $service_instance_security_group = 'manila-service',
-  $service_instance_flavor_id = 100,
-  $service_network_name = 'manila_service_network',
-  $service_network_cidr = '10.254.0.0/16',
-  $interface_driver = 'manila.network.linux.interface.OVSInterfaceDriver',
-  $os_region_name = undef,
+  $smb_template_config_path = '$state_path/smb.conf',
+  $volume_name_template = 'manila-share-%s',
+  $volume_snapshot_name_template = 'manila-snapshot-%s',
+  $share_mount_path = '/shares',
+  $max_time_to_create_volume = 180,
+  $max_time_to_attach = 120,
+  $service_instance_smb_config_path = '$share_mount_path/smb.conf',
+  $share_helpers = ['CIFS=manila.share.drivers.generic.CIFSHelper',
+                    'NFS=manila.share.drivers.generic.NFSHelper'],
+  $share_volume_fstype = 'ext4',
 ) {
 
   manila::backend::generic { 'DEFAULT':
-    service_image_name                => $service_image_name,
-    service_instance_name_template    => $service_instance_name_template,
-    service_instance_user             => $service_instance_user,
-    service_instance_password         => $service_instance_password,
-    manila_service_keypair_name       => $manila_service_keypair_name,
-    path_to_public_key                => $path_to_public_key,
-    path_to_private_key               => $path_to_private_key,
-    max_time_to_build_instance        => $max_time_to_build_instance,
-    service_instance_security_group   => $service_instance_security_group,
-    service_instance_flavor_id        => $service_instance_flavor_id,
-    service_network_name              => $service_network_name,
-    service_network_cidr              => $service_network_cidr,
-    interface_driver                  => $interface_driver,
-    os_region_name                    => $os_region_name,
+    smb_template_config_path          => $smb_template_config_path,
+    volume_name_template			        => $volume_name_template,
+    volume_snapshot_name_template   	=> $volume_snapshot_name_template,
+    share_mount_path			            => $share_mount_path,
+    max_time_to_create_volume			    => $max_time_to_create_volume,
+    max_time_to_attach			          => $max_time_to_attach,
+    service_instance_smb_config_path	=> $service_instance_smb_config_path,
+    share_helpers			                => $share_helpers,
+    share_volume_fstype			          => $share_volume_fstype,
   }
 }
