@@ -39,7 +39,7 @@ define manila::type (
   $os_region_name = undef,
   ) {
 
-  $share_name = $name
+  $volume_name = $name
 
 # TODO: (xarses) This should be moved to a ruby provider so that among other
 #   reasons, the credential discovery magic can occur like in neutron.
@@ -58,18 +58,18 @@ define manila::type (
     $region_env = []
   }
 
-  exec {"manila type-create ${share_name}":
-    command     => "manila type-create ${share_name}",
-    unless      => "manila type-list | grep ${share_name}",
+  exec {"manila type-create ${volume_name}":
+    command     => "manila type-create ${volume_name}",
+    unless      => "manila type-list | grep ${volume_name}",
     environment => concat($manila_env, $region_env),
     require     => Package['python-manilaclient'],
     path        => ['/usr/bin', '/bin'],
   }
 
   if ($set_value and $set_key) {
-    Exec["manila type-create ${share_name}"] ->
+    Exec["manila type-create ${volume_name}"] ->
     manila::type_set { $set_value:
-      type            => $share_name,
+      type            => $volume_name,
       key             => $set_key,
       os_password     => $os_password,
       os_tenant_name  => $os_tenant_name,

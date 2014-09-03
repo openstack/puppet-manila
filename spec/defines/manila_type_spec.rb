@@ -8,7 +8,7 @@ describe 'manila::type' do
 
   let :params do {
     :set_value      => ['name1','name2'],
-    :set_key        => 'share_backend_name',
+    :set_key        => 'volume_backend_name',
     :os_password    => 'asdf',
     :os_tenant_name => 'admin',
     :os_username    => 'admin',
@@ -26,7 +26,7 @@ describe 'manila::type' do
         'OS_AUTH_URL=http://127.127.127.1:5000/v2.0/'],
       :unless  => 'manila type-list | grep hippo',
       :require => 'Package[python-manilaclient]')
-    should contain_exec('manila type-key hippo set share_backend_name=name1')
-    should contain_exec('manila type-key hippo set share_backend_name=name2')
+    should contain_exec('manila type-key hippo set volume_backend_name=name1')
+    should contain_exec('manila type-key hippo set volume_backend_name=name2')
   end
 end
