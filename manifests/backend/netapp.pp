@@ -7,87 +7,63 @@
 # NTAP: check if these parameters are actually optional or required
 #
 # [*share_backend_name*]
-# (optional) Name of the backend in manila.conf that
-# these settings will reside in
-#
-# [*netapp_nas_storage_family*]
-# (required) The storage family type used on the storage system; valid values
-# are ontap_7mode for using Data ONTAP operating in 7-Mode or ontap_cluster
-# for using clustered Data ONTAP.
-# Defaults to ontap_cluster
+#   (optional) Name of the backend in manila.conf that
+#   these settings will reside in
 #
 # [*netapp_nas_transport_type*]
-# (optional) The transport protocol used when communicating with ONTAPI on the
-# storage system or proxy server. Valid values are http or https.
-# Defaults to http
+#   (optional) The transport protocol used when communicating with ONTAPI on the
+#   storage system or proxy server. Valid values are http or https.
+#   Defaults to http
 #
 # [*netapp_nas_login*]
-# (required) Administrative user account name used to access the storage
-# system or proxy server.
+#   (required) Administrative user account name used to access the storage
+#   system or proxy server.
 #
 # [*netapp_nas_password*]
-# (required) Password for the administrative user account specified in the
-# netapp_nas_login parameter.
+#   (required) Password for the administrative user account specified in the
+#   netapp_nas_login parameter.
 #
 # [*netapp_nas_server_hostname*]
-# (required) The hostname (or IP address) for the storage system or proxy
-# server.
-#
-# [*netapp_nas_size_multiplier*]
-# (optional) The quantity to be multiplied by the requested volume size to
-# ensure enough space is available on the virtual storage server (Vserver) to
-# fulfill the volume creation request.
-# Defaults to 1.2
-#
-# [*netapp_nas_vfiler*]
-#NTAP: edit this definition here
-# (optional) Vfiler to use for provisioning.
+#   (required) The hostname (or IP address) for the storage system or proxy
+#   server.
 #
 # [*netapp_nas_volume_name_template*]
-# (optional) NetApp volume name template.
+#   (optional) NetApp volume name template.
 #
 # [*netapp_vserver_name_template*]
-# (optional) Name template to use for new vserver.
+#   (optional) Name template to use for new vserver.
 #
 # [*netapp_lif_name_template*]
-# (optional) Lif name template
+#   (optional) Lif name template
 #
 # [*netapp_aggregate_name_search_pattern*]
-# (optional) Pattern for searching available aggregates
-#  for provisioning.
+#   (optional) Pattern for searching available aggregates
+#   for provisioning.
 #
 # [*netapp_root_volume_aggregate*]
-# (optional) Name of aggregate to create root volume on.
+#   (optional) Name of aggregate to create root volume on.
 #
 # [*netapp_root_volume_name*]
-# (optional) Root volume name.
+#   (optional) Root volume name.
 #
 # === Examples
 #
 #  manila::backend::netapp { 'myBackend':
-#    netapp_login           => 'clusterAdmin',
-#    netapp_password        => 'password',
-#    netapp_server_hostname => 'netapp.mycorp.com',
-#    netapp_server_port     => '443',
-#    netapp_transport_type  => 'https',
-#    netapp_vserver         => 'openstack-vserver',
+#    netapp_nas_login           => 'clusterAdmin',
+#    netapp_nas_password        => 'password',
+#    netapp_nas_server_hostname => 'netapp.mycorp.com',
+#    netapp_nas_transport_type  => 'https',
 #  }
-#
-#NTAP: are these intented right?
 
 #NTAP: What are the right packages?
 # This driver supports NFS and CIFS
 
-
 define manila::backend::netapp (
   $share_backend_name = $name,
-  $netapp_nas_storage_family = 'ontap_cluster',
   $netapp_nas_transport_type = 'http',
   $netapp_nas_login = 'admin',
   $netapp_nas_password = undef,
   $netapp_nas_server_hostname	= undef,
-  $netapp_nas_size_multiplier	= 1.2,
-  $netapp_nas_vfiler = undef,
   $netapp_nas_volume_name_template= 'share_%(share_id)s',
   $netapp_vserver_name_template = 'os_%s',
   $netapp_lif_name_template = 'os_%(net_allocation_id)s',
@@ -96,14 +72,7 @@ define manila::backend::netapp (
   $netapp_root_volume_name = 'root',
 ) {
 
-  case $netapp_nas_storage_family {
-    'ontap_cluster': {
-        $netapp_share_driver = 'manila.share.drivers.netapp.cluster_mode.NetAppClusteredShareDriver'
-    }
-    'ontap_7mode': {
-        $netapp_share_driver = 'manila.share.drivers.netapp.driver.NetAppShareDriver'
-    }
-  }
+  $netapp_share_driver = 'manila.share.drivers.netapp.cluster_mode.NetAppClusteredShareDriver'
 
   manila_config {
     "DEFAULT/enabled_share_backends":                             value => $share_backend_name;

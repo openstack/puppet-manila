@@ -2,36 +2,25 @@ require 'spec_helper'
 
 describe 'manila::backend::netapp' do
 
-  let(:title) {'hippo'}
+  let(:title) {'mynetapp'}
 
   let :params do
     {
-      :share_backend_name    => 'netapp-cdot-nfs',
-      :netapp_login           => 'netapp',
-      :netapp_password        => 'password',
-      :netapp_server_hostname => '127.0.0.2',
+      :netapp_nas_login             => 'netapp',
+      :netapp_nas_password          => 'password',
+      :netapp_nas_server_hostname   => '127.0.0.2',
+      :netapp_root_volume_aggregate => 'aggr1',
     }
   end
 
   let :default_params do
     {
-      :netapp_server_port           => '80',
-      :netapp_size_multiplier       => '1.2',
-      :netapp_storage_family        => 'ontap_cluster',
-      :netapp_storage_protocol      => 'nfs',
-      :netapp_transport_type        => 'http',
-      :netapp_vfiler                => '',
-      :netapp_share_list           => '',
-      :netapp_vserver               => '',
-      :expiry_thres_minutes         => '720',
-      :thres_avl_size_perc_start    => '20',
-      :thres_avl_size_perc_stop     => '60',
-      :nfs_shares_config            => '',
-      :netapp_copyoffload_tool_path => '',
-      :netapp_controller_ips        => '',
-      :netapp_sa_password           => '',
-      :netapp_storage_pools         => '',
-      :netapp_webservice_path       => '/devmgr/v2',
+      :netapp_nas_transport_type            => 'http',
+      :netapp_nas_volume_name_template      => 'share_%(share_id)s',
+      :netapp_vserver_name_template         => 'os_%s',
+      :netapp_lif_name_template             => 'os_%(net_allocation_id)s',
+      :netapp_aggregate_name_search_pattern => '(.*)',
+      :netapp_root_volume_name              => 'root',
     }
   end
 
@@ -41,15 +30,15 @@ describe 'manila::backend::netapp' do
     end
 
     it 'configures netapp share driver' do
-      should contain_manila_config("#{params_hash[:share_backend_name]}/share_driver").with_value(
-        'manila.share.drivers.netapp.common.NetAppDriver')
+      should contain_manila_config("mynetapp/share_driver").with_value(
+        'manila.share.drivers.netapp.cluster_mode.NetAppClusteredShareDriver')
       params_hash.each_pair do |config,value|
-        should contain_manila_config("#{params_hash[:share_backend_name]}/#{config}").with_value( value )
+        should contain_manila_config("mynetapp/#{config}").with_value( value )
       end
     end
 
     it 'marks netapp_password as secret' do
-      should contain_manila_config("#{params_hash[:share_backend_name]}/netapp_password").with_secret( true )
+      should contain_manila_config("mynetapp/netapp_nas_password").with_secret( true )
     end
   end
 
