@@ -20,7 +20,7 @@
 #
 class manila::share::glusterfs (
   $glusterfs_volumes_config   = '/etc/manila/glusterfs_volumes',
-  $glusterfs_mount_point_base = undef,
+  $glusterfs_mount_point_base = '$state_path/mnt',
 ) {
 
   manila::backend::glusterfs { 'DEFAULT':
