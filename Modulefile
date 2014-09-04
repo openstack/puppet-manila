@@ -1,15 +1,15 @@
-name    'netapp-puppet-manila'  #NTAP: right name?
-version '4.0.0'
-author  'NetApp and StackForge Contributors'
-license 'Apache License 2.0'
-summary 'Puppet module for OpenStack Manila'
+name         'netapp-puppet-manila'  #NTAP: right name?
+version      '1.0.0'
+author       'NetApp and StackForge Contributors'
+license      'Apache License 2.0'
+summary      'Puppet module for OpenStack Manila'
 description  'Installs and configures OpenStack Manila (Shared Filesystems)'
 project_page 'https://launchpad.net/puppet-manila'
-source  'https://github.com/stackforge/puppet-manila'
+source       'https://github.com/stackforge/puppet-manila'
 
 dependency 'dprince/qpid', '>=1.0.0 <2.0.0'
 dependency 'puppetlabs/inifile', '>=1.0.0 <2.0.0'
 dependency 'puppetlabs/keystone', '>=4.0.0 <5.0.0'
 dependency 'puppetlabs/mysql', '>=0.9.0 <3.0.0'
 dependency 'puppetlabs/rabbitmq', '>=2.0.2 <4.0.0'
-dependency 'puppetlabs/stdlib', '>=3.2.0'
+dependency 'puppetlabs/stdlib', '>=4.0.0'
