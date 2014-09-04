@@ -67,7 +67,7 @@
 # [*mysql_module*]
 #   (optional) Puppetlabs-mysql module version to use
 #   Tested versions include 0.9 and 2.2
-#   Defaults to '2.2'
+#   Defaults to '0.9'
 #
 # [*storage_availability_zone*]
 #   (optional) Availability zone of the node.
@@ -119,7 +119,7 @@ class manila (
   $log_dir                     = '/var/log/manila',
   $verbose                     = false,
   $debug                       = false,
-  $mysql_module                = '2.2',
+  $mysql_module                = '0.9',
   $storage_availability_zone   = 'nova',
   $rootwrap_config             = "/etc/manila/rootwrap.conf",
 ) {
