@@ -5,7 +5,7 @@
 #    (Optional) Defaults to
 #    'sqlite:////var/lib/manila/manila.sqlite'
 #
-# [database_idle_timeout]
+# [sql_idle_timeout]
 #   Timeout when db connections should be reaped.
 #   (Optional) Defaults to 3600.
 #
