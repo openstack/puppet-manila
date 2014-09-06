@@ -1,6 +1,6 @@
 # == Class: manila::share::generic
 #
-# Configures Manila to use the NetApp share driver
+# Configures Manila to use the generic share driver
 #
 # ===Parameters
 # [*smb_template_config_path*]
