@@ -64,11 +64,6 @@
 #   (optional) CA certificate file to use to verify connecting clients
 #   Defaults to false, not set_
 #
-# [*mysql_module*]
-#   (optional) Puppetlabs-mysql module version to use
-#   Tested versions include 0.9 and 2.2
-#   Defaults to '0.9'
-#
 # [*storage_availability_zone*]
 #   (optional) Availability zone of the node.
 #   Defaults to 'nova'
@@ -119,7 +114,6 @@ class manila (
   $log_dir                     = '/var/log/manila',
   $verbose                     = false,
   $debug                       = false,
-  $mysql_module                = '0.9',
   $storage_availability_zone   = 'nova',
   $rootwrap_config             = "/etc/manila/rootwrap.conf",
 ) {
@@ -269,12 +263,8 @@ class manila (
   }
 
   if($sql_connection =~ /mysql:\/\/\S+:\S+@\S+\/\S+/) {
-    if ($mysql_module >= 2.2) {
-      require 'mysql::bindings'
-      require 'mysql::bindings::python'
-    } else {
-      require 'mysql::python'
-    }
+    require 'mysql::bindings'
+    require 'mysql::bindings::python'
   } elsif($sql_connection =~ /postgresql:\/\/\S+:\S+@\S+\/\S+/) {
 
   } elsif($sql_connection =~ /sqlite:\/\//) {
