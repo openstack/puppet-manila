@@ -21,7 +21,7 @@ describe 'manila::db::mysql' do
     end
     it { should contain_openstacklib__db__mysql('manila').with(
       :user         => 'manila',
-      :password     => 'pw',
+      :password_hash => '*D821809F681A40A6E379B50D0463EFAE20BDD122',
       :host         => '127.0.0.1',
       :charset      => 'utf8'
      ) }
