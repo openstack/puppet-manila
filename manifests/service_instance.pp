@@ -67,10 +67,10 @@
 #   Defaults to: 'manila.network.linux.interface.OVSInterfaceDriver'
 #
 # [*connect_share_server_to_tenant_network*]
-#   (optional) Attach share server directly to share network.
+#   (optional) Attach share server directly to smyhare network.
 #   Defaults to: false
 
-define manila::service_instance (
+class manila::service_instance (
   $service_image_name = 'manila-service-image',
   $service_instance_name_template = 'manila_service_instance_%s',
   $service_instance_user = undef,
