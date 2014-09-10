@@ -74,7 +74,7 @@ define manila::service_instance (
   $service_image_name = 'manila-service-image',
   $service_instance_name_template = 'manila_service_instance_%s',
   $service_instance_user = undef,
-  $service_instance_password = undef,,
+  $service_instance_password = undef,
   $manila_service_keypair_name = 'manila-service',
   $path_to_public_key = '~/.ssh/id_rsa.pub',
   $path_to_private_key = '~/.ssh/id_rsa',
