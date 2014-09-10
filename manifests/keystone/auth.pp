@@ -13,21 +13,12 @@
 # [*auth_name*]
 #   Username for Manila service. Optional. Defaults to 'manila'.
 #
-# [*auth_name_v2*]
-#   Username for Manila v2 service. Optional. Defaults to 'manila2'.
-#
 # [*configure_endpoint*]
 #   Should Manila endpoint be configured? Optional. Defaults to 'true'.
 #   API v1 endpoint should be enabled in Icehouse for compatibility with Nova.
 #
-# [*configure_endpoint_v2*]
-#   Should Manila v2 endpoint be configured? Optional. Defaults to 'true'.
-#
 # [*service_type*]
 #    Type of service. Optional. Defaults to 'share'.
-#
-# [*service_type_v2*]
-#    Type of API v2 service. Optional. Defaults to 'share2'.
 #
 # [*public_address*]
 #    Public address for endpoint. Optional. Defaults to '127.0.0.1'.
@@ -39,7 +30,7 @@
 #    Internal address for endpoint. Optional. Defaults to '127.0.0.1'.
 #
 # [*port*]
-#    Port for endpoint. Optional. Defaults to '8776'.
+#    Port for endpoint. Optional. Defaults to '8786'.
 #
 # [*share_version*]
 #    Manila API version. Optional. Defaults to 'v1'.
