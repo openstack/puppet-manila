@@ -18,7 +18,6 @@
 #   Defaults to: $state_path/mnt
 #
 # === Examples
-# #NTAP: check example
 # manila::backend::glusterfs { 'myGluster':
 #   glusterfs_shares = ['192.168.1.1:/shares'],
 # }

@@ -1,4 +1,4 @@
-name         'netapp-puppet-manila'  #NTAP: right name?
+name         'netapp-puppet-manila'
 version      '1.0.0'
 author       'NetApp and StackForge Contributors'
 license      'Apache License 2.0'

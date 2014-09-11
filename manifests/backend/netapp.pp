@@ -55,9 +55,6 @@
 #    netapp_nas_transport_type  => 'https',
 #  }
 
-#NTAP: What are the right packages?
-# This driver supports NFS and CIFS
-
 define manila::backend::netapp (
   $share_backend_name = $name,
   $netapp_nas_transport_type = 'http',
