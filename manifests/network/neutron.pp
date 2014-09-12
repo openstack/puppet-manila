@@ -41,30 +41,30 @@
 #
 
 class manila::network::neutron (
-  $neutron_url = 'http://127.0.0.1:9696',
-  $neutron_url_timeout = 30,
-  $neutron_admin_username = 'neutron',
-  $neutron_admin_password = undef,
-  $neutron_admin_tenant_name = 'service',
-  $neutron_region_name = undef,
-  $neutron_admin_auth_url = 'http://localhost:5000/v2.0',
-  $neutron_api_insecure = false,
-  $neutron_auth_strategy = 'keystone',
-  $neutron_ovs_bridge = 'br-int',
+  $neutron_url                  = 'http://127.0.0.1:9696',
+  $neutron_url_timeout          = 30,
+  $neutron_admin_username       = 'neutron',
+  $neutron_admin_password       = undef,
+  $neutron_admin_tenant_name    = 'service',
+  $neutron_region_name          = undef,
+  $neutron_admin_auth_url       = 'http://localhost:5000/v2.0',
+  $neutron_api_insecure         = false,
+  $neutron_auth_strategy        = 'keystone',
+  $neutron_ovs_bridge           = 'br-int',
   $neutron_ca_certificates_file = undef,
 ) {
 
   manila_config {
-    'DEFAULT/neutron_url': 		              value => $neutron_url;
-    'DEFAULT/neutron_url_timeout': 		      value => $neutron_url_timeout;
-    'DEFAULT/neutron_admin_username': 		  value => $neutron_admin_username;
-    'DEFAULT/neutron_admin_password': 		  value => $neutron_admin_password;
-    'DEFAULT/neutron_admin_tenant_name': 		value => $neutron_admin_tenant_name;
-    'DEFAULT/neutron_region_name': 		      value => $neutron_region_name;
-    'DEFAULT/neutron_admin_auth_url': 		  value => $neutron_admin_auth_url;
-    'DEFAULT/neutron_api_insecure': 		    value => $neutron_api_insecure;
-    'DEFAULT/neutron_auth_strategy': 		    value => $neutron_auth_strategy;
-    'DEFAULT/neutron_ovs_bridge': 		      value => $neutron_ovs_bridge;
-    'DEFAULT/neutron_ca_certificates_file':	value => $neutron_ca_certificates_file;
+    'DEFAULT/neutron_url':                  value => $neutron_url;
+    'DEFAULT/neutron_url_timeout':          value => $neutron_url_timeout;
+    'DEFAULT/neutron_admin_username':       value => $neutron_admin_username;
+    'DEFAULT/neutron_admin_password':       value => $neutron_admin_password;
+    'DEFAULT/neutron_admin_tenant_name':    value => $neutron_admin_tenant_name;
+    'DEFAULT/neutron_region_name':          value => $neutron_region_name;
+    'DEFAULT/neutron_admin_auth_url':       value => $neutron_admin_auth_url;
+    'DEFAULT/neutron_api_insecure':         value => $neutron_api_insecure;
+    'DEFAULT/neutron_auth_strategy':        value => $neutron_auth_strategy;
+    'DEFAULT/neutron_ovs_bridge':           value => $neutron_ovs_bridge;
+    'DEFAULT/neutron_ca_certificates_file': value => $neutron_ca_certificates_file;
     }
 }

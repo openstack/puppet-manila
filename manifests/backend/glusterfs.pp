@@ -23,8 +23,8 @@
 # }
 #
 define manila::backend::glusterfs (
-  $share_backend_name        = $name,
-  $glusterfs_volumes_config = '/etc/manila/glusterfs_volumes',
+  $share_backend_name         = $name,
+  $glusterfs_volumes_config   = '/etc/manila/glusterfs_volumes',
   $glusterfs_mount_point_base = '$state_path/mnt',
 ) {
 

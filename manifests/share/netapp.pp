@@ -41,7 +41,6 @@
 #   (optional) Root volume name.
 #
 # === Examples
-# #NTAP: check example
 #  class { 'manila::share::netapp':
 #    netapp_login => 'clusterAdmin',
 #    netapp_password => 'password',
@@ -51,30 +50,29 @@
 #    netapp_vserver => 'openstack-vserver',
 #  }
 #
-#NTAP: are these intented right?
 class manila::share::netapp (
     $netapp_nas_transport_type = 'http',
     $netapp_nas_login = 'admin',
     $netapp_nas_password = undef,
-    $netapp_nas_server_hostname	= undef,
+    $netapp_nas_server_hostname  = undef,
     $netapp_nas_volume_name_template= 'share_%(share_id)s',
     $netapp_vserver_name_template = 'os_%s',
     $netapp_lif_name_template = 'os_%(net_allocation_id)s',
-    $netapp_aggregate_name_search_pattern	= '(.*)',
+    $netapp_aggregate_name_search_pattern  = '(.*)',
     $netapp_root_volume_aggregate = undef,
     $netapp_root_volume_name = 'root',
 ) {
 
   manila::backend::netapp { 'DEFAULT':
-    netapp_nas_transport_type				      => $netapp_nas_transport_type,
-    netapp_nas_login				              => $netapp_nas_login,
-    netapp_nas_password				            => $netapp_nas_password,
-    netapp_nas_server_hostname				    => $netapp_nas_server_hostname,
+    netapp_nas_transport_type             => $netapp_nas_transport_type,
+    netapp_nas_login                      => $netapp_nas_login,
+    netapp_nas_password                   => $netapp_nas_password,
+    netapp_nas_server_hostname            => $netapp_nas_server_hostname,
     netapp_nas_volume_name_template       => $netapp_nas_volume_name_template,
-    netapp_vserver_name_template				  => $netapp_vserver_name_template,
-    netapp_lif_name_template				      => $netapp_lif_name_template,
+    netapp_vserver_name_template          => $netapp_vserver_name_template,
+    netapp_lif_name_template              => $netapp_lif_name_template,
     netapp_aggregate_name_search_pattern  => $netapp_aggregate_name_search_pattern,
-    netapp_root_volume_aggregate				  => $netapp_root_volume_aggregate,
+    netapp_root_volume_aggregate          => $netapp_root_volume_aggregate,
     netapp_root_volume_name               => $netapp_root_volume_name,
   }
 }

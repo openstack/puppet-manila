@@ -26,7 +26,7 @@ class manila::quota (
 ) {
 
   manila_config {
-    'DEFAULT/quota_shares':   value => $quota_shares;
+    'DEFAULT/quota_shares':    value => $quota_shares;
     'DEFAULT/quota_snapshots': value => $quota_snapshots;
     'DEFAULT/quota_gigabytes': value => $quota_gigabytes;
     'DEFAULT/quota_driver':    value => $quota_driver;

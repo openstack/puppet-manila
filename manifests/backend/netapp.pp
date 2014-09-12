@@ -56,17 +56,17 @@
 #  }
 
 define manila::backend::netapp (
-  $share_backend_name = $name,
-  $netapp_nas_transport_type = 'http',
-  $netapp_nas_login = 'admin',
-  $netapp_nas_password = undef,
-  $netapp_nas_server_hostname	= undef,
-  $netapp_nas_volume_name_template= 'share_%(share_id)s',
-  $netapp_vserver_name_template = 'os_%s',
-  $netapp_lif_name_template = 'os_%(net_allocation_id)s',
-  $netapp_aggregate_name_search_pattern	= '(.*)',
-  $netapp_root_volume_aggregate = undef,
-  $netapp_root_volume_name = 'root',
+  $share_backend_name                   = $name,
+  $netapp_nas_transport_type            = 'http',
+  $netapp_nas_login                     = 'admin',
+  $netapp_nas_password                  = undef,
+  $netapp_nas_server_hostname           = undef,
+  $netapp_nas_volume_name_template      = 'share_%(share_id)s',
+  $netapp_vserver_name_template         = 'os_%s',
+  $netapp_lif_name_template             = 'os_%(net_allocation_id)s',
+  $netapp_aggregate_name_search_pattern  = '(.*)',
+  $netapp_root_volume_aggregate         = undef,
+  $netapp_root_volume_name              = 'root',
 ) {
 
   $netapp_share_driver = 'manila.share.drivers.netapp.cluster_mode.NetAppClusteredShareDriver'
@@ -75,18 +75,18 @@ define manila::backend::netapp (
     "DEFAULT/enabled_share_backends":                             value => $share_backend_name;
     "${share_backend_name}/share_backend_name":                   value => $share_backend_name;
     "${share_backend_name}/share_driver":                         value => $netapp_share_driver;
-    "${share_backend_name}/netapp_nas_transport_type":		        value => $netapp_nas_transport_type;
-    "${share_backend_name}/netapp_nas_login":			                value => $netapp_nas_login;
-    "${share_backend_name}/netapp_nas_password":			            value => $netapp_nas_password, secret => true;
-    "${share_backend_name}/netapp_nas_server_hostname":		        value => $netapp_nas_server_hostname;
-    "${share_backend_name}/netapp_nas_size_multiplier":		        value => $netapp_nas_size_multiplier;
-    "${share_backend_name}/netapp_nas_vfiler":			              value => $netapp_nas_vfiler;
-    "${share_backend_name}/netapp_nas_volume_name_template":	    value => $netapp_nas_volume_name_template;
-    "${share_backend_name}/netapp_vserver_name_template":			    value => $netapp_vserver_name_template;
-    "${share_backend_name}/netapp_lif_name_template":			        value => $netapp_lif_name_template;
-    "${share_backend_name}/netapp_aggregate_name_search_pattern":	value => $netapp_aggregate_name_search_pattern;
-    "${share_backend_name}/netapp_root_volume_aggregate":			    value => $netapp_root_volume_aggregate;
-    "${share_backend_name}/netapp_root_volume_name":			        value => $netapp_root_volume_name;
+    "${share_backend_name}/netapp_nas_transport_type":            value => $netapp_nas_transport_type;
+    "${share_backend_name}/netapp_nas_login":                     value => $netapp_nas_login;
+    "${share_backend_name}/netapp_nas_password":                  value => $netapp_nas_password, secret => true;
+    "${share_backend_name}/netapp_nas_server_hostname":           value => $netapp_nas_server_hostname;
+    "${share_backend_name}/netapp_nas_size_multiplier":           value => $netapp_nas_size_multiplier;
+    "${share_backend_name}/netapp_nas_vfiler":                    value => $netapp_nas_vfiler;
+    "${share_backend_name}/netapp_nas_volume_name_template":      value => $netapp_nas_volume_name_template;
+    "${share_backend_name}/netapp_vserver_name_template":         value => $netapp_vserver_name_template;
+    "${share_backend_name}/netapp_lif_name_template":             value => $netapp_lif_name_template;
+    "${share_backend_name}/netapp_aggregate_name_search_pattern": value => $netapp_aggregate_name_search_pattern;
+    "${share_backend_name}/netapp_root_volume_aggregate":         value => $netapp_root_volume_aggregate;
+    "${share_backend_name}/netapp_root_volume_name":              value => $netapp_root_volume_name;
   }
 
   package { 'nfs-utils': ensure => present }

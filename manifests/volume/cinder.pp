@@ -52,14 +52,14 @@ class manila::volume::cinder (
 ) {
 
 manila_config {
-  'DEFAULT/cinder_catalog_info':			    value => $cinder_catalog_info;
-  'DEFAULT/cinder_ca_certificates_file':	value => $cinder_ca_certificates_file;
-  'DEFAULT/cinder_http_retries':			    value => $cinder_http_retries;
-  'DEFAULT/cinder_api_insecure':			    value => $cinder_api_insecure;
-  'DEFAULT/cinder_cross_az_attach':		    value => $cinder_cross_az_attach;
-  'DEFAULT/cinder_admin_username':		    value => $cinder_admin_username;
-  'DEFAULT/cinder_admin_password':		    value => $cinder_admin_password;
-  'DEFAULT/cinder_admin_tenant_name':		  value => $cinder_admin_tenant_name;
-  'DEFAULT/cinder_admin_auth_url':		    value => $cinder_admin_auth_url;
+  'DEFAULT/cinder_catalog_info':          value => $cinder_catalog_info;
+  'DEFAULT/cinder_ca_certificates_file':  value => $cinder_ca_certificates_file;
+  'DEFAULT/cinder_http_retries':          value => $cinder_http_retries;
+  'DEFAULT/cinder_api_insecure':          value => $cinder_api_insecure;
+  'DEFAULT/cinder_cross_az_attach':       value => $cinder_cross_az_attach;
+  'DEFAULT/cinder_admin_username':        value => $cinder_admin_username;
+  'DEFAULT/cinder_admin_password':        value => $cinder_admin_password;
+  'DEFAULT/cinder_admin_tenant_name':     value => $cinder_admin_tenant_name;
+  'DEFAULT/cinder_admin_auth_url':        value => $cinder_admin_auth_url;
   }
 }
