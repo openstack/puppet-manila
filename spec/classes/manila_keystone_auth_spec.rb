@@ -51,7 +51,7 @@ describe 'manila::keystone::auth' do
         :admin_protocol    => 'https',
         :internal_protocol => 'https',
         :public_protocol   => 'https',
-        :share_version    => 'v42'
+        :share_version     => 'v42'
       )
      end
 
@@ -68,7 +68,7 @@ describe 'manila::keystone::auth' do
   describe 'when endpoint should not be configured' do
     let :params do
       req_params.merge(
-        :configure_endpoint    => false,
+        :configure_endpoint => false
       )
     end
     it { should_not contain_keystone_endpoint('RegionOne/manila') }

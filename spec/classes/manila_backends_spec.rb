@@ -39,7 +39,7 @@ describe 'manila::backends' do
     context 'configure manila with default parameters' do
       before :each do
         params.merge!(
-         :enabled_share_backends => ['lowcost', 'regular', 'premium'],
+         :enabled_share_backends => ['lowcost', 'regular', 'premium']
         )
       end
 

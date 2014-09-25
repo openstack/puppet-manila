@@ -71,5 +71,5 @@ define manila::backend::generic (
     "${name}/service_instance_smb_config_path": value => $service_instance_smb_config_path;
     "${name}/share_volume_fstype":              value => $share_volume_fstype;
     "${name}/share_helpers":                    value => $share_helpers;
-   }
+  }
 }

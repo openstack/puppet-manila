@@ -115,7 +115,7 @@ class manila (
   $verbose                     = false,
   $debug                       = false,
   $storage_availability_zone   = 'nova',
-  $rootwrap_config             = "/etc/manila/rootwrap.conf",
+  $rootwrap_config             = '/etc/manila/rootwrap.conf',
 ) {
 
   include manila::params

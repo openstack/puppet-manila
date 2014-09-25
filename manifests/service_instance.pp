@@ -71,6 +71,7 @@
 #   Defaults to: false
 
 class manila::service_instance (
+  $share_backend_name                     = $name,
   $service_image_name                     = 'manila-service-image',
   $service_instance_name_template         = 'manila_service_instance_%s',
   $service_instance_user                  = undef,
@@ -106,5 +107,5 @@ class manila::service_instance (
     "${name}/service_network_division_mask":          value => $service_network_division_mask;
     "${name}/interface_driver":                       value => $interface_driver;
     "${name}/connect_share_server_to_tenant_network": value => $connect_share_server_to_tenant_network;
-   }
+  }
 }

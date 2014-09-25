@@ -38,7 +38,7 @@ define manila::type_set (
   $os_region_name = undef,
   ) {
 
-  
+
 # TODO: (xarses) This should be moved to a ruby provider so that among other
 #   reasons, the credential discovery magic can occur like in neutron.
 
