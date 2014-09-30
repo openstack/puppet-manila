@@ -28,7 +28,7 @@ class manila::params {
     $api_service        = 'openstack-manila-api'
     $scheduler_package  = false
     $scheduler_service  = 'openstack-manila-scheduler'
-    $share_package      = false
+    $share_package      = 'openstack-manila-share'
     $share_service      = 'openstack-manila-share'
     $db_sync_command    = 'manila-manage db sync'
     $tgt_package_name   = 'scsi-target-utils'
