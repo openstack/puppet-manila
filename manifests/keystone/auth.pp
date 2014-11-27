@@ -70,28 +70,19 @@ class manila::keystone::auth (
 
   Keystone_user_role["${auth_name}@${tenant}"] ~> Service <| name == 'manila-api' |>
 
-  keystone_user { $auth_name:
-    ensure   => present,
-    password => $password,
-    email    => $email,
-    tenant   => $tenant,
-  }
-  keystone_user_role { "${auth_name}@${tenant}":
-    ensure  => present,
-    roles   => 'admin',
-  }
-  keystone_service { $auth_name:
-    ensure      => present,
-    type        => $service_type,
-    description => 'Manila Service',
+  keystone::resource::service_identity { $auth_name:
+    configure_user      => true,
+    configure_user_role => true,
+    configure_endpoint  => $configure_endpoint,
+    service_type        => $service_type,
+    service_description => 'Manila Service',
+    region              => $region,
+    password            => $password,
+    email               => $email,
+    tenant              => $tenant,
+    public_url          => "${public_protocol}://${public_address}:${port}/${share_version}/%(tenant_id)s",
+    admin_url           => "${admin_protocol}://${admin_address}:${port}/${share_version}/%(tenant_id)s",
+    internal_url        => "${internal_protocol}://${internal_address}:${port}/${share_version}/%(tenant_id)s",
   }
 
-  if $configure_endpoint {
-    keystone_endpoint { "${region}/${auth_name}":
-      ensure       => present,
-      public_url   => "${public_protocol}://${public_address}:${port}/${share_version}/%(tenant_id)s",
-      admin_url    => "${admin_protocol}://${admin_address}:${port}/${share_version}/%(tenant_id)s",
-      internal_url => "${internal_protocol}://${internal_address}:${port}/${share_version}/%(tenant_id)s",
-    }
-  }
 }
