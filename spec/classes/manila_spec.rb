@@ -204,19 +204,32 @@ describe 'manila' do
     end
   end
 
+  describe 'with SSL enabled without kombu' do
+    let :params do
+      req_params.merge!({
+        :rabbit_use_ssl     => 'true',
+      })
+    end
+
+    it do
+      should contain_manila_config('DEFAULT/rabbit_use_ssl').with_value(true)
+      should contain_manila_config('DEFAULT/kombu_ssl_ca_certs').with_ensure('absent')
+      should contain_manila_config('DEFAULT/kombu_ssl_certfile').with_ensure('absent')
+      should contain_manila_config('DEFAULT/kombu_ssl_keyfile').with_ensure('absent')
+      should contain_manila_config('DEFAULT/kombu_ssl_version').with_value('SSLv3')
+    end
+  end
+
   describe 'with SSL disabled' do
     let :params do
       req_params.merge!({
         :rabbit_use_ssl     => false,
-        :kombu_ssl_ca_certs => 'undef',
-        :kombu_ssl_certfile => 'undef',
-        :kombu_ssl_keyfile  => 'undef',
         :kombu_ssl_version  => 'SSLv3'
       })
     end
 
     it do
-      should contain_manila_config('DEFAULT/rabbit_use_ssl').with_value('false')
+      should contain_manila_config('DEFAULT/rabbit_use_ssl').with_value(false)
       should contain_manila_config('DEFAULT/kombu_ssl_ca_certs').with_ensure('absent')
       should contain_manila_config('DEFAULT/kombu_ssl_certfile').with_ensure('absent')
       should contain_manila_config('DEFAULT/kombu_ssl_keyfile').with_ensure('absent')
