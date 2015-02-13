@@ -70,7 +70,7 @@
 #   (optional) Attach share server directly to smyhare network.
 #   Defaults to: false
 
-class manila::service_instance (
+define manila::service_instance (
   $share_backend_name                     = $name,
   $service_image_name                     = 'manila-service-image',
   $service_instance_name_template         = 'manila_service_instance_%s',
