@@ -93,7 +93,7 @@ class manila::api (
     'manila.api.v1.limits:RateLimitingMiddleware.factory'
 ) {
 
-  include manila::params
+  include ::manila::params
 
   Manila_config<||> ~> Service['manila-api']
   Manila_api_paste_ini<||> ~> Service['manila-api']
@@ -103,8 +103,8 @@ class manila::api (
     Package['manila-api'] -> Manila_api_paste_ini<||>
     Package['manila-api'] -> Service['manila-api']
     package { 'manila-api':
-      ensure  => $package_ensure,
-      name    => $::manila::params::api_package,
+      ensure => $package_ensure,
+      name   => $::manila::params::api_package,
     }
   }
 
@@ -138,7 +138,7 @@ class manila::api (
   }
 
   manila_config {
-    'DEFAULT/osapi_share_listen': value => $bind_host
+    'DEFAULT/osapi_share_listen': value => $bind_host,
   }
 
   if $os_region_name {

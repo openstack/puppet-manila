@@ -11,7 +11,7 @@ class manila::client(
   $package_ensure = 'present'
 ) {
 
-  include manila::params
+  include ::manila::params
 
   package { 'python-manilaclient':
     ensure => $package_ensure,

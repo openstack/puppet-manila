@@ -6,7 +6,7 @@ class manila::scheduler (
   $manage_service   = true
 ) {
 
-  include manila::params
+  include ::manila::params
 
   Manila_config<||> ~> Service['manila-scheduler']
   Manila_api_paste_ini<||> ~> Service['manila-scheduler']

@@ -28,8 +28,8 @@ class manila::qpid(
     $service_ensure = 'stopped'
   }
 
-  class { 'qpid::server':
-    service_ensure => $service_ensure
+  class { '::qpid::server':
+    service_ensure => $service_ensure,
   }
 
 }

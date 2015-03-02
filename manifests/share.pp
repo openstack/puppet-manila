@@ -5,7 +5,7 @@ class manila::share (
   $manage_service = true
 ) {
 
-  include manila::params
+  include ::manila::params
 
   Manila_config<||> ~> Service['manila-share']
   Manila_api_paste_ini<||> ~> Service['manila-share']

@@ -118,7 +118,7 @@ class manila (
   $rootwrap_config             = '/etc/manila/rootwrap.conf',
 ) {
 
-  include manila::params
+  include ::manila::params
 
   Package['manila'] -> Manila_config<||>
   Package['manila'] -> Manila_api_paste_ini<||>
