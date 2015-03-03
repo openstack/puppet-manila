@@ -1,3 +1,19 @@
+# == Class: manila::share
+#
+# === Parameters
+#
+# [*package_ensure*]
+#   (Optional) Ensure State for package
+#   Defaults to 'present'.
+#
+# [*enabled*]
+#   (Optional) Should the service be enabled
+#   Defaults to true.
+#
+# [*manage_service*]
+#   (Optional) Whether the service should be managed by Puppet
+#   Defaults to true.
+#
 # $share_name_template = share-%s
 class manila::share (
   $package_ensure = 'present',

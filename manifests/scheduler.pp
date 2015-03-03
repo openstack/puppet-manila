@@ -1,3 +1,24 @@
+# == Class: manila::scheduler
+#
+# Install and manage Manila scheduler.
+#
+# === Parameters
+#
+# [*scheduler_driver*]
+#   (Optional) Description
+#   Defaults to false.
+#
+# [*package_ensure*]
+#   (Optional) The state of the scheduler package
+#   Defaults to 'present'.
+#
+# [*enabled*]
+#   (Optional) Whether to run the scheduler service
+#   Defaults to true.
+#
+# [*manage_service*]
+#   (Optional) Whether to start/stop the service
+#   Defaults to true.
 #
 class manila::scheduler (
   $scheduler_driver = false,

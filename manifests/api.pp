@@ -44,6 +44,10 @@
 #   Defaults to false for empty. If defined, should be a string with a
 #   leading '/' and no trailing '/'.
 #
+# [*keystone_auth_uri*]
+#   (Optional) Public Identity API endpoint.
+#   Defaults to false.
+#
 # [*service_port*]
 #   (optional) The manila api port
 #   Defaults to 5000
