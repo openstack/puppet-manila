@@ -11,6 +11,10 @@
 #   Timeout when db connections should be reaped.
 #   (Optional) Defaults to 3600.
 #
+# [*state_path*]
+#   (optional) Directory for storing state.
+#   Defaults to '/var/lib/manila'
+#
 # [*control_exchange*]
 #   (Optional) The default exchange under which topics are scope.
 #   Defaults to 'openstack'.
@@ -22,6 +26,10 @@
 # [*package_ensure*]
 #    (Optional) Ensure state for package.
 #    Defaults to 'present'
+#
+# [*notification_driver*]
+#   (optional) Driver or drivers to handle sending notifications.
+#   Defaults to 'messaging'
 #
 # [*rabbit_host*]
 #   (Optional) IP or hostname of the rabbit server.
@@ -163,6 +171,7 @@ class manila (
   $sql_idle_timeout            = '3600',
   $rpc_backend                 = 'manila.openstack.common.rpc.impl_kombu',
   $control_exchange            = 'openstack',
+  $notification_driver         = 'messaging',
   $rabbit_host                 = '127.0.0.1',
   $rabbit_port                 = 5672,
   $rabbit_hosts                = false,
@@ -202,6 +211,7 @@ class manila (
   $debug                       = false,
   $storage_availability_zone   = 'nova',
   $rootwrap_config             = '/etc/manila/rootwrap.conf',
+  $state_path                  = '/var/lib/manila',
   $lock_path                   = '/tmp/manila/manila_locks',
 ) {
 
@@ -367,6 +377,8 @@ class manila (
     'DEFAULT/rpc_backend':               value => $rpc_backend;
     'DEFAULT/storage_availability_zone': value => $storage_availability_zone;
     'DEFAULT/rootwrap_config':           value => $rootwrap_config;
+    'DEFAULT/notification_driver':       value => $notification_driver;
+    'DEFAULT/state_path':                value => $state_path;
     'DEFAULT/lock_path':                 value => $lock_path;
   }
 
