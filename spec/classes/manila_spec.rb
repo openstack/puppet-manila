@@ -29,26 +29,26 @@ describe 'manila' do
       is_expected.to contain_manila_config('DEFAULT/control_exchange').with(
         :value => 'openstack'
       )
-      is_expected.to contain_manila_config('DEFAULT/rabbit_password').with(
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_password').with(
         :value => 'guest',
         :secret => true
       )
-      is_expected.to contain_manila_config('DEFAULT/rabbit_host').with(
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_host').with(
         :value => '127.0.0.1'
       )
-      is_expected.to contain_manila_config('DEFAULT/rabbit_port').with(
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_port').with(
         :value => '5672'
       )
-      is_expected.to contain_manila_config('DEFAULT/rabbit_hosts').with(
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_hosts').with(
         :value => '127.0.0.1:5672'
       )
-      is_expected.to contain_manila_config('DEFAULT/rabbit_ha_queues').with(
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_ha_queues').with(
         :value => false
       )
-      is_expected.to contain_manila_config('DEFAULT/rabbit_virtual_host').with(
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_virtual_host').with(
         :value => '/'
       )
-      is_expected.to contain_manila_config('DEFAULT/rabbit_userid').with(
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_userid').with(
         :value => 'guest'
       )
       is_expected.to contain_manila_config('DEFAULT/sql_connection').with(
@@ -100,12 +100,12 @@ describe 'manila' do
     end
 
     it 'should contain many' do
-      is_expected.to_not contain_manila_config('DEFAULT/rabbit_host')
-      is_expected.to_not contain_manila_config('DEFAULT/rabbit_port')
-      is_expected.to contain_manila_config('DEFAULT/rabbit_hosts').with(
+      is_expected.to_not contain_manila_config('oslo_messaging_rabbit/rabbit_host')
+      is_expected.to_not contain_manila_config('oslo_messaging_rabbit/rabbit_port')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_hosts').with(
         :value => 'rabbit1:5672,rabbit2:5672'
       )
-      is_expected.to contain_manila_config('DEFAULT/rabbit_ha_queues').with(
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_ha_queues').with(
         :value => true
       )
     end
@@ -117,12 +117,12 @@ describe 'manila' do
     end
 
     it 'should contain many' do
-      is_expected.to_not contain_manila_config('DEFAULT/rabbit_host')
-      is_expected.to_not contain_manila_config('DEFAULT/rabbit_port')
-      is_expected.to contain_manila_config('DEFAULT/rabbit_hosts').with(
+      is_expected.to_not contain_manila_config('oslo_messaging_rabbit/rabbit_host')
+      is_expected.to_not contain_manila_config('oslo_messaging_rabbit/rabbit_port')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_hosts').with(
         :value => 'rabbit1:5672'
       )
-      is_expected.to contain_manila_config('DEFAULT/rabbit_ha_queues').with(
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_ha_queues').with(
         :value => true
       )
     end
@@ -205,11 +205,11 @@ describe 'manila' do
     end
 
     it do
-      is_expected.to contain_manila_config('DEFAULT/rabbit_use_ssl').with_value(true)
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_ca_certs').with_value('/path/to/ssl/ca/certs')
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_certfile').with_value('/path/to/ssl/cert/file')
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_keyfile').with_value('/path/to/ssl/keyfile')
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_version').with_value('TLSv1')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true)
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_ca_certs').with_value('/path/to/ssl/ca/certs')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_certfile').with_value('/path/to/ssl/cert/file')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_keyfile').with_value('/path/to/ssl/keyfile')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_version').with_value('TLSv1')
     end
   end
 
@@ -221,11 +221,11 @@ describe 'manila' do
     end
 
     it do
-      is_expected.to contain_manila_config('DEFAULT/rabbit_use_ssl').with_value(true)
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_ca_certs').with_ensure('absent')
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_certfile').with_ensure('absent')
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_keyfile').with_ensure('absent')
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_version').with_value('TLSv1')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true)
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_ca_certs').with_ensure('absent')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_certfile').with_ensure('absent')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_keyfile').with_ensure('absent')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_version').with_value('TLSv1')
     end
   end
 
@@ -238,11 +238,11 @@ describe 'manila' do
     end
 
     it do
-      is_expected.to contain_manila_config('DEFAULT/rabbit_use_ssl').with_value(false)
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_ca_certs').with_ensure('absent')
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_certfile').with_ensure('absent')
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_keyfile').with_ensure('absent')
-      is_expected.to contain_manila_config('DEFAULT/kombu_ssl_version').with_ensure('absent')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(false)
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_ca_certs').with_ensure('absent')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_certfile').with_ensure('absent')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_keyfile').with_ensure('absent')
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_version').with_ensure('absent')
     end
   end
 
