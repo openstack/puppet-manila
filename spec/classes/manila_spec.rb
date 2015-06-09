@@ -23,6 +23,9 @@ describe 'manila' do
       is_expected.to contain_manila_config('DEFAULT/rpc_backend').with(
         :value => 'manila.openstack.common.rpc.impl_kombu'
       )
+      is_expected.to contain_manila_config('DEFAULT/notification_driver').with(
+        :value => 'messaging'
+      )
       is_expected.to contain_manila_config('DEFAULT/control_exchange').with(
         :value => 'openstack'
       )
@@ -66,6 +69,9 @@ describe 'manila' do
       )
       is_expected.to contain_manila_config('DEFAULT/rootwrap_config').with(
         :value => '/etc/manila/rootwrap.conf'
+      )
+      is_expected.to contain_manila_config('DEFAULT/state_path').with(
+        :value => '/var/lib/manila'
       )
       is_expected.to contain_manila_config('DEFAULT/lock_path').with(
         :value => '/tmp/manila/manila_locks'
