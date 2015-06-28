@@ -11,7 +11,6 @@ manila
 4. [Implementation - An under-the-hood peek at what the module is doing](#implementation)
 5. [Development - Guide for contributing to the module](#development)
 6. [Contributors - Those with commits](#contributors)
-7. [Release Notes - Notes on the most recent updates to the module](#release-notes)
 
 Overview
 --------
@@ -72,10 +71,3 @@ Contributors
 ------------
 
 * https://github.com/stackforge/puppet-manila/graphs/contributors
-
-Release Notes
--------------
-
-**1.0.0**
-
-* Initial commit
