@@ -34,7 +34,7 @@ Setup
 ### Installing manila
 
     manila is not currently in Puppet Forge, but is anticipated to be added soon.  Once that happens, you'll be able to install manila with:
-    puppet module install puppetlabs/manila
+    puppet module install openstack/manila
 
 ### Beginning with manila
 
