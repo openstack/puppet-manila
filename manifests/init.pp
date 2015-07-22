@@ -250,6 +250,7 @@ class manila (
     ensure  => $package_ensure,
     name    => $::manila::params::package_name,
     require => Anchor['manila-start'],
+    tag     => ['openstack', 'manila-package'],
   }
 
   file { $::manila::params::manila_conf:
