@@ -22,7 +22,7 @@ Module Description
 
 The manila module is a thorough attempt to make Puppet capable of managing the entirety of manila.  This includes manifests to provision such things as keystone endpoints, RPC configurations specific to manila, and database connections.
 
-This module is tested in combination with other modules needed to build and leverage an entire OpenStack software stack.  These modules can be found, all pulled together in the [openstack module](https://github.com/stackfoge/puppet-openstack).
+This module is tested in combination with other modules needed to build and leverage an entire OpenStack software stack.
 
 Setup
 -----
@@ -33,7 +33,6 @@ Setup
 
 ### Installing manila
 
-    manila is not currently in Puppet Forge, but is anticipated to be added soon.  Once that happens, you'll be able to install manila with:
     puppet module install openstack/manila
 
 ### Beginning with manila
