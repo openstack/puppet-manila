@@ -21,6 +21,8 @@ class manila::params {
     $lio_package_name            = 'targetcli'
     $gluster_client_package_name = 'glusterfs-client'
     $gluster_package_name        = 'glusterfs-common'
+    $psycopg_package_name        = 'python-psycopg2'
+    $sqlite_package_name         = 'python-pysqlite2'
 
   } elsif($::osfamily == 'RedHat') {
 
@@ -39,6 +41,8 @@ class manila::params {
     $lio_package_name            = 'targetcli'
     $gluster_client_package_name = 'glusterfs-fuse'
     $gluster_package_name        = 'glusterfs'
+    $psycopg_package_name        = 'python-psycopg2'
+    $sqlite_package_name         = undef
 
     if $::operatingsystem == 'RedHat' and (versioncmp($::operatingsystemmajrelease, '7') >= 0) {
       $iscsi_helper = 'lioadm'
