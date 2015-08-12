@@ -104,8 +104,6 @@ class manila::api (
   Manila_api_paste_ini<||> ~> Service['manila-api']
 
   if $::manila::params::api_package {
-    Package['manila-api'] -> Manila_config<||>
-    Package['manila-api'] -> Manila_api_paste_ini<||>
     Package['manila-api'] -> Service['manila-api']
     package { 'manila-api':
       ensure => $package_ensure,

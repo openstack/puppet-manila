@@ -39,4 +39,9 @@ Puppet::Type.newtype(:manila_api_paste_ini) do
 
     defaultto false
   end
+
+  autorequire(:package) do
+    'manila'
+  end
+
 end
