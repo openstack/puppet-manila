@@ -98,6 +98,7 @@ class manila::api (
 ) {
 
   include ::manila::params
+  require ::keystone::python
 
   Manila_config<||> ~> Service['manila-api']
   Manila_api_paste_ini<||> ~> Service['manila-api']
