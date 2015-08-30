@@ -39,4 +39,9 @@ Puppet::Type.newtype(:manila_config) do
 
     defaultto false
   end
+
+  autorequire(:package) do
+    'manila'
+  end
+
 end

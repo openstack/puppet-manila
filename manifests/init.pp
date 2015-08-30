@@ -305,9 +305,6 @@ class manila (
 
   include ::manila::params
 
-  Package['manila'] -> Manila_config<||>
-  Package['manila'] -> Manila_api_paste_ini<||>
-
   if $use_ssl {
     if !$cert_file {
       fail('The cert_file parameter is required when use_ssl is set to true')
