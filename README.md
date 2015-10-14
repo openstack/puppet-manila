@@ -1,7 +1,7 @@
 manila
 =======
 
-6.0.0 - 2015.1.0 - Kilo
+6.1.0 - 2015.1.0 - Kilo
 
 #### Table of Contents
 
