@@ -40,7 +40,8 @@ describe 'basic manila' do
         password => 'a_big_secret',
       }
       class { '::manila::keystone::auth':
-        password => 'a_big_secret',
+        password    => 'a_big_secret',
+        password_v2 => 'a_big_secret',
       }
       class { '::manila::client': }
       class { '::manila::compute::nova': }
