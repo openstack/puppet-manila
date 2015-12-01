@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'manila::qpid' do
 
   let :facts do
-    {:puppetversion => '2.7',
-     :osfamily => 'RedHat'}
+    @default_facts.merge({:puppetversion => '2.7',
+     :osfamily => 'RedHat'})
   end
 
   describe 'with defaults' do

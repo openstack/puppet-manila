@@ -5,7 +5,7 @@ describe 'manila' do
   end
 
   let :facts do
-    {:osfamily => 'Debian'}
+    @default_facts.merge({:osfamily => 'Debian'})
   end
 
   describe 'with only required params' do
@@ -49,10 +49,10 @@ describe 'manila' do
         :value => 'guest'
       )
       is_expected.to contain_manila_config('DEFAULT/verbose').with(
-        :value => false
+        :value => '<SERVICE DEFAULT>'
       )
       is_expected.to contain_manila_config('DEFAULT/debug').with(
-        :value => false
+        :value => '<SERVICE DEFAULT>'
       )
       is_expected.to contain_manila_config('DEFAULT/storage_availability_zone').with(
         :value => 'nova'
