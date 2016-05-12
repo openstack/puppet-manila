@@ -1,0 +1,6 @@
+---
+features:
+  - Add support for db_max_retries param
+    The db_max_retries parameter regulates
+    the number of reconnection attempts performed
+    after an error raised rather than at startup.
