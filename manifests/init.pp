@@ -53,58 +53,58 @@
 #
 # [*rabbit_host*]
 #   (Optional) IP or hostname of the rabbit server.
-#   Defaults to '127.0.0.1'
+#   Defaults to $::os_service_default.
 #
 # [*rabbit_port*]
 #   (Optional) Port of the rabbit server.
-#   Defaults to 5672.
+#   Defaults to $::os_service_default.
 #
 # [*rabbit_hosts*]
 #   (Optional) Array of host:port (used with HA queues).
 #   If defined, will remove rabbit_host & rabbit_port parameters from config
-#   Defaults to undef.
+#   Defaults to $::os_service_default.
 #
 # [*rabbit_userid*]
 #   (Optional) User to connect to the rabbit server.
-#   Defaults to 'guest'
+#   Defaults to $::os_service_default.
 #
 # [*rabbit_password*]
 #   (Optional) Password to connect to the rabbit_server.
-#   Defaults to empty.
+#   Defaults to $::os_service_default.
 #
 # [*rabbit_virtual_host*]
 #   (Optional) Virtual_host to use.
-#   Defaults to '/'
+#   Defaults to $::os_service_default.
 #
 # [*rabbit_ha_queues*]
 #   (optional) Use HA queues in RabbitMQ (x-ha-policy: all).
-#   Defaults to undef
+#   Defaults to  $::os_service_default.
 #
 # [*rabbit_use_ssl*]
 #   (Optional) Connect over SSL for RabbitMQ.
-#   Defaults to false
+#   Defaults to $::os_service_default.
 #
 # [*kombu_ssl_ca_certs*]
 #   (optional) SSL certification authority file (valid only if SSL enabled).
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*kombu_ssl_certfile*]
 #   (optional) SSL cert file (valid only if SSL enabled).
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*kombu_ssl_keyfile*]
 #   (optional) SSL key file (valid only if SSL enabled).
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*kombu_ssl_version*]
 #   (optional) SSL version to use (valid only if SSL enabled).
 #   Valid values are TLSv1, SSLv23 and SSLv3. SSLv2 may be
 #   available on some distributions.
-#   Defaults to 'TLSv1'
+#   Defaults to $::os_service_default
 #
 # [*amqp_durable_queues*]
-#   Use durable queues in amqp.
-#   (Optional) Defaults to false.
+#   (optional) Use durable queues in amqp.
+#   Defaults to $::os_service_default.
 #
 # [*use_stderr*]
 #   (optional) Use stderr for logging
@@ -188,19 +188,19 @@
 #
 # [*amqp_ssl_ca_file*]
 #   (optional) CA certificate PEM file to verify server certificate
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*amqp_ssl_cert_file*]
 #   (optional) Identifying certificate PEM file to present to clients
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*amqp_ssl_key_file*]
 #   (optional) Private key PEM file used to sign cert_file certificate
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*amqp_ssl_key_password*]
 #   (optional) Password for decrypting ssl_key_file (if encrypted)
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*amqp_allow_insecure_clients*]
 #   (optional) Accept clients using either SSL or plain TCP
@@ -217,19 +217,19 @@ class manila (
   $rpc_backend                 = 'rabbit',
   $control_exchange            = 'openstack',
   $notification_driver         = 'messaging',
-  $rabbit_host                 = '127.0.0.1',
-  $rabbit_port                 = 5672,
-  $rabbit_hosts                = undef,
-  $rabbit_virtual_host         = '/',
-  $rabbit_userid               = 'guest',
-  $rabbit_password             = false,
-  $rabbit_ha_queues            = undef,
-  $rabbit_use_ssl              = false,
-  $kombu_ssl_ca_certs          = undef,
-  $kombu_ssl_certfile          = undef,
-  $kombu_ssl_keyfile           = undef,
-  $kombu_ssl_version           = 'TLSv1',
-  $amqp_durable_queues         = false,
+  $rabbit_host                 = $::os_service_default,
+  $rabbit_port                 = $::os_service_default,
+  $rabbit_hosts                = $::os_service_default,
+  $rabbit_virtual_host         = $::os_service_default,
+  $rabbit_userid               = $::os_service_default,
+  $rabbit_password             = $::os_service_default,
+  $rabbit_ha_queues            = $::os_service_default,
+  $rabbit_use_ssl              = $::os_service_default,
+  $kombu_ssl_ca_certs          = $::os_service_default,
+  $kombu_ssl_certfile          = $::os_service_default,
+  $kombu_ssl_keyfile           = $::os_service_default,
+  $kombu_ssl_version           = $::os_service_default,
+  $amqp_durable_queues         = $::os_service_default,
   $package_ensure              = 'present',
   $use_ssl                     = false,
   $ca_file                     = false,
@@ -253,10 +253,10 @@ class manila (
   $amqp_idle_timeout           = '0',
   $amqp_trace                  = false,
   $amqp_allow_insecure_clients = false,
-  $amqp_ssl_ca_file            = undef,
-  $amqp_ssl_cert_file          = undef,
-  $amqp_ssl_key_file           = undef,
-  $amqp_ssl_key_password       = undef,
+  $amqp_ssl_ca_file            = $::os_service_default,
+  $amqp_ssl_cert_file          = $::os_service_default,
+  $amqp_ssl_key_file           = $::os_service_default,
+  $amqp_ssl_key_password       = $::os_service_default,
 ) {
 
   include ::manila::db
@@ -272,20 +272,6 @@ class manila (
     }
   }
 
-  if $kombu_ssl_ca_certs and !$rabbit_use_ssl {
-    fail('The kombu_ssl_ca_certs parameter requires rabbit_use_ssl to be set to true')
-  }
-  if $kombu_ssl_certfile and !$rabbit_use_ssl {
-    fail('The kombu_ssl_certfile parameter requires rabbit_use_ssl to be set to true')
-  }
-  if $kombu_ssl_keyfile and !$rabbit_use_ssl {
-    fail('The kombu_ssl_keyfile parameter requires rabbit_use_ssl to be set to true')
-  }
-  if ($kombu_ssl_certfile and !$kombu_ssl_keyfile) or ($kombu_ssl_keyfile and !$kombu_ssl_certfile) {
-    fail('The kombu_ssl_certfile and kombu_ssl_keyfile parameters must be used together')
-  }
-
-  # this anchor is used to simplify the graph between manila components by
   # allowing a resource to serve as a point where the configuration of manila begins
   anchor { 'manila-start': }
 
@@ -302,116 +288,56 @@ class manila (
       fail('Please specify a rabbit_password parameter.')
     }
 
-    manila_config {
-      'oslo_messaging_rabbit/rabbit_password':     value => $rabbit_password, secret => true;
-      'oslo_messaging_rabbit/rabbit_userid':       value => $rabbit_userid;
-      'oslo_messaging_rabbit/rabbit_virtual_host': value => $rabbit_virtual_host;
-      'oslo_messaging_rabbit/rabbit_use_ssl':      value => $rabbit_use_ssl;
-      'DEFAULT/control_exchange':                  value => $control_exchange;
-      'oslo_messaging_rabbit/amqp_durable_queues': value => $amqp_durable_queues;
+    oslo::messaging::rabbit { 'manila_config':
+      rabbit_password     => $rabbit_password,
+      rabbit_userid       => $rabbit_userid,
+      rabbit_virtual_host => $rabbit_virtual_host,
+      rabbit_use_ssl      => $rabbit_use_ssl,
+      amqp_durable_queues => $amqp_durable_queues,
+      rabbit_hosts        => $rabbit_hosts,
+      rabbit_host         => $rabbit_host,
+      rabbit_port         => $rabbit_port,
+      rabbit_ha_queues    => $rabbit_ha_queues,
+      kombu_ssl_ca_certs  => $kombu_ssl_ca_certs,
+      kombu_ssl_certfile  => $kombu_ssl_certfile,
+      kombu_ssl_keyfile   => $kombu_ssl_keyfile,
+      kombu_ssl_version   => $kombu_ssl_version,
     }
 
-    if $rabbit_hosts {
-      manila_config { 'oslo_messaging_rabbit/rabbit_hosts':     value => join($rabbit_hosts, ',') }
-    } else {
-      manila_config { 'oslo_messaging_rabbit/rabbit_host':      value => $rabbit_host }
-      manila_config { 'oslo_messaging_rabbit/rabbit_port':      value => $rabbit_port }
-      manila_config { 'oslo_messaging_rabbit/rabbit_hosts':     value => "${rabbit_host}:${rabbit_port}" }
+    oslo::messaging::notifications { 'manila_config':
+      driver => $notification_driver
     }
+  }
 
-    if $rabbit_ha_queues == undef {
-      if size($rabbit_hosts) > 1 {
-        manila_config { 'oslo_messaging_rabbit/rabbit_ha_queues': value => true }
-      } else {
-        manila_config { 'oslo_messaging_rabbit/rabbit_ha_queues': value => false }
-      }
-    } else {
-      manila_config { 'oslo_messaging_rabbit/rabbit_ha_queues': value => $rabbit_ha_queues }
+  elsif $rpc_backend == 'amqp' {
+
+    oslo::messaging::amqp { 'manila_config':
+      server_request_prefix  => $amqp_server_request_prefix,
+      broadcast_prefix       => $amqp_broadcast_prefix,
+      group_request_prefix   => $amqp_group_request_prefix,
+      container_name         => $amqp_container_name,
+      idle_timeout           => $amqp_idle_timeout,
+      trace                  => $amqp_trace,
+      allow_insecure_clients => $amqp_allow_insecure_clients,
+      ssl_ca_file            => $amqp_ssl_ca_file,
+      ssl_key_password       => $amqp_ssl_key_password,
+      ssl_cert_file          => $amqp_ssl_cert_file,
+      ssl_key_file           => $amqp_ssl_key_file,
     }
-
-    if $rabbit_use_ssl {
-
-      if $kombu_ssl_ca_certs {
-        manila_config { 'oslo_messaging_rabbit/kombu_ssl_ca_certs': value => $kombu_ssl_ca_certs; }
-      } else {
-        manila_config { 'oslo_messaging_rabbit/kombu_ssl_ca_certs': ensure => absent; }
-      }
-
-      if $kombu_ssl_certfile or $kombu_ssl_keyfile {
-        manila_config {
-          'oslo_messaging_rabbit/kombu_ssl_certfile': value => $kombu_ssl_certfile;
-          'oslo_messaging_rabbit/kombu_ssl_keyfile':  value => $kombu_ssl_keyfile;
-        }
-      } else {
-        manila_config {
-          'oslo_messaging_rabbit/kombu_ssl_certfile': ensure => absent;
-          'oslo_messaging_rabbit/kombu_ssl_keyfile':  ensure => absent;
-        }
-      }
-
-      if $kombu_ssl_version {
-        manila_config { 'oslo_messaging_rabbit/kombu_ssl_version':  value => $kombu_ssl_version; }
-      } else {
-        manila_config { 'oslo_messaging_rabbit/kombu_ssl_version':  ensure => absent; }
-      }
-
-    } else {
-      manila_config {
-        'oslo_messaging_rabbit/kombu_ssl_ca_certs': ensure => absent;
-        'oslo_messaging_rabbit/kombu_ssl_certfile': ensure => absent;
-        'oslo_messaging_rabbit/kombu_ssl_keyfile':  ensure => absent;
-        'oslo_messaging_rabbit/kombu_ssl_version':  ensure => absent;
-      }
-    }
-
   }
 
-
-  manila_config {
-    'oslo_messaging_amqp/server_request_prefix':  value => $amqp_server_request_prefix;
-    'oslo_messaging_amqp/broadcast_prefix':       value => $amqp_broadcast_prefix;
-    'oslo_messaging_amqp/group_request_prefix':   value => $amqp_group_request_prefix;
-    'oslo_messaging_amqp/container_name':         value => $amqp_container_name;
-    'oslo_messaging_amqp/idle_timeout':           value => $amqp_idle_timeout;
-    'oslo_messaging_amqp/trace':                  value => $amqp_trace;
-    'oslo_messaging_amqp/allow_insecure_clients': value => $amqp_allow_insecure_clients,
+  oslo::messaging::default { 'manila_config':
+    control_exchange => $control_exchange
   }
-
-
-  if $amqp_ssl_ca_file {
-    manila_config { 'oslo_messaging_amqp/ssl_ca_file': value => $amqp_ssl_ca_file; }
-  } else {
-    manila_config { 'oslo_messaging_amqp/ssl_ca_file': ensure => absent; }
-  }
-
-  if $amqp_ssl_key_password {
-    manila_config { 'oslo_messaging_amqp/ssl_key_password': value => $amqp_ssl_key_password; }
-  } else {
-    manila_config { 'oslo_messaging_amqp/ssl_key_password': ensure => absent; }
-  }
-
-  if $amqp_ssl_cert_file {
-    manila_config { 'oslo_messaging_amqp/ssl_cert_file': value => $amqp_ssl_cert_file; }
-  } else {
-    manila_config { 'oslo_messaging_amqp/ssl_cert_file': ensure => absent; }
-  }
-
-  if $amqp_ssl_key_file {
-    manila_config { 'oslo_messaging_amqp/ssl_key_file': value => $amqp_ssl_key_file; }
-  } else {
-    manila_config { 'oslo_messaging_amqp/ssl_key_file': ensure => absent; }
-  }
-
 
   manila_config {
     'DEFAULT/api_paste_config':          value => $api_paste_config;
-    'DEFAULT/rpc_backend':               value => $rpc_backend;
     'DEFAULT/storage_availability_zone': value => $storage_availability_zone;
     'DEFAULT/rootwrap_config':           value => $rootwrap_config;
-    'DEFAULT/notification_driver':       value => $notification_driver;
     'DEFAULT/state_path':                value => $state_path;
-    'oslo_concurrency/lock_path':        value => $lock_path;
   }
+
+  oslo::concurrency { 'manila_config': lock_path => $lock_path }
 
   # SSL Options
   if $use_ssl {
