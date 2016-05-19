@@ -139,10 +139,6 @@
 #   (optional) CA certificate file to use to verify connecting clients
 #   Defaults to false, not set_
 #
-# [*verbose*]
-#   (Optional) Should the daemons log verbose messages
-#   Defaults to false
-#
 # [*debug*]
 #   (Optional) Should the daemons log debug messages
 #   Defaults to false
@@ -206,6 +202,12 @@
 #   (optional) Accept clients using either SSL or plain TCP
 #   Defaults to false
 #
+# DEPRECATED PARAMETERS
+#
+# [*verbose*]
+#   (Optional) Deprecated. Should the daemons log verbose messages
+#   Defaults to undef
+#
 class manila (
   $sql_connection              = undef,
   $sql_idle_timeout            = undef,
@@ -240,7 +242,6 @@ class manila (
   $use_syslog                  = undef,
   $log_facility                = undef,
   $log_dir                     = undef,
-  $verbose                     = undef,
   $debug                       = undef,
   $storage_availability_zone   = 'nova',
   $rootwrap_config             = '/etc/manila/rootwrap.conf',
@@ -257,11 +258,17 @@ class manila (
   $amqp_ssl_cert_file          = $::os_service_default,
   $amqp_ssl_key_file           = $::os_service_default,
   $amqp_ssl_key_password       = $::os_service_default,
+  # Deprecated
+  $verbose                     = undef,
 ) {
 
   include ::manila::db
   include ::manila::logging
   include ::manila::params
+
+  if $verbose {
+    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
+  }
 
   if $use_ssl {
     if !$cert_file {

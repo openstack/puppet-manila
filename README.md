@@ -54,12 +54,12 @@ manila is a combination of Puppet manifests and ruby code to delivery configurat
 The `manila_config` provider is a children of the ini_setting provider. It allows one to write an entry in the `/etc/manila/manila.conf` file.
 
 ```puppet
-manila_config { 'DEFAULT/verbose' :
-  value => true,
+manila_config { 'DEFAULT/api_paste_config' :
+  value => /etc/manila/api-paste.ini,
 }
 ```
 
-This will write `verbose=true` in the `[DEFAULT]` section.
+This will write `api_paste_config=/etc/manila/api-paste.ini` in the `[DEFAULT]` section.
 
 ##### name
 

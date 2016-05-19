@@ -4,10 +4,6 @@
 #
 # == parameters
 #
-#  [*verbose*]
-#    (Optional) Should the daemons log verbose messages
-#    Defaults to  $::os_service_default
-#
 #  [*debug*]
 #    (Optional) Should the daemons log debug messages
 #    Defaults to $::os_service_default
@@ -88,13 +84,18 @@
 #    (optional) Format string for %%(asctime)s in log records.
 #    Defaults to $::os_service_default
 #    Example: 'Y-%m-%d %H:%M:%S'
-
+#
+# DEPRECATED PARAMETERS
+#
+#  [*verbose*]
+#    (Optional) Deprecated. Should the daemons log verbose messages
+#    Defaults to undef
+#
 class manila::logging(
   $use_syslog                    = $::os_service_default,
   $use_stderr                    = $::os_service_default,
   $log_facility                  = $::os_service_default,
   $log_dir                       = '/var/log/manila',
-  $verbose                       = $::os_service_default,
   $debug                         = $::os_service_default,
   $logging_context_format_string = $::os_service_default,
   $logging_default_format_string = $::os_service_default,
@@ -107,7 +108,14 @@ class manila::logging(
   $instance_format               = $::os_service_default,
   $instance_uuid_format          = $::os_service_default,
   $log_date_format               = $::os_service_default,
+  # Deprecated
+  $verbose                       = undef,
 ) {
+
+
+  if $verbose {
+    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
+  }
 
   # NOTE(spredzy): In order to keep backward compatibility we rely on the pick function
   # to use manila::<myparam> first then manila::logging::<myparam>.
@@ -115,12 +123,10 @@ class manila::logging(
   $use_stderr_real = pick($::manila::use_stderr,$use_stderr)
   $log_facility_real = pick($::manila::log_facility,$log_facility)
   $log_dir_real = pick($::manila::log_dir,$log_dir)
-  $verbose_real  = pick($::manila::verbose,$verbose)
   $debug_real = pick($::manila::debug,$debug)
 
   oslo::log { 'manila_config':
     debug                         => $debug_real,
-    verbose                       => $verbose_real,
     use_syslog                    => $use_syslog_real,
     use_stderr                    => $use_stderr_real,
     log_dir                       => $log_dir_real,
