@@ -1,0 +1,3 @@
+---
+features:
+  - Add additional oslo.messaging amqp parameters (SASL, username)

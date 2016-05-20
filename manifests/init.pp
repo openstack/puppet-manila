@@ -202,6 +202,26 @@
 #   (optional) Accept clients using either SSL or plain TCP
 #   Defaults to false
 #
+# [*amqp_sasl_mechanisms*]
+#   (Optional) Space separated list of acceptable SASL mechanisms
+#   Defaults to $::os_service_default.
+#
+# [*amqp_sasl_config_dir*]
+#   (Optional) Path to directory that contains the SASL configuration
+#   Defaults to $::os_service_default.
+#
+# [*amqp_sasl_config_name*]
+#   (Optional) Name of configuration file (without .conf suffix)
+#   Defaults to $::os_service_default.
+#
+# [*amqp_username*]
+#   (Optional) User name for message broker authentication
+#   Defaults to $::os_service_default.
+#
+# [*amqp_password*]
+#   (Optional) Password for message broker authentication
+#   Defaults to $::os_service_default.
+#
 # DEPRECATED PARAMETERS
 #
 # [*verbose*]
@@ -258,6 +278,11 @@ class manila (
   $amqp_ssl_cert_file          = $::os_service_default,
   $amqp_ssl_key_file           = $::os_service_default,
   $amqp_ssl_key_password       = $::os_service_default,
+  $amqp_sasl_mechanisms        = $::os_service_default,
+  $amqp_sasl_config_dir        = $::os_service_default,
+  $amqp_sasl_config_name       = $::os_service_default,
+  $amqp_username               = $::os_service_default,
+  $amqp_password               = $::os_service_default,
   # Deprecated
   $verbose                     = undef,
 ) {
@@ -330,6 +355,11 @@ class manila (
       ssl_key_password       => $amqp_ssl_key_password,
       ssl_cert_file          => $amqp_ssl_cert_file,
       ssl_key_file           => $amqp_ssl_key_file,
+      sasl_mechanisms        => $amqp_sasl_mechanisms,
+      sasl_config_dir        => $amqp_sasl_config_dir,
+      sasl_config_name       => $amqp_sasl_config_name,
+      username               => $amqp_username,
+      password               => $amqp_password,
     }
   }
 
