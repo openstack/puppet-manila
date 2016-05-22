@@ -110,7 +110,7 @@ describe 'manila::db' do
         { :database_connection     => 'mysql+pymysql://manila:manila@localhost/manila' }
       end
 
-      it { is_expected.not_to contain_package('manila-backend-package') }
+      it { is_expected.not_to contain_package('db_backend_package') }
     end
   end
 
