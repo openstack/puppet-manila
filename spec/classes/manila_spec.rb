@@ -20,6 +20,12 @@ describe 'manila' do
       is_expected.to contain_manila_config('DEFAULT/rpc_backend').with(
         :value => 'rabbit'
       )
+      is_expected.to contain_manila_config('DEFAULT/transport_url').with(
+        :value => '<SERVICE DEFAULT>'
+      )
+      is_expected.to contain_manila_config('oslo_messaging_notifications/transport_url').with(
+        :value => '<SERVICE DEFAULT>'
+      )
       is_expected.to contain_manila_config('oslo_messaging_notifications/driver').with(
         :value => 'messaging'
       )
@@ -255,6 +261,19 @@ describe 'manila' do
     end
 
     it_raises 'a Puppet::Error', /The cert_file parameter is required when use_ssl is set to true/
+  end
+
+  describe 'with transport_url entries' do
+
+    let :params do
+      {
+        :default_transport_url      => 'rabbit://rabbit_user:password@localhost:5673',
+        :notification_transport_url => 'rabbit://rabbit_user:password@localhost:5673',
+      }
+    end
+
+    it { is_expected.to contain_manila_config('DEFAULT/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673') }
+    it { is_expected.to contain_manila_config('oslo_messaging_notifications/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673') }
   end
 
   describe 'with amqp rpc supplied' do

@@ -35,6 +35,12 @@
 #   (optional) Directory for storing state.
 #   Defaults to '/var/lib/manila'
 #
+# [*default_transport_url*]
+#    (optional) A URL representing the messaging driver to use and its full
+#    configuration. Transport URLs take the form:
+#      transport://user:pass@host1:port[,hostN:portN]/virtual_host
+#    Defaults to $::os_service_default
+#
 # [*control_exchange*]
 #   (Optional) The default exchange under which topics are scope.
 #   Defaults to 'openstack'.
@@ -46,6 +52,13 @@
 # [*package_ensure*]
 #    (Optional) Ensure state for package.
 #    Defaults to 'present'
+#
+# [*notification_transport_url*]
+#   (optional) A URL representing the messaging driver to use for
+#   notifications and its full configuration. Transport URLs
+#   take the form:
+#      transport://user:pass@host1:port[,hostN:portN]/virtual_host
+#   Defaults to $::os_service_default.
 #
 # [*notification_driver*]
 #   (optional) Driver or drivers to handle sending notifications.
@@ -237,7 +250,9 @@ class manila (
   $database_max_pool_size      = undef,
   $database_max_overflow       = undef,
   $rpc_backend                 = 'rabbit',
+  $default_transport_url       = $::os_service_default,
   $control_exchange            = 'openstack',
+  $notification_transport_url  = $::os_service_default,
   $notification_driver         = 'messaging',
   $rabbit_host                 = $::os_service_default,
   $rabbit_port                 = $::os_service_default,
@@ -335,10 +350,6 @@ class manila (
       kombu_ssl_keyfile   => $kombu_ssl_keyfile,
       kombu_ssl_version   => $kombu_ssl_version,
     }
-
-    oslo::messaging::notifications { 'manila_config':
-      driver => $notification_driver
-    }
   }
 
   elsif $rpc_backend == 'amqp' {
@@ -364,7 +375,13 @@ class manila (
   }
 
   oslo::messaging::default { 'manila_config':
-    control_exchange => $control_exchange
+    transport_url    => $default_transport_url,
+    control_exchange => $control_exchange,
+  }
+
+  oslo::messaging::notifications { 'manila_config':
+    transport_url => $notification_transport_url,
+    driver        => $notification_driver,
   }
 
   manila_config {
