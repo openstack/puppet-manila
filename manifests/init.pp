@@ -110,6 +110,10 @@
 #   (optional) Use stderr for logging
 #   Defaults to undef
 #
+# [*use_syslog*]
+#   Use syslog for logging.
+#   (Optional) Defaults to false.
+#
 # [*log_facility*]
 #   Syslog facility to receive log lines.
 #   (Optional) Defaults to LOG_USER.
@@ -224,10 +228,6 @@
 #   (Optional) Deprecated. Should the daemons log verbose messages
 #   Defaults to undef
 #
-# [*use_syslog*]
-#    Deprecated. Use syslog for logging.
-#   (Optional) Defaults to undef
-#
 class manila (
   $sql_connection              = undef,
   $sql_idle_timeout            = undef,
@@ -259,6 +259,7 @@ class manila (
   $key_file                    = false,
   $api_paste_config            = '/etc/manila/api-paste.ini',
   $use_stderr                  = undef,
+  $use_syslog                  = undef,
   $log_facility                = undef,
   $log_dir                     = undef,
   $debug                       = undef,
@@ -284,7 +285,6 @@ class manila (
   $amqp_password               = $::os_service_default,
   # Deprecated
   $verbose                     = undef,
-  $use_syslog                  = undef,
 ) {
 
   include ::manila::db
@@ -293,10 +293,6 @@ class manila (
 
   if $verbose {
     warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
-  }
-
-  if $use_syslog {
-    warning('use_syslog is deprecated, has no effect and will be removed in a future release.')
   }
 
   if $use_ssl {
