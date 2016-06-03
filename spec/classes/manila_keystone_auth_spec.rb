@@ -82,29 +82,6 @@ describe 'manila::keystone::auth' do
     )}
   end
 
-  context 'when deprecated endpoint parameters' do
-    before do
-       params.merge!(
-        :public_address    => '10.0.42.1',
-        :admin_address     => '10.0.42.2',
-        :internal_address  => '10.0.42.3',
-        :region            => 'RegionThree',
-        :port              => '4242',
-        :admin_protocol    => 'https',
-        :internal_protocol => 'https',
-        :public_protocol   => 'https',
-        :share_version     => 'v42'
-      )
-     end
-
-     it { is_expected.to contain_keystone_endpoint('RegionThree/manila::share').with(
-      :ensure       => 'present',
-      :public_url   => 'https://10.0.42.1:4242/v42/%(tenant_id)s',
-      :admin_url    => 'https://10.0.42.2:4242/v42/%(tenant_id)s',
-      :internal_url => 'https://10.0.42.3:4242/v42/%(tenant_id)s'
-    )}
-  end
-
   describe 'when endpoint should not be configured' do
     before do
       params.merge!(
