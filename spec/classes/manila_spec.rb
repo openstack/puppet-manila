@@ -1,7 +1,11 @@
 require 'spec_helper'
 describe 'manila' do
   let :req_params do
-    {:rabbit_password => 'guest', :sql_connection => 'mysql+pymysql://user:password@host/database'}
+    {
+      :rabbit_password => 'guest',
+      :sql_connection  => 'mysql+pymysql://user:password@host/database',
+      :purge_config    => false,
+    }
   end
 
   let :facts do
@@ -15,6 +19,12 @@ describe 'manila' do
 
     it { is_expected.to contain_class('manila::logging') }
     it { is_expected.to contain_class('manila::params') }
+
+    it 'passes purge to resource' do
+      is_expected.to contain_resources('manila_config').with({
+        :purge => false
+      })
+    end
 
     it 'should contain default config' do
       is_expected.to contain_manila_config('DEFAULT/rpc_backend').with(

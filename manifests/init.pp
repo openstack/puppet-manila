@@ -235,6 +235,11 @@
 #   (Optional) Password for message broker authentication
 #   Defaults to $::os_service_default.
 #
+# [*purge_config*]
+#   (optional) Whether to set only the specified config options
+#   in the manila config.
+#   Defaults to false.
+#
 # DEPRECATED PARAMETERS
 #
 # [*verbose*]
@@ -298,6 +303,7 @@ class manila (
   $amqp_sasl_config_name       = $::os_service_default,
   $amqp_username               = $::os_service_default,
   $amqp_password               = $::os_service_default,
+  $purge_config                = false,
   # Deprecated
   $verbose                     = undef,
 ) {
@@ -327,6 +333,10 @@ class manila (
     name    => $::manila::params::package_name,
     require => Anchor['manila-start'],
     tag     => ['openstack', 'manila-package'],
+  }
+
+  resources { 'manila_config':
+    purge => $purge_config,
   }
 
   if $rpc_backend == 'manila.openstack.common.rpc.impl_kombu' or $rpc_backend == 'rabbit' {
