@@ -92,4 +92,22 @@ describe 'manila::keystone::auth' do
     it { is_expected.to_not contain_keystone_endpoint('RegionOne/manila::share') }
     it { is_expected.to_not contain_keystone_endpoint('RegionOne/manilav2::sharev2') }
   end
+
+  describe 'when overriding service names' do
+
+    before do
+       params.merge!(
+        :service_name    => 'manila_service',
+        :service_name_v2 => 'manila_service_v2',
+      )
+    end
+
+    it { is_expected.to contain_keystone_user('manila') }
+    it { is_expected.to contain_keystone_user_role('manila@services') }
+    it { is_expected.to contain_keystone_service('manila_service::share') }
+    it { is_expected.to contain_keystone_service('manila_service_v2::sharev2') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/manila_service::share') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/manila_service_v2::sharev2') }
+
+  end
 end

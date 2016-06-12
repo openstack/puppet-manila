@@ -13,6 +13,15 @@
 # [*auth_name*]
 #   Username for Manila service. Optional. Defaults to 'manila'.
 #
+# [*service_name*]
+#   (optional) Name of the service.
+#   Defaults to 'manila'.
+#
+# [*service_name_v2*]
+#   (optional) Name of the service.
+#   Defaults to 'manilav2'.
+#
+# [*configure_endpoint*]
 # [*configure_endpoint*]
 #   Should Manila endpoint be configured? Optional. Defaults to 'true'.
 #   API v1 endpoint should be enabled in Icehouse for compatibility with Nova.
@@ -84,6 +93,8 @@ class manila::keystone::auth (
   $password_v2            = undef,
   $auth_name_v2           = 'manilav2',
   $auth_name              = 'manila',
+  $service_name           = 'manila',
+  $service_name_v2        = 'manilav2',
   $email                  = 'manila@localhost',
   $email_v2               = 'manilav2@localhost',
   $tenant                 = 'services',
@@ -113,12 +124,14 @@ class manila::keystone::auth (
   Keystone_user_role["${auth_name}@${tenant}"] ~> Service <| name == 'manila-api' |>
   Keystone_user_role["${auth_name_v2}@${tenant}"] ~> Service <| name == 'manila-api' |>
 
-  keystone::resource::service_identity { $auth_name:
+  keystone::resource::service_identity { 'manila':
     configure_user      => true,
     configure_user_role => true,
     configure_endpoint  => $configure_endpoint,
     service_type        => $service_type,
     service_description => $service_description,
+    auth_name           => $auth_name,
+    service_name        => $service_name,
     region              => $region,
     password            => $password,
     email               => $email,
@@ -128,12 +141,14 @@ class manila::keystone::auth (
     internal_url        => $internal_url,
   }
 
-  keystone::resource::service_identity { $auth_name_v2:
+  keystone::resource::service_identity { 'manilav2':
     configure_user      => true,
     configure_user_role => true,
     configure_endpoint  => $configure_endpoint_v2,
     service_type        => $service_type_v2,
     service_description => $service_description_v2,
+    auth_name           => $auth_name_v2,
+    service_name        => $service_name_v2,
     region              => $region,
     password            => $password_v2_real,
     email               => $email_v2,
