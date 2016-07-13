@@ -6,6 +6,7 @@ describe 'manila::service_instance' do
 
   let :params do
     {
+      :create_service_image                   => true,
       :service_instance_name_template         => 'manila_service_instance_%s',
       :service_instance_user                  => 'user1',
       :service_instance_password              => 'pass1',
@@ -48,6 +49,17 @@ describe 'manila::service_instance' do
         :disk_format      => 'qcow2',
         :source           => req_params[:service_image_location]
         )
+    end
+  end
+
+  context 'with create_service_image false' do
+    let (:req_params) { params.merge!({
+      :create_service_image => false,
+      :service_image_name   => 'manila-service-image',
+    }) }
+
+    it 'does not create Glance image' do
+      is_expected.to_not contain_glance_image(req_params[:service_image_name])
     end
   end
 end

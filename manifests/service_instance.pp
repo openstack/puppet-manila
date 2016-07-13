@@ -2,6 +2,10 @@
 #
 # ===Parameters
 #
+# [*create_service_image*]
+#   (optional) Upload the service image to glance.
+#   Defaults to: true
+#
 # [*service_image_name*]
 #   (optional) Name of image in glance, that will be used to create
 #    service instance.
@@ -76,6 +80,7 @@
 # Defaults to: neutron
 
 define manila::service_instance (
+  $create_service_image                   = true,
   $service_image_name                     = 'manila-service-image',
   $service_image_location                 = undef,
   $service_instance_name_template         = 'manila_service_instance_%s',
@@ -95,17 +100,19 @@ define manila::service_instance (
   $service_instance_network_helper_type   = 'neutron',
 
 ) {
-  if $service_image_location {
-    glance_image { $service_image_name:
-      ensure           => present,
-      is_public        => 'yes',
-      container_format => 'bare',
-      disk_format      => 'qcow2',
-      source           => $service_image_location,
+  if $create_service_image {
+    if $service_image_location {
+      glance_image { $service_image_name:
+        ensure           => present,
+        is_public        => 'yes',
+        container_format => 'bare',
+        disk_format      => 'qcow2',
+        source           => $service_image_location,
+      }
     }
-  }
-  else {
-    fail('Missing required parameter service_image_location')
+    else {
+      fail('Missing required parameter service_image_location')
+    }
   }
 
   manila_config {
