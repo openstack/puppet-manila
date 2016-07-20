@@ -25,8 +25,8 @@ describe 'manila::share::generic' do
       is_expected.to contain_manila_config('DEFAULT/share_driver').with_value(
         'manila.share.drivers.generic.GenericShareDriver')
       is_expected.to contain_manila_config('DEFAULT/share_helpers').with_value(
-        'CIFS=manila.share.drivers.generic.CIFSHelper,'\
-        'NFS=manila.share.drivers.generic.NFSHelper')
+        'CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess,'\
+        'NFS=manila.share.drivers.helpers.NFSHelper')
       params.each_pair do |config,value|
         is_expected.to contain_manila_config("DEFAULT/#{config}").with_value( value )
       end

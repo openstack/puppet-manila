@@ -46,8 +46,8 @@
 #
 # [*share_helpers*]
 #   (optional) Specify list of share export helpers.
-#   Defaults to: ['CIFS=manila.share.drivers.generic.CIFSHelper',
-#                 'NFS=manila.share.drivers.generic.NFSHelper']
+#   Defaults to: ['CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess',
+#                 'NFS=manila.share.drivers.helpers.NFSHelper']
 #
 # [*cinder_volume_type*]
 #   (optional) Name or id of cinder volume type which will be used for all
@@ -80,8 +80,8 @@ define manila::backend::generic (
   $max_time_to_attach                  = 120,
   $service_instance_smb_config_path    = '$share_mount_path/smb.conf',
   $share_volume_fstype                 = 'ext4',
-  $share_helpers = ['CIFS=manila.share.drivers.generic.CIFSHelper',
-                    'NFS=manila.share.drivers.generic.NFSHelper'],
+  $share_helpers = ['CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess',
+                    'NFS=manila.share.drivers.helpers.NFSHelper'],
   $cinder_volume_type                  = undef,
   $delete_share_server_with_last_share = 'False',
   $unmanage_remove_access_rules        = 'False',
