@@ -39,6 +39,7 @@ describe 'manila::api' do
       is_expected.to contain_manila_api_paste_ini('filter:authtoken/auth_uri').with(:value => 'http://localhost:5000/')
 
       is_expected.to_not contain_manila_config('DEFAULT/os_region_name')
+      is_expected.to contain_manila_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
     end
   end
 
@@ -71,6 +72,17 @@ describe 'manila::api' do
     it 'should configure manila api correctly' do
       is_expected.to contain_manila_config('DEFAULT/osapi_share_listen').with(
        :value => '192.168.1.3'
+      )
+    end
+  end
+
+  describe 'with only required params' do
+    let :params do
+      req_params.merge({'enable_proxy_headers_parsing' => true})
+    end
+    it 'should configure manila api correctly' do
+      is_expected.to contain_manila_config('oslo_middleware/enable_proxy_headers_parsing').with(
+       :value => true
       )
     end
   end

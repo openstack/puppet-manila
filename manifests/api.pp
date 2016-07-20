@@ -76,25 +76,31 @@
 #   (optional) Factory to use for ratelimiting
 #   Defaults to 'manila.api.v1.limits:RateLimitingMiddleware.factory'
 #
+# [*enable_proxy_headers_parsing*]
+#   (Optional) Enable paste middleware to handle SSL requests through
+#   HTTPProxyToWSGI middleware.
+#   Defaults to $::os_service_default.
+#
 class manila::api (
   $keystone_password,
-  $keystone_enabled           = true,
-  $keystone_tenant            = 'services',
-  $keystone_user              = 'manila',
-  $keystone_auth_host         = 'localhost',
-  $keystone_auth_port         = '35357',
-  $keystone_auth_protocol     = 'http',
-  $keystone_auth_admin_prefix = false,
-  $keystone_auth_uri          = false,
-  $os_region_name             = undef,
-  $service_port               = '5000',
-  $package_ensure             = 'present',
-  $bind_host                  = '0.0.0.0',
-  $enabled                    = true,
-  $manage_service             = true,
-  $ratelimits                 = undef,
+  $keystone_enabled                   = true,
+  $keystone_tenant                    = 'services',
+  $keystone_user                      = 'manila',
+  $keystone_auth_host                 = 'localhost',
+  $keystone_auth_port                 = '35357',
+  $keystone_auth_protocol             = 'http',
+  $keystone_auth_admin_prefix         = false,
+  $keystone_auth_uri                  = false,
+  $os_region_name                     = undef,
+  $service_port                       = '5000',
+  $package_ensure                     = 'present',
+  $bind_host                          = '0.0.0.0',
+  $enabled                            = true,
+  $manage_service                     = true,
+  $ratelimits                         = undef,
   $ratelimits_factory =
-    'manila.api.v1.limits:RateLimitingMiddleware.factory'
+    'manila.api.v1.limits:RateLimitingMiddleware.factory',
+  $enable_proxy_headers_parsing       = $::os_service_default,
 ) {
 
   include ::manila::params
@@ -144,6 +150,10 @@ class manila::api (
 
   manila_config {
     'DEFAULT/osapi_share_listen': value => $bind_host,
+  }
+
+  oslo::middleware { 'manila_config':
+    enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
   }
 
   if $os_region_name {
