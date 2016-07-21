@@ -64,6 +64,10 @@
 #   (optional) The state of the service
 #   Defaults to true
 #
+# [*sync_db*]
+#   (optional) Run db sync on the node
+#   Defaults to true
+#
 # [*manage_service*]
 #   (optional) Whether to start/stop the service
 #   Defaults to true
@@ -96,6 +100,7 @@ class manila::api (
   $package_ensure                     = 'present',
   $bind_host                          = '0.0.0.0',
   $enabled                            = true,
+  $sync_db                            = true,
   $manage_service                     = true,
   $ratelimits                         = undef,
   $ratelimits_factory =
@@ -118,18 +123,11 @@ class manila::api (
     }
   }
 
+  if $sync_db {
+    include ::manila::db::sync
+  }
+
   if $enabled {
-
-    Manila_config<||> ~> Exec['manila-manage db_sync']
-
-    exec { 'manila-manage db_sync':
-      command     => $::manila::params::db_sync_command,
-      path        => '/usr/bin',
-      user        => 'manila',
-      refreshonly => true,
-      logoutput   => 'on_failure',
-      require     => Package['manila'],
-    }
     if $manage_service {
       $ensure = 'running'
     }

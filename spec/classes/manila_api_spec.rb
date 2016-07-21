@@ -41,6 +41,10 @@ describe 'manila::api' do
       is_expected.to_not contain_manila_config('DEFAULT/os_region_name')
       is_expected.to contain_manila_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
     end
+
+    it 'should run db sync' do
+      is_expected.to contain_class('manila::db::sync')
+    end
   end
 
   describe 'with a custom region for nova' do
@@ -130,8 +134,17 @@ describe 'manila::api' do
     it 'should stop the service' do
       is_expected.to contain_service('manila-api').with_ensure('stopped')
     end
-    it 'should contain db_sync exec' do
-      is_expected.to_not contain_exec('manila-manage db_sync')
+    it 'includes manila::db::sync' do
+      is_expected.to contain_class('manila::db::sync')
+    end
+  end
+
+  describe 'with sync_db false' do
+    let :params do
+      req_params.merge({'sync_db' => false})
+    end
+    it 'should not include manila::db::sync' do
+      is_expected.to_not contain_class('manila::db::sync')
     end
   end
 
