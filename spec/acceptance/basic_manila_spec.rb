@@ -46,9 +46,10 @@ describe 'basic manila' do
       class { '::manila::compute::nova': }
       class { '::manila::network::neutron': }
       class { '::manila::volume::cinder': }
-      class { '::manila::api':
-        keystone_password     => 'a_big_secret',
+      class { '::manila::keystone::authtoken':
+        password => 'a_big_secret',
       }
+      class { '::manila::api': }
       class { '::manila::scheduler': }
 
       # NFS-Ganesha backend. Currently this feature is only for RHEL systems

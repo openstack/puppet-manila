@@ -23,21 +23,6 @@ describe 'manila::api' do
     it 'should configure manila api correctly' do
       is_expected.to contain_manila_config('DEFAULT/auth_strategy').with(:value => 'keystone')
       is_expected.to contain_manila_config('DEFAULT/osapi_share_listen').with(:value => '0.0.0.0')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/service_protocol').with(:value => 'http')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/service_host').with(:value => 'localhost')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/service_port').with(:value => '5000')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/auth_protocol').with(:value => 'http')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/auth_host').with(:value => 'localhost')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/auth_port').with(:value => '35357')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/auth_admin_prefix').with(:ensure => 'absent')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/admin_tenant_name').with(:value => 'services')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/admin_user').with(:value => 'manila')
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/admin_password').with(
-        :value  => 'foo',
-        :secret => true
-      )
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/auth_uri').with(:value => 'http://localhost:5000/')
-
       is_expected.to_not contain_manila_config('DEFAULT/os_region_name')
       is_expected.to contain_manila_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
     end
@@ -54,17 +39,6 @@ describe 'manila::api' do
     it 'should configure the region for nova' do
       is_expected.to contain_manila_config('DEFAULT/os_region_name').with(
         :value => 'MyRegion'
-      )
-    end
-  end
-
-  describe 'with custom auth_uri' do
-    let :params do
-      req_params.merge({'keystone_auth_uri' => 'http://foo.bar:8080/v2.0/'})
-    end
-    it 'should configure manila auth_uri correctly' do
-      is_expected.to contain_manila_api_paste_ini('filter:authtoken/auth_uri').with(
-        :value => 'http://foo.bar:8080/v2.0/'
       )
     end
   end
@@ -88,42 +62,6 @@ describe 'manila::api' do
       is_expected.to contain_manila_config('oslo_middleware/enable_proxy_headers_parsing').with(
        :value => true
       )
-    end
-  end
-
-  [ '/keystone', '/keystone/admin' ].each do |keystone_auth_admin_prefix|
-    describe "with keystone_auth_admin_prefix containing correct value #{keystone_auth_admin_prefix}" do
-      let :params do
-        {
-          :keystone_auth_admin_prefix => keystone_auth_admin_prefix,
-          :keystone_password    => 'dummy'
-        }
-      end
-
-      it { is_expected.to contain_manila_api_paste_ini('filter:authtoken/auth_admin_prefix').with(
-        :value => keystone_auth_admin_prefix
-      )}
-    end
-  end
-
-  [
-    '/keystone/',
-    'keystone/',
-    'keystone',
-    '/keystone/admin/',
-    'keystone/admin/',
-    'keystone/admin'
-  ].each do |keystone_auth_admin_prefix|
-    describe "with keystone_auth_admin_prefix containing incorrect value #{keystone_auth_admin_prefix}" do
-      let :params do
-        {
-          :keystone_auth_admin_prefix => keystone_auth_admin_prefix,
-          :keystone_password    => 'dummy'
-        }
-      end
-
-      it { expect { is_expected.to contain_manila_api_paste_ini('filter:authtoken/auth_admin_prefix') }.to \
-        raise_error(Puppet::Error, /validate_re\(\): "#{keystone_auth_admin_prefix}" does not match/) }
     end
   end
 

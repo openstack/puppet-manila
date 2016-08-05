@@ -1,0 +1,24 @@
+---
+features:
+  - Added manila::keystone::authtoken class to configure the
+    keystone_authtoken section in configuration file with all
+    keystone middleware parameters.
+deprecations:
+  - manila::api::keystone_user is deprecated in favor of
+    manila::keystone::authtoken::username
+  - manila::api::keystone_tenant is deprecated in favor of
+    manila::keystone::authtoken::project_name
+  - manila::api::keystone_password is deprecated in favor of
+    manila::keystone::authtoken::password
+  - manila::api::keystone_auth_uri is deprecated in favor of
+    manila::keystone::authtoken::auth_uri
+  - manila::api::keystone_auth_admin_prefix is deprecated and will be removed
+    in a future release
+  - manila::api::keystone_auth_host is deprecated and will be removed
+    in a future release
+  - manila::api::keystone_auth_port is deprecated and will be removed
+    in a future release
+  - manila::api::keystone_auth_protocol is deprecated and will be removed
+    in a future release
+  - manila::api::service_port is deprecated and will be removed
+    in a future release

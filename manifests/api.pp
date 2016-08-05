@@ -4,53 +4,15 @@
 #
 # === Parameters
 #
-# [*keystone_password*]
-#   The password to use for authentication (keystone)
-#
-# [*keystone_enabled*]
-#   (optional) Use keystone for authentification
-#   Defaults to true
-#
-# [*keystone_tenant*]
-#   (optional) The tenant of the auth user
-#   Defaults to services
-#
-# [*keystone_user*]
-#   (optional) The name of the auth user
-#   Defaults to manila
-#
-# [*keystone_auth_host*]
-#   (optional) The keystone host
-#   Defaults to localhost
-#
-# [*keystone_auth_port*]
-#   (optional) The keystone auth port
-#   Defaults to 35357
-#
-# [*keystone_auth_protocol*]
-#   (optional) The protocol used to access the auth host
-#   Defaults to http.
+# [*auth_strategy*]
+#   (optional) Type of authentication to be used.
+#   Defaults to 'keystone'
 #
 # [*os_region_name*]
 #   (optional) Some operations require manila to make API requests
 #   to Nova. This sets the keystone region to be used for these
 #   requests. For example, boot-from-share.
 #   Defaults to undef.
-#
-# [*keystone_auth_admin_prefix*]
-#   (optional) The admin_prefix used to admin endpoint of the auth host
-#   This allow admin auth URIs like http://auth_host:35357/keystone.
-#   (where '/keystone' is the admin prefix)
-#   Defaults to false for empty. If defined, should be a string with a
-#   leading '/' and no trailing '/'.
-#
-# [*keystone_auth_uri*]
-#   (Optional) Public Identity API endpoint.
-#   Defaults to false.
-#
-# [*service_port*]
-#   (optional) The manila api port
-#   Defaults to 5000
 #
 # [*package_ensure*]
 #   (optional) The state of the package
@@ -85,31 +47,118 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
+# === DEPRECATED PARAMTERS
+#
+# [*keystone_enabled*]
+#   (optional) DEPRECATED. Use auth_strategy instead.
+#   Defaults to undef
+#
+# [*keystone_password*]
+#   (optional) DEPRECATED. The password to use for authentication (keystone)
+#   Defaults to undef
+#
+# [*keystone_tenant*]
+#   (optional) DEPRECATED. The tenant of the auth user
+#   Defaults to undef
+#
+# [*keystone_user*]
+#   (optional) DEPRECATED. The name of the auth user
+#   Defaults to undef
+#
+# [*keystone_auth_host*]
+#   (optional) DEPRECATED. The keystone host
+#   Defaults to undef
+#
+# [*keystone_auth_port*]
+#   (optional) DEPRECATED. The keystone auth port
+#   Defaults to undef
+#
+# [*keystone_auth_protocol*]
+#   (optional) DEPRECATED. The protocol used to access the auth host
+#   Defaults to undef
+#
+# [*keystone_auth_admin_prefix*]
+#   (optional) DEPRECATED. The admin_prefix used to admin endpoint of the auth host
+#   This allow admin auth URIs like http://auth_host:35357/keystone.
+#   (where '/keystone' is the admin prefix)
+#   Defaults to false for empty. If defined, should be a string with a
+#   leading '/' and no trailing '/'.
+#   Defaults to undef
+#
+# [*keystone_auth_uri*]
+#   (Optional) DEPRECATED. Public Identity API endpoint.
+#   Defaults to undef.
+#
+# [*service_port*]
+#   (optional) DEPRECATED. The manila api port
+#   Defaults to undef
+#
 class manila::api (
-  $keystone_password,
-  $keystone_enabled                   = true,
-  $keystone_tenant                    = 'services',
-  $keystone_user                      = 'manila',
-  $keystone_auth_host                 = 'localhost',
-  $keystone_auth_port                 = '35357',
-  $keystone_auth_protocol             = 'http',
-  $keystone_auth_admin_prefix         = false,
-  $keystone_auth_uri                  = false,
-  $os_region_name                     = undef,
-  $service_port                       = '5000',
-  $package_ensure                     = 'present',
-  $bind_host                          = '0.0.0.0',
-  $enabled                            = true,
-  $sync_db                            = true,
-  $manage_service                     = true,
-  $ratelimits                         = undef,
-  $ratelimits_factory =
-    'manila.api.v1.limits:RateLimitingMiddleware.factory',
-  $enable_proxy_headers_parsing       = $::os_service_default,
+  $auth_strategy                = 'keystone',
+  $os_region_name               = undef,
+  $package_ensure               = 'present',
+  $bind_host                    = '0.0.0.0',
+  $enabled                      = true,
+  $sync_db                      = true,
+  $manage_service               = true,
+  $ratelimits                   = undef,
+  $ratelimits_factory           = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
+  $enable_proxy_headers_parsing = $::os_service_default,
+  # Deprecated
+  $keystone_enabled             = undef,
+  $keystone_user                = undef,
+  $keystone_tenant              = undef,
+  $keystone_auth_uri            = undef,
+  $keystone_password            = undef,
+  $keystone_auth_admin_prefix   = undef,
+  $keystone_auth_host           = undef,
+  $keystone_auth_port           = undef,
+  $keystone_auth_protocol       = undef,
+  $service_port                 = undef,
 ) {
 
   include ::manila::params
   require ::keystone::python
+
+  if $keystone_enabled {
+    warning('keystone_enabled is deprecated, use auth_strategy instead.')
+  }
+
+  if $keystone_user {
+    warning('manila::api::keystone_user is deprecated, use manila::keystone::authtoken::username instead.')
+  }
+
+  if $keystone_tenant {
+    warning('manila::api::keystone_tenant is deprecated, use manila::keystone::authtoken::project_name instead.')
+  }
+
+  if $keystone_password {
+    warning('manila::api::keystone_password is deprecated, use manila::keystone::authtoken::password instead.')
+  }
+
+  if $keystone_auth_uri {
+    warning('manila::api::keystone_auth_uri is deprecated, use manila::keystone::authtoken::auth_uri instead.')
+  }
+
+  if $keystone_auth_admin_prefix {
+    warning('keystone_auth_admin_prefix is deprecated and will be removed in a future release')
+  }
+
+  if $keystone_auth_host {
+    warning('keystone_auth_host is deprecated and will be removed in a future release')
+  }
+
+  if $keystone_auth_port {
+    warning('keystone_auth_port is deprecated and will be removed in a future release')
+  }
+
+  if $keystone_auth_protocol {
+    warning('keystone_auth_protocol is deprecated and will be removed in a future release')
+  }
+
+  if $service_port {
+    warning('service port is deprecated and will be removed in a future release')
+  }
 
   Manila_config<||> ~> Service['manila-api']
   Manila_api_paste_ini<||> ~> Service['manila-api']
@@ -160,43 +209,22 @@ class manila::api (
     }
   }
 
-  if $keystone_auth_uri {
-    manila_api_paste_ini { 'filter:authtoken/auth_uri': value => $keystone_auth_uri; }
-  } else {
-    manila_api_paste_ini { 'filter:authtoken/auth_uri': value => "${keystone_auth_protocol}://${keystone_auth_host}:${service_port}/"; }
-  }
-
   if $keystone_enabled {
-    manila_config {
-      'DEFAULT/auth_strategy':     value => 'keystone' ;
-    }
-    manila_api_paste_ini {
-      'filter:authtoken/service_protocol':  value => $keystone_auth_protocol;
-      'filter:authtoken/service_host':      value => $keystone_auth_host;
-      'filter:authtoken/service_port':      value => $service_port;
-      'filter:authtoken/auth_protocol':     value => $keystone_auth_protocol;
-      'filter:authtoken/auth_host':         value => $keystone_auth_host;
-      'filter:authtoken/auth_port':         value => $keystone_auth_port;
-      'filter:authtoken/admin_tenant_name': value => $keystone_tenant;
-      'filter:authtoken/admin_user':        value => $keystone_user;
-      'filter:authtoken/admin_password':    value => $keystone_password, secret => true;
-    }
-
-  if ($ratelimits != undef) {
-    manila_api_paste_ini {
-      'filter:ratelimit/paste.filter_factory': value => $ratelimits_factory;
-      'filter:ratelimit/limits':               value => $ratelimits;
-    }
+    $auth_strategy_real = 'keystone'
+  } else {
+    $auth_strategy_real = $auth_strategy
   }
 
-    if $keystone_auth_admin_prefix {
-      validate_re($keystone_auth_admin_prefix, '^(/.+[^/])?$')
+  if $auth_strategy_real == 'keystone' {
+    manila_config {
+      'DEFAULT/auth_strategy': value => $auth_strategy_real;
+    }
+    include ::manila::keystone::authtoken
+
+    if ($ratelimits != undef) {
       manila_api_paste_ini {
-        'filter:authtoken/auth_admin_prefix': value => $keystone_auth_admin_prefix;
-      }
-    } else {
-      manila_api_paste_ini {
-        'filter:authtoken/auth_admin_prefix': ensure => absent;
+        'filter:ratelimit/paste.filter_factory': value => $ratelimits_factory;
+        'filter:ratelimit/limits':               value => $ratelimits;
       }
     }
   }
