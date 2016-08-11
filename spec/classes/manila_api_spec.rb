@@ -23,6 +23,7 @@ describe 'manila::api' do
     it 'should configure manila api correctly' do
       is_expected.to contain_manila_config('DEFAULT/auth_strategy').with(:value => 'keystone')
       is_expected.to contain_manila_config('DEFAULT/osapi_share_listen').with(:value => '0.0.0.0')
+      is_expected.to contain_manila_config('DEFAULT/enabled_share_protocols').with(:value => '<SERVICE DEFAULT>')
       is_expected.to_not contain_manila_config('DEFAULT/os_region_name')
       is_expected.to contain_manila_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
     end

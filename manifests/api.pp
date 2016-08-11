@@ -47,6 +47,10 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
+# [*enabled_share_protocols*]
+#   (optional) Defines the enabled share protocols provided by Manila.
+#   Defaults to $::os_service_default
+#
 # === DEPRECATED PARAMTERS
 #
 # [*keystone_enabled*]
@@ -104,6 +108,7 @@ class manila::api (
   $ratelimits                   = undef,
   $ratelimits_factory           = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
   $enable_proxy_headers_parsing = $::os_service_default,
+  $enabled_share_protocols      = $::os_service_default,
   # Deprecated
   $keystone_enabled             = undef,
   $keystone_user                = undef,
@@ -196,7 +201,8 @@ class manila::api (
   }
 
   manila_config {
-    'DEFAULT/osapi_share_listen': value => $bind_host,
+    'DEFAULT/osapi_share_listen':      value => $bind_host;
+    'DEFAULT/enabled_share_protocols': value => $enabled_share_protocols;
   }
 
   oslo::middleware { 'manila_config':
