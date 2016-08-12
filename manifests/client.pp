@@ -17,4 +17,10 @@ class manila::client (
     ensure => $package_ensure,
     name   => $::manila::params::client_package,
   }
+
+  if versioncmp($::puppetversion, '4.0.0') < 0 and versioncmp($::puppetversion, '3.6.1') >= 0 {
+    Package<| title == 'python-manilaclient' |> {
+      allow_virtual => true,
+    }
+  }
 }
