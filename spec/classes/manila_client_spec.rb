@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 describe 'manila::client' do
-  it { is_expected.to contain_package('python-manilaclient').with_ensure('present') }
+  it { is_expected.to contain_package('python-manilaclient').with(
+    :ensure => 'present',
+    :tag    => 'openstack',
+  )}
   let :facts do
     @default_facts.merge({:osfamily => 'Debian'})
   end
