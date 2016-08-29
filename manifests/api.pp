@@ -58,27 +58,30 @@
 #   Defaults to undef
 #
 # [*keystone_password*]
-#   (optional) DEPRECATED. The password to use for authentication (keystone)
+#   (optional) DEPRECATED. The password to use for authentication (keystone),
+#   use password from manila::keystone::authtoken instead.
 #   Defaults to undef
 #
 # [*keystone_tenant*]
-#   (optional) DEPRECATED. The tenant of the auth user
+#   (optional) DEPRECATED. The tenant of the auth user, use  project_name
+#   from manila::keystone::authtoken instead.
 #   Defaults to undef
 #
 # [*keystone_user*]
-#   (optional) DEPRECATED. The name of the auth user
+#   (optional) DEPRECATED. The name of the auth user, use username from
+#   manila::keystone::authtoken instead.
 #   Defaults to undef
 #
 # [*keystone_auth_host*]
-#   (optional) DEPRECATED. The keystone host
+#   (optional) DEPRECATED. The keystone host.
 #   Defaults to undef
 #
 # [*keystone_auth_port*]
-#   (optional) DEPRECATED. The keystone auth port
+#   (optional) DEPRECATED. The keystone auth port.
 #   Defaults to undef
 #
 # [*keystone_auth_protocol*]
-#   (optional) DEPRECATED. The protocol used to access the auth host
+#   (optional) DEPRECATED. The protocol used to access the auth host.
 #   Defaults to undef
 #
 # [*keystone_auth_admin_prefix*]
@@ -90,7 +93,8 @@
 #   Defaults to undef
 #
 # [*keystone_auth_uri*]
-#   (Optional) DEPRECATED. Public Identity API endpoint.
+#   (Optional) DEPRECATED. Public Identity API endpoint use auth_uri from
+#   manila::keystone::authtoken instead.
 #   Defaults to undef.
 #
 # [*service_port*]
