@@ -240,12 +240,6 @@
 #   in the manila config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*verbose*]
-#   (Optional) Deprecated. Should the daemons log verbose messages
-#   Defaults to undef
-#
 class manila (
   $sql_connection              = undef,
   $sql_idle_timeout            = undef,
@@ -304,17 +298,11 @@ class manila (
   $amqp_username               = $::os_service_default,
   $amqp_password               = $::os_service_default,
   $purge_config                = false,
-  # Deprecated
-  $verbose                     = undef,
 ) {
 
   include ::manila::db
   include ::manila::logging
   include ::manila::params
-
-  if $verbose {
-    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
-  }
 
   if $use_ssl {
     if !$cert_file {
