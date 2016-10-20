@@ -126,6 +126,7 @@ class manila::api (
   $service_port                 = undef,
 ) {
 
+  include ::manila::deps
   include ::manila::params
   require ::keystone::python
 

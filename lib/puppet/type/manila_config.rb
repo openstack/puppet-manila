@@ -46,8 +46,8 @@ Puppet::Type.newtype(:manila_config) do
     defaultto('<SERVICE DEFAULT>')
   end
 
-  autorequire(:package) do
-    'manila'
+  autorequire(:anchor) do
+    ['manila::install::end']
   end
 
 end

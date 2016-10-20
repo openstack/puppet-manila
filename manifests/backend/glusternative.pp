@@ -31,6 +31,7 @@ define manila::backend::glusternative (
   $package_ensure     = 'present',
 ) {
 
+  include ::manila::deps
   include ::manila::params
 
   $share_driver = 'manila.share.drivers.glusterfs_native.GlusterfsNativeShareDriver'
@@ -45,8 +46,10 @@ define manila::backend::glusternative (
 
   package { $::manila::params::gluster_package_name:
     ensure => $package_ensure,
+    tag    => 'manila-support-package',
   }
   package { $::manila::params::gluster_client_package_name:
     ensure => $package_ensure,
+    tag    => 'manila-support-package',
   }
 }

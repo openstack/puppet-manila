@@ -21,6 +21,7 @@ class manila::share (
   $manage_service = true
 ) {
 
+  include ::manila::deps
   include ::manila::params
 
   Manila_config<||> ~> Service['manila-share']

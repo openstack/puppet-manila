@@ -1,5 +1,6 @@
 #
 class manila::params {
+
   include ::openstacklib::defaults
 
   $manila_conf = '/etc/manila/manila.conf'

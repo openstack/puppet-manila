@@ -39,6 +39,8 @@ class manila::ganesha (
   $ganesha_export_template_dir = '/etc/manila/ganesha-export-templ.d',
 ) {
 
+  include ::manila::deps
+
   manila_config {
     'DEFAULT/ganesha_config_dir':          value => $ganesha_config_dir;
     'DEFAULT/ganesha_config_path':         value => $ganesha_config_path;
@@ -50,7 +52,8 @@ class manila::ganesha (
 
   if ($::osfamily == 'RedHat') {
     package { 'nfs-ganesha':
-      ensure => present
+      ensure => present,
+      tag    => ['openstack', 'manila-support-package'],
     }
   } else {
     warning("Unsupported osfamily ${::osfamily}, Red Hat is the only supported platform.")

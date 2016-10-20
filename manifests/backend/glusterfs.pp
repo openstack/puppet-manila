@@ -28,6 +28,7 @@ define manila::backend::glusterfs (
   $glusterfs_mount_point_base = '$state_path/mnt',
 ) {
 
+  include ::manila::deps
   $share_driver = 'manila.share.drivers.glusterfs.GlusterfsShareDriver'
 
   manila_config {

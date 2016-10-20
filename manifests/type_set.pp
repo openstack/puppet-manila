@@ -38,6 +38,7 @@ define manila::type_set (
   $os_region_name = undef,
   ) {
 
+  include ::manila::deps
   include ::manila::client
 
 # TODO: (xarses) This should be moved to a ruby provider so that among other
@@ -61,6 +62,6 @@ define manila::type_set (
     path        => ['/usr/bin', '/bin'],
     command     => "manila type-key ${type} set ${key}=${name}",
     environment => concat($manila_env, $region_env),
-    require     => Package['python-manilaclient'],
+    require     => Anchor['manila-support-package'],
   }
 }

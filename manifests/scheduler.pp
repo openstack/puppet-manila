@@ -27,6 +27,7 @@ class manila::scheduler (
   $manage_service   = true
 ) {
 
+  include ::manila::deps
   include ::manila::params
 
   Manila_config<||> ~> Service['manila-scheduler']
@@ -61,7 +62,6 @@ class manila::scheduler (
     name      => $::manila::params::scheduler_service,
     enable    => $enabled,
     hasstatus => true,
-    require   => Package['manila'],
     tag       => 'manila-service',
   }
 }

@@ -49,6 +49,8 @@ class manila::db (
   $database_db_max_retries = $::os_service_default,
 ) {
 
+  include ::manila::deps
+
   # NOTE(spredzy): In order to keep backward compatibility we rely on the pick function
   # to use manila::<myparam> if manila::db::<myparam> isn't specified.
   $database_connection_real = pick($::manila::sql_connection, $database_connection)

@@ -100,6 +100,9 @@ define manila::service_instance (
   $service_instance_network_helper_type   = 'neutron',
 
 ) {
+
+  include ::manila::deps
+
   if $create_service_image {
     if $service_image_location {
       glance_image { $service_image_name:

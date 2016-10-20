@@ -88,6 +88,8 @@ define manila::backend::generic (
   $automatic_share_server_cleanup      = 'True',
 ) {
 
+  include ::manila::deps
+
   $share_driver = 'manila.share.drivers.generic.GenericShareDriver'
 
   manila_config {

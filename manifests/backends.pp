@@ -14,6 +14,8 @@ class manila::backends (
   $enabled_share_backends = undef
 ) {
 
+  include ::manila::deps
+
   # Maybe this could be extended to dynamically find the enabled names
   manila_config {
     'DEFAULT/enabled_share_backends': value => join($enabled_share_backends, ',');

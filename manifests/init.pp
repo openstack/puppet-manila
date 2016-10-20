@@ -300,6 +300,7 @@ class manila (
   $purge_config                = false,
 ) {
 
+  include ::manila::deps
   include ::manila::db
   include ::manila::logging
   include ::manila::params
@@ -313,13 +314,10 @@ class manila (
     }
   }
 
-  # allowing a resource to serve as a point where the configuration of manila begins
-  anchor { 'manila-start': }
-
   package { 'manila':
     ensure  => $package_ensure,
     name    => $::manila::params::package_name,
-    require => Anchor['manila-start'],
+    require => Anchor['manila::install::begin'],
     tag     => ['openstack', 'manila-package'],
   }
 

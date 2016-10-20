@@ -85,6 +85,9 @@
 #   include method and api) that controls which trace info is written to the
 #   Manila logs when the debug level is set to True
 #
+# [*package_ensure*]
+#   (optional) Ensure state for package. Defaults to 'present'.
+#
 # === Examples
 #
 #  manila::backend::netapp { 'myBackend':
@@ -114,7 +117,10 @@ define manila::backend::netapp (
   $netapp_root_volume_name               = 'root',
   $netapp_port_name_search_pattern       = '(.*)',
   $netapp_trace_flags                    = undef,
+  $package_ensure                        = 'present',
 ) {
+
+  include ::manila::deps
 
   validate_string($netapp_password)
 
@@ -141,5 +147,8 @@ define manila::backend::netapp (
     "${share_backend_name}/netapp_trace_flags":                   value => $netapp_trace_flags;
   }
 
-  package { 'nfs-utils': ensure => present }
+  package { 'nfs-utils':
+    ensure => $package_ensure,
+    tag    => 'manila-support-package',
+  }
 }

@@ -37,6 +37,8 @@ class manila::rabbitmq(
   $port           = '5672',
 ) {
 
+  include ::manila::deps
+
   warning('manila::rabbitmq class is deprecated and will be removed in next release. Make other plans to configure rabbitmq resources.')
 
   if ($enabled) {
@@ -55,7 +57,7 @@ class manila::rabbitmq(
         write_permission     => '.*',
         read_permission      => '.*',
         provider             => 'rabbitmqctl',
-      }->Anchor<| title == 'manila-start' |>
+      }->Anchor<| title == 'manila::service::begin' |>
     }
     rabbitmq_vhost { $virtual_host:
       provider => 'rabbitmqctl',

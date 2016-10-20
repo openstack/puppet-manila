@@ -31,6 +31,9 @@ class manila::config (
   $manila_config         = {},
   $api_paste_ini_config  = {},
 ) {
+
+  include ::manila::deps
+
   validate_hash($manila_config)
   validate_hash($api_paste_ini_config)
 

@@ -104,6 +104,8 @@ class manila::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
+  include ::manila::deps
+
   # NOTE(spredzy): In order to keep backward compatibility we rely on the pick function
   # to use manila::<myparam> first then manila::logging::<myparam>.
   $use_syslog_real = pick($::manila::use_syslog,$use_syslog)

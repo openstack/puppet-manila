@@ -38,6 +38,8 @@ define manila::backend::cephfsnative (
   $cephfs_enable_snapshots      = true,
 ) {
 
+  include ::manila::deps
+
   $share_driver = 'manila.share.drivers.cephfs.cephfs_native.CephFSNativeDriver'
 
   manila_config {

@@ -11,11 +11,12 @@ class manila::client (
   $package_ensure = 'present'
 ) {
 
+  include ::manila::deps
   include ::manila::params
 
   package { 'python-manilaclient':
     ensure => $package_ensure,
     name   => $::manila::params::client_package,
-    tag    => 'openstack'
+    tag    => ['openstack', 'manila-support-package']
   }
 }
