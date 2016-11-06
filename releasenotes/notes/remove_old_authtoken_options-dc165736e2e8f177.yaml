@@ -1,0 +1,11 @@
+---
+other:
+  - removed deprecated manila::api::keystone_enabled
+  - removed deprecated manila::api::keystone_password
+  - removed deprecated manila::api::keystone_tenant
+  - removed deprecated manila::api::keystone_user
+  - removed deprecated manila::api::keystone_auth_host
+  - removed deprecated manila::api::keystone_auth_port
+  - removed deprecated manila::api::keystone_auth_protocol
+  - removed deprecated manila::api::keystone_auth_admin_prefix
+  - removed deprecated manila::api::keystone_auth_uri

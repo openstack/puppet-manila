@@ -53,50 +53,6 @@
 #
 # === DEPRECATED PARAMTERS
 #
-# [*keystone_enabled*]
-#   (optional) DEPRECATED. Use auth_strategy instead.
-#   Defaults to undef
-#
-# [*keystone_password*]
-#   (optional) DEPRECATED. The password to use for authentication (keystone),
-#   use password from manila::keystone::authtoken instead.
-#   Defaults to undef
-#
-# [*keystone_tenant*]
-#   (optional) DEPRECATED. The tenant of the auth user, use  project_name
-#   from manila::keystone::authtoken instead.
-#   Defaults to undef
-#
-# [*keystone_user*]
-#   (optional) DEPRECATED. The name of the auth user, use username from
-#   manila::keystone::authtoken instead.
-#   Defaults to undef
-#
-# [*keystone_auth_host*]
-#   (optional) DEPRECATED. The keystone host.
-#   Defaults to undef
-#
-# [*keystone_auth_port*]
-#   (optional) DEPRECATED. The keystone auth port.
-#   Defaults to undef
-#
-# [*keystone_auth_protocol*]
-#   (optional) DEPRECATED. The protocol used to access the auth host.
-#   Defaults to undef
-#
-# [*keystone_auth_admin_prefix*]
-#   (optional) DEPRECATED. The admin_prefix used to admin endpoint of the auth host
-#   This allow admin auth URIs like http://auth_host:35357/keystone.
-#   (where '/keystone' is the admin prefix)
-#   Defaults to false for empty. If defined, should be a string with a
-#   leading '/' and no trailing '/'.
-#   Defaults to undef
-#
-# [*keystone_auth_uri*]
-#   (Optional) DEPRECATED. Public Identity API endpoint use auth_uri from
-#   manila::keystone::authtoken instead.
-#   Defaults to undef.
-#
 # [*service_port*]
 #   (optional) DEPRECATED. The manila api port
 #   Defaults to undef
@@ -114,57 +70,12 @@ class manila::api (
   $enable_proxy_headers_parsing = $::os_service_default,
   $enabled_share_protocols      = $::os_service_default,
   # Deprecated
-  $keystone_enabled             = undef,
-  $keystone_user                = undef,
-  $keystone_tenant              = undef,
-  $keystone_auth_uri            = undef,
-  $keystone_password            = undef,
-  $keystone_auth_admin_prefix   = undef,
-  $keystone_auth_host           = undef,
-  $keystone_auth_port           = undef,
-  $keystone_auth_protocol       = undef,
   $service_port                 = undef,
 ) {
 
   include ::manila::deps
   include ::manila::params
   require ::keystone::python
-
-  if $keystone_enabled {
-    warning('keystone_enabled is deprecated, use auth_strategy instead.')
-  }
-
-  if $keystone_user {
-    warning('manila::api::keystone_user is deprecated, use manila::keystone::authtoken::username instead.')
-  }
-
-  if $keystone_tenant {
-    warning('manila::api::keystone_tenant is deprecated, use manila::keystone::authtoken::project_name instead.')
-  }
-
-  if $keystone_password {
-    warning('manila::api::keystone_password is deprecated, use manila::keystone::authtoken::password instead.')
-  }
-
-  if $keystone_auth_uri {
-    warning('manila::api::keystone_auth_uri is deprecated, use manila::keystone::authtoken::auth_uri instead.')
-  }
-
-  if $keystone_auth_admin_prefix {
-    warning('keystone_auth_admin_prefix is deprecated and will be removed in a future release')
-  }
-
-  if $keystone_auth_host {
-    warning('keystone_auth_host is deprecated and will be removed in a future release')
-  }
-
-  if $keystone_auth_port {
-    warning('keystone_auth_port is deprecated and will be removed in a future release')
-  }
-
-  if $keystone_auth_protocol {
-    warning('keystone_auth_protocol is deprecated and will be removed in a future release')
-  }
 
   if $service_port {
     warning('service port is deprecated and will be removed in a future release')
@@ -220,15 +131,9 @@ class manila::api (
     }
   }
 
-  if $keystone_enabled {
-    $auth_strategy_real = 'keystone'
-  } else {
-    $auth_strategy_real = $auth_strategy
-  }
-
-  if $auth_strategy_real == 'keystone' {
+  if $auth_strategy == 'keystone' {
     manila_config {
-      'DEFAULT/auth_strategy': value => $auth_strategy_real;
+      'DEFAULT/auth_strategy': value => $auth_strategy;
     }
     include ::manila::keystone::authtoken
 

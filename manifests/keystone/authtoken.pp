@@ -223,21 +223,16 @@ class manila::keystone::authtoken(
   $token_cache_time               = $::os_service_default,
 ) {
 
-  if is_service_default($password) and ! $::manila::api::keystone_password {
+  if is_service_default($password) {
     fail('Please set password for manila service user')
   }
 
-  $username_real = pick($::manila::api::keystone_user, $username)
-  $password_real = pick($::manila::api::keystone_password, $password)
-  $project_name_real = pick($::manila::api::keystone_tenant, $project_name)
-  $auth_uri_real = pick($::manila::api::auth_uri, $auth_uri)
-
   keystone::resource::authtoken { 'manila_config':
-    username                       => $username_real,
-    password                       => $password_real,
-    project_name                   => $project_name_real,
+    username                       => $username,
+    password                       => $password,
+    project_name                   => $project_name,
     auth_url                       => $auth_url,
-    auth_uri                       => $auth_uri_real,
+    auth_uri                       => $auth_uri,
     auth_version                   => $auth_version,
     auth_type                      => $auth_type,
     auth_section                   => $auth_section,
@@ -270,4 +265,3 @@ class manila::keystone::authtoken(
     token_cache_time               => $token_cache_time,
   }
 }
-

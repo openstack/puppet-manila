@@ -1,10 +1,16 @@
 require 'spec_helper'
 
 describe 'manila::api' do
+  let :pre_condition do
+    "class {'::manila::keystone::authtoken':
+       password => 'foo',
+     }"
+  end
 
   let :req_params do
-    {:keystone_password => 'foo'}
+    {}
   end
+
   let :facts do
     @default_facts.merge({:osfamily => 'Debian'})
   end
