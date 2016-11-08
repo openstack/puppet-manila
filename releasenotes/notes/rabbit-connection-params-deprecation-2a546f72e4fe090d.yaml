@@ -1,0 +1,6 @@
+---
+deprecations:
+  - manila::rabbit_host, manila::rabbit_hosts, manila::rabbit_password,
+    manila::rabbit_port, manila::rabbit_userid and
+    manila::rabbit_virtual_host are deprecated.
+    manila::default_transport_url should be used instead.
