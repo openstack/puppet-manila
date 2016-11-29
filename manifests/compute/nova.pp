@@ -5,36 +5,40 @@
 # === Parameters
 #
 # [*nova_catalog_info*]
-# (optional) Info to match when looking for nova in the service
-# catalog. Format is : separated values of the form:
-# <service_type>:<service_name>:<endpoint_type>
+#   (optional) Info to match when looking for nova in the service
+#   catalog. Format is : separated values of the form:
+#   <service_type>:<service_name>:<endpoint_type>
+#   Defaults to 'compute:nova:publicURL'
 #
 # [*nova_catalog_admin_info*]
-# (optional) Same as nova_catalog_info, but for admin endpoint.
-#
-# [*os_region_name*]
-# (optional) region name of this node
+#   (optional) Same as nova_catalog_info, but for admin endpoint.
+#   Defaults to 'compute:nova:adminURL'
 #
 # [*nova_ca_certificates_file*]
-# (optional) Location of ca certificates file to use for nova client
-# requests.
+#   (optional) Location of ca certificates file to use for nova client
+#   requests.
+#   Defaults to undef
 #
 # [*nova_api_insecure*]
-# (optional) Allow to perform insecure SSL requests to nova
+#   (optional) Allow to perform insecure SSL requests to nova.
+#   Defaults to false
 #
 # [*nova_admin_username*]
-# (optional) Nova admin username
+#   (optional) Nova admin username.
+#   Defaults to 'nova'
 #
 # [*nova_admin_password*]
-# (optional) Nova admin password
+#   (optional) Nova admin password.
+#   Defaults to undef
 #
 # [*nova_admin_tenant_name*]
-# (optional) Nova admin tenant name
+#   (optional) Nova admin tenant name.
+#   Defaults to 'service'
 #
 # [*nova_admin_auth_url*]
-# (optional) Identity service url
+#  (optional) Identity service url.
+#   Defaults to 'http://localhost:5000/v2.0'
 #
-
 class manila::compute::nova (
   $nova_catalog_info         = 'compute:nova:publicURL',
   $nova_catalog_admin_info   = 'compute:nova:adminURL',

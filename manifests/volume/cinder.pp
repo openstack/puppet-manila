@@ -5,40 +5,45 @@
 # === Parameters
 #
 # [*cinder_catalog_info*]
-# (optional) Info to match when looking for cinder in the service
-# catalog. Format is : separated values of the form:
-# <service_type>:<service_name>:<endpoint_type>
-#
-# [*os_region_name*]
-# (optional) region name of this node
+#   (optional) Info to match when looking for cinder in the service
+#   catalog. Format is : separated values of the form:
+#   <service_type>:<service_name>:<endpoint_type>
+#   Defaults to 'volume:cinder:publicURL'
 #
 # [*cinder_ca_certificates_file*]
-# (optional) Location of ca certificates file to use for cinder
-# client requests.
+#   (optional) Location of ca certificates file to use for cinder
+#   client requests.
+#   Defaults to undef
 #
 # [*cinder_http_retries*]
-# (optional) Number of cinderclient retries on failed http calls
+#   (optional) Number of cinderclient retries on failed http calls.
+#   Defaults to 3
 #
 # [*cinder_api_insecure*]
-# (optional) Allow to perform insecure SSL requests to cinder
+#   (optional) Allow to perform insecure SSL requests to cinder
+#   Defaults to false
 #
 # [*cinder_cross_az_attach*]
-# (optional) Allow attach between instance and volume in different
-# availability zones.
+#   (optional) Allow attach between instance and volume in different
+#   availability zones.
+#   Defaults to true
 #
 # [*cinder_admin_username*]
-# (optional) Cinder admin username
+#   (optional) Cinder admin username.
+#   Defaults to 'cinder'
 #
 # [*cinder_admin_password*]
-# (optional) Cinder admin password
+#   (optional) Cinder admin password.
+#   Defaults to undef
 #
 # [*cinder_admin_tenant_name*]
 # (optional) Cinder admin tenant name
+#   Defaults to 'service'
 #
 # [*cinder_admin_auth_url*]
 # (optional) Identity service url
+#   Defaults to 'http://localhost:5000/v2.0'
 #
-
 class manila::volume::cinder (
   $cinder_catalog_info = 'volume:cinder:publicURL',
   $cinder_ca_certificates_file = undef,
