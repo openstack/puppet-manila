@@ -2,15 +2,36 @@ require 'spec_helper'
 
 describe 'manila::db::sync' do
 
-  let :facts do
-    @default_facts.merge({:osfamily => 'Debian'})
+  shared_examples_for 'manila-dbsync' do
+
+    it 'runs manila-db-sync' do
+      is_expected.to contain_exec('manila-manage db_sync').with(
+        :command     => 'manila-manage db sync',
+        :path        => '/usr/bin',
+        :refreshonly => 'true',
+        :user        => 'manila',
+        :try_sleep   => 5,
+        :tries       => 10,
+        :logoutput   => 'on_failure'
+      )
+    end
+
   end
-  it { is_expected.to contain_exec('manila-manage db_sync').with(
-    :command     => 'manila-manage db sync',
-    :path        => '/usr/bin',
-    :user        => 'manila',
-    :refreshonly => true,
-    :logoutput   => 'on_failure'
-  ) }
+
+  on_supported_os({
+    :supported_os   => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge(OSDefaults.get_facts({
+          :os_workers     => 8,
+          :concat_basedir => '/var/lib/puppet/concat'
+        }))
+      end
+
+      it_configures 'manila-dbsync'
+    end
+  end
 
 end
+
