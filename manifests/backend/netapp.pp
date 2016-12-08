@@ -147,8 +147,8 @@ define manila::backend::netapp (
     "${share_backend_name}/netapp_trace_flags":                   value => $netapp_trace_flags;
   }
 
-  package { 'nfs-utils':
+  ensure_resource('package','nfs-utils',{
     ensure => $package_ensure,
     tag    => 'manila-support-package',
-  }
+  })
 }
