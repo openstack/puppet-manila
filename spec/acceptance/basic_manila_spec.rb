@@ -52,10 +52,6 @@ describe 'basic manila' do
       class { '::manila::api': }
       class { '::manila::scheduler': }
 
-      # NFS-Ganesha backend. Currently this feature is only for RHEL systems
-      # because Debian/Ubuntu systems do not have nfs-ganesha package yet.
-      class { '::manila::ganesha': }
-
       # missing: backends, share, service_instance
       EOS
 
