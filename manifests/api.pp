@@ -22,6 +22,11 @@
 #   (optional) The manila api bind address
 #   Defaults to 0.0.0.0
 #
+# [*default_share_type*]
+#   (optional) Name of default share type which is used if user doesn't
+#   set a share type explicitly when creating a share.
+#   Defaults to $::os_service_default.
+#
 # [*enabled*]
 #   (optional) The state of the service
 #   Defaults to true
@@ -62,6 +67,7 @@ class manila::api (
   $os_region_name               = undef,
   $package_ensure               = 'present',
   $bind_host                    = '0.0.0.0',
+  $default_share_type           = $::os_service_default,
   $enabled                      = true,
   $sync_db                      = true,
   $manage_service               = true,
@@ -119,6 +125,7 @@ class manila::api (
   manila_config {
     'DEFAULT/osapi_share_listen':      value => $bind_host;
     'DEFAULT/enabled_share_protocols': value => $enabled_share_protocols;
+    'DEFAULT/default_share_type':      value => $default_share_type;
   }
 
   oslo::middleware { 'manila_config':
