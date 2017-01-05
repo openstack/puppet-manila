@@ -26,6 +26,7 @@ describe 'manila::api' do
       is_expected.to contain_manila_config('DEFAULT/enabled_share_protocols').with(:value => '<SERVICE DEFAULT>')
       is_expected.to_not contain_manila_config('DEFAULT/os_region_name')
       is_expected.to contain_manila_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_manila_config('DEFAULT/default_share_type').with(:value => '<SERVICE DEFAULT>')
     end
 
     it 'should run db sync' do
@@ -40,6 +41,17 @@ describe 'manila::api' do
     it 'should configure the region for nova' do
       is_expected.to contain_manila_config('DEFAULT/os_region_name').with(
         :value => 'MyRegion'
+      )
+    end
+  end
+
+  describe 'with a default share type' do
+    let :params do
+      req_params.merge({'default_share_type' => 'default'})
+    end
+    it 'should configure the default share type' do
+      is_expected.to contain_manila_config('DEFAULT/default_share_type').with(
+        :value => 'default'
       )
     end
   end
