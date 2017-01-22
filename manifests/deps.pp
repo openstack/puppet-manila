@@ -29,6 +29,10 @@ class manila::deps {
   -> Manila_api_paste_ini<||>
   ~> Anchor['manila::config::end']
 
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db<||> -> Anchor['manila::dbsync::begin']
+
   # policy config should occur in the config block also.
   Anchor['manila::config::begin']
   -> Openstacklib::Policy::Base<||>
