@@ -33,6 +33,9 @@ describe 'manila' do
       is_expected.to contain_manila_config('DEFAULT/transport_url').with(
         :value => '<SERVICE DEFAULT>'
       )
+      is_expected.to contain_manila_config('DEFAULT/rpc_response_timeout').with(
+        :value => '<SERVICE DEFAULT>'
+      )
       is_expected.to contain_manila_config('oslo_messaging_notifications/transport_url').with(
         :value => '<SERVICE DEFAULT>'
       )
@@ -278,11 +281,15 @@ describe 'manila' do
     let :params do
       {
         :default_transport_url      => 'rabbit://rabbit_user:password@localhost:5673',
+        :rpc_response_timeout       => '120',
+        :control_exchange           => 'manila',
         :notification_transport_url => 'rabbit://rabbit_user:password@localhost:5673',
       }
     end
 
     it { is_expected.to contain_manila_config('DEFAULT/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673') }
+    it { is_expected.to contain_manila_config('DEFAULT/rpc_response_timeout').with_value('120') }
+    it { is_expected.to contain_manila_config('DEFAULT/control_exchange').with_value('manila') }
     it { is_expected.to contain_manila_config('oslo_messaging_notifications/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673') }
   end
 
