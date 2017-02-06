@@ -41,6 +41,10 @@
 #      transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #    Defaults to $::os_service_default
 #
+# [*rpc_response_timeout*]
+#  (Optional) Seconds to wait for a response from a call.
+#  Defaults to $::os_service_default
+#
 # [*control_exchange*]
 #   (Optional) The default exchange under which topics are scope.
 #   Defaults to 'openstack'.
@@ -252,6 +256,7 @@ class manila (
   $database_max_overflow       = undef,
   $rpc_backend                 = 'rabbit',
   $default_transport_url       = $::os_service_default,
+  $rpc_response_timeout        = $::os_service_default,
   $control_exchange            = 'openstack',
   $notification_transport_url  = $::os_service_default,
   $notification_driver         = 'messaging',
@@ -385,8 +390,9 @@ deprecated. Please use manila::default_transport_url instead.")
   }
 
   oslo::messaging::default { 'manila_config':
-    transport_url    => $default_transport_url,
-    control_exchange => $control_exchange,
+    transport_url        => $default_transport_url,
+    rpc_response_timeout => $rpc_response_timeout,
+    control_exchange     => $control_exchange,
   }
 
   oslo::messaging::notifications { 'manila_config':
