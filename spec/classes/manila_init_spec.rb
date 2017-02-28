@@ -302,7 +302,6 @@ describe 'manila' do
       }
     end
 
-    it { is_expected.to contain_manila_config('DEFAULT/rpc_backend').with_value('amqp') }
     it { is_expected.to contain_manila_config('oslo_messaging_amqp/server_request_prefix').with_value('exclusive') }
     it { is_expected.to contain_manila_config('oslo_messaging_amqp/broadcast_prefix').with_value('broadcast') }
     it { is_expected.to contain_manila_config('oslo_messaging_amqp/group_request_prefix').with_value('unicast') }
