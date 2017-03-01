@@ -39,6 +39,9 @@ describe 'manila' do
       is_expected.to contain_manila_config('oslo_messaging_notifications/transport_url').with(
         :value => '<SERVICE DEFAULT>'
       )
+      is_expected.to contain_manila_config('oslo_messaging_notifications/topics').with(
+        :value => '<SERVICE DEFAULT>'
+      )
       is_expected.to contain_manila_config('oslo_messaging_notifications/driver').with(
         :value => 'messaging'
       )

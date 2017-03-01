@@ -64,6 +64,11 @@
 #      transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #   Defaults to $::os_service_default.
 #
+# [*notification_topics*]
+#   (optional) AMQP topics to publish to when using the RPC notification driver.
+#   (list value)
+#   Default to $::os_service_default
+#
 # [*notification_driver*]
 #   (optional) Driver or drivers to handle sending notifications.
 #   Defaults to 'messaging'
@@ -260,6 +265,7 @@ class manila (
   $control_exchange            = 'openstack',
   $notification_transport_url  = $::os_service_default,
   $notification_driver         = 'messaging',
+  $notification_topics         = $::os_service_default,
   $rabbit_ha_queues            = $::os_service_default,
   $rabbit_use_ssl              = $::os_service_default,
   $kombu_ssl_ca_certs          = $::os_service_default,
@@ -398,6 +404,7 @@ deprecated. Please use manila::default_transport_url instead.")
   oslo::messaging::notifications { 'manila_config':
     transport_url => $notification_transport_url,
     driver        => $notification_driver,
+    topics        => $notification_topics,
   }
 
   manila_config {
