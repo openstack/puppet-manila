@@ -33,6 +33,7 @@ describe 'manila::api' do
       is_expected.to_not contain_manila_config('DEFAULT/os_region_name')
       is_expected.to contain_manila_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_manila_config('DEFAULT/default_share_type').with(:value => '<SERVICE DEFAULT>')
+      is_expected.to contain_manila_config('DEFAULT/osapi_share_workers').with(:value => '2')
     end
 
     it 'should run db sync' do
@@ -58,6 +59,17 @@ describe 'manila::api' do
     it 'should configure the default share type' do
       is_expected.to contain_manila_config('DEFAULT/default_share_type').with(
         :value => 'default'
+      )
+    end
+  end
+
+  describe 'with service workers' do
+    let :params do
+      req_params.merge({'service_workers' => '4'})
+    end
+    it 'should configure the share workers' do
+      is_expected.to contain_manila_config('DEFAULT/osapi_share_workers').with(
+        :value => '4'
       )
     end
   end

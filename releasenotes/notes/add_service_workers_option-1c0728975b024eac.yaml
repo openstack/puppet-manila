@@ -1,0 +1,3 @@
+---
+features:
+  - Add service_workers option to configure the number of API workers

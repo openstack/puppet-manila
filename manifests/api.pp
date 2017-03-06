@@ -56,6 +56,10 @@
 #   (optional) Defines the enabled share protocols provided by Manila.
 #   Defaults to $::os_service_default
 #
+# [*service_workers*]
+#   (optional) Number of manila-api workers
+#   Defaults to $::os_workers
+#
 # === DEPRECATED PARAMTERS
 #
 # [*service_port*]
@@ -75,6 +79,7 @@ class manila::api (
   $ratelimits_factory           = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
   $enable_proxy_headers_parsing = $::os_service_default,
   $enabled_share_protocols      = $::os_service_default,
+  $service_workers              = $::os_workers,
   # Deprecated
   $service_port                 = undef,
 ) {
@@ -126,6 +131,7 @@ class manila::api (
     'DEFAULT/osapi_share_listen':      value => $bind_host;
     'DEFAULT/enabled_share_protocols': value => $enabled_share_protocols;
     'DEFAULT/default_share_type':      value => $default_share_type;
+    'DEFAULT/osapi_share_workers':     value => $service_workers;
   }
 
   oslo::middleware { 'manila_config':
