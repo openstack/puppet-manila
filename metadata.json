@@ -1,6 +1,6 @@
 {
   "name": "openstack-manila",
-  "version": "10.3.0",
+  "version": "11.0.0-dev",
   "author": "NetApp and OpenStack Contributors",
   "summary": "Puppet module for OpenStack Manila",
   "license": "Apache-2.0",
@@ -27,7 +27,7 @@
     {
       "operatingsystem": "Fedora",
       "operatingsystemrelease": [
-        "20"
+        "24"
       ]
     },
     {
@@ -39,7 +39,6 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "14.04",
         "16.04"
       ]
     }
@@ -52,11 +51,11 @@
     },
     {
       "name": "openstack/keystone",
-      "version_requirement": ">=10.3.0 <11.0.0"
+      "version_requirement": ">=11.0.0 <12.0.0"
     },
     {
       "name": "openstack/glance",
-      "version_requirement": ">=10.3.0 <11.0.0"
+      "version_requirement": ">=11.0.0 <12.0.0"
     },
     {
       "name": "puppetlabs/rabbitmq",
@@ -68,11 +67,11 @@
     },
     {
       "name": "openstack/openstacklib",
-      "version_requirement": ">=10.3.0 <11.0.0"
+      "version_requirement": ">=11.0.0 <12.0.0"
     },
     {
       "name": "openstack/oslo",
-      "version_requirement": ">=10.3.0 <11.0.0"
+      "version_requirement": ">=11.0.0 <12.0.0"
     }
   ]
 }
