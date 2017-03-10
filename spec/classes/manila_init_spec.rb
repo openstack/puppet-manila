@@ -67,9 +67,6 @@ describe 'manila' do
       is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_ha_queues').with(
         :value => '<SERVICE DEFAULT>'
       )
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_use_ssl').with(
-        :value => '<SERVICE DEFAULT>'
-      )
       is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_virtual_host').with(
         :value => '<SERVICE DEFAULT>'
       )
@@ -93,6 +90,9 @@ describe 'manila' do
       )
       is_expected.to contain_manila_config('oslo_concurrency/lock_path').with(
         :value => '/tmp/manila/manila_locks'
+      )
+      is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
+        :rabbit_use_ssl     => '<SERVICE DEFAULT>',
       )
       is_expected.to contain_manila_config('DEFAULT/log_dir').with(:value => '/var/log/manila')
     end
@@ -159,13 +159,13 @@ describe 'manila' do
       })
     end
 
-    it do
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true)
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_ca_certs').with_value('/path/to/ssl/ca/certs')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_certfile').with_value('/path/to/ssl/cert/file')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_keyfile').with_value('/path/to/ssl/keyfile')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_version').with_value('TLSv1')
-    end
+    it { is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
+      :rabbit_use_ssl     => true,
+      :kombu_ssl_ca_certs => '/path/to/ssl/ca/certs',
+      :kombu_ssl_certfile => '/path/to/ssl/cert/file',
+      :kombu_ssl_keyfile  => '/path/to/ssl/keyfile',
+      :kombu_ssl_version  => 'TLSv1'
+    )}
   end
 
   describe 'with SSL enabled without kombu' do
@@ -175,30 +175,21 @@ describe 'manila' do
       })
     end
 
-    it do
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true)
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_ca_certs').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_certfile').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_keyfile').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_version').with_value('<SERVICE DEFAULT>')
-    end
+    it { is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
+      :rabbit_use_ssl     => true,
+    )}
   end
 
   describe 'with SSL disabled' do
     let :params do
       req_params.merge!({
-        :rabbit_use_ssl     => true,
-        :kombu_ssl_version  => 'TLSv1'
+        :rabbit_use_ssl     => false,
       })
     end
 
-    it do
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true)
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_ca_certs').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_certfile').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_keyfile').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_ssl_version').with_value('TLSv1')
-    end
+    it { is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
+      :rabbit_use_ssl     => false,
+    )}
   end
 
   describe 'with amqp_durable_queues disabled' do
