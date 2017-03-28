@@ -51,13 +51,13 @@ class manila::compute::nova (
 ) {
 
 manila_config {
-  'DEFAULT/nova_catalog_info':        value => $nova_catalog_info;
-  'DEFAULT/nova_catalog_admin_info':  value => $nova_catalog_admin_info;
-  'DEFAULT/nova_ca_certificates_file':value => $nova_ca_certificates_file;
-  'DEFAULT/nova_api_insecure':        value => $nova_api_insecure;
-  'DEFAULT/nova_admin_username':      value => $nova_admin_username;
-  'DEFAULT/nova_admin_password':      value => $nova_admin_password;
-  'DEFAULT/nova_admin_tenant_name':   value => $nova_admin_tenant_name;
-  'DEFAULT/nova_admin_auth_url':      value => $nova_admin_auth_url;
+  'DEFAULT/nova_catalog_info':         value => $nova_catalog_info;
+  'DEFAULT/nova_catalog_admin_info':   value => $nova_catalog_admin_info;
+  'DEFAULT/nova_ca_certificates_file': value => $nova_ca_certificates_file;
+  'DEFAULT/nova_api_insecure':         value => $nova_api_insecure;
+  'DEFAULT/nova_admin_username':       value => $nova_admin_username;
+  'DEFAULT/nova_admin_password':       value => $nova_admin_password, secret => true;
+  'DEFAULT/nova_admin_tenant_name':    value => $nova_admin_tenant_name;
+  'DEFAULT/nova_admin_auth_url':       value => $nova_admin_auth_url;
   }
 }

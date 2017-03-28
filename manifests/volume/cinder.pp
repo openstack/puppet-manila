@@ -45,15 +45,15 @@
 #   Defaults to 'http://localhost:5000/v2.0'
 #
 class manila::volume::cinder (
-  $cinder_catalog_info = 'volume:cinder:publicURL',
+  $cinder_catalog_info         = 'volume:cinder:publicURL',
   $cinder_ca_certificates_file = undef,
-  $cinder_http_retries = 3,
-  $cinder_api_insecure = false,
-  $cinder_cross_az_attach = true,
-  $cinder_admin_username = 'cinder',
-  $cinder_admin_password = undef,
-  $cinder_admin_tenant_name = 'service',
-  $cinder_admin_auth_url = 'http://localhost:5000/v2.0',
+  $cinder_http_retries         = 3,
+  $cinder_api_insecure         = false,
+  $cinder_cross_az_attach      = true,
+  $cinder_admin_username       = 'cinder',
+  $cinder_admin_password       = undef,
+  $cinder_admin_tenant_name    = 'service',
+  $cinder_admin_auth_url       = 'http://localhost:5000/v2.0',
 ) {
 
 manila_config {
@@ -63,7 +63,7 @@ manila_config {
   'DEFAULT/cinder_api_insecure':          value => $cinder_api_insecure;
   'DEFAULT/cinder_cross_az_attach':       value => $cinder_cross_az_attach;
   'DEFAULT/cinder_admin_username':        value => $cinder_admin_username;
-  'DEFAULT/cinder_admin_password':        value => $cinder_admin_password;
+  'DEFAULT/cinder_admin_password':        value => $cinder_admin_password, secret => true;
   'DEFAULT/cinder_admin_tenant_name':     value => $cinder_admin_tenant_name;
   'DEFAULT/cinder_admin_auth_url':        value => $cinder_admin_auth_url;
   }
