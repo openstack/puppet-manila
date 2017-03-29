@@ -94,7 +94,7 @@ describe 'manila' do
       is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
         :rabbit_use_ssl     => '<SERVICE DEFAULT>',
       )
-      is_expected.to contain_manila_config('DEFAULT/log_dir').with(:value => '/var/log/manila')
+      is_expected.to contain_oslo__log('manila_config').with(:log_dir => '/var/log/manila')
     end
   end
 
