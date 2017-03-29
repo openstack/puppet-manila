@@ -36,7 +36,6 @@
 # (optional) Location of ca certificates file to use for
 # neutron client requests.
 #
-
 class manila::network::neutron (
   $neutron_url                  = 'http://127.0.0.1:9696',
   $neutron_url_timeout          = 30,
@@ -57,7 +56,7 @@ class manila::network::neutron (
     'DEFAULT/neutron_url':                  value => $neutron_url;
     'DEFAULT/neutron_url_timeout':          value => $neutron_url_timeout;
     'DEFAULT/neutron_admin_username':       value => $neutron_admin_username;
-    'DEFAULT/neutron_admin_password':       value => $neutron_admin_password;
+    'DEFAULT/neutron_admin_password':       value => $neutron_admin_password, secret => true;
     'DEFAULT/neutron_admin_tenant_name':    value => $neutron_admin_tenant_name;
     'DEFAULT/neutron_region_name':          value => $neutron_region_name;
     'DEFAULT/neutron_admin_auth_url':       value => $neutron_admin_auth_url;

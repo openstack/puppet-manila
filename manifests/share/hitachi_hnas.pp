@@ -44,7 +44,6 @@
 #    hitachi_hnas_file_system_name => 'FS-Manila',
 #  }
 #
-
 class manila::share::hitachi_hnas (
     $hitachi_hnas_username,
     $hitachi_hnas_password,

@@ -89,24 +89,23 @@
 #    netapp_transport_type        => 'https',
 #  }
 #
-
 class manila::share::netapp (
     $driver_handles_share_servers,
     $netapp_login,
     $netapp_password,
     $netapp_server_hostname,
-    $netapp_transport_type                 = 'http',
-    $netapp_storage_family                 = 'ontap_cluster',
-    $netapp_server_port                    = undef,
-    $netapp_volume_name_template           = 'share_%(share_id)s',
-    $netapp_vserver                        = undef,
-    $netapp_vserver_name_template          = 'os_%s',
-    $netapp_lif_name_template              = 'os_%(net_allocation_id)s',
-    $netapp_aggregate_name_search_pattern  = '(.*)',
-    $netapp_root_volume_aggregate          = undef,
-    $netapp_root_volume_name               = 'root',
-    $netapp_port_name_search_pattern       = '(.*)',
-    $netapp_trace_flags                    = undef,
+    $netapp_transport_type                = 'http',
+    $netapp_storage_family                = 'ontap_cluster',
+    $netapp_server_port                   = undef,
+    $netapp_volume_name_template          = 'share_%(share_id)s',
+    $netapp_vserver                       = undef,
+    $netapp_vserver_name_template         = 'os_%s',
+    $netapp_lif_name_template             = 'os_%(net_allocation_id)s',
+    $netapp_aggregate_name_search_pattern = '(.*)',
+    $netapp_root_volume_aggregate         = undef,
+    $netapp_root_volume_name              = 'root',
+    $netapp_port_name_search_pattern      = '(.*)',
+    $netapp_trace_flags                   = undef,
 ) {
 
   manila::backend::netapp { 'DEFAULT':
