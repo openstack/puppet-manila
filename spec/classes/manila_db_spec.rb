@@ -6,14 +6,16 @@ describe 'manila::db' do
 
     context 'with default parameters' do
 
-      it { is_expected.to contain_manila_config('database/connection').with_value('sqlite:////var/lib/manila/manila.sqlite').with_secret(true) }
-      it { is_expected.to contain_manila_config('database/idle_timeout').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_manila_config('database/min_pool_size').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_manila_config('database/max_pool_size').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_manila_config('database/max_overflow').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_manila_config('database/max_retries').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_manila_config('database/retry_interval').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_manila_config('database/db_max_retries').with_value('<SERVICE DEFAULT>') }
+      it { is_expected.to contain_oslo__db('manila_config').with(
+        :db_max_retries => '<SERVICE DEFAULT>',
+        :connection     => 'sqlite:////var/lib/manila/manila.sqlite',
+        :idle_timeout   => '<SERVICE DEFAULT>',
+        :min_pool_size  => '<SERVICE DEFAULT>',
+        :max_pool_size  => '<SERVICE DEFAULT>',
+        :max_retries    => '<SERVICE DEFAULT>',
+        :retry_interval => '<SERVICE DEFAULT>',
+        :max_overflow   => '<SERVICE DEFAULT>',
+      )}
 
     end
 
@@ -29,14 +31,16 @@ describe 'manila::db' do
           :database_db_max_retries => '-1', }
       end
 
-      it { is_expected.to contain_manila_config('database/connection').with_value('mysql+pymysql://manila:manila@localhost/manila').with_secret(true) }
-      it { is_expected.to contain_manila_config('database/idle_timeout').with_value('3601') }
-      it { is_expected.to contain_manila_config('database/min_pool_size').with_value('2') }
-      it { is_expected.to contain_manila_config('database/max_retries').with_value('11') }
-      it { is_expected.to contain_manila_config('database/max_pool_size').with_value('21') }
-      it { is_expected.to contain_manila_config('database/max_overflow').with_value('21') }
-      it { is_expected.to contain_manila_config('database/retry_interval').with_value('11') }
-      it { is_expected.to contain_manila_config('database/db_max_retries').with_value('-1') }
+      it { is_expected.to contain_oslo__db('manila_config').with(
+        :db_max_retries => '-1',
+        :connection     => 'mysql+pymysql://manila:manila@localhost/manila',
+        :idle_timeout   => '3601',
+        :min_pool_size  => '2',
+        :max_pool_size  => '21',
+        :max_retries    => '11',
+        :retry_interval => '11',
+        :max_overflow   => '21',
+      )}
 
     end
 
@@ -45,12 +49,14 @@ describe 'manila::db' do
         { :database_connection => 'mysql://manila:manila@localhost/manila' }
       end
 
-      it { is_expected.to contain_manila_config('database/connection').with_value('mysql://manila:manila@localhost/manila').with_secret(true) }
+      it { is_expected.to contain_oslo__db('manila_config').with(
+        :connection => 'mysql://manila:manila@localhost/manila',
+      )}
     end
 
     context 'with postgresql backend' do
       let :params do
-        { :database_connection     => 'postgresql://manila:manila@localhost/manila', }
+        { :database_connection => 'postgresql://manila:manila@localhost/manila', }
       end
 
       it 'install the proper backend package' do
@@ -61,7 +67,7 @@ describe 'manila::db' do
 
     context 'with incorrect database_connection string' do
       let :params do
-        { :database_connection     => 'redis://manila:manila@localhost/manila', }
+        { :database_connection => 'redis://manila:manila@localhost/manila', }
       end
 
       it_raises 'a Puppet::Error', /validate_re/
@@ -69,7 +75,7 @@ describe 'manila::db' do
 
     context 'with incorrect database_connection string' do
       let :params do
-        { :database_connection     => 'foo+pymysql://manila:manila@localhost/manila', }
+        { :database_connection => 'foo+pymysql://manila:manila@localhost/manila', }
       end
 
       it_raises 'a Puppet::Error', /validate_re/
@@ -89,7 +95,7 @@ describe 'manila::db' do
 
     context 'using pymysql driver' do
       let :params do
-        { :database_connection     => 'mysql+pymysql://manila:manila@localhost/manila' }
+        { :database_connection => 'mysql+pymysql://manila:manila@localhost/manila' }
       end
 
       it { is_expected.to contain_package('db_backend_package').with({ :ensure => 'present', :name => 'python-pymysql', :tag=> 'openstack' }) }
@@ -107,7 +113,7 @@ describe 'manila::db' do
 
     context 'using pymysql driver' do
       let :params do
-        { :database_connection     => 'mysql+pymysql://manila:manila@localhost/manila' }
+        { :database_connection => 'mysql+pymysql://manila:manila@localhost/manila' }
       end
 
       it { is_expected.not_to contain_package('db_backend_package') }
