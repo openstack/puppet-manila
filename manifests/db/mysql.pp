@@ -45,6 +45,8 @@ class manila::db::mysql (
   $mysql_module  = undef,
 ) {
 
+  include ::manila::deps
+
   if $mysql_module {
     warning('The mysql_module parameter is deprecated. The latest 2.x mysql module will be used.')
   }
@@ -61,5 +63,7 @@ class manila::db::mysql (
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['manila'] ~> Exec<| title == 'manila-manage db_sync' |>
+  Anchor['manila::db::begin']
+  ~> Class['manila::db::mysql']
+  ~> Anchor['manila::db::end']
 }

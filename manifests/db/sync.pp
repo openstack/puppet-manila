@@ -2,11 +2,7 @@
 class manila::db::sync {
 
   include ::manila::params
-
-  Exec['manila-manage db_sync'] ~> Service<| tag == 'manila-service' |>
-  Package<| tag == 'manila-package' |> ~> Exec['manila-manage db_sync']
-
-  Manila_config<| title == 'database/connection' |> ~> Exec['manila-manage db_sync']
+  include ::manila::deps
 
   exec { 'manila-manage db_sync':
     command     => $::manila::params::db_sync_command,
@@ -16,5 +12,11 @@ class manila::db::sync {
     try_sleep   => 5,
     tries       => 10,
     logoutput   => 'on_failure',
+    subscribe   => [
+      Anchor['manila::install::end'],
+      Anchor['manila::config::end'],
+      Anchor['manila::dbsync::begin']
+    ],
+    notify      => Anchor['manila::dbsync::end'],
   }
 }

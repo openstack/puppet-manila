@@ -32,6 +32,8 @@ class manila::db::postgresql(
   $privileges = 'ALL',
 ) {
 
+  include ::manila::deps
+
   ::openstacklib::db::postgresql { 'manila':
     password_hash => postgresql_password($user, $password),
     dbname        => $dbname,
@@ -40,6 +42,8 @@ class manila::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['manila']    ~> Exec<| title == 'manila-manage db_sync' |>
+  Anchor['manila::db::begin']
+  ~> Class['manila::db::postgresql']
+  ~> Anchor['manila::db::end']
 
 }
