@@ -1,6 +1,6 @@
 {
   "name": "openstack-manila",
-  "version": "10.3.0",
+  "version": "10.3.1",
   "author": "NetApp and OpenStack Contributors",
   "summary": "Puppet module for OpenStack Manila",
   "license": "Apache-2.0",
