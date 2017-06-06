@@ -27,22 +27,30 @@
 #
 # [*cephfs_enable_snapshots*]
 #   (optional) If set to True, then Manila will utilize ceph snapshots.
-#   Defaults to: True
+#   Defaults to: False
 #
-define manila::backend::cephfsnative (
+# [*cephfs_ganesha_server_ip*]
+#   (optional) IP of a server where Ganesha service runs on.
+#   Defaults to: undef
+#
+# [*cephfs_protocol_helper_type*]
+#   (optional) Sets helper type for CephFS driver, can be CEPHFS or NFS
+#   Defaults to: CEPHFS
+#
+define manila::backend::cephfs (
   $driver_handles_share_servers = false,
   $share_backend_name           = $name,
   $cephfs_conf_path             = '$state_path/ceph.conf',
   $cephfs_auth_id               = 'manila',
   $cephfs_cluster_name          = 'ceph',
-  $cephfs_enable_snapshots      = true,
+  $cephfs_enable_snapshots      = false,
+  $cephfs_protocol_helper_type  = 'CEPHFS',
+  $cephfs_ganesha_server_ip     = undef,
 ) {
 
   include ::manila::deps
 
-  warning('manila::cephfsnative class is deprecated and will be removed in next release. You can use cephfs backend.')
-
-  $share_driver = 'manila.share.drivers.cephfs.cephfs_native.CephFSNativeDriver'
+  $share_driver = 'manila.share.drivers.cephfs.driver.CephFSDriver'
 
   manila_config {
     "${name}/driver_handles_share_servers": value => $driver_handles_share_servers;
@@ -52,5 +60,7 @@ define manila::backend::cephfsnative (
     "${name}/cephfs_auth_id":               value => $cephfs_auth_id;
     "${name}/cephfs_cluster_name":          value => $cephfs_cluster_name;
     "${name}/cephfs_enable_snapshots":      value => $cephfs_enable_snapshots;
+    "${name}/cephfs_protocol_helper_type":  value => $cephfs_protocol_helper_type;
+    "${name}/cephfs_ganesha_server_ip":     value => $cephfs_ganesha_server_ip;
   }
 }
