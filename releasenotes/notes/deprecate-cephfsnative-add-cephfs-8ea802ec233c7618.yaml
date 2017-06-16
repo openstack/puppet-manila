@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Added new cephfs class which supports both direct cephfs access or through
+    ganesha-nfs server.
+deprecations:
+  - |
+    Deprecated cephfsnative class in favor of the new cephfs class.
