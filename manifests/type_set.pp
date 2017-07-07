@@ -62,6 +62,6 @@ define manila::type_set (
     path        => ['/usr/bin', '/bin'],
     command     => "manila type-key ${type} set ${key}=${name}",
     environment => concat($manila_env, $region_env),
-    require     => Anchor['manila-support-package'],
+    require     => Anchor['manila::install::end'],
   }
 }
