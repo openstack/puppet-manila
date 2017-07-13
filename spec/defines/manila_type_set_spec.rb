@@ -27,7 +27,7 @@ describe 'manila::type_set' do
           'OS_USERNAME=admin',
           'OS_PASSWORD=asdf',
           'OS_AUTH_URL=http://127.127.127.1:5000/v2.0/'],
-        :require => 'Anchor[manila-support-package]')
+        :require => 'Anchor[manila::install::end]')
     end
   end
 

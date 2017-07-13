@@ -92,11 +92,7 @@ class manila::api (
     warning('service port is deprecated and will be removed in a future release')
   }
 
-  Manila_config<||> ~> Service['manila-api']
-  Manila_api_paste_ini<||> ~> Service['manila-api']
-
   if $::manila::params::api_package {
-    Package['manila-api'] -> Service['manila-api']
     package { 'manila-api':
       ensure => $package_ensure,
       name   => $::manila::params::api_package,
@@ -123,7 +119,6 @@ class manila::api (
     name      => $::manila::params::api_service,
     enable    => $enabled,
     hasstatus => true,
-    require   => Package['manila'],
     tag       => 'manila-service',
   }
 
@@ -157,5 +152,4 @@ class manila::api (
       }
     }
   }
-
 }

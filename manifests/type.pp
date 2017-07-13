@@ -69,7 +69,7 @@ define manila::type (
     command     => "manila type-create ${volume_name} ${driver_handles_share_servers}",
     unless      => "manila type-list | grep ${volume_name}",
     environment => concat($manila_env, $region_env),
-    require     => Package['python-manilaclient'],
+    require     => Anchor['manila::install::end'],
     path        => ['/usr/bin', '/bin'],
   }
 
