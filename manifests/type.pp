@@ -74,8 +74,8 @@ define manila::type (
   }
 
   if ($set_value and $set_key) {
-    Exec["manila type-create ${volume_name} ${driver_handles_share_servers}"] ->
     manila::type_set { $set_value:
+      require        => Exec["manila type-create ${volume_name} ${driver_handles_share_servers}"],
       type           => $volume_name,
       key            => $set_key,
       os_password    => $os_password,
