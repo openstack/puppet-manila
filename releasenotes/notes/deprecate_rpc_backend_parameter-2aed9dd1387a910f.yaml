@@ -1,0 +1,4 @@
+---
+deprecations:
+  - manila::rpc_backend is deprecated and will be removed in a future
+    release. Please use manila::default_transport_url instead.

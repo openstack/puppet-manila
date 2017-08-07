@@ -49,10 +49,6 @@
 #   (Optional) The default exchange under which topics are scope.
 #   Defaults to 'openstack'.
 #
-# [*rpc_backend*]
-#   (Optional) Use these options to configure the RabbitMQ message system.
-#   Defaults to 'rabbit'
-#
 # [*package_ensure*]
 #    (Optional) Ensure state for package.
 #    Defaults to 'present'
@@ -251,6 +247,10 @@
 #   (Optional) Virtual_host to use.
 #   Defaults to $::os_service_default.
 #
+# [*rpc_backend*]
+#   (Optional) Use these options to configure the RabbitMQ message system.
+#   Defaults to 'rabbit'
+#
 class manila (
   $sql_connection              = undef,
   $sql_idle_timeout            = undef,
@@ -259,7 +259,6 @@ class manila (
   $database_min_pool_size      = undef,
   $database_max_pool_size      = undef,
   $database_max_overflow       = undef,
-  $rpc_backend                 = 'rabbit',
   $default_transport_url       = $::os_service_default,
   $rpc_response_timeout        = $::os_service_default,
   $control_exchange            = 'openstack',
@@ -312,6 +311,7 @@ class manila (
   $rabbit_virtual_host         = $::os_service_default,
   $rabbit_userid               = $::os_service_default,
   $rabbit_password             = $::os_service_default,
+  $rpc_backend                 = 'rabbit',
 ) {
 
   include ::manila::deps
@@ -324,10 +324,10 @@ class manila (
     !is_service_default($rabbit_password) or
     !is_service_default($rabbit_port) or
     !is_service_default($rabbit_userid) or
-    !is_service_default($rabbit_virtual_host) {
+    $rpc_backend or !is_service_default($rabbit_virtual_host) {
     warning("manila::rabbit_host, manila::rabbit_hosts, manila::rabbit_password, \
-manila::rabbit_port, manila::rabbit_userid and manila::rabbit_virtual_host are \
-deprecated. Please use manila::default_transport_url instead.")
+manila::rabbit_port, manila::rabbit_userid and manila::rabbit_virtual_host and \
+manila::rpc_backend are deprecated. Please use manila::default_transport_url instead.")
   }
 
   if $use_ssl {
@@ -350,49 +350,39 @@ deprecated. Please use manila::default_transport_url instead.")
     purge => $purge_config,
   }
 
-  if $rpc_backend == 'manila.openstack.common.rpc.impl_kombu' or $rpc_backend == 'rabbit' {
-
-    if ! $rabbit_password {
-      fail('Please specify a rabbit_password parameter.')
-    }
-
-    oslo::messaging::rabbit { 'manila_config':
-      rabbit_password     => $rabbit_password,
-      rabbit_userid       => $rabbit_userid,
-      rabbit_virtual_host => $rabbit_virtual_host,
-      rabbit_use_ssl      => $rabbit_use_ssl,
-      amqp_durable_queues => $amqp_durable_queues,
-      rabbit_hosts        => $rabbit_hosts,
-      rabbit_host         => $rabbit_host,
-      rabbit_port         => $rabbit_port,
-      rabbit_ha_queues    => $rabbit_ha_queues,
-      kombu_ssl_ca_certs  => $kombu_ssl_ca_certs,
-      kombu_ssl_certfile  => $kombu_ssl_certfile,
-      kombu_ssl_keyfile   => $kombu_ssl_keyfile,
-      kombu_ssl_version   => $kombu_ssl_version,
-    }
+  oslo::messaging::rabbit { 'manila_config':
+    rabbit_password     => $rabbit_password,
+    rabbit_userid       => $rabbit_userid,
+    rabbit_virtual_host => $rabbit_virtual_host,
+    rabbit_use_ssl      => $rabbit_use_ssl,
+    amqp_durable_queues => $amqp_durable_queues,
+    rabbit_hosts        => $rabbit_hosts,
+    rabbit_host         => $rabbit_host,
+    rabbit_port         => $rabbit_port,
+    rabbit_ha_queues    => $rabbit_ha_queues,
+    kombu_ssl_ca_certs  => $kombu_ssl_ca_certs,
+    kombu_ssl_certfile  => $kombu_ssl_certfile,
+    kombu_ssl_keyfile   => $kombu_ssl_keyfile,
+    kombu_ssl_version   => $kombu_ssl_version,
   }
 
-  elsif $rpc_backend == 'amqp' {
-
-    oslo::messaging::amqp { 'manila_config':
-      server_request_prefix  => $amqp_server_request_prefix,
-      broadcast_prefix       => $amqp_broadcast_prefix,
-      group_request_prefix   => $amqp_group_request_prefix,
-      container_name         => $amqp_container_name,
-      idle_timeout           => $amqp_idle_timeout,
-      trace                  => $amqp_trace,
-      allow_insecure_clients => $amqp_allow_insecure_clients,
-      ssl_ca_file            => $amqp_ssl_ca_file,
-      ssl_key_password       => $amqp_ssl_key_password,
-      ssl_cert_file          => $amqp_ssl_cert_file,
-      ssl_key_file           => $amqp_ssl_key_file,
-      sasl_mechanisms        => $amqp_sasl_mechanisms,
-      sasl_config_dir        => $amqp_sasl_config_dir,
-      sasl_config_name       => $amqp_sasl_config_name,
-      username               => $amqp_username,
-      password               => $amqp_password,
-    }
+  oslo::messaging::amqp { 'manila_config':
+    server_request_prefix  => $amqp_server_request_prefix,
+    broadcast_prefix       => $amqp_broadcast_prefix,
+    group_request_prefix   => $amqp_group_request_prefix,
+    container_name         => $amqp_container_name,
+    idle_timeout           => $amqp_idle_timeout,
+    trace                  => $amqp_trace,
+    allow_insecure_clients => $amqp_allow_insecure_clients,
+    ssl_ca_file            => $amqp_ssl_ca_file,
+    ssl_key_password       => $amqp_ssl_key_password,
+    ssl_cert_file          => $amqp_ssl_cert_file,
+    ssl_key_file           => $amqp_ssl_key_file,
+    sasl_mechanisms        => $amqp_sasl_mechanisms,
+    sasl_config_dir        => $amqp_sasl_config_dir,
+    sasl_config_name       => $amqp_sasl_config_name,
+    username               => $amqp_username,
+    password               => $amqp_password,
   }
 
   oslo::messaging::default { 'manila_config':

@@ -27,9 +27,6 @@ describe 'manila' do
     end
 
     it 'should contain default config' do
-      is_expected.to contain_manila_config('DEFAULT/rpc_backend').with(
-        :value => 'rabbit'
-      )
       is_expected.to contain_manila_config('DEFAULT/transport_url').with(
         :value => '<SERVICE DEFAULT>'
       )
@@ -292,7 +289,6 @@ describe 'manila' do
     let :params do
       {
         :sql_connection         => 'mysql+pymysql://user:password@host/database',
-        :rpc_backend            => 'amqp',
       }
     end
 
