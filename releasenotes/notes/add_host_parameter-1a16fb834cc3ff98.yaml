@@ -1,0 +1,5 @@
+---
+features:
+  - Add new parameter "host", an opaque identifier for the node, not
+    necessarily a host name, FQDN, or IP address.  May be used for more
+    than one node when these are in an HA cluster.
