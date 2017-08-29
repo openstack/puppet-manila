@@ -220,6 +220,11 @@
 #   in the manila config.
 #   Defaults to false.
 #
+# [*host*]
+#   (optional) Name of this node. This can be an opaque identifier. It is
+#   not necessarily a host name, FQDN, or IP address.
+#   Defaults to $::os_service_default
+#
 # === DEPRECATED PARAMETERS
 #
 # [*rabbit_host*]
@@ -304,6 +309,7 @@ class manila (
   $amqp_username               = $::os_service_default,
   $amqp_password               = $::os_service_default,
   $purge_config                = false,
+  $host                        = $::os_service_default,
   # DEPRECATED PARAMETERS
   $rabbit_host                 = $::os_service_default,
   $rabbit_port                 = $::os_service_default,
@@ -402,6 +408,7 @@ manila::rpc_backend are deprecated. Please use manila::default_transport_url ins
     'DEFAULT/storage_availability_zone': value => $storage_availability_zone;
     'DEFAULT/rootwrap_config':           value => $rootwrap_config;
     'DEFAULT/state_path':                value => $state_path;
+    'DEFAULT/host':                      value => $host;
   }
 
   oslo::concurrency { 'manila_config': lock_path => $lock_path }

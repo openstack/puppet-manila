@@ -85,6 +85,9 @@ describe 'manila' do
       is_expected.to contain_manila_config('DEFAULT/state_path').with(
         :value => '/var/lib/manila'
       )
+      is_expected.to contain_manila_config('DEFAULT/host').with(
+        :value => '<SERVICE DEFAULT>'
+      )
       is_expected.to contain_manila_config('oslo_concurrency/lock_path').with(
         :value => '/tmp/manila/manila_locks'
       )
