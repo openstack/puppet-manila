@@ -48,7 +48,6 @@ describe 'manila::keystone::authtoken' do
         is_expected.to contain_manila_config('keystone_authtoken/memcache_use_advanced_pool').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('keystone_authtoken/memcached_servers').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('keystone_authtoken/region_name').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('keystone_authtoken/revocation_cache_time').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('keystone_authtoken/token_cache_time').with_value('<SERVICE DEFAULT>')
       end
     end
@@ -89,7 +88,6 @@ describe 'manila::keystone::authtoken' do
           :memcached_servers                    => ['memcached01:11211','memcached02:11211'],
           :manage_memcache_package              => true,
           :region_name                          => 'region2',
-          :revocation_cache_time                => '11',
           :token_cache_time                     => '301',
         })
       end
@@ -127,7 +125,6 @@ describe 'manila::keystone::authtoken' do
         is_expected.to contain_manila_config('keystone_authtoken/memcache_use_advanced_pool').with_value(params[:memcache_use_advanced_pool])
         is_expected.to contain_manila_config('keystone_authtoken/memcached_servers').with_value('memcached01:11211,memcached02:11211')
         is_expected.to contain_manila_config('keystone_authtoken/region_name').with_value(params[:region_name])
-        is_expected.to contain_manila_config('keystone_authtoken/revocation_cache_time').with_value(params[:revocation_cache_time])
         is_expected.to contain_manila_config('keystone_authtoken/token_cache_time').with_value(params[:token_cache_time])
       end
 
