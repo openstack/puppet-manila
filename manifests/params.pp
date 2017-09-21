@@ -6,8 +6,6 @@ class manila::params {
 
   include ::openstacklib::defaults
 
-  $manila_conf          = '/etc/manila/manila.conf'
-  $manila_paste_api_ini = '/etc/manila/api-paste.ini'
   $client_package       = 'python-manilaclient'
   $db_sync_command      = 'manila-manage db sync'
   $lio_package_name     = 'targetcli'
