@@ -226,6 +226,8 @@ class manila::keystone::authtoken(
   $revocation_cache_time          = undef,
 ) {
 
+  include ::manila::deps
+
   if is_service_default($password) {
     fail('Please set password for manila service user')
   }
