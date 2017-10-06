@@ -111,7 +111,11 @@ class manila::logging(
   $use_syslog_real = pick($::manila::use_syslog,$use_syslog)
   $use_stderr_real = pick($::manila::use_stderr,$use_stderr)
   $log_facility_real = pick($::manila::log_facility,$log_facility)
-  $log_dir_real = pick($::manila::log_dir,$log_dir)
+  if $log_dir != '' {
+    $log_dir_real = pick($::manila::log_dir,$log_dir)
+  } else {
+    $log_dir_real = $log_dir
+  }
   $debug_real = pick($::manila::debug,$debug)
 
   oslo::log { 'manila_config':
