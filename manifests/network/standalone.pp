@@ -25,9 +25,11 @@
 # Examples: 10.0.0.10 or 10.0.0.10-10.0.0.20 or
 # 10.0.0.10-10.0.0.20,10.0.0.30-10.0.0.40,10.0.0.50
 #
+# DEPRECATED PARAMETERS
+#
 # [*standalone_network_plugin_ip_version*]
 # (optional) IP version of network. Optional.
-# Allowed values are '4' and '6'. Default value is '4'.
+# Allowed values are '4' and '6'. Default value is undef.
 #
 
 define manila::network::standalone (
@@ -35,8 +37,13 @@ define manila::network::standalone (
   $standalone_network_plugin_mask,
   $standalone_network_plugin_segmentation_id    = undef,
   $standalone_network_plugin_allowed_ip_ranges  = undef,
-  $standalone_network_plugin_ip_version         = '4',
+  # DEPRECATED PARAMETERS
+  $standalone_network_plugin_ip_version         = undef,
 ) {
+
+  if $standalone_network_plugin_ip_version {
+    warning('standalone_network_plugin_ip_version is deprecated, has no effect, and will be removed in the future.')
+  }
 
   $standalone_plugin_name = 'manila.network.standalone_network_plugin.StandaloneNetworkPlugin'
 
@@ -46,6 +53,6 @@ define manila::network::standalone (
     "${name}/standalone_network_plugin_mask":               value => $standalone_network_plugin_mask;
     "${name}/standalone_network_plugin_segmentation_id":    value => $standalone_network_plugin_segmentation_id;
     "${name}/standalone_network_plugin_allowed_ip_ranges":  value => $standalone_network_plugin_allowed_ip_ranges;
-    "${name}/standalone_network_plugin_ip_version":         value => $standalone_network_plugin_ip_version;
+
   }
 }
