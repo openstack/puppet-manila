@@ -5,8 +5,10 @@ describe 'manila::network::neutron_single_network' do
 
   let :params do
     {
-      :neutron_net_id     => 'abcdef',
-      :neutron_subnet_id  => 'ghijkl',
+      :neutron_net_id              => 'abcdef',
+      :neutron_subnet_id           => 'ghijkl',
+      :network_plugin_ipv4_enabled => '<SERVICE DEFAULT>',
+      :network_plugin_ipv6_enabled => '<SERVICE DEFAULT>',
     }
   end
 

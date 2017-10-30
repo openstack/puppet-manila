@@ -25,6 +25,12 @@
 # Examples: 10.0.0.10 or 10.0.0.10-10.0.0.20 or
 # 10.0.0.10-10.0.0.20,10.0.0.30-10.0.0.40,10.0.0.50
 #
+# [*network_plugin_ipv4_enabled*]
+# (optional) Whether to support Ipv4 network resource
+#
+# [*network_plugin_ipv6_enabled*]
+# (optional) whether to support IPv6 network resource
+#
 # DEPRECATED PARAMETERS
 #
 # [*standalone_network_plugin_ip_version*]
@@ -37,6 +43,8 @@ define manila::network::standalone (
   $standalone_network_plugin_mask,
   $standalone_network_plugin_segmentation_id    = undef,
   $standalone_network_plugin_allowed_ip_ranges  = undef,
+  $network_plugin_ipv4_enabled                  = $::os_service_default,
+  $network_plugin_ipv6_enabled                  = $::os_service_default,
   # DEPRECATED PARAMETERS
   $standalone_network_plugin_ip_version         = undef,
 ) {
@@ -53,6 +61,8 @@ define manila::network::standalone (
     "${name}/standalone_network_plugin_mask":               value => $standalone_network_plugin_mask;
     "${name}/standalone_network_plugin_segmentation_id":    value => $standalone_network_plugin_segmentation_id;
     "${name}/standalone_network_plugin_allowed_ip_ranges":  value => $standalone_network_plugin_allowed_ip_ranges;
+    'DEFAULT/network_plugin_ipv4_enabled':                  value => $network_plugin_ipv4_enabled;
+    'DEFAULT/network_plugin_ipv6_enabled':                  value => $network_plugin_ipv6_enabled;
 
   }
 }

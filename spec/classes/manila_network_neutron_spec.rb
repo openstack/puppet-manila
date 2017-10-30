@@ -20,9 +20,14 @@ describe 'manila::network::neutron' do
       :neutron_admin_auth_url       => 'http://localhost:5000/v2.0',
       :neutron_api_insecure         => false,
       :neutron_auth_strategy        => 'keystone',
+      :network_plugin_ipv4_enabled  => '<SERVICE DEFAULT>',
+      :network_plugin_ipv6_enabled  => '<SERVICE DEFAULT>',
     }
   end
 
+  let :facts do
+    OSDefaults.get_facts({})
+  end
 
   shared_examples_for 'neutron network plugin' do
     let :params_hash do
