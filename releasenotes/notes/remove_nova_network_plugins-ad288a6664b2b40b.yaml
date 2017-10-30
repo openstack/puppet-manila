@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Remove the nova network plugins since support for nova network was
+    removed back in ocata.
