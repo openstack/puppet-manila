@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The ``standalone_network_plugin_ip_version`` parameter was
+    deprecated for removal in pike and has no effect so it is
+    marked as deprecated here.

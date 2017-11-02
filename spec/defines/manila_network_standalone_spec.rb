@@ -12,29 +12,19 @@ describe 'manila::network::standalone' do
     }
   end
 
-  let :default_params do
-    {
-      :standalone_network_plugin_ip_version         => '4',
-    }
-  end
-
 
   shared_examples_for 'standalone network plugin' do
-    let :params_hash do
-      default_params.merge(params)
-    end
 
     it 'configures standalone network plugin' do
 
       is_expected.to contain_manila_config("standalone/network_api_class").with_value(
         'manila.network.standalone_network_plugin.StandaloneNetworkPlugin')
 
-      params_hash.each_pair do |config,value|
+      params.each_pair do |config,value|
         is_expected.to contain_manila_config("standalone/#{config}").with_value( value )
       end
     end
   end
-
 
   context 'with default parameters' do
     before do
