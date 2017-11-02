@@ -75,9 +75,11 @@
 #   (optional) Attach share server directly to share network.
 #   Defaults to: false
 #
+# DEPRECATED PARAMETERS
+#
 # [*service_instance_network_helper_type*]
 # Allowed values are nova, neutron
-# Defaults to: neutron
+# Defaults to: undef
 
 define manila::service_instance (
   $create_service_image                   = true,
@@ -97,11 +99,16 @@ define manila::service_instance (
   $service_network_division_mask          = 28,
   $interface_driver                       = 'manila.network.linux.interface.OVSInterfaceDriver',
   $connect_share_server_to_tenant_network = false,
-  $service_instance_network_helper_type   = 'neutron',
+  # DEPRECATED PARAMETERS
+  $service_instance_network_helper_type   = undef,
 
 ) {
 
   include ::manila::deps
+
+  if $service_instance_network_helper_type {
+    warning('service_instance_network_helper_type is deprecated, has no effect, and will be removed in the future.')
+  }
 
   if $create_service_image {
     if $service_image_location {
@@ -134,6 +141,5 @@ define manila::service_instance (
     "${name}/service_network_division_mask":          value => $service_network_division_mask;
     "${name}/interface_driver":                       value => $interface_driver;
     "${name}/connect_share_server_to_tenant_network": value => $connect_share_server_to_tenant_network;
-    "${name}/service_instance_network_helper_type":   value => $service_instance_network_helper_type;
   }
 }

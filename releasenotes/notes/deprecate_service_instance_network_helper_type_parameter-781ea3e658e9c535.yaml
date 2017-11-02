@@ -1,0 +1,4 @@
+---
+deprecations:
+  - service_instance_network_helper_type is now deprecated for
+    removal; the parameter has no effect.
