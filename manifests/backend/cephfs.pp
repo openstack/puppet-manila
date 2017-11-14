@@ -1,4 +1,4 @@
-# ==define manila::backend::cephfsnative
+# ==define manila::backend::cephfs
 #
 # === Parameters
 #
@@ -11,7 +11,7 @@
 # [*share_backend_name*]
 #  (optional) Name of the backend in manila.conf that
 #  these settings will reside in
-#  Defaults to: cephfsnative
+#  Defaults to: $name
 #
 # [*cephfs_conf_path*]
 #   (optional) Path to cephfs config.
