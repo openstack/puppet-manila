@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The configuration option "os_region_name" from the [DEFAULT] is
+    deprecated and will be removed in a future release.

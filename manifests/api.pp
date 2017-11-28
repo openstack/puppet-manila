@@ -8,12 +8,6 @@
 #   (optional) Type of authentication to be used.
 #   Defaults to 'keystone'
 #
-# [*os_region_name*]
-#   (optional) Some operations require manila to make API requests
-#   to Nova. This sets the keystone region to be used for these
-#   requests. For example, boot-from-share.
-#   Defaults to undef.
-#
 # [*package_ensure*]
 #   (optional) The state of the package
 #   Defaults to present
@@ -66,9 +60,14 @@
 #   (optional) DEPRECATED. The manila api port
 #   Defaults to undef
 #
+# [*os_region_name*]
+#   (optional) Some operations require manila to make API requests
+#   to Nova. This sets the keystone region to be used for these
+#   requests. For example, boot-from-share.
+#   Defaults to undef.
+#
 class manila::api (
   $auth_strategy                = 'keystone',
-  $os_region_name               = undef,
   $package_ensure               = 'present',
   $bind_host                    = '0.0.0.0',
   $default_share_type           = $::os_service_default,
@@ -82,6 +81,7 @@ class manila::api (
   $service_workers              = $::os_workers,
   # Deprecated
   $service_port                 = undef,
+  $os_region_name               = undef,
 ) {
 
   include ::manila::deps
@@ -90,6 +90,10 @@ class manila::api (
 
   if $service_port {
     warning('service port is deprecated and will be removed in a future release')
+  }
+
+  if $os_region_name {
+    warning('The os_region_name option is deprecated and will be removed in a future release')
   }
 
   if $::manila::params::api_package {
@@ -131,12 +135,6 @@ class manila::api (
 
   oslo::middleware { 'manila_config':
     enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
-  }
-
-  if $os_region_name {
-    manila_config {
-      'DEFAULT/os_region_name': value => $os_region_name;
-    }
   }
 
   if $auth_strategy == 'keystone' {

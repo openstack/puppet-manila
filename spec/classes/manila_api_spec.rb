@@ -30,7 +30,6 @@ describe 'manila::api' do
       is_expected.to contain_manila_config('DEFAULT/auth_strategy').with(:value => 'keystone')
       is_expected.to contain_manila_config('DEFAULT/osapi_share_listen').with(:value => '0.0.0.0')
       is_expected.to contain_manila_config('DEFAULT/enabled_share_protocols').with(:value => '<SERVICE DEFAULT>')
-      is_expected.to_not contain_manila_config('DEFAULT/os_region_name')
       is_expected.to contain_manila_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_manila_config('DEFAULT/default_share_type').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_manila_config('DEFAULT/osapi_share_workers').with(:value => '2')
@@ -38,17 +37,6 @@ describe 'manila::api' do
 
     it 'should run db sync' do
       is_expected.to contain_class('manila::db::sync')
-    end
-  end
-
-  describe 'with a custom region for nova' do
-    let :params do
-      req_params.merge({'os_region_name' => 'MyRegion'})
-    end
-    it 'should configure the region for nova' do
-      is_expected.to contain_manila_config('DEFAULT/os_region_name').with(
-        :value => 'MyRegion'
-      )
     end
   end
 
