@@ -36,6 +36,13 @@
 # (optional) Location of ca certificates file to use for
 # neutron client requests.
 #
+# [*network_plugin_ipv4_enabled*]
+# (optional) Whether to support Ipv4 network resource
+#
+# [*network_plugin_ipv6_enabled*]
+# (optional) whether to support IPv6 network resource
+#
+
 class manila::network::neutron (
   $neutron_url                  = 'http://127.0.0.1:9696',
   $neutron_url_timeout          = 30,
@@ -47,6 +54,8 @@ class manila::network::neutron (
   $neutron_api_insecure         = false,
   $neutron_auth_strategy        = 'keystone',
   $neutron_ca_certificates_file = undef,
+  $network_plugin_ipv4_enabled  = $::os_service_default,
+  $network_plugin_ipv6_enabled  = $::os_service_default,
 ) {
 
   $neutron_plugin_name = 'manila.network.neutron.neutron_network_plugin.NeutronNetworkPlugin'
@@ -63,5 +72,7 @@ class manila::network::neutron (
     'DEFAULT/neutron_api_insecure':         value => $neutron_api_insecure;
     'DEFAULT/neutron_auth_strategy':        value => $neutron_auth_strategy;
     'DEFAULT/neutron_ca_certificates_file': value => $neutron_ca_certificates_file;
+    'DEFAULT/network_plugin_ipv4_enabled':  value => $network_plugin_ipv4_enabled;
+    'DEFAULT/network_plugin_ipv6_enabled':  value => $network_plugin_ipv6_enabled;
     }
 }

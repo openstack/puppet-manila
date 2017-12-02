@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    In Pike manila proper added IPv6 support for network plugins and drivers
+    so we now support the configuration parameters ``network_plugin_ipv4_enabled``
+    and ``network_plugin_ipv6_enabled``.
