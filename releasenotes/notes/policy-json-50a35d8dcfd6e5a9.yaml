@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Support for policy.json configuration has been implemented in the same
+    way as other modules with manila::policy class.

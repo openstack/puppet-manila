@@ -86,6 +86,7 @@ class manila::api (
 
   include ::manila::deps
   include ::manila::params
+  include ::manila::policy
   require ::keystone::python
 
   if $service_port {
