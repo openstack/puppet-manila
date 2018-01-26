@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    This patch adds following 3 options for DellEMC Unity driver:
+    * network_plugin_ipv6_enabled: this option is set to True by default
+    * emc_ssl_cert_verify: this option is set to False by default
+    * emc_ssl_cert_path
