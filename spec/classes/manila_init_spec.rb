@@ -70,6 +70,9 @@ describe 'manila' do
       is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_userid').with(
         :value => '<SERVICE DEFAULT>'
       )
+      is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_failover_strategy').with(
+        :value => '<SERVICE DEFAULT>'
+      )
       is_expected.to contain_manila_config('DEFAULT/debug').with(
         :value => '<SERVICE DEFAULT>'
       )
