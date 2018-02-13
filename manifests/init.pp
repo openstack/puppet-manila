@@ -95,6 +95,12 @@
 #   available on some distributions.
 #   Defaults to $::os_service_default
 #
+# [*kombu_failover_strategy*]
+#   (Optional) Determines how the next RabbitMQ node is chosen in case the one
+#   we are currently connected to becomes unavailable. Takes effect only if
+#   more than one RabbitMQ node is provided in config. (string value)
+#   Defaults to $::os_service_default
+#
 # [*amqp_durable_queues*]
 #   (optional) Use durable queues in amqp.
 #   Defaults to $::os_service_default.
@@ -276,6 +282,7 @@ class manila (
   $kombu_ssl_certfile          = $::os_service_default,
   $kombu_ssl_keyfile           = $::os_service_default,
   $kombu_ssl_version           = $::os_service_default,
+  $kombu_failover_strategy     = $::os_service_default,
   $amqp_durable_queues         = $::os_service_default,
   $package_ensure              = 'present',
   $use_ssl                     = false,
@@ -357,19 +364,20 @@ manila::rpc_backend are deprecated. Please use manila::default_transport_url ins
   }
 
   oslo::messaging::rabbit { 'manila_config':
-    rabbit_password     => $rabbit_password,
-    rabbit_userid       => $rabbit_userid,
-    rabbit_virtual_host => $rabbit_virtual_host,
-    rabbit_use_ssl      => $rabbit_use_ssl,
-    amqp_durable_queues => $amqp_durable_queues,
-    rabbit_hosts        => $rabbit_hosts,
-    rabbit_host         => $rabbit_host,
-    rabbit_port         => $rabbit_port,
-    rabbit_ha_queues    => $rabbit_ha_queues,
-    kombu_ssl_ca_certs  => $kombu_ssl_ca_certs,
-    kombu_ssl_certfile  => $kombu_ssl_certfile,
-    kombu_ssl_keyfile   => $kombu_ssl_keyfile,
-    kombu_ssl_version   => $kombu_ssl_version,
+    rabbit_password         => $rabbit_password,
+    rabbit_userid           => $rabbit_userid,
+    rabbit_virtual_host     => $rabbit_virtual_host,
+    rabbit_use_ssl          => $rabbit_use_ssl,
+    amqp_durable_queues     => $amqp_durable_queues,
+    rabbit_hosts            => $rabbit_hosts,
+    rabbit_host             => $rabbit_host,
+    rabbit_port             => $rabbit_port,
+    rabbit_ha_queues        => $rabbit_ha_queues,
+    kombu_ssl_ca_certs      => $kombu_ssl_ca_certs,
+    kombu_ssl_certfile      => $kombu_ssl_certfile,
+    kombu_ssl_keyfile       => $kombu_ssl_keyfile,
+    kombu_ssl_version       => $kombu_ssl_version,
+    kombu_failover_strategy => $kombu_failover_strategy,
   }
 
   oslo::messaging::amqp { 'manila_config':
