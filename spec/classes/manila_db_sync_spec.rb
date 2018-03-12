@@ -17,6 +17,7 @@ describe 'manila::db::sync' do
                          'Anchor[manila::config::end]',
                          'Anchor[manila::dbsync::begin]'],
         :notify      => 'Anchor[manila::dbsync::end]',
+        :tag         => 'openstack-db',
       )
     end
 

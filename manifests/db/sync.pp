@@ -18,5 +18,6 @@ class manila::db::sync {
       Anchor['manila::dbsync::begin']
     ],
     notify      => Anchor['manila::dbsync::end'],
+    tag         => 'openstack-db',
   }
 }
