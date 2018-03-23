@@ -9,7 +9,7 @@
 #  (required) Denotes whether the driver should handle the responsibility of
 #   managing share servers. This must be set to false if the driver is to
 #   operate without managing share servers.
-#   VMAX driver requires this option to be as True.
+#   VNX driver requires this option to be as True.
 #
 # [*emc_nas_login*]
 #   (required) User account name used to access the storage
@@ -45,6 +45,23 @@
 #   ports on the Data Mover can be used. Wild card character is supported.
 #   Defaults to None
 #
+# [*network_plugin_ipv6_enabled*]
+#   (optional) Whether to support IPv6 network resource, Default=False.
+#   If this option is True, both IPv4 and IPv6 are supported.
+#   If this option is False, only IPv4 is supported.
+#   Defaults to true
+#
+# [*emc_ssl_cert_verify*]
+#   (optional) If set to False the https client will not validate the
+#   SSL certificate of the backend endpoint.
+#   Defaults to false
+#
+# [*emc_ssl_cert_path*]
+#   (optional) Can be used to specify a non default path to a
+#   CA_BUNDLE file or directory with certificates of trusted
+#   CAs, which will be used to validate the backend.
+#   Defaults to None
+#
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
@@ -64,11 +81,14 @@ define manila::backend::dellemc_vnx (
   $emc_nas_password,
   $emc_nas_server,
   $emc_share_backend,
-  $share_backend_name      = $name,
-  $vnx_server_container    = undef,
-  $vnx_share_data_pools    = undef ,
-  $vnx_ethernet_ports      = undef,
-  $package_ensure          = 'present',
+  $share_backend_name          = $name,
+  $vnx_server_container        = undef,
+  $vnx_share_data_pools        = undef ,
+  $vnx_ethernet_ports          = undef,
+  $network_plugin_ipv6_enabled = true,
+  $emc_ssl_cert_verify         = false,
+  $emc_ssl_cert_path           = undef,
+  $package_ensure              = 'present',
 ) {
 
   include ::manila::deps
@@ -88,6 +108,9 @@ define manila::backend::dellemc_vnx (
     "${share_backend_name}/vnx_server_container":         value => $vnx_server_container;
     "${share_backend_name}/vnx_share_data_pools":         value => $vnx_share_data_pools;
     "${share_backend_name}/vnx_ethernet_ports":           value => $vnx_ethernet_ports;
+    "${share_backend_name}/network_plugin_ipv6_enabled":  value => $network_plugin_ipv6_enabled;
+    "${share_backend_name}/emc_ssl_cert_verify":          value => $emc_ssl_cert_verify;
+    "${share_backend_name}/emc_ssl_cert_path":            value => $emc_ssl_cert_path;
   }
 
   ensure_resource('package','nfs-utils',{
