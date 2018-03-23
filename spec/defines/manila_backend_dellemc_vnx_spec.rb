@@ -14,14 +14,20 @@ describe 'manila::backend::dellemc_vnx' do
       :vnx_server_container          => 'container1',
       :vnx_share_data_pools          => '*',
       :vnx_ethernet_ports            => 'eth1',
+      :network_plugin_ipv6_enabled   => true,
+      :emc_ssl_cert_verify           => true,
+      :emc_ssl_cert_path             => '/etc/ssl/certs/',
     }
   end
 
   let :default_params do
     {
-      :vnx_server_container  => '<SERVICE DEFAULT>',
-      :vnx_share_data_pools  => '<SERVICE DEFAULT>',
-      :vnx_ethernet_ports    => '<SERVICE DEFAULT>',
+      :vnx_server_container         => '<SERVICE DEFAULT>',
+      :vnx_share_data_pools         => '<SERVICE DEFAULT>',
+      :vnx_ethernet_ports           => '<SERVICE DEFAULT>',
+      :network_plugin_ipv6_enabled  => '<SERVICE DEFAULT>',
+      :emc_ssl_cert_verify          => '<SERVICE DEFAULT>',
+      :emc_ssl_cert_path            => '<SERVICE DEFAULT>',
     }
   end
 
