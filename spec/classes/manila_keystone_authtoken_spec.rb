@@ -25,7 +25,7 @@ describe 'manila::keystone::authtoken' do
         is_expected.to contain_manila_config('keystone_authtoken/insecure').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('keystone_authtoken/auth_section').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('keystone_authtoken/auth_type').with_value('password')
-        is_expected.to contain_manila_config('keystone_authtoken/auth_uri').with_value('http://localhost:5000')
+        is_expected.to contain_manila_config('keystone_authtoken/www_authenticate_uri').with_value('http://localhost:5000')
         is_expected.to contain_manila_config('keystone_authtoken/auth_version').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('keystone_authtoken/cache').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('keystone_authtoken/cafile').with_value('<SERVICE DEFAULT>')
@@ -55,7 +55,7 @@ describe 'manila::keystone::authtoken' do
     context 'when overriding parameters' do
       before do
         params.merge!({
-          :auth_uri                             => 'https://10.0.0.1:9999/',
+          :www_authenticate_uri                 => 'https://10.0.0.1:9999/',
           :username                             => 'myuser',
           :password                             => 'mypasswd',
           :auth_url                             => 'https://127.0.0.1:35357',
@@ -93,7 +93,7 @@ describe 'manila::keystone::authtoken' do
       end
 
       it 'configure keystone_authtoken' do
-        is_expected.to contain_manila_config('keystone_authtoken/auth_uri').with_value('https://10.0.0.1:9999/')
+        is_expected.to contain_manila_config('keystone_authtoken/www_authenticate_uri').with_value('https://10.0.0.1:9999/')
         is_expected.to contain_manila_config('keystone_authtoken/username').with_value(params[:username])
         is_expected.to contain_manila_config('keystone_authtoken/password').with_value(params[:password]).with_secret(true)
         is_expected.to contain_manila_config('keystone_authtoken/auth_url').with_value(params[:auth_url])
