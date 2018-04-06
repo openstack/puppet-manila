@@ -6,7 +6,12 @@ class manila::params {
 
   include ::openstacklib::defaults
 
-  $client_package       = 'python-manilaclient'
+  if ($::os_package_type == 'debian') {
+    $pyvers = '3'
+  } else {
+    $pyvers = ''
+  }
+  $client_package       = "python${pyvers}-manilaclient"
   $db_sync_command      = 'manila-manage db sync'
   $lio_package_name     = 'targetcli'
   $group                = 'manila'
