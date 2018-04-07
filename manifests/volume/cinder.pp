@@ -1,4 +1,4 @@
-# == Class: manila::cinder
+# == Class: manila::volume::cinder
 #
 # Setup and configure Cinder communication
 #
