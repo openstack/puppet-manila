@@ -1,4 +1,4 @@
-# == Class: manila::nova
+# == Class: manila::compute::nova
 #
 # Setup and configure Nova communication
 #
