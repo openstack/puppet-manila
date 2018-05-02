@@ -14,6 +14,9 @@ describe 'manila::backend::dellemc_unity' do
       :unity_server_meta_pool               => 'pool1',
       :unity_share_data_pools               => '*',
       :unity_ethernet_ports                 => 'eth1',
+      :network_plugin_ipv6_enabled          => true,
+      :emc_ssl_cert_verify                  => true,
+      :emc_ssl_cert_path                    => '/etc/ssl/certs/',
     }
   end
 
@@ -22,6 +25,9 @@ describe 'manila::backend::dellemc_unity' do
       :unity_server_meta_pool       => '<SERVICE DEFAULT>',
       :unity_share_data_pools       => '<SERVICE DEFAULT>',
       :unity_ethernet_ports         => '<SERVICE DEFAULT>',
+      :network_plugin_ipv6_enabled  => '<SERVICE DEFAULT>',
+      :emc_ssl_cert_verify          => '<SERVICE DEFAULT>',
+      :emc_ssl_cert_path            => '<SERVICE DEFAULT>',
     }
   end
 
