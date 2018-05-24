@@ -4,7 +4,7 @@ describe 'manila::share' do
 
   shared_examples_for 'manila-share' do
     let :pre_condition do
-      'class { "manila": rabbit_password => "fpp", sql_connection => "mysql://a:b@c/d" }'
+      'class { "manila": sql_connection => "mysql://a:b@c/d" }'
     end
 
     it { is_expected.to contain_package('manila-share').with(

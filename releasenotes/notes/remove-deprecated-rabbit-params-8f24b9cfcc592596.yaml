@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The deprecated manila::rabbit_host, manila::rabbit_hosts, manila::rabbit_password,
+    manila::rabbit_port, manila::rabbit_userid and manila::rabit_virtual_host are now
+    removed. Please use manila::default_transport_url instead.
