@@ -2,7 +2,6 @@ require 'spec_helper'
 describe 'manila' do
   let :req_params do
     {
-      :rabbit_password => 'guest',
       :sql_connection  => 'mysql+pymysql://user:password@host/database',
       :purge_config    => false,
     }
@@ -45,29 +44,10 @@ describe 'manila' do
       is_expected.to contain_manila_config('DEFAULT/control_exchange').with(
         :value => 'openstack'
       )
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_password').with(
-        :value => 'guest',
-        :secret => true
-      )
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_host').with(
-        :value => '<SERVICE DEFAULT>'
-      )
       is_expected.to contain_manila_config('oslo_messaging_rabbit/amqp_durable_queues').with(
         :value => '<SERVICE DEFAULT>'
       )
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_port').with(
-        :value => '<SERVICE DEFAULT>'
-      )
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_hosts').with(
-        :value => '<SERVICE DEFAULT>'
-      )
       is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_ha_queues').with(
-        :value => '<SERVICE DEFAULT>'
-      )
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_virtual_host').with(
-        :value => '<SERVICE DEFAULT>'
-      )
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_userid').with(
         :value => '<SERVICE DEFAULT>'
       )
       is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_failover_strategy').with(
@@ -98,44 +78,6 @@ describe 'manila' do
         :rabbit_use_ssl     => '<SERVICE DEFAULT>',
       )
       is_expected.to contain_oslo__log('manila_config').with(:log_dir => '/var/log/manila')
-    end
-  end
-
-  describe 'with modified rabbit_hosts' do
-    let :params do
-      req_params.merge({'rabbit_hosts' => ['rabbit1:5672', 'rabbit2:5672']})
-    end
-
-    it 'should contain many' do
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_host').with(
-        :value => '<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_port').with(
-        :value => '<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_hosts').with(
-        :value => 'rabbit1:5672,rabbit2:5672'
-      )
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_ha_queues').with(
-        :value => true
-      )
-    end
-  end
-
-  describe 'with a single rabbit_hosts entry' do
-    let :params do
-      req_params.merge({'rabbit_hosts' => ['rabbit1:5672']})
-    end
-
-    it 'should contain many' do
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_host').with(
-        :value => '<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_port').with(
-        :value => '<SERVICE DEFAULT>')
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_hosts').with(
-        :value => 'rabbit1:5672'
-      )
-      is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_ha_queues').with(
-        :value => '<SERVICE DEFAULT>'
-      )
     end
   end
 
@@ -219,7 +161,6 @@ describe 'manila' do
     let :params do
       {
         :sql_connection        => 'sqlite:////var/lib/manila/manila.sqlite',
-        :rabbit_password       => 'guest',
       }
     end
 
@@ -235,7 +176,6 @@ describe 'manila' do
         :cert_file       => '/path/to/cert',
         :ca_file         => '/path/to/ca',
         :key_file        => '/path/to/key',
-        :rabbit_password => 'guest',
       }
     end
 
@@ -251,7 +191,6 @@ describe 'manila' do
         :cert_file       => false,
         :ca_file         => false,
         :key_file        => false,
-        :rabbit_password => 'guest',
       }
     end
 
@@ -266,7 +205,6 @@ describe 'manila' do
         :use_ssl         => true,
         :ca_file         => '/path/to/ca',
         :key_file        => '/path/to/key',
-        :rabbit_password => 'guest',
       }
     end
 

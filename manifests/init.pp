@@ -231,37 +231,6 @@
 #   not necessarily a host name, FQDN, or IP address.
 #   Defaults to $::os_service_default
 #
-# === DEPRECATED PARAMETERS
-#
-# [*rabbit_host*]
-#   (Optional) IP or hostname of the rabbit server.
-#   Defaults to $::os_service_default.
-#
-# [*rabbit_port*]
-#   (Optional) Port of the rabbit server.
-#   Defaults to $::os_service_default.
-#
-# [*rabbit_hosts*]
-#   (Optional) Array of host:port (used with HA queues).
-#   If defined, will remove rabbit_host & rabbit_port parameters from config
-#   Defaults to $::os_service_default.
-#
-# [*rabbit_userid*]
-#   (Optional) User to connect to the rabbit server.
-#   Defaults to $::os_service_default.
-#
-# [*rabbit_password*]
-#   (Optional) Password to connect to the rabbit_server.
-#   Defaults to $::os_service_default.
-#
-# [*rabbit_virtual_host*]
-#   (Optional) Virtual_host to use.
-#   Defaults to $::os_service_default.
-#
-# [*rpc_backend*]
-#   (Optional) Use these options to configure the RabbitMQ message system.
-#   Defaults to 'rabbit'
-#
 class manila (
   $sql_connection              = undef,
   $sql_idle_timeout            = undef,
@@ -317,31 +286,12 @@ class manila (
   $amqp_password               = $::os_service_default,
   $purge_config                = false,
   $host                        = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $rabbit_host                 = $::os_service_default,
-  $rabbit_port                 = $::os_service_default,
-  $rabbit_hosts                = $::os_service_default,
-  $rabbit_virtual_host         = $::os_service_default,
-  $rabbit_userid               = $::os_service_default,
-  $rabbit_password             = $::os_service_default,
-  $rpc_backend                 = 'rabbit',
 ) {
 
   include ::manila::deps
   include ::manila::db
   include ::manila::logging
   include ::manila::params
-
-  if !is_service_default($rabbit_host) or
-    !is_service_default($rabbit_hosts) or
-    !is_service_default($rabbit_password) or
-    !is_service_default($rabbit_port) or
-    !is_service_default($rabbit_userid) or
-    $rpc_backend or !is_service_default($rabbit_virtual_host) {
-    warning("manila::rabbit_host, manila::rabbit_hosts, manila::rabbit_password, \
-manila::rabbit_port, manila::rabbit_userid and manila::rabbit_virtual_host and \
-manila::rpc_backend are deprecated. Please use manila::default_transport_url instead.")
-  }
 
   if $use_ssl {
     if !$cert_file {
@@ -364,14 +314,8 @@ manila::rpc_backend are deprecated. Please use manila::default_transport_url ins
   }
 
   oslo::messaging::rabbit { 'manila_config':
-    rabbit_password         => $rabbit_password,
-    rabbit_userid           => $rabbit_userid,
-    rabbit_virtual_host     => $rabbit_virtual_host,
     rabbit_use_ssl          => $rabbit_use_ssl,
     amqp_durable_queues     => $amqp_durable_queues,
-    rabbit_hosts            => $rabbit_hosts,
-    rabbit_host             => $rabbit_host,
-    rabbit_port             => $rabbit_port,
     rabbit_ha_queues        => $rabbit_ha_queues,
     kombu_ssl_ca_certs      => $kombu_ssl_ca_certs,
     kombu_ssl_certfile      => $kombu_ssl_certfile,
