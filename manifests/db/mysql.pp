@@ -4,34 +4,39 @@
 # == Parameters
 #
 # [*password*]
-#   password to connect to the database. Mandatory.
+#   (Required) password to connect to the database.
 #
 # [*dbname*]
-#   name of the database. Optional. Defaults to manila.
+#   (Optional) name of the database.
+#   Defaults to manila.
 #
 # [*user*]
-#   user to connect to the database. Optional. Defaults to manila.
+#   (Optional) user to connect to the database.
+#   Defaults to manila.
 #
 # [*host*]
-#   the default source host user is allowed to connect from.
-#   Optional. Defaults to 'localhost'
+#   (Optional) the default source host user is allowed to connect from.
+#   Defaults to 'localhost'
 #
 # [*allowed_hosts*]
-#   other hosts the user is allowed to connect from.
-#   Optional. Defaults to undef.
+#   (Optional) other hosts the user is allowed to connect from.
+#   Defaults to undef.
 #
 # [*charset*]
-#   the database charset. Optional. Defaults to 'utf8'
+#   (Optional) the database charset.
+#   Defaults to 'utf8'
 #
 # [*collate*]
-#   the database collation. Optional. Defaults to 'utf8_general_ci'
+#   (Optional) the database collation.
+#   Defaults to 'utf8_general_ci'
 #
 # [*cluster_id*]
 #   (Optional) The cluster id.
 #   Defaults to 'localzone'.
 #
 # [*mysql_module*]
-#   (optional) Deprecated. Does nothing.
+#   (Optional) Deprecated.
+#   Defaults to undef.
 #
 class manila::db::mysql (
   $password,
