@@ -1,0 +1,4 @@
+---
+upgrade:
+  - The class manila::backend::cephfsnative has been removed, class
+    manila::backend::cephfscephfs can be used instead.
