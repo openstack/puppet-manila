@@ -47,7 +47,13 @@ describe 'basic manila' do
       class { '::manila::keystone::authtoken':
         password => 'a_big_secret',
       }
-      class { '::manila::api': }
+      class { '::manila::api':
+        service_name        => 'httpd',
+      }
+      include ::apache
+      class { '::manila::wsgi::apache':
+        ssl => false,
+      }
       class { '::manila::scheduler': }
 
       # missing: backends, share, service_instance
@@ -60,7 +66,7 @@ describe 'basic manila' do
     end
 
     describe port(8786) do
-      it { is_expected.to be_listening.with('tcp') }
+      it { is_expected.to be_listening }
     end
 
   end

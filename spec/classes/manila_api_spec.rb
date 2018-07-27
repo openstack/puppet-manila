@@ -12,7 +12,11 @@ describe 'manila::api' do
   end
 
   let :facts do
-    @default_facts.merge({:osfamily => 'Debian'})
+    @default_facts.merge({
+      :osfamily               => 'Debian',
+      :operatingsystem        => 'Debian',
+      :operatingsystemrelease => 'jessie'
+     })
   end
 
   describe 'with only required params' do
@@ -20,12 +24,13 @@ describe 'manila::api' do
       req_params
     end
 
-    it { is_expected.to contain_class('manila::policy') }
     it { is_expected.to contain_service('manila-api').with(
       'hasstatus' => true,
       'ensure' => 'running',
       'tag' => 'manila-service',
     )}
+    it { is_expected.to contain_class('manila::policy') }
+
 
     it 'should configure manila api correctly' do
       is_expected.to contain_manila_config('DEFAULT/auth_strategy').with(:value => 'keystone')
@@ -134,5 +139,43 @@ describe 'manila::api' do
       :value => '(GET, "*", .*, 100, MINUTE);(POST, "*", .*, 200, MINUTE)'
     )}
   end
+
+  describe 'when running manila-api in wsgi' do
+      let :params do
+        req_params.merge!({ :service_name => 'httpd' })
+      end
+
+      let :pre_condition do
+        "include ::apache
+         class { 'manila': }
+         class { '::manila::keystone::authtoken':
+           password => 'foo',
+         }"
+      end
+
+      it 'configures manila-api service with Apache' do
+        is_expected.to contain_service('manila-api').with(
+          :ensure => 'stopped',
+          :enable => false,
+          :tag    => ['manila-service'],
+        )
+      end
+    end
+
+    describe 'when service_name is not valid' do
+      let :params do
+        req_params.merge!({ :service_name => 'foobar' })
+      end
+
+      let :pre_condition do
+        "include ::apache
+         class { 'manila': }
+         class { '::manila::keystone::authtoken':
+           password => 'foo',
+         }"
+      end
+
+      it_raises 'a Puppet::Error', /Invalid service_name/
+    end
 
 end
