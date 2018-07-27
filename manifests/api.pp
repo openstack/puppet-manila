@@ -29,6 +29,15 @@
 #   (optional) Run db sync on the node
 #   Defaults to true
 #
+# [*service_name*]
+#   (optional) Name of the service that will be providing the
+#   server functionality of manila-api.
+#   If the value is 'httpd', this means manila-api will be a web
+#   service, and you must use another class to configure that
+#   web service. For example, use class { 'manila::wsgi::apache'...}
+#   to make manila-api be a web app using apache mod_wsgi.
+#   Defaults to '$::manila::params::api_service'
+#
 # [*manage_service*]
 #   (optional) Whether to start/stop the service
 #   Defaults to true
@@ -74,6 +83,7 @@ class manila::api (
   $enabled                      = true,
   $sync_db                      = true,
   $manage_service               = true,
+  $service_name                 = $::manila::params::api_service,
   $ratelimits                   = undef,
   $ratelimits_factory           = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
   $enable_proxy_headers_parsing = $::os_service_default,
@@ -82,7 +92,7 @@ class manila::api (
   # Deprecated
   $service_port                 = undef,
   $os_region_name               = undef,
-) {
+) inherits manila::params {
 
   include ::manila::deps
   include ::manila::params
@@ -119,14 +129,33 @@ class manila::api (
     }
   }
 
-  service { 'manila-api':
-    ensure    => $ensure,
-    name      => $::manila::params::api_service,
-    enable    => $enabled,
-    hasstatus => true,
-    tag       => 'manila-service',
-  }
+  if $service_name == $::manila::params::api_service {
+    service { 'manila-api':
+      ensure    => $ensure,
+      name      => $::manila::params::api_service,
+      enable    => $enabled,
+      hasstatus => true,
+      tag       => 'manila-service',
+    }
 
+  } elsif $service_name == 'httpd' {
+    # We need to make sure manila-api/eventlet is stopped before trying to
+    # start apache
+    include ::apache::params
+    service { 'manila-api':
+      ensure => 'stopped',
+      name   => $::manila::params::api_service,
+      enable => false,
+      tag    => ['manila-service'],
+    }
+    Service <| title == 'httpd' |> { tag +> 'manila-service' }
+
+    Service['manila-api'] -> Service[$service_name]
+  } else {
+    fail("Invalid service_name. Either use manila-api/openstack-manila-api \
+for running as a standalone service, or httpd for being run by a httpd \
+server.")
+  }
   manila_config {
     'DEFAULT/osapi_share_listen':      value => $bind_host;
     'DEFAULT/enabled_share_protocols': value => $enabled_share_protocols;

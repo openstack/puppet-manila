@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The manila API service can now be installed with Apache, instead of the
+    package-provided built-in eventlet based wsgi server. Set
+    $manila::api::service_name to 'httpd' to run the Manila API as
+    virtual host on an apache based web server.

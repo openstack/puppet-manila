@@ -123,9 +123,6 @@ class manila::keystone::auth (
     $password_v2_real = $password_v2
   }
 
-  Keystone_user_role["${auth_name}@${tenant}"] ~> Service <| name == 'manila-api' |>
-  Keystone_user_role["${auth_name_v2}@${tenant}"] ~> Service <| name == 'manila-api' |>
-
   keystone::resource::service_identity { 'manila':
     configure_user      => true,
     configure_user_role => true,
