@@ -81,7 +81,7 @@ describe 'manila' do
     end
   end
 
-  describe 'a single rabbit_host with enable ha queues' do
+  describe 'with enable ha queues' do
     let :params do
       req_params.merge({'rabbit_ha_queues' => true})
     end
