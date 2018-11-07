@@ -24,41 +24,55 @@ describe 'manila::service_instance' do
     }
   end
 
-  context 'with default parameters' do
-    it 'configures service instance' do
-      expect {
-        params.each_pair do |config,value|
-          is_expected.to contain_manila_config("DEFAULT/#{config}").with_value( value )
-        end
-      }.to raise_error(Puppet::Error, /Missing required parameter service_image_location/)
+  shared_examples 'manila::service_instance' do
+    context 'with default parameters' do
+      it 'configures service instance' do
+        expect {
+          params.each_pair do |config,value|
+            is_expected.to contain_manila_config("DEFAULT/#{config}").with_value( value )
+          end
+        }.to raise_error(Puppet::Error, /Missing required parameter service_image_location/)
+      end
+    end
+
+    context 'with service image provided' do
+      let (:req_params) { params.merge!({
+        :service_image_name     => 'manila-service-image',
+        :service_image_location => 'http://example.com/manila_service_image.iso',
+      }) }
+
+      it 'creates Glance image' do
+        is_expected.to contain_glance_image(req_params[:service_image_name]).with(
+          :ensure           => 'present',
+          :is_public        => 'yes',
+          :container_format => 'bare',
+          :disk_format      => 'qcow2',
+          :source           => req_params[:service_image_location]
+          )
+      end
+    end
+
+    context 'with create_service_image false' do
+      let (:req_params) { params.merge!({
+        :create_service_image => false,
+        :service_image_name   => 'manila-service-image',
+      }) }
+
+      it 'does not create Glance image' do
+        is_expected.to_not contain_glance_image(req_params[:service_image_name])
+      end
     end
   end
 
-  context 'with service image provided' do
-    let (:req_params) { params.merge!({
-      :service_image_name     => 'manila-service-image',
-      :service_image_location => 'http://example.com/manila_service_image.iso',
-    }) }
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts())
+      end
 
-    it 'creates Glance image' do
-      is_expected.to contain_glance_image(req_params[:service_image_name]).with(
-        :ensure           => 'present',
-        :is_public        => 'yes',
-        :container_format => 'bare',
-        :disk_format      => 'qcow2',
-        :source           => req_params[:service_image_location]
-        )
-    end
-  end
-
-  context 'with create_service_image false' do
-    let (:req_params) { params.merge!({
-      :create_service_image => false,
-      :service_image_name   => 'manila-service-image',
-    }) }
-
-    it 'does not create Glance image' do
-      is_expected.to_not contain_glance_image(req_params[:service_image_name])
+      it_behaves_like 'manila::service_instance'
     end
   end
 end

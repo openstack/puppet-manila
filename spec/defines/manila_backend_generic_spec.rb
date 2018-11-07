@@ -19,19 +19,32 @@ describe 'manila::backend::generic' do
     }
   end
 
-  describe 'generic share driver' do
-
-    it 'configures generic share driver' do
-      is_expected.to contain_manila_config('hippo/share_backend_name').with(
-        :value => 'hippo')
-      is_expected.to contain_manila_config('hippo/share_driver').with_value(
-        'manila.share.drivers.generic.GenericShareDriver')
-      is_expected.to contain_manila_config('hippo/share_helpers').with_value(
-        'CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess,'\
-        'NFS=manila.share.drivers.helpers.NFSHelper')
-      params.each_pair do |config,value|
-        is_expected.to contain_manila_config("hippo/#{config}").with_value( value )
+  shared_examples 'manila::backend::generic' do
+    context 'generic share driver' do
+      it 'configures generic share driver' do
+        is_expected.to contain_manila_config('hippo/share_backend_name').with(
+          :value => 'hippo')
+        is_expected.to contain_manila_config('hippo/share_driver').with_value(
+          'manila.share.drivers.generic.GenericShareDriver')
+        is_expected.to contain_manila_config('hippo/share_helpers').with_value(
+          'CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess,'\
+          'NFS=manila.share.drivers.helpers.NFSHelper')
+        params.each_pair do |config,value|
+          is_expected.to contain_manila_config("hippo/#{config}").with_value( value )
+        end
       end
+    end
+  end
+
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts())
+      end
+
+      it_behaves_like 'manila::backend::generic'
     end
   end
 end

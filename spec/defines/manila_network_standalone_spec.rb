@@ -26,15 +26,29 @@ describe 'manila::network::standalone' do
     end
   end
 
-  context 'with default parameters' do
-    before do
-      params = {}
+  shared_examples 'manila::network::standalone' do
+    context 'with default parameters' do
+      before do
+        params = {}
+      end
+
+      it_configures 'standalone network plugin'
     end
 
-    it_configures 'standalone network plugin'
+    context 'with provided parameters' do
+      it_configures 'standalone network plugin'
+    end
   end
 
-  context 'with provided parameters' do
-    it_configures 'standalone network plugin'
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts())
+      end
+
+      it_behaves_like 'manila::network::standalone'
+    end
   end
 end

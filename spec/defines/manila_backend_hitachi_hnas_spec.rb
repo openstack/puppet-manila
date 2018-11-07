@@ -30,18 +30,31 @@ describe 'manila::backend::hitachi_hnas' do
     end
   end
 
-  context 'with provided parameters' do
-    it_configures 'hitachi hnas share driver'
-  end
-
-  context 'with share server config' do
-    before do
-      params.merge!({
-        :hitachi_hnas_password => true,
-      })
+  shared_examples 'manila::backend::hitachi_hnas' do
+    context 'with provided parameters' do
+      it_configures 'hitachi hnas share driver'
     end
 
-    it { is_expected.to raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/) }
+    context 'with share server config' do
+      before do
+        params.merge!({
+          :hitachi_hnas_password => true,
+        })
+      end
+
+      it { is_expected.to raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/) }
+    end
   end
 
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts())
+      end
+
+      it_behaves_like 'manila::backend::hitachi_hnas'
+    end
+  end
 end

@@ -40,27 +40,39 @@ describe 'manila::backend::dellemc_isilon' do
     end
   end
 
+  shared_examples 'manila::backend::dellemc_isilon' do
+    context 'with default parameters' do
+      before do
+        params = {}
+      end
 
-  context 'with default parameters' do
-    before do
-      params = {}
+      it_configures 'dell emc isilon share driver'
     end
 
-    it_configures 'dell emc isilon share driver'
-  end
-
-  context 'with provided parameters' do
-    it_configures 'dell emc isilon share driver'
-  end
-
-  context 'with share server config' do
-    before do
-      params.merge!({
-        :emc_nas_password => true,
-      })
+    context 'with provided parameters' do
+      it_configures 'dell emc isilon share driver'
     end
 
-    it { is_expected.to raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/) }
+    context 'with share server config' do
+     before do
+       params.merge!({
+          :emc_nas_password => true,
+        })
+      end
+
+      it { is_expected.to raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/) }
+    end
   end
 
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts())
+      end
+
+      it_behaves_like 'manila::backend::dellemc_isilon'
+    end
+  end
 end
