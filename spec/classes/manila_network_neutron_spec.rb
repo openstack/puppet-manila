@@ -25,10 +25,6 @@ describe 'manila::network::neutron' do
     }
   end
 
-  let :facts do
-    OSDefaults.get_facts({})
-  end
-
   shared_examples_for 'neutron network plugin' do
     let :params_hash do
       default_params.merge(params)
@@ -46,15 +42,25 @@ describe 'manila::network::neutron' do
   end
 
 
-  context 'with default parameters' do
-    before do
-      params = {}
+
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+      end
+      context 'with default parameters' do
+        before do
+          params = {}
+        end
+        it_configures 'neutron network plugin'
+      end
+
+      context 'with provided parameters' do
+        it_configures 'neutron network plugin'
+      end
     end
-
-    it_configures 'neutron network plugin'
   end
 
-  context 'with provided parameters' do
-    it_configures 'neutron network plugin'
-  end
 end

@@ -48,16 +48,25 @@ describe 'manila::share::netapp' do
   end
 
 
-  context 'with default parameters' do
-    before do
-      params = {}
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+      end
+      context 'with default parameters' do
+        before do
+          params = {}
+        end
+
+        it_configures 'netapp share driver'
+      end
+
+      context 'with provided parameters' do
+        it_configures 'netapp share driver'
+      end
     end
-
-    it_configures 'netapp share driver'
-  end
-
-  context 'with provided parameters' do
-    it_configures 'netapp share driver'
   end
 
 end

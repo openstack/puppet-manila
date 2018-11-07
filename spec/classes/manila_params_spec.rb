@@ -2,11 +2,17 @@ require 'spec_helper'
 
 describe 'manila::params' do
 
-  let :facts do
-    @default_facts.merge({:osfamily => 'Debian'})
-  end
-  it 'should compile' do
-    subject
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+      end
+      it 'should compile' do
+        subject
+      end
+    end
   end
 
 end

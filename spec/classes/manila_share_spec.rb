@@ -27,28 +27,24 @@ describe 'manila::share' do
     end
   end
 
-  context 'on Debian platforms' do
-    let :facts do
-      @default_facts.merge({ :osfamily => 'Debian' })
-    end
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+      end
 
-    let :platform_params do
-      { :package_name => 'manila-share' }
-    end
+      let :platform_params do
+        case facts[:osfamily]
+        when 'Debian'
+          { :package_name => 'manila-share' }
+        when 'RedHat'
+          { :package_name => 'openstack-manila-share' }
+        end
+      end
 
-    it_configures 'manila-share'
+      it_behaves_like 'manila-share'
+    end
   end
-
-  context 'on RedHat platforms' do
-    let :facts do
-      @default_facts.merge({ :osfamily => 'RedHat' })
-    end
-
-    let :platform_params do
-      { :package_name => 'openstack-manila-share' }
-    end
-
-    it_configures 'manila-share'
-  end
-
 end

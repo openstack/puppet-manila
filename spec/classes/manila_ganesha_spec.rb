@@ -19,17 +19,26 @@ describe 'manila::ganesha' do
         is_expected.to contain_manila_config("DEFAULT/#{config}").with_value(value)
       end
     end
+  end
 
+  shared_examples_for 'manila::ganesha on RedHat' do
     it { is_expected.to contain_package('nfs-ganesha').with(
-     :name   => 'nfs-ganesha',
-     :ensure => 'present',
+      :name   => 'nfs-ganesha',
+      :ensure => 'present',
     ) }
+  end
 
-    context 'on Red Hat platforms' do
-      let :facts do
-        @default_facts.merge({:osfamily => 'RedHat'})
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
       end
       it_configures 'manila NFS Ganesha options for share drivers'
+      if facts[:osfamily] == 'RedHat'
+        it_configures 'manila::ganesha on RedHat'
+      end
     end
   end
 end

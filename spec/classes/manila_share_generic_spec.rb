@@ -20,16 +20,30 @@ describe 'manila::share::generic' do
     }
   end
 
-  describe 'generic share driver' do
-    it 'configures generic share driver' do
-      is_expected.to contain_manila_config('DEFAULT/share_driver').with_value(
-        'manila.share.drivers.generic.GenericShareDriver')
-      is_expected.to contain_manila_config('DEFAULT/share_helpers').with_value(
-        'CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess,'\
-        'NFS=manila.share.drivers.helpers.NFSHelper')
-      params.each_pair do |config,value|
-        is_expected.to contain_manila_config("DEFAULT/#{config}").with_value( value )
+  shared_examples_for 'manila::share::generic' do
+    context 'generic share driver' do
+      it 'configures generic share driver' do
+        is_expected.to contain_manila_config('DEFAULT/share_driver').with_value(
+          'manila.share.drivers.generic.GenericShareDriver')
+        is_expected.to contain_manila_config('DEFAULT/share_helpers').with_value(
+          'CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess,'\
+          'NFS=manila.share.drivers.helpers.NFSHelper')
+        params.each_pair do |config,value|
+          is_expected.to contain_manila_config("DEFAULT/#{config}").with_value( value )
+        end
       end
     end
   end
+
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+      end
+      it_behaves_like 'manila::share::generic'
+    end
+  end
+
 end

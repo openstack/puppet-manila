@@ -86,16 +86,7 @@ describe 'manila::db' do
 
   end
 
-  context 'on Debian platforms' do
-    let :facts do
-      @default_facts.merge({ :osfamily => 'Debian',
-        :operatingsystem => 'Debian',
-        :operatingsystemrelease => 'jessie',
-      })
-    end
-
-    it_configures 'manila::db'
-
+  shared_examples_for 'manila::db on Debian' do
     context 'using pymysql driver' do
       let :params do
         { :database_connection => 'mysql+pymysql://manila:manila@localhost/manila' }
@@ -105,20 +96,24 @@ describe 'manila::db' do
     end
   end
 
-  context 'on Redhat platforms' do
-    let :facts do
-      @default_facts.merge({ :osfamily => 'RedHat',
-        :operatingsystemrelease => '7.1',
-      })
-    end
-
-    it_configures 'manila::db'
-
+  shared_examples_for 'manila::db on RedHat' do
     context 'using pymysql driver' do
       let :params do
         { :database_connection => 'mysql+pymysql://manila:manila@localhost/manila' }
       end
 
+    end
+  end
+
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+      end
+      it_behaves_like 'manila::db'
+      it_behaves_like "manila::db on #{facts[:osfamily]}"
     end
   end
 

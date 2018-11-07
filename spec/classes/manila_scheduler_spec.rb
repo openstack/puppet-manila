@@ -2,13 +2,9 @@ require 'spec_helper'
 
 describe 'manila::scheduler' do
 
-  describe 'on debian platforms' do
+  shared_examples_for 'manila::scheduler on Debian' do
 
-    let :facts do
-      @default_facts.merge({ :osfamily => 'Debian' })
-    end
-
-    describe 'with default parameters' do
+    context 'with default parameters' do
 
       it { is_expected.to contain_class('manila::params') }
 
@@ -27,7 +23,7 @@ describe 'manila::scheduler' do
       ) }
     end
 
-    describe 'with parameters' do
+    context 'with parameters' do
 
       let :params do
         { :scheduler_driver => 'manila.scheduler.filter_scheduler.FilterScheduler',
@@ -39,7 +35,7 @@ describe 'manila::scheduler' do
       it { is_expected.to contain_package('manila-scheduler').with_ensure('present') }
     end
 
-    describe 'with manage_service false' do
+    context 'with manage_service false' do
       let :params do
         { 'manage_service' => false
         }
@@ -51,13 +47,9 @@ describe 'manila::scheduler' do
   end
 
 
-  describe 'on rhel platforms' do
+  shared_examples_for 'manila::scheduler on RedHat' do
 
-    let :facts do
-      @default_facts.merge({ :osfamily => 'RedHat' })
-    end
-
-    describe 'with default parameters' do
+    context 'with default parameters' do
 
       it { is_expected.to contain_class('manila::params') }
 
@@ -69,7 +61,7 @@ describe 'manila::scheduler' do
       ) }
     end
 
-    describe 'with parameters' do
+    context 'with parameters' do
 
       let :params do
         { :scheduler_driver => 'manila.scheduler.filter_scheduler.FilterScheduler' }
@@ -78,4 +70,16 @@ describe 'manila::scheduler' do
       it { is_expected.to contain_manila_config('DEFAULT/scheduler_driver').with_value('manila.scheduler.filter_scheduler.FilterScheduler') }
     end
   end
+
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+      end
+      it_behaves_like "manila::scheduler on #{facts[:osfamily]}"
+    end
+  end
+
 end
