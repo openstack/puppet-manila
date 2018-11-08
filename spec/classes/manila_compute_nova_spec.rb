@@ -1,43 +1,73 @@
 require 'spec_helper'
 
 describe 'manila::compute::nova' do
-
-  shared_examples 'manila-nova' do
-
+  shared_examples 'manila::nova' do
     context 'with default parameters' do
-
       it 'configures manila compute nova' do
-        is_expected.to contain_manila_config('DEFAULT/nova_catalog_info').with_value('compute:nova:publicURL')
-        is_expected.to contain_manila_config('DEFAULT/nova_catalog_admin_info').with_value('compute:nova:adminURL')
-        is_expected.to contain_manila_config('DEFAULT/nova_api_insecure').with_value(false)
-        is_expected.to contain_manila_config('DEFAULT/nova_admin_username').with_value('nova')
-        is_expected.to contain_manila_config('DEFAULT/nova_admin_tenant_name').with_value('service')
-        is_expected.to contain_manila_config('DEFAULT/nova_admin_auth_url').with_value('http://localhost:5000/v2.0')
+        is_expected.to contain_manila_config('nova/insecure').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/auth_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/auth_type').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/cafile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/region_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/endpoint_type').with_value('<SERVICE DEFAULT>')
+
+        # These should be added only when auth_type is 'password'
+        is_expected.not_to contain_manila_config('nova/user_domain_name')
+        is_expected.not_to contain_manila_config('nova/project_domain_name')
+        is_expected.not_to contain_manila_config('nova/project_name')
+        is_expected.not_to contain_manila_config('nova/username')
+        is_expected.not_to contain_manila_config('nova/password')
       end
     end
 
     context 'with overridden parameters' do
       let :params do
         {
-          :nova_catalog_info         => 'compute:nova:internalURL',
-          :nova_catalog_admin_info   => 'compute:nova:publicURL',
-          :nova_ca_certificates_file => '/etc/ca.cert',
-          :nova_api_insecure         => true,
-          :nova_admin_username       => 'novav1',
-          :nova_admin_password       => '123123',
-          :nova_admin_tenant_name    => 'services',
-          :nova_admin_auth_url       => 'http://localhost:5000/v3',
+          :insecure       => true,
+          :auth_url       => 'http://127.0.0.2:5000/',
+          :auth_type      => 'password',
+          :cafile         => '/etc/ssl/certs/ca.crt',
+          :region_name    => 'RegionOne',
+          :endpoint_type  => 'publicURL',
+          :username       => 'novav1',
+          :password       => '123123',
         }
       end
-      it 'configures manila nova' do
-        is_expected.to contain_manila_config('DEFAULT/nova_catalog_info').with_value('compute:nova:internalURL')
-        is_expected.to contain_manila_config('DEFAULT/nova_catalog_admin_info').with_value('compute:nova:publicURL')
-        is_expected.to contain_manila_config('DEFAULT/nova_ca_certificates_file').with_value('/etc/ca.cert')
-        is_expected.to contain_manila_config('DEFAULT/nova_api_insecure').with_value(true)
-        is_expected.to contain_manila_config('DEFAULT/nova_admin_username').with_value('novav1')
-        is_expected.to contain_manila_config('DEFAULT/nova_admin_tenant_name').with_value('services')
-        is_expected.to contain_manila_config('DEFAULT/nova_admin_password').with_value('123123').with_secret(true)
-        is_expected.to contain_manila_config('DEFAULT/nova_admin_auth_url').with_value('http://localhost:5000/v3')
+
+      it 'configures manila nova with overridden parameters' do
+        is_expected.to contain_manila_config('nova/insecure').with_value(true)
+        is_expected.to contain_manila_config('nova/auth_url').with_value('http://127.0.0.2:5000/')
+        is_expected.to contain_manila_config('nova/auth_type').with_value('password')
+        is_expected.to contain_manila_config('nova/cafile').with_value('/etc/ssl/certs/ca.crt')
+        is_expected.to contain_manila_config('nova/user_domain_name').with_value('Default')
+        is_expected.to contain_manila_config('nova/project_domain_name').with_value('Default')
+        is_expected.to contain_manila_config('nova/project_name').with_value('service')
+        is_expected.to contain_manila_config('nova/region_name').with_value('RegionOne')
+        is_expected.to contain_manila_config('nova/endpoint_type').with_value('publicURL')
+        is_expected.to contain_manila_config('nova/username').with_value('novav1')
+        is_expected.to contain_manila_config('nova/password').with_value('123123').with_secret(true)
+       end
+    end
+
+    context 'with deprecated parameters' do
+      let :params do
+        {
+          :nova_api_insecure             => true,
+          :nova_ca_certificates_file     => '/foo/ssl/certs/ca.crt',
+          :auth_type                     => 'password',
+          :nova_admin_tenant_name        => 'service2',
+          :nova_admin_username           => 'novav2',
+          :nova_admin_password           => '321321',
+        }
+      end
+
+      it 'configures manila compute nova with deprecated parameters' do
+        is_expected.to contain_manila_config('nova/auth_type').with_value('password')
+        is_expected.to contain_manila_config('nova/insecure').with_value(true)
+        is_expected.to contain_manila_config('nova/cafile').with_value('/foo/ssl/certs/ca.crt')
+        is_expected.to contain_manila_config('nova/project_name').with_value('service2')
+        is_expected.to contain_manila_config('nova/username').with_value('novav2')
+        is_expected.to contain_manila_config('nova/password').with_value('321321')
       end
     end
   end
@@ -50,7 +80,7 @@ describe 'manila::compute::nova' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'manila-nova'
+      it_behaves_like 'manila::nova'
     end
   end
 end
