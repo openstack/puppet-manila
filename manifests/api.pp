@@ -97,7 +97,7 @@ class manila::api (
   include ::manila::deps
   include ::manila::params
   include ::manila::policy
-  require ::keystone::python
+  require ::keystone::client
 
   if $service_port {
     warning('service port is deprecated and will be removed in a future release')
