@@ -13,7 +13,6 @@ describe 'manila' do
         req_params
       end
 
-      it { is_expected.to contain_class('manila::logging') }
       it { is_expected.to contain_class('manila::params') }
 
       it 'passes purge to resource' do
@@ -50,9 +49,6 @@ describe 'manila' do
         is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_failover_strategy').with(
           :value => '<SERVICE DEFAULT>'
         )
-        is_expected.to contain_manila_config('DEFAULT/debug').with(
-          :value => '<SERVICE DEFAULT>'
-        )
         is_expected.to contain_manila_config('DEFAULT/storage_availability_zone').with(
           :value => 'nova'
         )
@@ -74,7 +70,6 @@ describe 'manila' do
         is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
           :rabbit_use_ssl     => '<SERVICE DEFAULT>',
         )
-        is_expected.to contain_oslo__log('manila_config').with(:log_dir => '/var/log/manila')
       end
     end
 
