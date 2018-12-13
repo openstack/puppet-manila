@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*policies*]
-#   (optional) Set of policies to configure for manila
+#   (Optional) Set of policies to configure for manila
 #   Example :
 #     {
 #       'manila-context_is_admin' => {
@@ -20,7 +20,7 @@
 #   Defaults to empty hash.
 #
 # [*policy_path*]
-#   (optional) Path to the manila policy.json file
+#   (Optional) Path to the manila policy.json file
 #   Defaults to /etc/manila/policy.json
 #
 class manila::policy (

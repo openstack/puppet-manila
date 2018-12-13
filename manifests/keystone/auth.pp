@@ -5,80 +5,98 @@
 # === Parameters
 #
 # [*password*]
-#   Password for Manila user. Required.
+#   (Required) Password for Manila user.
 #
 # [*email*]
-#   Email for Manila user. Optional. Defaults to 'manila@localhost'.
+#   (Optional) Email for Manila user.
+#   Defaults to 'manila@localhost'.
 #
 # [*auth_name*]
-#   Username for Manila service. Optional. Defaults to 'manila'.
+#   (Optional) Username for Manila service.
+#   Defaults to 'manila'.
 #
 # [*service_name*]
-#   (optional) Name of the service.
+#   (Optional) Name of the service.
 #   Defaults to 'manila'.
 #
 # [*service_name_v2*]
-#   (optional) Name of the service.
+#   (Optional) Name of the service.
 #   Defaults to 'manilav2'.
 #
 # [*configure_endpoint*]
-# [*configure_endpoint*]
-#   Should Manila endpoint be configured? Optional. Defaults to 'true'.
+#   Should Manila endpoint be configured? Optional.
 #   API v1 endpoint should be enabled in Icehouse for compatibility with Nova.
+#   Defaults to true
 #
 # [*service_type*]
-#    Type of service. Optional. Defaults to 'share'.
+#   (Optional) Type of service.
+#   Defaults to 'share'.
 #
 # [*service_description*]
-#    Description for keystone service. Optional. Defaults to 'Manila Service'.
+#   (Optional) Description for keystone service.
+#   Defaults to 'Manila Service'.
 #
 # [*region*]
-#    Region for endpoint. Optional. Defaults to 'RegionOne'.
+#   (Optional) Region for endpoint.
+#   Defaults to 'RegionOne'.
 #
 # [*tenant*]
-#    Tenant for Manila user. Optional. Defaults to 'services'.
+#   (Optional) Tenant for Manila user.
+#   Defaults to 'services'.
 #
 # [*public_url*]
-#   (optional) The endpoint's public url. (Defaults to 'http://127.0.0.1:8786/v1/%(tenant_id)s')
+#   (0ptional) The endpoint's public url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8786/v1/%(tenant_id)s'
 #
 # [*admin_url*]
-#   (optional) The endpoint's admin url. (Defaults to 'http://127.0.0.1:8786/v1/%(tenant_id)s')
+#   (Optional) The endpoint's admin url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8786/v1/%(tenant_id)s'
 #
 # [*internal_url*]
-#   (optional) The endpoint's internal url. (Defaults to 'http://127.0.0.1:8786/v1/%(tenant_id)s')
+#   (Optional) The endpoint's internal url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8786/v1/%(tenant_id)s'
 #
 # [*password_v2*]
-#   Password for Manila v2 user. Optional. Defaults to undef.
+#   (Optional) Password for Manila v2 user.
+#   Defaults to undef.
 #
 # [*email_v2*]
-#   Email for Manila v2 user. Optional. Defaults to 'manilav2@localhost'.
+#   (Optional) Email for Manila v2 user.
+#   Defaults to 'manilav2@localhost'.
 #
 # [*auth_name_v2*]
-#   Username for Manila v2 service. Optional. Defaults to 'manilav2'.
+#   (Optional) Username for Manila v2 service.
+#   Defaults to 'manilav2'.
 #
 # [*configure_endpoint_v2*]
-#   Should Manila v2 endpoint be configured? Optional. Defaults to 'true'.
+#   (Optional) Should Manila v2 endpoint be configured?
+#   Defaults to true.
 #
 # [*service_type_v2*]
-#    Type of service v2. Optional. Defaults to 'sharev2'.
+#   (Optional) Type of service v2. Optional.
+#   Defaults to 'sharev2'.
 #
 # [*service_description_v2*]
-#    Description for keystone service v2. Optional. Defaults to 'Manila Service v2'.
+#   (Optional) Description for keystone service v2.
+#   Defaults to 'Manila Service v2'.
 #
 # [*public_url_v2*]
-#   (optional) The v2 endpoint's public url. (Defaults to 'http://127.0.0.1:8786/v2/%(tenant_id)s')
+#   (Optional) The v2 endpoint's public url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8786/v2/%(tenant_id)s'
 #
 # [*admin_url_v2*]
-#   (optional) The endpoint's admin url. (Defaults to 'http://127.0.0.1:8786/v2/%(tenant_id)s')
+#   (Optional) The endpoint's admin url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8786/v2/%(tenant_id)s'
 #
 # [*internal_url_v2*]
-#   (optional) The endpoint's internal url. (Defaults to 'http://127.0.0.1:8786/v2/%(tenant_id)s')
+#   (Optional) The endpoint's internal url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8786/v2/%(tenant_id)s'
 #
 # === Examples
 #
