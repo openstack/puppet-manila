@@ -22,7 +22,7 @@ manila
 Overview
 --------
 
-The manila module is part of [OpenStack](https://github.com/openstack), an effort by the OpenStack infrastructure team to provide continuous integration testing and code review for OpenStack and OpenStack community projects as part of the core software.  The module itself is used to flexibly configure and manage the file system service for OpenStack.
+The manila module is part of [OpenStack](https://git.openstack.org), an effort by the OpenStack infrastructure team to provide continuous integration testing and code review for OpenStack and OpenStack community projects as part of the core software.  The module itself is used to flexibly configure and manage the file system service for OpenStack.
 
 Module Description
 ------------------
