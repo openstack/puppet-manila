@@ -34,10 +34,6 @@
 #   (Optional) The cluster id.
 #   Defaults to 'localzone'.
 #
-# [*mysql_module*]
-#   (Optional) Deprecated.
-#   Defaults to undef.
-#
 class manila::db::mysql (
   $password,
   $dbname        = 'manila',
@@ -47,14 +43,9 @@ class manila::db::mysql (
   $charset       = 'utf8',
   $collate       = 'utf8_general_ci',
   $cluster_id    = 'localzone',
-  $mysql_module  = undef,
 ) {
 
   include ::manila::deps
-
-  if $mysql_module {
-    warning('The mysql_module parameter is deprecated. The latest 2.x mysql module will be used.')
-  }
 
   validate_string($password)
 

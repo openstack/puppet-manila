@@ -1,0 +1,3 @@
+---
+upgrade:
+  - Deprecated mysql_module option has been removed.
