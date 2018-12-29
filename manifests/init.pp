@@ -105,23 +105,6 @@
 #   (optional) Use durable queues in amqp.
 #   Defaults to $::os_service_default.
 #
-# [*use_stderr*]
-#   (optional) Use stderr for logging
-#   Defaults to undef
-#
-# [*use_syslog*]
-#   Use syslog for logging.
-#   (Optional) Defaults to false.
-#
-# [*log_facility*]
-#   Syslog facility to receive log lines.
-#   (Optional) Defaults to LOG_USER.
-#
-# [*log_dir*]
-#   (optional) Directory where logs should be stored.
-#   If set to $::os_service_default, it will not log to any directory.
-#   Defaults to '/var/log/manila'
-#
 # [*use_ssl*]
 #   (optional) Enable SSL on the API server
 #   Defaults to false, not set
@@ -137,10 +120,6 @@
 # [*ca_file*]
 #   (optional) CA certificate file to use to verify connecting clients
 #   Defaults to false, not set_
-#
-# [*debug*]
-#   (Optional) Should the daemons log debug messages
-#   Defaults to false
 #
 # [*api_paste_config*]
 #   (Optional) Allow Configuration of /etc/manila/api-paste.ini.
@@ -259,11 +238,6 @@ class manila (
   $cert_file                   = false,
   $key_file                    = false,
   $api_paste_config            = '/etc/manila/api-paste.ini',
-  $use_stderr                  = undef,
-  $use_syslog                  = undef,
-  $log_facility                = undef,
-  $log_dir                     = undef,
-  $debug                       = undef,
   $storage_availability_zone   = 'nova',
   $rootwrap_config             = '/etc/manila/rootwrap.conf',
   $state_path                  = '/var/lib/manila',
@@ -290,7 +264,6 @@ class manila (
 
   include ::manila::deps
   include ::manila::db
-  include ::manila::logging
   include ::manila::params
 
   if $use_ssl {
