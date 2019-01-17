@@ -5,13 +5,7 @@
 class manila::params {
 
   include ::openstacklib::defaults
-
-  if ($::os_package_type == 'debian') or ($::os['name'] == 'Fedora') or
-    ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-    $pyvers = '3'
-  } else {
-    $pyvers = ''
-  }
+  $pyvers = $::openstacklib::defaults::pyvers
 
   $client_package       = "python${pyvers}-manilaclient"
   $db_sync_command      = 'manila-manage db sync'
