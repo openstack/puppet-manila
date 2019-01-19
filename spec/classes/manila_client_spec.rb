@@ -27,11 +27,7 @@ describe 'manila::client' do
       let :platform_params do
         case facts[:osfamily]
         when 'Debian'
-          if facts[:os_package_type] == 'debian'
-            { :client_package => 'python3-manilaclient' }
-          else
-            { :client_package => 'python-manilaclient' }
-          end
+          { :client_package => 'python3-manilaclient' }
         when 'RedHat'
           { :client_package => 'python-manilaclient' }
         end
