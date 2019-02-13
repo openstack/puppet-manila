@@ -36,7 +36,7 @@ Setup
 
 **What the manila module affects**
 
-* [Manila](https://wiki.openstack.org/wiki/Manila), the file system service for OpenStack.
+* [Manila](https://docs.openstack.org/manila/latest/), the file system service for OpenStack.
 
 ### Installing manila
 
