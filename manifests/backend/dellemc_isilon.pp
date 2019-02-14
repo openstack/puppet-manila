@@ -71,7 +71,7 @@ define manila::backend::dellemc_isilon (
 
   validate_string($emc_nas_password)
 
-  $dellemc_isilon_share_driver = 'manila.share.drivers.emc.driver.EMCShareDriver'
+  $dellemc_isilon_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
     "${share_backend_name}/share_driver":                 value => $dellemc_isilon_share_driver;

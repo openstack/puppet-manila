@@ -95,7 +95,7 @@ define manila::backend::dellemc_vnx (
 
   validate_string($emc_nas_password)
 
-  $vnx_share_driver = 'manila.share.drivers.emc.driver.EMCShareDriver'
+  $vnx_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
     "${share_backend_name}/share_driver":                 value => $vnx_share_driver;

@@ -75,7 +75,7 @@ define manila::backend::dellemc_vmax (
 
   validate_string($emc_nas_password)
 
-  $vmax_share_driver = 'manila.share.drivers.emc.driver.EMCShareDriver'
+  $vmax_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
     "${share_backend_name}/share_driver":                 value => $vmax_share_driver;

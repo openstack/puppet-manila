@@ -38,7 +38,7 @@ describe 'manila::backend::dellemc_unity' do
 
     it 'configures dell emc unity share driver' do
       is_expected.to contain_manila_config("dellemc_unity/share_driver").with_value(
-        'manila.share.drivers.emc.driver.EMCShareDriver')
+        'manila.share.drivers.dell_emc.driver.EMCShareDriver')
       params_hash.each_pair do |config,value|
         is_expected.to contain_manila_config("dellemc_unity/#{config}").with_value( value )
       end

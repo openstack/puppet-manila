@@ -1,0 +1,5 @@
+---
+fixes:
+  - The Dell EMC Manila driver urls updated to the correct path
+    to fix the deprecation warnings.
+

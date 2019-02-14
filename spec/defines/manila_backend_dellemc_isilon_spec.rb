@@ -29,7 +29,7 @@ describe 'manila::backend::dellemc_isilon' do
 
     it 'configures dell emc isilon share driver' do
       is_expected.to contain_manila_config("dellemc_isilon/share_driver").with_value(
-        'manila.share.drivers.emc.driver.EMCShareDriver')
+        'manila.share.drivers.dell_emc.driver.EMCShareDriver')
       params_hash.each_pair do |config,value|
         is_expected.to contain_manila_config("dellemc_isilon/#{config}").with_value( value )
       end

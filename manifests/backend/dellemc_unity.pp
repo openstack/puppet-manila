@@ -96,7 +96,7 @@ define manila::backend::dellemc_unity (
 
   validate_string($emc_nas_password)
 
-  $unity_share_driver = 'manila.share.drivers.emc.driver.EMCShareDriver'
+  $unity_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
     "${share_backend_name}/share_driver":                 value => $unity_share_driver;
