@@ -14,6 +14,7 @@ describe 'manila::backend::cephfs' do
         :cephfs_enable_snapshots      => true,
         :cephfs_protocol_helper_type  => 'NFS',
         :cephfs_ganesha_server_ip     => '10.0.0.1',
+        :cephfs_volume_mode           => '0775'
       }
     end
 
@@ -34,6 +35,9 @@ describe 'manila::backend::cephfs' do
         'NFS')
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_server_ip').with_value(
         '10.0.0.1')
+      is_expected.to contain_manila_config('cephfs/cephfs_volume_mode').with_value(
+        '0775'
+      )
     end
 
   end

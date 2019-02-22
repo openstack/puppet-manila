@@ -33,6 +33,11 @@
 #   (optional) IP of a server where Ganesha service runs on.
 #   Defaults to: undef
 #
+# [*cephfs_volume_mode*]
+#   (optional) octal rwx permissions for CephFS backing volumes,
+#   snapshots, and groups of volumes and snapshots.
+#   Defaults to $::os_service_default
+#
 # [*cephfs_protocol_helper_type*]
 #   (optional) Sets helper type for CephFS driver, can be CEPHFS or NFS
 #   Defaults to: CEPHFS
@@ -44,8 +49,9 @@ define manila::backend::cephfs (
   $cephfs_auth_id               = 'manila',
   $cephfs_cluster_name          = 'ceph',
   $cephfs_enable_snapshots      = false,
-  $cephfs_protocol_helper_type  = 'CEPHFS',
   $cephfs_ganesha_server_ip     = undef,
+  $cephfs_volume_mode           = $::os_service_default,
+  $cephfs_protocol_helper_type  = 'CEPHFS',
 ) {
 
   include ::manila::deps
@@ -60,7 +66,8 @@ define manila::backend::cephfs (
     "${name}/cephfs_auth_id":               value => $cephfs_auth_id;
     "${name}/cephfs_cluster_name":          value => $cephfs_cluster_name;
     "${name}/cephfs_enable_snapshots":      value => $cephfs_enable_snapshots;
-    "${name}/cephfs_protocol_helper_type":  value => $cephfs_protocol_helper_type;
     "${name}/cephfs_ganesha_server_ip":     value => $cephfs_ganesha_server_ip;
+    "${name}/cephfs_volume_mode":           value => $cephfs_volume_mode;
+    "${name}/cephfs_protocol_helper_type":  value => $cephfs_protocol_helper_type;
   }
 }
