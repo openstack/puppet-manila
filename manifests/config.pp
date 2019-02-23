@@ -34,8 +34,8 @@ class manila::config (
 
   include ::manila::deps
 
-  validate_hash($manila_config)
-  validate_hash($api_paste_ini_config)
+  validate_legacy(Hash, 'validate_hash', $manila_config)
+  validate_legacy(Hash, 'validate_hash', $api_paste_ini_config)
 
   create_resources('manila_config', $manila_config)
   create_resources('manila_api_paste_ini', $api_paste_ini_config)

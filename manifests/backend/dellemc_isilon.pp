@@ -69,7 +69,7 @@ define manila::backend::dellemc_isilon (
 
   include ::manila::deps
 
-  validate_string($emc_nas_password)
+  validate_legacy(String, 'validate_string', $emc_nas_password)
 
   $dellemc_isilon_share_driver = 'manila.share.drivers.emc.driver.EMCShareDriver'
 

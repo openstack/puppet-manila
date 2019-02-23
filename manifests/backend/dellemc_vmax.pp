@@ -73,7 +73,7 @@ define manila::backend::dellemc_vmax (
 
   include ::manila::deps
 
-  validate_string($emc_nas_password)
+  validate_legacy(String, 'validate_string', $emc_nas_password)
 
   $vmax_share_driver = 'manila.share.drivers.emc.driver.EMCShareDriver'
 
