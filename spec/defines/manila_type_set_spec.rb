@@ -15,7 +15,7 @@ describe 'manila::type_set' do
         :os_password    => 'asdf',
         :os_tenant_name => 'admin',
         :os_username    => 'admin',
-        :os_auth_url    => 'http://127.127.127.1:5000/v2.0/',
+        :os_auth_url    => 'http://127.127.127.1:5000/v3/',
       }
     end
 
@@ -26,7 +26,7 @@ describe 'manila::type_set' do
           'OS_TENANT_NAME=admin',
           'OS_USERNAME=admin',
           'OS_PASSWORD=asdf',
-          'OS_AUTH_URL=http://127.127.127.1:5000/v2.0/'],
+          'OS_AUTH_URL=http://127.127.127.1:5000/v3/'],
         :require => 'Anchor[manila::install::end]')
     end
   end

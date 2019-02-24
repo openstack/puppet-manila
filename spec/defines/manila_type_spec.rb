@@ -15,7 +15,7 @@ describe 'manila::type' do
         :os_password                  => 'asdf',
         :os_tenant_name               => 'admin',
         :os_username                  => 'admin',
-        :os_auth_url                  => 'http://127.127.127.1:5000/v2.0/',
+        :os_auth_url                  => 'http://127.127.127.1:5000/v3/',
         :driver_handles_share_servers => 'true',
       }
     end
@@ -27,7 +27,7 @@ describe 'manila::type' do
           'OS_TENANT_NAME=admin',
           'OS_USERNAME=admin',
           'OS_PASSWORD=asdf',
-          'OS_AUTH_URL=http://127.127.127.1:5000/v2.0/'],
+          'OS_AUTH_URL=http://127.127.127.1:5000/v3/'],
         :unless  => 'manila type-list | grep hippo',
         :require => 'Anchor[manila::install::end]')
       is_expected.to contain_exec('manila type-key hippo set volume_backend_name=name1')

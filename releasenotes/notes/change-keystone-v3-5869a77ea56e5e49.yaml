@@ -1,0 +1,11 @@
+---
+upgrade:
+  - |
+    The default value for manila::type::os_auth_url is changed from
+    http://127.0.0.1:5000/v2.0/ to http://127.0.0.1:5000/v3/
+  - |
+    The default value for manila::volume::cinder::cinder_admin_auth_url
+    is changed from http://localhost:5000/v2.0 to http://localhost:5000/v3
+  - |
+    The default value for manila::type_set::os_auth_url is changed from
+    http://localhost:5000/v2.0 to http://localhost:5000/v3
