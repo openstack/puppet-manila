@@ -63,7 +63,7 @@ describe 'manila::backend::dellemc_vmax' do
        })
       end
 
-      it { is_expected.to raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/) }
+      it { is_expected.to raise_error(Puppet::Error) }
     end
   end
 

@@ -63,7 +63,7 @@ define manila::backend::hitachi_hnas (
 
   include ::manila::deps
 
-  validate_string($hitachi_hnas_password)
+  validate_legacy(String, 'validate_string', $hitachi_hnas_password)
 
   $hitachi_share_driver = 'manila.share.drivers.hitachi.hds_hnas.HDSHNASDriver'
 
