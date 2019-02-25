@@ -42,7 +42,7 @@
 #
 # [*cinder_admin_auth_url*]
 # (optional) Identity service url
-#   Defaults to 'http://localhost:5000/v2.0'
+#   Defaults to 'http://localhost:5000/v3'
 #
 class manila::volume::cinder (
   $cinder_catalog_info         = 'volume:cinder:publicURL',
@@ -53,7 +53,7 @@ class manila::volume::cinder (
   $cinder_admin_username       = 'cinder',
   $cinder_admin_password       = undef,
   $cinder_admin_tenant_name    = 'service',
-  $cinder_admin_auth_url       = 'http://localhost:5000/v2.0',
+  $cinder_admin_auth_url       = 'http://localhost:5000/v3',
 ) {
 
   include ::manila::deps
