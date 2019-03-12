@@ -29,6 +29,7 @@ describe 'manila::logging' do
      :use_stderr                     => false,
      :log_facility                   => 'LOG_FOO',
      :log_dir                        => '/var/log',
+     :log_file                       => '/var/log/manila/manila.log',
      :debug                          => true,
     }
   end
@@ -64,6 +65,7 @@ describe 'manila::logging' do
         :use_stderr          => '<SERVICE DEFAULT>',
         :syslog_log_facility => '<SERVICE DEFAULT>',
         :log_dir             => '/var/log/manila',
+        :log_file            => '<SERVICE DEFAULT>',
         :debug               => '<SERVICE DEFAULT>',
       )
     end
@@ -78,6 +80,7 @@ describe 'manila::logging' do
         :use_stderr          => false,
         :syslog_log_facility => 'LOG_FOO',
         :log_dir             => '/var/log',
+        :log_file            => '/var/log/manila/manila.log',
         :debug               => true,
       )
     end
