@@ -117,4 +117,4 @@ Release Notes
 Repository
 ----------
 
-* https://git.openstack.org/cgit/openstack/puppet-manila
+* https://opendev.org/openstack/puppet-manila
