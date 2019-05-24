@@ -31,7 +31,7 @@
 #
 # [*project_name*]
 #   (optional) Project name to scope to
-#   Defaults to 'service'
+#   Defaults to 'services'
 #
 # [*region_name*]
 #   (optional) Region name for connecting to neutron
@@ -113,7 +113,7 @@ class manila::network::neutron (
   $cafile                       = $::os_service_default,
   $user_domain_name             = 'Default',
   $project_domain_name          = 'Default',
-  $project_name                 = 'service',
+  $project_name                 = 'services',
   $region_name                  = $::os_service_default,
   $timeout                      = $::os_service_default,
   $endpoint_type                = $::os_service_default,
