@@ -38,7 +38,7 @@
 #
 # [*cinder_admin_tenant_name*]
 # (optional) Cinder admin tenant name
-#   Defaults to 'service'
+#   Defaults to 'services'
 #
 # [*cinder_admin_auth_url*]
 # (optional) Identity service url
@@ -52,7 +52,7 @@ class manila::volume::cinder (
   $cinder_cross_az_attach      = true,
   $cinder_admin_username       = 'cinder',
   $cinder_admin_password       = undef,
-  $cinder_admin_tenant_name    = 'service',
+  $cinder_admin_tenant_name    = 'services',
   $cinder_admin_auth_url       = 'http://localhost:5000/v3',
 ) {
 

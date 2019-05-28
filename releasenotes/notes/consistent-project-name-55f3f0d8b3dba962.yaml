@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    The default value of manila::compute::nova::project_name,
+    manila::network::neutron::project_name and
+    manila::volume::cinder::cinder_admin_tenant_name has been changed from
+    'service' to 'services'.

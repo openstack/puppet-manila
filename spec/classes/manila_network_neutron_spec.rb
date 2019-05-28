@@ -48,7 +48,7 @@ describe 'manila::network::neutron' do
         is_expected.to contain_manila_config('neutron/cafile').with_value('/etc/ssl/certs/ca.crt')
         is_expected.to contain_manila_config('neutron/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('neutron/project_domain_name').with_value('Default')
-        is_expected.to contain_manila_config('neutron/project_name').with_value('service')
+        is_expected.to contain_manila_config('neutron/project_name').with_value('services')
         is_expected.to contain_manila_config('neutron/region_name').with_value('RegionOne')
         is_expected.to contain_manila_config('neutron/timeout').with_value(30)
         is_expected.to contain_manila_config('neutron/endpoint_type').with_value('publicURL')

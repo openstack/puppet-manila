@@ -41,7 +41,7 @@ describe 'manila::compute::nova' do
         is_expected.to contain_manila_config('nova/cafile').with_value('/etc/ssl/certs/ca.crt')
         is_expected.to contain_manila_config('nova/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('nova/project_domain_name').with_value('Default')
-        is_expected.to contain_manila_config('nova/project_name').with_value('service')
+        is_expected.to contain_manila_config('nova/project_name').with_value('services')
         is_expected.to contain_manila_config('nova/region_name').with_value('RegionOne')
         is_expected.to contain_manila_config('nova/endpoint_type').with_value('publicURL')
         is_expected.to contain_manila_config('nova/username').with_value('novav1')
