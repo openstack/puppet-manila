@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    New parameters are added to the cephfs backend to permit
+    configuration with an external Ganesha service; the new
+    parameters define if Ganesha is remote and what are the
+    username/password or private key to log on the remote host.
