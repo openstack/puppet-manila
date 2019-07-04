@@ -32,6 +32,7 @@ describe 'manila::api' do
         is_expected.to contain_manila_config('DEFAULT/enabled_share_protocols').with(:value => '<SERVICE DEFAULT>')
         is_expected.to contain_oslo__middleware('manila_config').with(
           :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
+          :max_request_body_size        => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_manila_config('DEFAULT/default_share_type').with(:value => '<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('DEFAULT/osapi_share_workers').with(:value => '2')
@@ -86,6 +87,18 @@ describe 'manila::api' do
       it 'should configure manila api correctly' do
         is_expected.to contain_oslo__middleware('manila_config').with(
           :enable_proxy_headers_parsing => true,
+        )
+      end
+    end
+
+    context 'with only required params' do
+      let :params do
+        req_params.merge({'max_request_body_size' => '102400'})
+      end
+      it { is_expected.to contain_class('manila::policy') }
+      it 'should configure manila api correctly' do
+        is_expected.to contain_oslo__middleware('manila_config').with(
+          :max_request_body_size => '102400',
         )
       end
     end

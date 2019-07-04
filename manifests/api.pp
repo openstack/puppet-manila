@@ -55,6 +55,10 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
+# [*max_request_body_size*]
+#   (Optional) Set max request body size
+#   Defaults to $::os_service_default.
+#
 # [*enabled_share_protocols*]
 #   (optional) Defines the enabled share protocols provided by Manila.
 #   Defaults to $::os_service_default
@@ -87,6 +91,7 @@ class manila::api (
   $ratelimits                   = undef,
   $ratelimits_factory           = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
   $enable_proxy_headers_parsing = $::os_service_default,
+  $max_request_body_size        = $::os_service_default,
   $enabled_share_protocols      = $::os_service_default,
   $service_workers              = $::os_workers,
   # Deprecated
@@ -165,6 +170,7 @@ server.")
 
   oslo::middleware { 'manila_config':
     enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
+    max_request_body_size        => $max_request_body_size,
   }
 
   if $auth_strategy == 'keystone' {
