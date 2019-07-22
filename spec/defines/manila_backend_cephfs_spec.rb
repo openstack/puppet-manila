@@ -14,6 +14,7 @@ describe 'manila::backend::cephfs' do
         :cephfs_enable_snapshots            => true,
         :cephfs_protocol_helper_type        => 'NFS',
         :cephfs_ganesha_server_ip           => '10.0.0.1',
+        :cephfs_ganesha_export_ips          => '10.0.0.1,1001::1001',
         :cephfs_ganesha_server_is_remote    => true,
         :cephfs_ganesha_server_username     => 'ganeshadmin',
         :cephfs_ganesha_path_to_private_key => '/readable/by/manila.key',
@@ -37,7 +38,9 @@ describe 'manila::backend::cephfs' do
       is_expected.to contain_manila_config('cephfs/cephfs_protocol_helper_type').with_value(
         'NFS')
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_server_ip').with_value(
-        '10.0.0.1')
+                       '10.0.0.1')
+      is_expected.to contain_manila_config('cephfs/cephfs_ganesha_export_ips').with_value(
+                       '10.0.0.1,1001::1001')
       is_expected.to contain_manila_config('cephfs/cephfs_volume_mode').with_value(
         '0775')
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_server_is_remote').with_value(

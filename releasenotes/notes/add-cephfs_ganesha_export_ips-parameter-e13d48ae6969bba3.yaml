@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Add support for configuring a list of IP addresses (or hostnames) on which
+    Manila will listen for mounts and provide NFS service via the
+    ``cephfs_ganesha_export_ips`` parameter.
+
