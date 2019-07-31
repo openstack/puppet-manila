@@ -33,6 +33,10 @@
 #   (optional) IP of a server where Ganesha service runs on.
 #   Defaults to: undef
 #
+# [*cephfs_ganesha_export_ips*]
+#   (optional) List of IPs on which Ganesha provides NFS share service.
+#   Defaults to: undef
+#
 # [*cephfs_ganesha_server_is_remote*]
 #   (required) Whether the Ganesha service is remote or colocated on the
 #   same node where the Share service runs.
@@ -70,6 +74,7 @@ define manila::backend::cephfs (
   $cephfs_cluster_name                = 'ceph',
   $cephfs_enable_snapshots            = false,
   $cephfs_ganesha_server_ip           = undef,
+  $cephfs_ganesha_export_ips          = undef,
   $cephfs_ganesha_server_is_remote    = $::os_service_default,
   $cephfs_ganesha_server_username     = undef,
   $cephfs_ganesha_server_password     = undef,
@@ -91,6 +96,7 @@ define manila::backend::cephfs (
     "${name}/cephfs_cluster_name":                value => $cephfs_cluster_name;
     "${name}/cephfs_enable_snapshots":            value => $cephfs_enable_snapshots;
     "${name}/cephfs_ganesha_server_ip":           value => $cephfs_ganesha_server_ip;
+    "${name}/cephfs_ganesha_export_ips":          value => $cephfs_ganesha_export_ips;
     "${name}/cephfs_ganesha_server_is_remote":    value => $cephfs_ganesha_server_is_remote;
     "${name}/cephfs_ganesha_server_username":     value => $cephfs_ganesha_server_username;
     "${name}/cephfs_ganesha_server_password":     value => $cephfs_ganesha_server_password;
