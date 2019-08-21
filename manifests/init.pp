@@ -210,6 +210,16 @@
 #   not necessarily a host name, FQDN, or IP address.
 #   Defaults to $::os_service_default
 #
+# [*rabbit_heartbeat_in_pthread*]
+#   (Optional) EXPERIMENTAL: Run the health check heartbeat thread
+#   through a native python thread. By default if this
+#   option isn't provided the  health check heartbeat will
+#   inherit the execution model from the parent process. By
+#   example if the parent process have monkey patched the
+#   stdlib by using eventlet/greenlet then the heartbeat
+#   will be run through a green thread.
+#   Defaults to $::os_service_default
+#
 class manila (
   $sql_connection              = undef,
   $sql_idle_timeout            = undef,
@@ -232,6 +242,7 @@ class manila (
   $kombu_ssl_version           = $::os_service_default,
   $kombu_failover_strategy     = $::os_service_default,
   $amqp_durable_queues         = $::os_service_default,
+  $rabbit_heartbeat_in_pthread = $::os_service_default,
   $package_ensure              = 'present',
   $use_ssl                     = false,
   $ca_file                     = false,
@@ -295,6 +306,7 @@ class manila (
     kombu_ssl_keyfile       => $kombu_ssl_keyfile,
     kombu_ssl_version       => $kombu_ssl_version,
     kombu_failover_strategy => $kombu_failover_strategy,
+    heartbeat_in_pthread    => $rabbit_heartbeat_in_pthread,
   }
 
   oslo::messaging::amqp { 'manila_config':

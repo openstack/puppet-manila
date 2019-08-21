@@ -49,6 +49,9 @@ describe 'manila' do
         is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_failover_strategy').with(
           :value => '<SERVICE DEFAULT>'
         )
+        is_expected.to contain_manila_config('oslo_messaging_rabbit/heartbeat_in_pthread').with(
+          :value => '<SERVICE DEFAULT>'
+        )
         is_expected.to contain_manila_config('DEFAULT/storage_availability_zone').with(
           :value => 'nova'
         )
