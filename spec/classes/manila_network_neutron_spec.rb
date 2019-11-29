@@ -78,7 +78,7 @@ describe 'manila::network::neutron' do
         is_expected.to contain_manila_config('neutron/cafile').with_value('/foo/ssl/certs/ca.crt')
         is_expected.to contain_manila_config('neutron/project_name').with_value('service2')
         is_expected.to contain_manila_config('neutron/username').with_value('neutronv2')
-        is_expected.to contain_manila_config('neutron/password').with_value('321321')
+	is_expected.to contain_manila_config('neutron/password').with_value('321321').with_secret(true)
         is_expected.to contain_manila_config('neutron/timeout').with_value(30)
       end
     end
