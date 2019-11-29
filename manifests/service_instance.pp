@@ -129,7 +129,7 @@ define manila::service_instance (
     "${name}/service_image_name":                     value => $service_image_name;
     "${name}/service_instance_name_template":         value => $service_instance_name_template;
     "${name}/service_instance_user":                  value => $service_instance_user;
-    "${name}/service_instance_password":              value => $service_instance_password;
+    "${name}/service_instance_password":              value => $service_instance_password, secret => true;
     "${name}/manila_service_keypair_name":            value => $manila_service_keypair_name;
     "${name}/path_to_public_key":                     value => $path_to_public_key;
     "${name}/path_to_private_key":                    value => $path_to_private_key;
