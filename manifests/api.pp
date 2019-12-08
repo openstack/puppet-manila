@@ -99,9 +99,9 @@ class manila::api (
   $os_region_name               = undef,
 ) inherits manila::params {
 
-  include ::manila::deps
-  include ::manila::params
-  include ::manila::policy
+  include manila::deps
+  include manila::params
+  include manila::policy
   require ::keystone::client
 
   if $service_port {
@@ -121,7 +121,7 @@ class manila::api (
   }
 
   if $sync_db {
-    include ::manila::db::sync
+    include manila::db::sync
   }
 
   if $enabled {
@@ -146,7 +146,7 @@ class manila::api (
   } elsif $service_name == 'httpd' {
     # We need to make sure manila-api/eventlet is stopped before trying to
     # start apache
-    include ::apache::params
+    include apache::params
     service { 'manila-api':
       ensure => 'stopped',
       name   => $::manila::params::api_service,
@@ -177,7 +177,7 @@ server.")
     manila_config {
       'DEFAULT/auth_strategy': value => $auth_strategy;
     }
-    include ::manila::keystone::authtoken
+    include manila::keystone::authtoken
 
     if ($ratelimits != undef) {
       manila_api_paste_ini {

@@ -119,7 +119,7 @@ class manila::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   oslo::log { 'manila_config':
     debug                         => $debug,

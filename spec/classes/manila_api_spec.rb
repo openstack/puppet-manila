@@ -153,9 +153,9 @@ describe 'manila::api' do
       end
 
       let :pre_condition do
-        "include ::apache
+        "include apache
          class { 'manila': }
-         class { '::manila::keystone::authtoken':
+         class { 'manila::keystone::authtoken':
            password => 'foo',
          }"
       end
@@ -175,9 +175,9 @@ describe 'manila::api' do
       end
 
       let :pre_condition do
-        "include ::apache
+        "include apache
          class { 'manila': }
-         class { '::manila::keystone::authtoken':
+         class { 'manila::keystone::authtoken':
            password => 'foo',
          }"
       end

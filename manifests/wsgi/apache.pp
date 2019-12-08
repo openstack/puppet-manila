@@ -123,12 +123,12 @@ class manila::wsgi::apache (
   $custom_wsgi_process_options = {},
 ) {
 
-  include ::manila::deps
-  include ::manila::params
-  include ::apache
-  include ::apache::mod::wsgi
+  include manila::deps
+  include manila::params
+  include apache
+  include apache::mod::wsgi
   if $ssl {
-    include ::apache::mod::ssl
+    include apache::mod::ssl
   }
 
   ::openstacklib::wsgi::apache { 'manila_wsgi':

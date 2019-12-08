@@ -273,9 +273,9 @@ class manila (
   $host                        = $::os_service_default,
 ) {
 
-  include ::manila::deps
-  include ::manila::db
-  include ::manila::params
+  include manila::deps
+  include manila::db
+  include manila::params
 
   if $use_ssl {
     if !$cert_file {

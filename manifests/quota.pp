@@ -50,7 +50,7 @@ class manila::quota (
   $max_age                  = 0,
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   manila_config {
     'DEFAULT/quota_shares':             value => $quota_shares;

@@ -32,7 +32,7 @@ class manila::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   ::openstacklib::db::postgresql { 'manila':
     password_hash => postgresql_password($user, $password),

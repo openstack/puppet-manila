@@ -111,7 +111,7 @@ class manila::compute::nova (
   $nova_admin_auth_url       = undef,
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   if $nova_catalog_info {
     warning('The nova_catalog_info parameter is deprecated, has no effect and will be removed in a future release.')

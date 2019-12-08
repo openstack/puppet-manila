@@ -131,7 +131,7 @@ class manila::keystone::auth (
   $internal_url_v2        = 'http://127.0.0.1:8786/v2/%(tenant_id)s',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   # for interface backward compatibility, we can't enforce to set a new parameter
   # so we take 'password' parameter by default but allow to override it.

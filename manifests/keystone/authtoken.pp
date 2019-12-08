@@ -214,7 +214,7 @@ class manila::keystone::authtoken(
   $service_token_roles_required   = $::os_service_default,
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   if is_service_default($password) {
     fail('Please set password for manila service user')

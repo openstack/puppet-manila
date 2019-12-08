@@ -32,7 +32,7 @@ class manila::config (
   $api_paste_ini_config  = {},
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   validate_legacy(Hash, 'validate_hash', $manila_config)
   validate_legacy(Hash, 'validate_hash', $api_paste_ini_config)

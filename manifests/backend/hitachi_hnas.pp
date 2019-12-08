@@ -61,7 +61,7 @@ define manila::backend::hitachi_hnas (
   $package_ensure               = 'present',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   validate_legacy(String, 'validate_string', $hitachi_hnas_password)
 

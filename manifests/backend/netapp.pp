@@ -120,7 +120,7 @@ define manila::backend::netapp (
   $package_ensure                       = 'present',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   validate_legacy(String, 'validate_string', $netapp_password)
 

@@ -104,7 +104,7 @@ define manila::service_instance (
 
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   if $service_instance_network_helper_type {
     warning('service_instance_network_helper_type is deprecated, has no effect, and will be removed in the future.')

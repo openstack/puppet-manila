@@ -92,7 +92,7 @@ define manila::backend::dellemc_unity (
   $package_ensure               = 'present',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
 

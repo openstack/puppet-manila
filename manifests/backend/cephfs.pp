@@ -83,7 +83,7 @@ define manila::backend::cephfs (
   $cephfs_protocol_helper_type        = 'CEPHFS',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   $share_driver = 'manila.share.drivers.cephfs.driver.CephFSDriver'
 

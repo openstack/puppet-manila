@@ -39,7 +39,7 @@ class manila::ganesha (
   $ganesha_export_template_dir = '/etc/manila/ganesha-export-templ.d',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   manila_config {
     'DEFAULT/ganesha_config_dir':          value => $ganesha_config_dir;

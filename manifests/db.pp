@@ -62,7 +62,7 @@ class manila::db (
   $database_idle_timeout            = undef,
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   if $database_idle_timeout {
     warning('The database_idle_timeout parameter is deprecated. Please use \

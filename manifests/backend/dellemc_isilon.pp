@@ -67,7 +67,7 @@ define manila::backend::dellemc_isilon (
   $package_ensure            = 'present',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
 

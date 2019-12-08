@@ -45,7 +45,7 @@ class manila::db::mysql (
   $cluster_id    = 'localzone',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   validate_legacy(String, 'validate_string', $password)
 

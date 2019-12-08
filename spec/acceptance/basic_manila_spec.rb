@@ -6,11 +6,11 @@ describe 'basic manila' do
 
     it 'should work with no errors' do
       pp= <<-EOS
-      include ::openstack_integration
-      include ::openstack_integration::repos
-      include ::openstack_integration::rabbitmq
-      include ::openstack_integration::mysql
-      include ::openstack_integration::keystone
+      include openstack_integration
+      include openstack_integration::repos
+      include openstack_integration::rabbitmq
+      include openstack_integration::mysql
+      include openstack_integration::keystone
 
       rabbitmq_user { 'manila':
         admin    => true,
@@ -28,35 +28,35 @@ describe 'basic manila' do
       }
 
       # Manila resources
-      class { '::manila::logging':
+      class { 'manila::logging':
         debug => true,
       }
-      class { '::manila':
+      class { 'manila':
         default_transport_url => 'rabbit://manila:an_even_bigger_secret@127.0.0.1:5672/',
         sql_connection        => 'mysql+pymysql://manila:a_big_secret@127.0.0.1/manila?charset=utf8',
       }
-      class { '::manila::db::mysql':
+      class { 'manila::db::mysql':
         password => 'a_big_secret',
       }
-      class { '::manila::keystone::auth':
+      class { 'manila::keystone::auth':
         password    => 'a_big_secret',
         password_v2 => 'a_big_secret',
       }
-      class { '::manila::client': }
-      class { '::manila::compute::nova': }
-      class { '::manila::network::neutron': }
-      class { '::manila::volume::cinder': }
-      class { '::manila::keystone::authtoken':
+      class { 'manila::client': }
+      class { 'manila::compute::nova': }
+      class { 'manila::network::neutron': }
+      class { 'manila::volume::cinder': }
+      class { 'manila::keystone::authtoken':
         password => 'a_big_secret',
       }
-      class { '::manila::api':
+      class { 'manila::api':
         service_name        => 'httpd',
       }
-      include ::apache
-      class { '::manila::wsgi::apache':
+      include apache
+      class { 'manila::wsgi::apache':
         ssl => false,
       }
-      class { '::manila::scheduler': }
+      class { 'manila::scheduler': }
 
       # missing: backends, share, service_instance
       EOS

@@ -4,7 +4,7 @@
 #
 class manila::params {
 
-  include ::openstacklib::defaults
+  include openstacklib::defaults
   $pyvers = $::openstacklib::defaults::pyvers
 
   $client_package       = "python${pyvers}-manilaclient"

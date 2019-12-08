@@ -71,7 +71,7 @@ define manila::backend::dellemc_vmax (
   $package_ensure           = 'present',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
 

@@ -28,8 +28,8 @@ class manila::policy (
   $policy_path = '/etc/manila/policy.json',
 ) {
 
-  include ::manila::deps
-  include ::manila::params
+  include manila::deps
+  include manila::params
 
   validate_legacy(Hash, 'validate_hash', $policies)
 

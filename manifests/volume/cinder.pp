@@ -56,7 +56,7 @@ class manila::volume::cinder (
   $cinder_admin_auth_url       = 'http://localhost:5000/v3',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   manila_config {
     'DEFAULT/cinder_catalog_info':          value => $cinder_catalog_info;

@@ -45,8 +45,8 @@ define manila::type (
 
   $volume_name = $name
 
-  include ::manila::deps
-  include ::manila::client
+  include manila::deps
+  include manila::client
 
 # TODO: (xarses) This should be moved to a ruby provider so that among other
 #   reasons, the credential discovery magic can occur like in neutron.

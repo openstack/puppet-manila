@@ -37,7 +37,7 @@ class manila::rabbitmq(
   $port           = '5672',
 ) {
 
-  include ::manila::deps
+  include manila::deps
 
   warning('manila::rabbitmq class is deprecated and will be removed in next release. Make other plans to configure rabbitmq resources.')
 
