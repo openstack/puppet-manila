@@ -14,10 +14,6 @@
 #   (optional) Interval between retries of opening a database connection.
 #   (Defaults to undef)
 #
-# [*database_min_pool_size*]
-#   (optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef.
-#
 # [*database_max_pool_size*]
 #   (optional) Maximum number of SQL connections to keep open in a pool.
 #   Defaults to undef.
@@ -220,12 +216,17 @@
 #   will be run through a green thread.
 #   Defaults to $::os_service_default
 #
+# DEPRECATED PARAMETERS
+#
+# [*database_min_pool_size*]
+#   (optional) Minimum number of SQL connections to keep open in a pool.
+#   Defaults to undef.
+#
 class manila (
   $sql_connection              = undef,
   $sql_idle_timeout            = undef,
   $database_max_retries        = undef,
   $database_retry_interval     = undef,
-  $database_min_pool_size      = undef,
   $database_max_pool_size      = undef,
   $database_max_overflow       = undef,
   $default_transport_url       = $::os_service_default,
@@ -271,6 +272,8 @@ class manila (
   $amqp_password               = $::os_service_default,
   $purge_config                = false,
   $host                        = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $database_min_pool_size      = undef,
 ) {
 
   include manila::deps
