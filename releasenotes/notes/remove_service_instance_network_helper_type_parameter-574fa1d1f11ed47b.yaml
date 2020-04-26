@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The service_instance_network_helper_type parameter in
+    manila::service_instance class has been removed.
