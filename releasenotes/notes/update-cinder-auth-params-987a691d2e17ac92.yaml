@@ -1,0 +1,18 @@
+---
+features:
+  - |
+    Now ``manila::volume::cinder`` can configure required parameters for
+    Keystone v3 auth.
+deprecations:
+  - |
+    The following parameters in ``manila::volume::cinder`` class has been
+    deprecated and will be removed in a future release.
+
+    - ``cinder_catalog_info``
+    - ``cinder_ca_certificates_file``
+    - ``cinder_http_retries``
+    - ``cinder_cross_az_attach``
+    - ``cinder_admin_username``
+    - ``cinder_admin_password``
+    - ``cinder_admin_tenant_name``
+    - ``cinder_admin_auth_url``
