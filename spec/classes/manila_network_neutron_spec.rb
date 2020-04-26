@@ -58,30 +58,6 @@ describe 'manila::network::neutron' do
         is_expected.to contain_manila_config('DEFAULT/network_plugin_ipv6_enabled').with_value(true)
        end
     end
-
-    context 'with deprecated parameters' do
-      let :params do
-        {
-          :auth_type                       => 'password',
-          :neutron_api_insecure            => true,
-          :neutron_ca_certificates_file    => '/foo/ssl/certs/ca.crt',
-          :neutron_admin_tenant_name       => 'service2',
-          :neutron_admin_username          => 'neutronv2',
-          :neutron_admin_password          => '321321',
-          :neutron_url_timeout             => 30,
-        }
-      end
-
-      it 'configures manila compute nova with deprecated parameters' do
-        is_expected.to contain_manila_config('neutron/auth_type').with_value('password')
-        is_expected.to contain_manila_config('neutron/insecure').with_value(true)
-        is_expected.to contain_manila_config('neutron/cafile').with_value('/foo/ssl/certs/ca.crt')
-        is_expected.to contain_manila_config('neutron/project_name').with_value('service2')
-        is_expected.to contain_manila_config('neutron/username').with_value('neutronv2')
-	is_expected.to contain_manila_config('neutron/password').with_value('321321').with_secret(true)
-        is_expected.to contain_manila_config('neutron/timeout').with_value(30)
-      end
-    end
   end
 
   on_supported_os({
