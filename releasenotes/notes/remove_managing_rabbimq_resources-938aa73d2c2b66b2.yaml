@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``manila::rabbitmq`` class to manage rabbitmq resource has been
+    removed.
