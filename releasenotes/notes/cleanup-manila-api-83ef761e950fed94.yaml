@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The following parameters in ``manila::api`` class has been removed.
+
+    - ``service_port``
+    - ``os_region_name``

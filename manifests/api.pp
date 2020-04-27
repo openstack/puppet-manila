@@ -67,18 +67,6 @@
 #   (optional) Number of manila-api workers
 #   Defaults to $::os_workers
 #
-# === DEPRECATED PARAMTERS
-#
-# [*service_port*]
-#   (optional) DEPRECATED. The manila api port
-#   Defaults to undef
-#
-# [*os_region_name*]
-#   (optional) Some operations require manila to make API requests
-#   to Nova. This sets the keystone region to be used for these
-#   requests. For example, boot-from-share.
-#   Defaults to undef.
-#
 class manila::api (
   $auth_strategy                = 'keystone',
   $package_ensure               = 'present',
@@ -94,23 +82,12 @@ class manila::api (
   $max_request_body_size        = $::os_service_default,
   $enabled_share_protocols      = $::os_service_default,
   $service_workers              = $::os_workers,
-  # Deprecated
-  $service_port                 = undef,
-  $os_region_name               = undef,
 ) inherits manila::params {
 
   include manila::deps
   include manila::params
   include manila::policy
   require ::keystone::client
-
-  if $service_port {
-    warning('service port is deprecated and will be removed in a future release')
-  }
-
-  if $os_region_name {
-    warning('The os_region_name option is deprecated and will be removed in a future release')
-  }
 
   if $::manila::params::api_package {
     package { 'manila-api':
