@@ -31,13 +31,6 @@
 # [*network_plugin_ipv6_enabled*]
 # (optional) whether to support IPv6 network resource
 #
-# DEPRECATED PARAMETERS
-#
-# [*standalone_network_plugin_ip_version*]
-# (optional) IP version of network. Optional.
-# Allowed values are '4' and '6'. Default value is undef.
-#
-
 define manila::network::standalone (
   $standalone_network_plugin_gateway,
   $standalone_network_plugin_mask,
@@ -45,13 +38,7 @@ define manila::network::standalone (
   $standalone_network_plugin_allowed_ip_ranges  = undef,
   $network_plugin_ipv4_enabled                  = $::os_service_default,
   $network_plugin_ipv6_enabled                  = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $standalone_network_plugin_ip_version         = undef,
 ) {
-
-  if $standalone_network_plugin_ip_version {
-    warning('standalone_network_plugin_ip_version is deprecated, has no effect, and will be removed in the future.')
-  }
 
   $standalone_plugin_name = 'manila.network.standalone_network_plugin.StandaloneNetworkPlugin'
 
