@@ -1,0 +1,29 @@
+---
+deprecations:
+  - |
+    The following parameters in ``manila::compute::nova`` class have been
+    removed.
+
+    - ``nova_catalog_info``
+    - ``nova_catalog_admin_info``
+    - ``nova_api_insecure``
+    - ``nova_ca_certificates_file``
+    - ``nova_admin_username``
+    - ``nova_admin_password``
+    - ``nova_admin_tenant_name``
+    - ``nova_admin_auth_url``
+
+  - |
+    The following parameters in ``manila::network::neutron`` class have been
+    removed.
+
+    - ``neutron_api_insecure``
+    - ``neutron_ca_certificates_file``
+    - ``neutron_url``
+    - ``neutron_url_timeout``
+    - ``neutron_admin_username``
+    - ``neutron_admin_password``
+    - ``neutron_admin_tenant_name``
+    - ``neutron_region_name``
+    - ``neutron_admin_auth_url``
+    - ``neutron_auth_strategy``

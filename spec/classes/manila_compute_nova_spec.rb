@@ -48,28 +48,6 @@ describe 'manila::compute::nova' do
         is_expected.to contain_manila_config('nova/password').with_value('123123').with_secret(true)
        end
     end
-
-    context 'with deprecated parameters' do
-      let :params do
-        {
-          :nova_api_insecure             => true,
-          :nova_ca_certificates_file     => '/foo/ssl/certs/ca.crt',
-          :auth_type                     => 'password',
-          :nova_admin_tenant_name        => 'service2',
-          :nova_admin_username           => 'novav2',
-          :nova_admin_password           => '321321',
-        }
-      end
-
-      it 'configures manila compute nova with deprecated parameters' do
-        is_expected.to contain_manila_config('nova/auth_type').with_value('password')
-        is_expected.to contain_manila_config('nova/insecure').with_value(true)
-        is_expected.to contain_manila_config('nova/cafile').with_value('/foo/ssl/certs/ca.crt')
-        is_expected.to contain_manila_config('nova/project_name').with_value('service2')
-        is_expected.to contain_manila_config('nova/username').with_value('novav2')
-        is_expected.to contain_manila_config('nova/password').with_value('321321')
-      end
-    end
   end
 
   on_supported_os({
