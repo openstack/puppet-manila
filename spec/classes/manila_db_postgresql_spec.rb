@@ -4,7 +4,7 @@ describe 'manila::db::postgresql' do
 
   shared_examples_for 'manila::db::postgresql' do
     let :req_params do
-      { :password => 'pw' }
+      { :password => 'manilapass' }
     end
 
     let :pre_condition do
@@ -16,12 +16,14 @@ describe 'manila::db::postgresql' do
         req_params
       end
 
-      it { is_expected.to contain_postgresql__server__db('manila').with(
-        :user     => 'manila',
-        :password => 'md5b15a47e3dd847f86827b328466426faf'
+      it { is_expected.to contain_openstacklib__db__postgresql('manila').with(
+        :user       => 'manila',
+        :password   => 'manilapass',
+        :dbname     => 'manila',
+        :encoding   => nil,
+        :privileges => 'ALL',
       )}
     end
-
   end
 
   on_supported_os({

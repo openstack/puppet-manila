@@ -3,8 +3,7 @@ require 'spec_helper'
 describe 'manila::db::mysql' do
 
   let :req_params do
-    {:password => 'pw',
-    }
+    { :password => 'manilapass' }
   end
 
   let :pre_condition do
@@ -17,13 +16,14 @@ describe 'manila::db::mysql' do
         req_params
       end
       it { is_expected.to contain_openstacklib__db__mysql('manila').with(
-        :user          => 'manila',
-        :password_hash => '*D821809F681A40A6E379B50D0463EFAE20BDD122',
-        :host          => '127.0.0.1',
-        :charset       => 'utf8',
-        :collate       => 'utf8_general_ci',
+        :user     => 'manila',
+        :password => 'manilapass',
+        :host     => '127.0.0.1',
+        :charset  => 'utf8',
+        :collate  => 'utf8_general_ci',
       ) }
     end
+
     context "overriding allowed_hosts param to array" do
       let :params do
         {
@@ -31,8 +31,8 @@ describe 'manila::db::mysql' do
           :allowed_hosts  => ['127.0.0.1','%']
         }
       end
-
     end
+
     context "overriding allowed_hosts param to string" do
       let :params do
         {
@@ -40,8 +40,8 @@ describe 'manila::db::mysql' do
           :allowed_hosts  => '192.168.1.1'
         }
       end
-
     end
+
     context "overriding allowed_hosts param equals to host param " do
       let :params do
         {
@@ -49,7 +49,6 @@ describe 'manila::db::mysql' do
           :allowed_hosts  => '127.0.0.1'
         }
       end
-
     end
   end
 
