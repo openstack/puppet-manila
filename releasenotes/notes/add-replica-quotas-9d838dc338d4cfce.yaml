@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The following new options were added so that operators can set quota
+    parameters for share replica.
+
+    - ``manila::quota::quota_share_replicas``
+    - ``manila::quota::quota_replica_gigabytes``
