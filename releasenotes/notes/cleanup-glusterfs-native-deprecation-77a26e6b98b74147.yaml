@@ -1,0 +1,7 @@
+---
+deprecations:
+  - |
+    The parameter 'manila::backend::glusternative::glusterfs_native_path_to_private_key'
+    has been deprecated and replaced with
+    'manila::backend::glusternative::glusterfs_path_to_private_key'. The
+    older option will be removed in a future release.
