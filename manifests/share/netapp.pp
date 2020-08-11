@@ -64,10 +64,10 @@
 #   (optional) Name of aggregate to create root volume on. This option only
 #   applies when the option driver_handles_share_servers is set to True.
 #
-# [*netapp_root_volume_name*]
+# [*netapp_root_volume*]
 #   (optional) Root volume name. This option only applies when the option
 #   driver_handles_share_servers is set to True.
-#   Defaults to root
+#   Defaults to $::os_service_default
 #
 # [*netapp_port_name_search_pattern*]
 #   (optional) Pattern for overriding the selection of network ports on which
@@ -78,6 +78,14 @@
 #   (optional) This option is a comma-separated list of options (valid values
 #   include method and api) that controls which trace info is written to the
 #   Manila logs when the debug level is set to True
+#
+#
+# === DEPRECATED PARAMETERS
+#
+# [*netapp_root_volume_name*]
+#   (optional) Root volume name. This option only applies when the option
+#   driver_handles_share_servers is set to True.
+#   Defaults to undef
 #
 # === Examples
 #  class { 'manila::share::netapp':
@@ -103,10 +111,18 @@ class manila::share::netapp (
     $netapp_lif_name_template             = 'os_%(net_allocation_id)s',
     $netapp_aggregate_name_search_pattern = '(.*)',
     $netapp_root_volume_aggregate         = undef,
-    $netapp_root_volume_name              = 'root',
+    $netapp_root_volume                   = $::os_service_default,
     $netapp_port_name_search_pattern      = '(.*)',
     $netapp_trace_flags                   = undef,
+    # DEPRECATED PARAMETERS
+    $netapp_root_volume_name              = undef,
 ) {
+
+  if $netapp_root_volume_name {
+    warning('The netapp_root_volume_name parameter is deprecated, use netapp_root_volume instead.')
+  }
+
+  $netapp_root_volume_real = pick($netapp_root_volume_name, $netapp_root_volume)
 
   manila::backend::netapp { 'DEFAULT':
     driver_handles_share_servers         => $driver_handles_share_servers,
@@ -122,7 +138,7 @@ class manila::share::netapp (
     netapp_lif_name_template             => $netapp_lif_name_template,
     netapp_aggregate_name_search_pattern => $netapp_aggregate_name_search_pattern,
     netapp_root_volume_aggregate         => $netapp_root_volume_aggregate,
-    netapp_root_volume_name              => $netapp_root_volume_name,
+    netapp_root_volume                   => $netapp_root_volume_real,
     netapp_port_name_search_pattern      => $netapp_port_name_search_pattern,
     netapp_trace_flags                   => $netapp_trace_flags,
   }

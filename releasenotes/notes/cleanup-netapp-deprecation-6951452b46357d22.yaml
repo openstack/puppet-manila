@@ -1,0 +1,10 @@
+---
+deprecations:
+  - |
+    The parameter 'manila::backend::netapp::netapp_root_volume_name' has
+    been deprecated and replaced by 'manila::backend::netapp::netapp_root_volume'.
+    The older option will be removed in a future release.
+  - |
+    The parameter 'manila::share::netapp::netapp_root_volume_name' has
+    been deprecated and replaced by 'manila::share::netapp::netapp_root_volume'.
+    The older option will be removed in a future release.

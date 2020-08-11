@@ -25,7 +25,7 @@ describe 'manila::backend::netapp' do
       :netapp_vserver_name_template         => 'os_%s',
       :netapp_lif_name_template             => 'os_%(net_allocation_id)s',
       :netapp_aggregate_name_search_pattern => '(.*)',
-      :netapp_root_volume_name              => 'root',
+      :netapp_root_volume                   => '<SERVICE DEFAULT>',
       :netapp_port_name_search_pattern      => '(.*)',
     }
   end

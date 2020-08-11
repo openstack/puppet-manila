@@ -70,10 +70,10 @@
 #   (optional) Name of aggregate to create root volume on. This option only
 #   applies when the option driver_handles_share_servers is set to True.
 #
-# [*netapp_root_volume_name*]
+# [*netapp_root_volume*]
 #   (optional) Root volume name. This option only applies when the option
 #   driver_handles_share_servers is set to True.
-#   Defaults to root
+#   Defaults to $::os_service_default
 #
 # [*netapp_port_name_search_pattern*]
 #   (optional) Pattern for overriding the selection of network ports on which
@@ -87,6 +87,14 @@
 #
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
+#
+#
+# === DEPRECATED PARAMETERS
+#
+# [*netapp_root_volume_name*]
+#   (optional) Root volume name. This option only applies when the option
+#   driver_handles_share_servers is set to True.
+#   Defaults to undef
 #
 # === Examples
 #
@@ -114,10 +122,12 @@ define manila::backend::netapp (
   $netapp_lif_name_template             = 'os_%(net_allocation_id)s',
   $netapp_aggregate_name_search_pattern = '(.*)',
   $netapp_root_volume_aggregate         = undef,
-  $netapp_root_volume_name              = 'root',
+  $netapp_root_volume                   = $::os_service_default,
   $netapp_port_name_search_pattern      = '(.*)',
   $netapp_trace_flags                   = undef,
   $package_ensure                       = 'present',
+  # DEPRECATED PARAMETERS
+  $netapp_root_volume_name              = undef,
 ) {
 
   include manila::deps
@@ -125,6 +135,12 @@ define manila::backend::netapp (
   validate_legacy(String, 'validate_string', $netapp_password)
 
   $netapp_share_driver = 'manila.share.drivers.netapp.common.NetAppDriver'
+
+  if $netapp_root_volume_name {
+    warning('The netapp_root_volume_name parameter is deprecated, use netapp_root_volume instead.')
+  }
+
+  $netapp_root_volume_real = pick($netapp_root_volume_name, $netapp_root_volume)
 
   manila_config {
     "${share_backend_name}/share_driver":                         value => $netapp_share_driver;
@@ -142,7 +158,7 @@ define manila::backend::netapp (
     "${share_backend_name}/netapp_lif_name_template":             value => $netapp_lif_name_template;
     "${share_backend_name}/netapp_aggregate_name_search_pattern": value => $netapp_aggregate_name_search_pattern;
     "${share_backend_name}/netapp_root_volume_aggregate":         value => $netapp_root_volume_aggregate;
-    "${share_backend_name}/netapp_root_volume_name":              value => $netapp_root_volume_name;
+    "${share_backend_name}/netapp_root_volume":                   value => $netapp_root_volume_real;
     "${share_backend_name}/netapp_port_name_search_pattern":      value => $netapp_port_name_search_pattern;
     "${share_backend_name}/netapp_trace_flags":                   value => $netapp_trace_flags;
   }
