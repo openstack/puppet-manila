@@ -11,14 +11,15 @@ describe 'manila::backend::cephfs' do
         :cephfs_conf_path                   => '$state_path/ceph.conf',
         :cephfs_auth_id                     => 'manila',
         :cephfs_cluster_name                => 'ceph',
-        :cephfs_enable_snapshots            => true,
         :cephfs_protocol_helper_type        => 'NFS',
         :cephfs_ganesha_server_ip           => '10.0.0.1',
         :cephfs_ganesha_export_ips          => '10.0.0.1,1001::1001',
         :cephfs_ganesha_server_is_remote    => true,
         :cephfs_ganesha_server_username     => 'ganeshadmin',
         :cephfs_ganesha_path_to_private_key => '/readable/by/manila.key',
-        :cephfs_volume_mode                 => '0775'
+        :cephfs_volume_mode                 => '0775',
+        # deprecated parameters
+        :cephfs_enable_snapshots            => true,
       }
     end
 
@@ -33,8 +34,6 @@ describe 'manila::backend::cephfs' do
         'manila')
       is_expected.to contain_manila_config('cephfs/cephfs_cluster_name').with_value(
         'ceph')
-      is_expected.to contain_manila_config('cephfs/cephfs_enable_snapshots').with_value(
-        true)
       is_expected.to contain_manila_config('cephfs/cephfs_protocol_helper_type').with_value(
         'NFS')
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_server_ip').with_value(
@@ -50,6 +49,9 @@ describe 'manila::backend::cephfs' do
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_path_to_private_key').with_value(
         '/readable/by/manila.key'
       )
+      # deprecated parameters
+      is_expected.to contain_manila_config('cephfs/cephfs_enable_snapshots').with_value(
+        true)
     end
 
   end
