@@ -1,0 +1,11 @@
+---
+deprecations:
+  - |
+    The parameter 'manila::backend::cephfs::cephfs_enable_snapshots' has been
+    deprecated. Manila's CephFS driver has changed the default behavior in
+    the Victoria cycle to always support snapshots, because they are fully
+    supported in Ceph Nautilus, the minimum version of Ceph supported by
+    Manila. Since the ``cephfs_enable_snapshots`` config option will be removed
+    in a future release, we recommend that you stop relying on it. Manila's
+    snapshots can be disabled by virtue of share type extra specs if
+    desired.

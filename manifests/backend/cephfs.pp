@@ -25,10 +25,6 @@
 #   (optional) Name of the cephfs cluster the driver will connect to.
 #   Defaults to: ceph
 #
-# [*cephfs_enable_snapshots*]
-#   (optional) If set to True, then Manila will utilize ceph snapshots.
-#   Defaults to: False
-#
 # [*cephfs_ganesha_server_ip*]
 #   (optional) IP of a server where Ganesha service runs on.
 #   Defaults to: undef
@@ -66,13 +62,18 @@
 #   (optional) Sets helper type for CephFS driver, can be CEPHFS or NFS
 #   Defaults to: CEPHFS
 #
+# === DEPRECATED PARAMETERS
+#
+# [*cephfs_enable_snapshots*]
+#   (optional) If set to True, then Manila will utilize ceph snapshots.
+#   Defaults to: False
+#
 define manila::backend::cephfs (
   $driver_handles_share_servers       = false,
   $share_backend_name                 = $name,
   $cephfs_conf_path                   = '$state_path/ceph.conf',
   $cephfs_auth_id                     = 'manila',
   $cephfs_cluster_name                = 'ceph',
-  $cephfs_enable_snapshots            = false,
   $cephfs_ganesha_server_ip           = undef,
   $cephfs_ganesha_export_ips          = undef,
   $cephfs_ganesha_server_is_remote    = $::os_service_default,
@@ -81,6 +82,8 @@ define manila::backend::cephfs (
   $cephfs_ganesha_path_to_private_key = undef,
   $cephfs_volume_mode                 = $::os_service_default,
   $cephfs_protocol_helper_type        = 'CEPHFS',
+  # DEPRECATED PARAMETERS
+  $cephfs_enable_snapshots            = undef,
 ) {
 
   include manila::deps
@@ -94,7 +97,6 @@ define manila::backend::cephfs (
     "${name}/cephfs_conf_path":                   value => $cephfs_conf_path;
     "${name}/cephfs_auth_id":                     value => $cephfs_auth_id;
     "${name}/cephfs_cluster_name":                value => $cephfs_cluster_name;
-    "${name}/cephfs_enable_snapshots":            value => $cephfs_enable_snapshots;
     "${name}/cephfs_ganesha_server_ip":           value => $cephfs_ganesha_server_ip;
     "${name}/cephfs_ganesha_export_ips":          value => $cephfs_ganesha_export_ips;
     "${name}/cephfs_ganesha_server_is_remote":    value => $cephfs_ganesha_server_is_remote;
@@ -102,6 +104,13 @@ define manila::backend::cephfs (
     "${name}/cephfs_ganesha_server_password":     value => $cephfs_ganesha_server_password;
     "${name}/cephfs_ganesha_path_to_private_key": value => $cephfs_ganesha_path_to_private_key;
     "${name}/cephfs_volume_mode":                 value => $cephfs_volume_mode;
-    "${name}/cephfs_protocol_helper_type":  value => $cephfs_protocol_helper_type;
+    "${name}/cephfs_protocol_helper_type":        value => $cephfs_protocol_helper_type;
+  }
+
+  if $cephfs_enable_snapshots != undef {
+    warning('The option cephfs_enable_snapshots has been deprecated and will be removed in a future release.')
+    manila_config {
+      "${name}/cephfs_enable_snapshots": value => $cephfs_enable_snapshots
+    }
   }
 }
