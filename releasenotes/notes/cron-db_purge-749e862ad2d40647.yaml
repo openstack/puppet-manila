@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``manila::cron::db_purge`` class has been added. This class can be
+    used to set up cron job to purge soft-deleted records from database.
