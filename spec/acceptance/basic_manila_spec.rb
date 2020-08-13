@@ -57,6 +57,7 @@ describe 'basic manila' do
         ssl => false,
       }
       class { '::manila::scheduler': }
+      class { '::manila::cron::db_purge': }
 
       # missing: backends, share, service_instance
       EOS
@@ -71,5 +72,8 @@ describe 'basic manila' do
       it { is_expected.to be_listening }
     end
 
+    describe cron do
+      it { is_expected.to have_entry('1 0 * * * manila-manage db purge 0 >>/var/log/manila/manila-rowsflush.log 2>&1').with_user('manila') }
+    end
   end
 end
