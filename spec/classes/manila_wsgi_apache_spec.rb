@@ -42,7 +42,8 @@ describe 'manila::wsgi::apache' do
           },
           :access_log_file             => '/var/log/httpd/access_log',
           :access_log_format           => 'some format',
-          :error_log_file              => '/var/log/httpd/error_log'
+          :error_log_file              => '/var/log/httpd/error_log',
+          :vhost_custom_fragment       => 'Timeout 99'
         }
       end
       it { is_expected.to contain_class('manila::params') }
@@ -58,6 +59,7 @@ describe 'manila::wsgi::apache' do
         :ssl                       => false,
         :threads                   => 1,
         :user                      => 'manila',
+        :vhost_custom_fragment     => 'Timeout 99',
         :workers                   => 37,
         :wsgi_daemon_process       => 'manila-api',
         :wsgi_process_display_name => 'manila-api',
