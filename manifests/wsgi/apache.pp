@@ -89,6 +89,11 @@
 #     { python-path => '/my/python/virtualenv' }
 #     Defaults to {}
 #
+#   [*vhost_custom_fragment*]
+#     (optional) Passes a string of custom configuration
+#     directives to be placed at the end of the vhost configuration.
+#     Defaults to undef.
+#
 # == Dependencies
 #
 #   requires Class['apache'] & Class['manila']
@@ -121,6 +126,7 @@ class manila::wsgi::apache (
   $access_log_format           = false,
   $error_log_file              = undef,
   $custom_wsgi_process_options = {},
+  $vhost_custom_fragment       = undef,
 ) {
 
   include manila::deps
@@ -148,6 +154,7 @@ class manila::wsgi::apache (
     ssl_key                     => $ssl_key,
     threads                     => $threads,
     user                        => 'manila',
+    vhost_custom_fragment       => $vhost_custom_fragment,
     workers                     => $workers,
     wsgi_daemon_process         => 'manila-api',
     wsgi_process_display_name   => $wsgi_process_display_name,
