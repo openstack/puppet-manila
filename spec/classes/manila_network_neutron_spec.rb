@@ -8,18 +8,16 @@ describe 'manila::network::neutron' do
         is_expected.to contain_manila_config('neutron/auth_url').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/auth_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/cafile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('neutron/user_domain_name').with_value('Default')
+        is_expected.to contain_manila_config('neutron/project_domain_name').with_value('Default')
+        is_expected.to contain_manila_config('neutron/project_name').with_value('services')
         is_expected.to contain_manila_config('neutron/region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/endpoint_type').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('neutron/username').with_value('neutron')
+        is_expected.to contain_manila_config('neutron/password').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('DEFAULT/network_plugin_ipv4_enabled').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('DEFAULT/network_plugin_ipv6_enabled').with_value('<SERVICE DEFAULT>')
-
-        # These should be added only when auth_type is 'password'
-        is_expected.not_to contain_manila_config('neutron/user_domain_name')
-        is_expected.not_to contain_manila_config('neutron/project_domain_name')
-        is_expected.not_to contain_manila_config('neutron/project_name')
-        is_expected.not_to contain_manila_config('neutron/username')
-        is_expected.not_to contain_manila_config('neutron/password')
       end
     end
 

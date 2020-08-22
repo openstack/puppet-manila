@@ -10,15 +10,13 @@ describe 'manila::volume::cinder' do
         is_expected.to contain_manila_config('cinder/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/endpoint_type').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('cinder/user_domain_name').with_value('Default')
+        is_expected.to contain_manila_config('cinder/project_domain_name').with_value('Default')
+        is_expected.to contain_manila_config('cinder/project_name').with_value('services')
+        is_expected.to contain_manila_config('cinder/username').with_value('cinder')
+        is_expected.to contain_manila_config('cinder/password').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/http_retries').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/cross_az_attach').with_value('<SERVICE DEFAULT>')
-
-        # These should be added only when auth_type is 'password'
-        is_expected.not_to contain_manila_config('cinder/user_domain_name')
-        is_expected.not_to contain_manila_config('cinder/project_domain_name')
-        is_expected.not_to contain_manila_config('cinder/project_name')
-        is_expected.not_to contain_manila_config('cinder/username')
-        is_expected.not_to contain_manila_config('cinder/password')
       end
     end
 

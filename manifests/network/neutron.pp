@@ -52,7 +52,7 @@
 #
 # [*password*]
 #   (optional) User's password
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*network_plugin_ipv4_enabled*]
 #   (optional) Whether to support Ipv4 network resource
@@ -74,7 +74,7 @@ class manila::network::neutron (
   $timeout                      = $::os_service_default,
   $endpoint_type                = $::os_service_default,
   $username                     = 'neutron',
-  $password                     = undef,
+  $password                     = $::os_service_default,
   $network_plugin_ipv4_enabled  = $::os_service_default,
   $network_plugin_ipv6_enabled  = $::os_service_default,
 ) {
@@ -90,17 +90,12 @@ class manila::network::neutron (
     'neutron/region_name':                 value => $region_name;
     'neutron/timeout':                     value => $timeout;
     'neutron/endpoint_type':               value => $endpoint_type;
+    'neutron/username':                    value => $username;
+    'neutron/user_domain_name':            value => $user_domain_name;
+    'neutron/password':                    value => $password, secret => true;
+    'neutron/project_name':                value => $project_name;
+    'neutron/project_domain_name':         value => $project_domain_name;
     'DEFAULT/network_plugin_ipv4_enabled': value => $network_plugin_ipv4_enabled;
     'DEFAULT/network_plugin_ipv6_enabled': value => $network_plugin_ipv6_enabled;
-    }
-
-  if $auth_type == 'password' {
-    manila_config {
-      'neutron/username':            value => $username;
-      'neutron/user_domain_name':    value => $user_domain_name;
-      'neutron/password':            value => $password, secret => true;
-      'neutron/project_name':        value => $project_name;
-      'neutron/project_domain_name': value => $project_domain_name;
-    }
   }
 }
