@@ -48,8 +48,7 @@
 #
 # [*password*]
 #   (optional) User's password
-#   Only required if auth_type has been set to "password"
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*http_retries*]
 #   (optional) Number of cinderclient retries on failed http calls.
@@ -92,7 +91,7 @@
 #
 # [*cinder_admin_password*]
 #   (optional) Cinder admin password.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*cinder_admin_tenant_name*]
 # (optional) Cinder admin tenant name
@@ -113,7 +112,7 @@ class manila::volume::cinder (
   $region_name                 = $::os_service_default,
   $endpoint_type               = $::os_service_default,
   $username                    = 'cinder',
-  $password                    = undef,
+  $password                    = $::os_service_default,
   $http_retries                = $::os_service_default,
   $cross_az_attach             = $::os_service_default,
   # DEPRECATED PARAMETERS
@@ -176,23 +175,18 @@ class manila::volume::cinder (
   $cross_az_attach_real = pick($cinder_cross_az_attach, $cross_az_attach)
 
   manila_config {
-    'cinder/insecure':        value => $insecure_real;
-    'cinder/auth_url':        value => $auth_url_real;
-    'cinder/auth_type':       value => $auth_type;
-    'cinder/cafile':          value => $cafile_real;
-    'cinder/region_name':     value => $region_name;
-    'cinder/endpoint_type':   value => $endpoint_type;
-    'cinder/http_retries':    value => $http_retries_real;
-    'cinder/cross_az_attach': value => $cross_az_attach_real;
-    }
-
-  if $auth_type == 'password' {
-    manila_config {
-      'cinder/username':            value => $username_real;
-      'cinder/user_domain_name':    value => $user_domain_name;
-      'cinder/password':            value => $password_real, secret => true;
-      'cinder/project_name':        value => $project_name_real;
-      'cinder/project_domain_name': value => $project_domain_name;
-    }
+    'cinder/insecure':            value => $insecure_real;
+    'cinder/auth_url':            value => $auth_url_real;
+    'cinder/auth_type':           value => $auth_type;
+    'cinder/cafile':              value => $cafile_real;
+    'cinder/region_name':         value => $region_name;
+    'cinder/endpoint_type':       value => $endpoint_type;
+    'cinder/username':            value => $username_real;
+    'cinder/user_domain_name':    value => $user_domain_name;
+    'cinder/password':            value => $password_real, secret => true;
+    'cinder/project_name':        value => $project_name_real;
+    'cinder/project_domain_name': value => $project_domain_name;
+    'cinder/http_retries':        value => $http_retries_real;
+    'cinder/cross_az_attach':     value => $cross_az_attach_real;
   }
 }

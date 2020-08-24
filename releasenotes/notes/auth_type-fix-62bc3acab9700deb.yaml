@@ -1,0 +1,10 @@
+---
+fixes:
+  - |
+    Now the following classes set keystone_credential parameters lik username
+    in manila.conf, even auth_type is not ``password``. This fixes the problem
+    with the other auth_type value  like ``v3password``.
+
+    - ``manila::compute::nova``
+    - ``manila::network::neutron``
+    - ``manila::volume::cinder``

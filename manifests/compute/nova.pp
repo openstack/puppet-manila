@@ -48,8 +48,7 @@
 #
 # [*password*]
 #   (optional) User's password
-#   Only required if auth_type has been set to "password"
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 class manila::compute::nova (
   $insecure                  = $::os_service_default,
@@ -62,27 +61,22 @@ class manila::compute::nova (
   $region_name               = $::os_service_default,
   $endpoint_type             = $::os_service_default,
   $username                  = 'nova',
-  $password                  = undef,
+  $password                  = $::os_service_default,
 ) {
 
   include manila::deps
 
   manila_config {
-    'nova/insecure':      value => $insecure;
-    'nova/auth_url':      value => $auth_url;
-    'nova/auth_type':     value => $auth_type;
-    'nova/cafile':        value => $cafile;
-    'nova/region_name':   value => $region_name;
-    'nova/endpoint_type': value => $endpoint_type;
-    }
-
-  if $auth_type == 'password' {
-    manila_config {
-      'nova/username':            value => $username;
-      'nova/user_domain_name':    value => $user_domain_name;
-      'nova/password':            value => $password, secret => true;
-      'nova/project_name':        value => $project_name;
-      'nova/project_domain_name': value => $project_domain_name;
-    }
+    'nova/insecure':            value => $insecure;
+    'nova/auth_url':            value => $auth_url;
+    'nova/auth_type':           value => $auth_type;
+    'nova/cafile':              value => $cafile;
+    'nova/region_name':         value => $region_name;
+    'nova/endpoint_type':       value => $endpoint_type;
+    'nova/username':            value => $username;
+    'nova/user_domain_name':    value => $user_domain_name;
+    'nova/password':            value => $password, secret => true;
+    'nova/project_name':        value => $project_name;
+    'nova/project_domain_name': value => $project_domain_name;
   }
 }
