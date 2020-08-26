@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    A new class has been introduced ("manila::image::glance") to allow
+    configuration parameters necessary for the usage of glanceclient
+    within Manila's service instance module. See `Launchpad bug 1741425
+    <https://launchpad.net/bugs/1741425>`_ for more details.
