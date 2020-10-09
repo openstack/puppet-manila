@@ -15,6 +15,9 @@ describe 'manila::db::mysql' do
       let :params do
         req_params
       end
+
+      it { is_expected.to contain_class('manila::deps') }
+
       it { is_expected.to contain_openstacklib__db__mysql('manila').with(
         :user     => 'manila',
         :password => 'manilapass',
