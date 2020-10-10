@@ -16,6 +16,8 @@ describe 'manila::db::postgresql' do
         req_params
       end
 
+      it { is_expected.to contain_class('manila::deps') }
+
       it { is_expected.to contain_openstacklib__db__postgresql('manila').with(
         :user       => 'manila',
         :password   => 'manilapass',
