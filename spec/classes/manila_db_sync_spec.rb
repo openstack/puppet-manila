@@ -4,6 +4,8 @@ describe 'manila::db::sync' do
 
   shared_examples_for 'manila-dbsync' do
 
+    it { is_expected.to contain_class('manila::deps') }
+
     it 'runs manila-db-sync' do
       is_expected.to contain_exec('manila-manage db_sync').with(
         :command     => 'manila-manage db sync',
