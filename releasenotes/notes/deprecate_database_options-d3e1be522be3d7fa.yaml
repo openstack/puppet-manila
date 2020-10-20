@@ -1,0 +1,12 @@
+---
+deprecations:
+  - |
+    The following options have been deprecated, as those options have been
+    moved to manila::db class.
+
+    - ``manila::sql_connection``
+    - ``manila::sql_idle_timeout``
+    - ``manila::database_max_overflow``
+    - ``manila::database_max_pool_size``
+    - ``manila::database_max_retries``
+    - ``manila::database_retry_interval``

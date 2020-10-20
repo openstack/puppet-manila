@@ -2,7 +2,6 @@ require 'spec_helper'
 describe 'manila' do
   let :req_params do
     {
-      :sql_connection  => 'mysql+pymysql://user:password@host/database',
       :purge_config    => false,
     }
   end
@@ -152,18 +151,6 @@ describe 'manila' do
       it { is_expected.to contain_manila_config('oslo_messaging_rabbit/amqp_durable_queues').with_value(true) }
     end
 
-    context 'with sqlite' do
-      let :params do
-        {
-          :sql_connection        => 'sqlite:////var/lib/manila/manila.sqlite',
-        }
-      end
-
-      it { is_expected.to_not contain_class('mysql::python') }
-      it { is_expected.to_not contain_class('mysql::bindings') }
-      it { is_expected.to_not contain_class('mysql::bindings::python') }
-    end
-
     context 'with SSL socket options set' do
       let :params do
         {
@@ -226,9 +213,7 @@ describe 'manila' do
     context 'with amqp rpc supplied' do
 
       let :params do
-        {
-          :sql_connection         => 'mysql+pymysql://user:password@host/database',
-        }
+        {}
       end
 
       it { is_expected.to contain_manila_config('oslo_messaging_amqp/server_request_prefix').with_value('exclusive') }
