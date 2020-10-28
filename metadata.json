@@ -73,7 +73,7 @@
             "version_requirement": ">= 6.0.0 < 7.0.0"
         }
     ],
-    "source": "git://github.com/openstack/puppet-manila.git",
+    "source": "https://opendev.org/openstack/puppet-manila.git",
     "summary": "Puppet module for OpenStack Manila",
     "version": "18.0.0"
 }
