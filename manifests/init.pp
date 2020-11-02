@@ -147,10 +147,6 @@
 #   (optional) Password for decrypting ssl_key_file (if encrypted)
 #   Defaults to $::os_service_default
 #
-# [*amqp_allow_insecure_clients*]
-#   (optional) Accept clients using either SSL or plain TCP
-#   Defaults to false
-#
 # [*amqp_sasl_mechanisms*]
 #   (Optional) Space separated list of acceptable SASL mechanisms
 #   Defaults to $::os_service_default.
@@ -222,6 +218,10 @@
 #   (optional) If set, use this value for max_overflow with sqlalchemy.
 #   Defaults to undef.
 #
+# [*amqp_allow_insecure_clients*]
+#   (optional) Accept clients using either SSL or plain TCP
+#   Defaults to undef.
+#
 class manila (
   $default_transport_url       = $::os_service_default,
   $rpc_response_timeout        = $::os_service_default,
@@ -254,7 +254,6 @@ class manila (
   $amqp_container_name         = 'guest',
   $amqp_idle_timeout           = '0',
   $amqp_trace                  = false,
-  $amqp_allow_insecure_clients = false,
   $amqp_ssl_ca_file            = $::os_service_default,
   $amqp_ssl_cert_file          = $::os_service_default,
   $amqp_ssl_key_file           = $::os_service_default,
@@ -274,11 +273,17 @@ class manila (
   $database_retry_interval     = undef,
   $database_max_pool_size      = undef,
   $database_max_overflow       = undef,
+  $amqp_allow_insecure_clients = undef,
 ) {
 
   include manila::deps
   include manila::db
   include manila::params
+
+  if $amqp_allow_insecure_clients != undef {
+    warning('The amqp_allow_insecure_clients parameter is deprecated and \
+will be removed in a future release.')
+  }
 
   if $sql_connection != undef {
     warning('The sql_connection parameter is deprecated and will be \
@@ -344,22 +349,21 @@ removed in a future realse. Use manila::db::database_max_overflow instead')
   }
 
   oslo::messaging::amqp { 'manila_config':
-    server_request_prefix  => $amqp_server_request_prefix,
-    broadcast_prefix       => $amqp_broadcast_prefix,
-    group_request_prefix   => $amqp_group_request_prefix,
-    container_name         => $amqp_container_name,
-    idle_timeout           => $amqp_idle_timeout,
-    trace                  => $amqp_trace,
-    allow_insecure_clients => $amqp_allow_insecure_clients,
-    ssl_ca_file            => $amqp_ssl_ca_file,
-    ssl_key_password       => $amqp_ssl_key_password,
-    ssl_cert_file          => $amqp_ssl_cert_file,
-    ssl_key_file           => $amqp_ssl_key_file,
-    sasl_mechanisms        => $amqp_sasl_mechanisms,
-    sasl_config_dir        => $amqp_sasl_config_dir,
-    sasl_config_name       => $amqp_sasl_config_name,
-    username               => $amqp_username,
-    password               => $amqp_password,
+    server_request_prefix => $amqp_server_request_prefix,
+    broadcast_prefix      => $amqp_broadcast_prefix,
+    group_request_prefix  => $amqp_group_request_prefix,
+    container_name        => $amqp_container_name,
+    idle_timeout          => $amqp_idle_timeout,
+    trace                 => $amqp_trace,
+    ssl_ca_file           => $amqp_ssl_ca_file,
+    ssl_key_password      => $amqp_ssl_key_password,
+    ssl_cert_file         => $amqp_ssl_cert_file,
+    ssl_key_file          => $amqp_ssl_key_file,
+    sasl_mechanisms       => $amqp_sasl_mechanisms,
+    sasl_config_dir       => $amqp_sasl_config_dir,
+    sasl_config_name      => $amqp_sasl_config_name,
+    username              => $amqp_username,
+    password              => $amqp_password,
   }
 
   oslo::messaging::default { 'manila_config':

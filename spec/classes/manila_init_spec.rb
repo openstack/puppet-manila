@@ -222,7 +222,6 @@ describe 'manila' do
       it { is_expected.to contain_manila_config('oslo_messaging_amqp/container_name').with_value('guest') }
       it { is_expected.to contain_manila_config('oslo_messaging_amqp/idle_timeout').with_value('0') }
       it { is_expected.to contain_manila_config('oslo_messaging_amqp/trace').with_value(false) }
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/allow_insecure_clients').with_value(false) }
       it { is_expected.to contain_manila_config('oslo_messaging_amqp/ssl_key_password').with_value('<SERVICE DEFAULT>')}
       it { is_expected.to contain_manila_config('oslo_messaging_amqp/ssl_ca_file').with_value('<SERVICE DEFAULT>')}
       it { is_expected.to contain_manila_config('oslo_messaging_amqp/ssl_cert_file').with_value('<SERVICE DEFAULT>')}
