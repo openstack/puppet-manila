@@ -5,38 +5,38 @@
 #
 # === Parameters
 # [*ganesha_config_dir*]
-#   (required) Directory where Ganesha config files are stored.
-#   Defaults to /etc/ganesha
+#   (optional) Directory where Ganesha config files are stored.
+#   Defaults to $::os_service_default
 #
 # [*ganesha_config_path*]
-#   (required) Path to main Ganesha config file.
-#   Defaults to $ganesha_config_dir/ganesha.conf
+#   (optional) Path to main Ganesha config file.
+#   Defaults to $::os_service_default
 #
 # [*ganesha_service_name*]
-#   (required) Name of the ganesha nfs service.
-#   Defaults to ganesha.nfsd
+#   (optional) Name of the ganesha nfs service.
+#   Defaults to $::os_service_default
 #
 # [*ganesha_db_path*]
-#   (required) Location of Ganesha database file (Ganesha module only).
-#   Defaults to $state_path/manila-ganesha.db
+#   (optional) Location of Ganesha database file (Ganesha module only).
+#   Defaults to $::os_service_default
 #
 # [*ganesha_export_dir*]
-#   (required) Path to directory containing Ganesha export configuration.
+#   (optional) Path to directory containing Ganesha export configuration.
 #   (Ganesha module only.)
-#   Defaults to $ganesha_config_dir/export.d
+#   Defaults to $::os_service_default
 #
 # [*ganesha_export_template_dir*]
-#   (required) Path to directory containing Ganesha export block templates.
+#   (optional) Path to directory containing Ganesha export block templates.
 #   (Ganesha module only.)
-#   Defaults to /etc/manila/ganesha-export-templ.d
+#   Defaults to $::os_service_default
 #
 class manila::ganesha (
-  $ganesha_config_dir          = '/etc/ganesha',
-  $ganesha_config_path         = '/etc/ganesha/ganesha.conf',
-  $ganesha_service_name        = 'ganesha.nfsd',
-  $ganesha_db_path             = '$state_path/manila-ganesha.db',
-  $ganesha_export_dir          = '/etc/ganesha/export.d',
-  $ganesha_export_template_dir = '/etc/manila/ganesha-export-templ.d',
+  $ganesha_config_dir          = $::os_service_default,
+  $ganesha_config_path         = $::os_service_default,
+  $ganesha_service_name        = $::os_service_default,
+  $ganesha_db_path             = $::os_service_default,
+  $ganesha_export_dir          = $::os_service_default,
+  $ganesha_export_template_dir = $::os_service_default,
 ) {
 
   include manila::deps
