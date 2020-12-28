@@ -2,6 +2,12 @@
 #
 # ===Parameters
 #
+# [*service_instance_user*]
+#   (required) User in service instance.
+#
+# [*service_instance_password*]
+#   (required) Password to service instance user.
+#
 # [*create_service_image*]
 #   (optional) Upload the service image to glance.
 #   Defaults to: true
@@ -12,18 +18,12 @@
 #   Defaults to: 'manila-service-image'
 #
 # [*service_image_location*]
-#   (required) URL or pathname to the service image. This will be
-#   loaded into Glance.
+#   (optional) URL or pathname to the service image. This will be
+#   loaded into Glance. This is required when create_service_image is true.
 #
 # [*service_instance_name_template*]
 #   (optional) Name of service instance.
 #   Defaults to: 'manila_service_instance_%s'
-#
-# [*service_instance_user*]
-#   (required) User in service instance.
-#
-# [*service_instance_password*]
-#   (required) Password to service instance user.
 #
 # [*manila_service_keypair_name*]
 #   (optional) Name of keypair that will be created and used
@@ -76,12 +76,12 @@
 #   Defaults to: false
 #
 define manila::service_instance (
+  $service_instance_user,
+  $service_instance_password,
   $create_service_image                   = true,
   $service_image_name                     = 'manila-service-image',
   $service_image_location                 = undef,
   $service_instance_name_template         = 'manila_service_instance_%s',
-  $service_instance_user                  = undef,
-  $service_instance_password              = undef,
   $manila_service_keypair_name            = 'manila-service',
   $path_to_public_key                     = '~/.ssh/id_rsa.pub',
   $path_to_private_key                    = '~/.ssh/id_rsa',
