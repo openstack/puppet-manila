@@ -20,12 +20,12 @@
 #   Defaults to empty hash.
 #
 # [*policy_path*]
-#   (Optional) Path to the manila policy.json file
-#   Defaults to /etc/manila/policy.json
+#   (Optional) Path to the manila policy.yaml file
+#   Defaults to /etc/manila/policy.yaml
 #
 class manila::policy (
   $policies    = {},
-  $policy_path = '/etc/manila/policy.json',
+  $policy_path = '/etc/manila/policy.yaml',
 ) {
 
   include manila::deps
@@ -34,9 +34,10 @@ class manila::policy (
   validate_legacy(Hash, 'validate_hash', $policies)
 
   Openstacklib::Policy::Base {
-    file_path  => $policy_path,
-    file_user  => 'root',
-    file_group => $::manila::params::group,
+    file_path   => $policy_path,
+    file_user   => 'root',
+    file_group  => $::manila::params::group,
+    file_format => 'yaml',
   }
 
   create_resources('openstacklib::policy::base', $policies)
