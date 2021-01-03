@@ -52,32 +52,6 @@ describe 'manila::volume::cinder' do
         is_expected.to contain_manila_config('cinder/cross_az_attach').with_value('true')
        end
     end
-
-    context 'with deprecated parameters' do
-      let :params do
-        {
-          :cinder_api_insecure           => true,
-          :cinder_ca_certificates_file   => '/foo/ssl/certs/ca.crt',
-          :auth_type                     => 'password',
-          :cinder_admin_tenant_name      => 'service2',
-          :cinder_admin_username         => 'cinderv2',
-          :cinder_admin_password         => '321321',
-          :cinder_http_retries           => 3,
-          :cinder_cross_az_attach        => true,
-        }
-      end
-
-      it 'configures manila volume cinder with deprecated parameters' do
-        is_expected.to contain_manila_config('cinder/auth_type').with_value('password')
-        is_expected.to contain_manila_config('cinder/insecure').with_value(true)
-        is_expected.to contain_manila_config('cinder/cafile').with_value('/foo/ssl/certs/ca.crt')
-        is_expected.to contain_manila_config('cinder/project_name').with_value('service2')
-        is_expected.to contain_manila_config('cinder/username').with_value('cinderv2')
-        is_expected.to contain_manila_config('cinder/password').with_value('321321')
-        is_expected.to contain_manila_config('cinder/http_retries').with_value(3)
-        is_expected.to contain_manila_config('cinder/cross_az_attach').with_value('true')
-      end
-    end
   end
 
   on_supported_os({
