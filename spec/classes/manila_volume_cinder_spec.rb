@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'manila::volume::cinder' do
-  shared_examples 'manila::cinder' do
+  shared_examples 'manila::volume::cinder' do
     context 'with default parameters' do
       it 'configures manila volume cinder' do
         is_expected.to contain_manila_config('cinder/insecure').with_value('<SERVICE DEFAULT>')
@@ -88,7 +88,7 @@ describe 'manila::volume::cinder' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'manila::cinder'
+      it_behaves_like 'manila::volume::cinder'
     end
   end
 end
