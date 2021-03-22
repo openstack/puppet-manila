@@ -4,6 +4,10 @@
 #
 # === Parameters
 #
+# [*enforce_scope*]
+#  (Optional) Whether or not to enforce scope when evaluating policies.
+#  Defaults to $::os_service_default.
+#
 # [*policies*]
 #   (Optional) Set of policies to configure for manila
 #   Example :
@@ -24,8 +28,9 @@
 #   Defaults to /etc/manila/policy.yaml
 #
 class manila::policy (
-  $policies    = {},
-  $policy_path = '/etc/manila/policy.yaml',
+  $enforce_scope = $::os_service_default,
+  $policies      = {},
+  $policy_path   = '/etc/manila/policy.yaml',
 ) {
 
   include manila::deps
@@ -42,6 +47,9 @@ class manila::policy (
 
   create_resources('openstacklib::policy::base', $policies)
 
-  oslo::policy { 'manila_config': policy_file => $policy_path }
+  oslo::policy { 'manila_config':
+    enforce_scope => $enforce_scope,
+    policy_file   => $policy_path
+  }
 
 }
