@@ -7,6 +7,7 @@ describe 'manila::policy' do
         :enforce_scope        => false,
         :enforce_new_defaults => false,
         :policy_path          => '/etc/manila/policy.yaml',
+        :policy_dirs          => '/etc/manila/policy.d',
         :policies             => {
           'context_is_admin' => {
             'key'   => 'context_is_admin',
@@ -28,6 +29,7 @@ describe 'manila::policy' do
         :enforce_scope        => false,
         :enforce_new_defaults => false,
         :policy_file          => '/etc/manila/policy.yaml',
+        :policy_dirs          => '/etc/manila/policy.d',
       )
     end
   end
