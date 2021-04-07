@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    A new class manila::wsgi::uwsgi exist to allow configuring uwsgi in
+    operating systems that support this (ie: currently Debian). This helps
+    configuring the number of processes, threads and listen socket.
+    Also, a new manila_api_uwsgi_config provider now exist.

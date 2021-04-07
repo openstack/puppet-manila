@@ -38,6 +38,11 @@ class manila::deps {
   -> Openstacklib::Policy::Base<||>
   ~> Anchor['manila::config::end']
 
+  # On any uwsgi config change, we must restart Manila API.
+  Anchor['manila::config::begin']
+  -> Manila_api_uwsgi_config<||>
+  ~> Anchor['manila::config::end']
+
   # Support packages need to be installed in the install phase, but we don't
   # put them in the chain above because we don't want any false dependencies
   # between packages with the manila-package tag and the manila-support-package
