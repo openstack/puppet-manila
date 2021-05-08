@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``manila::backend::ganesha`` resource type has been added. This allows
+    configuring Ganesha share which is supported by some drivers like CephFS.
