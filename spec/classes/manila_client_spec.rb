@@ -29,15 +29,7 @@ describe 'manila::client' do
         when 'Debian'
           { :client_package => 'python3-manilaclient' }
         when 'RedHat'
-          if facts[:operatingsystem] == 'Fedora'
-            { :client_package => 'python3-manilaclient' }
-          else
-            if facts[:operatingsystemmajrelease] > '7'
-              { :client_package => 'python3-manilaclient' }
-            else
-              { :client_package => 'python-manilaclient' }
-            end
-          end
+          { :client_package => 'python3-manilaclient' }
         end
       end
 

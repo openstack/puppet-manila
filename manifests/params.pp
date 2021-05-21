@@ -3,11 +3,9 @@
 # Parameters for puppet-manila
 #
 class manila::params {
-
   include openstacklib::defaults
-  $pyvers = $::openstacklib::defaults::pyvers
 
-  $client_package       = "python${pyvers}-manilaclient"
+  $client_package       = 'python3-manilaclient'
   $db_sync_command      = 'manila-manage db sync'
   $lio_package_name     = 'targetcli'
   $group                = 'manila'
