@@ -5,12 +5,6 @@
 #
 # === Parameters
 #
-# [*driver_handles_share_servers*]
-#  (required) Denotes whether the driver should handle the responsibility of
-#   managing share servers. This must be set to false if the driver is to
-#   operate without managing share servers.
-#   VNX driver requires this option to be as True.
-#
 # [*emc_nas_login*]
 #   (required) User account name used to access the storage
 #   system.
@@ -31,19 +25,19 @@
 #
 # [*vnx_server_container*]
 #   (optional) Name of the Data Mover to serve the share service.
-#   Defaults to None
+#   Defaults to $::os_service_default
 #
 # [*vnx_share_data_pools*]
 #   (optional)  Comma separated list specifying the name of the pools to be
 #   used by this back end. Do not set this option if all storage pools on the
 #   system can be used. Wild card character is supported
-#   Defaults to None
+#   Defaults to $::os_service_default
 #
 # [*vnx_ethernet_ports*]
 #   (optional) Comma-separated list specifying the ports (devices) of Data Mover
 #   that can be used for share server interface. Do not set this option if all
 #   ports on the Data Mover can be used. Wild card character is supported.
-#   Defaults to None
+#   Defaults to $::os_service_default
 #
 # [*network_plugin_ipv6_enabled*]
 #   (optional) Whether to support IPv6 network resource, Default=False.
@@ -60,10 +54,18 @@
 #   (optional) Can be used to specify a non default path to a
 #   CA_BUNDLE file or directory with certificates of trusted
 #   CAs, which will be used to validate the backend.
-#   Defaults to None
+#   Defaults to $::os_service_default
 #
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
+#
+# DEPRECATED PARAMETERS
+#
+# [*driver_handles_share_servers*]
+#  (optional) Denotes whether the driver should handle the responsibility of
+#   managing share servers. This must be set to false if the driver is to
+#   operate without managing share servers.
+#   VNX driver requires this option to be as True.
 #
 # === Examples
 #
@@ -76,30 +78,34 @@
 #  }
 #
 define manila::backend::dellemc_vnx (
-  $driver_handles_share_servers,
   $emc_nas_login,
   $emc_nas_password,
   $emc_nas_server,
   $emc_share_backend,
-  $share_backend_name          = $name,
-  $vnx_server_container        = undef,
-  $vnx_share_data_pools        = undef ,
-  $vnx_ethernet_ports          = undef,
-  $network_plugin_ipv6_enabled = true,
-  $emc_ssl_cert_verify         = false,
-  $emc_ssl_cert_path           = undef,
-  $package_ensure              = 'present',
+  $share_backend_name           = $name,
+  $vnx_server_container         = $::os_service_default,
+  $vnx_share_data_pools         = $::os_service_default,
+  $vnx_ethernet_ports           = $::os_service_default,
+  $network_plugin_ipv6_enabled  = true,
+  $emc_ssl_cert_verify          = false,
+  $emc_ssl_cert_path            = $::os_service_default,
+  $package_ensure               = 'present',
+  $driver_handles_share_servers = undef,
 ) {
 
   include manila::deps
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
 
+  if $driver_handles_share_servers != undef {
+    warning('The driver_handles_share_servers parameter has been deprecated and has no effect')
+  }
+
   $vnx_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
     "${share_backend_name}/share_driver":                 value => $vnx_share_driver;
-    "${share_backend_name}/driver_handles_share_servers": value => $driver_handles_share_servers;
+    "${share_backend_name}/driver_handles_share_servers": value => true;
     "${share_backend_name}/emc_nas_login":                value => $emc_nas_login;
     "${share_backend_name}/emc_nas_password":             value => $emc_nas_password, secret => true;
     "${share_backend_name}/emc_nas_server":               value => $emc_nas_server;

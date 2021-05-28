@@ -5,11 +5,6 @@
 #
 # === Parameters
 #
-# [*driver_handles_share_servers*]
-#  (required) Denotes whether the driver should handle the responsibility of
-#   managing share servers. This must be set to false if the driver is to
-#   operate without managing share servers.
-#
 # [*emc_nas_login*]
 #   (required) Administrative user account name used to access the storage
 #   system.
@@ -31,7 +26,7 @@
 #
 # [*emc_nas_root_dir*]
 #   (optional) The root directory where shares will be located.
-#   Defaults to None
+#   Defaults to $::os_service_default
 #
 # [*emc_nas_server_port*]
 #   (optional)  Port number for the Dell EMC isilon server.
@@ -44,38 +39,49 @@
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
+# DEPRECATED PARAMETERS
+#
+# [*driver_handles_share_servers*]
+#  (optional) Denotes whether the driver should handle the responsibility of
+#   managing share servers. This must be set to false if the driver is to
+#   operate without managing share servers.
+#
 # === Examples
 #
 #  manila::backend::dellemc_isilon { 'myBackend':
-#    driver_handles_share_servers  => false,
-#    emc_nas_login                 => 'admin',
-#    emc_nas_password              => 'password',
-#    emc_nas_server                => <IP address of isilon cluster>,
-#    emc_share_backend             => 'isilon',
+#    emc_nas_login     => 'admin',
+#    emc_nas_password  => 'password',
+#    emc_nas_server    => <IP address of isilon cluster>,
+#    emc_share_backend => 'isilon',
 #  }
 #
 define manila::backend::dellemc_isilon (
-  $driver_handles_share_servers,
   $emc_nas_login,
   $emc_nas_password,
   $emc_nas_server,
   $emc_share_backend,
-  $share_backend_name        = $name,
-  $emc_nas_root_dir          = undef,
-  $emc_nas_server_port       = 8080,
-  $emc_nas_server_secure     = true,
-  $package_ensure            = 'present',
+  $share_backend_name           = $name,
+  $emc_nas_root_dir             = $::os_service_default,
+  $emc_nas_server_port          = 8080,
+  $emc_nas_server_secure        = true,
+  $package_ensure               = 'present',
+  # DEPRECATED PARAMETERS
+  $driver_handles_share_servers = undef,
 ) {
 
   include manila::deps
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
 
+  if $driver_handles_share_servers != undef {
+    warning('The driver_handles_share_servers parameter has been deprecated and has no effect')
+  }
+
   $dellemc_isilon_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
     "${share_backend_name}/share_driver":                 value => $dellemc_isilon_share_driver;
-    "${share_backend_name}/driver_handles_share_servers": value => $driver_handles_share_servers;
+    "${share_backend_name}/driver_handles_share_servers": value => false;
     "${share_backend_name}/emc_nas_login":                value => $emc_nas_login;
     "${share_backend_name}/emc_nas_password":             value => $emc_nas_password, secret => true;
     "${share_backend_name}/emc_nas_server":               value => $emc_nas_server;

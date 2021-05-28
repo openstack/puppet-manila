@@ -5,12 +5,6 @@
 #
 # === Parameters
 #
-# [*driver_handles_share_servers*]
-#  (required) Denotes whether the driver should handle the responsibility of
-#   managing share servers. This must be set to false if the driver is to
-#   operate without managing share servers.
-#   VMAX driver requires this option to be as True.
-#
 # [*emc_nas_login*]
 #   (required) Administrative user account name used to access the storage
 #   system.
@@ -31,55 +25,67 @@
 #
 # [*vmax_server_container*]
 #   (optional) Name of the Data Mover to serve the share service.
-#   Defaults to None
+#   Defaults to $::os_service_default
 #
 # [*vmax_share_data_pools*]
 #   (optional)  Comma separated list specifying the name of the pools to be
 #   used by this back end. Do not set this option if all storage pools on the
 #   system can be used. Wild card character is supported
-#   Defaults to None
+#   Defaults to $::os_service_default
 #
 # [*vmax_ethernet_ports*]
 #   (optional) Comma-separated list specifying the ports (devices) of Data Mover
 #   that can be used for share server interface. Do not set this option if all
 #   ports on the Data Mover can be used. Wild card character is supported.
-#   Defaults to None
+#   Defaults to $::os_service_default
 #
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
+# DEPRECATED PARAMETERS
+#
+# [*driver_handles_share_servers*]
+#  (optional) Denotes whether the driver should handle the responsibility of
+#   managing share servers. This must be set to false if the driver is to
+#   operate without managing share servers.
+#   VMAX driver requires this option to be as True.
+#
 # === Examples
 #
 #  manila::backend::dellemc_vmax { 'myBackend':
-#    driver_handles_share_servers  => true,
-#    emc_nas_login                 => 'admin',
-#    emc_nas_password              => 'password',
-#    emc_nas_server                => <IP address of Unity Syste,>,
-#    emc_share_backend             => 'vmax',
+#    emc_nas_login     => 'admin',
+#    emc_nas_password  => 'password',
+#    emc_nas_server    => <IP address of Unity Syste,>,
+#    emc_share_backend => 'vmax',
 #  }
 #
 define manila::backend::dellemc_vmax (
-  $driver_handles_share_servers,
   $emc_nas_login,
   $emc_nas_password,
   $emc_nas_server,
   $emc_share_backend,
-  $share_backend_name       = $name,
-  $vmax_server_container    = undef,
-  $vmax_share_data_pools    = undef ,
-  $vmax_ethernet_ports      = undef,
-  $package_ensure           = 'present',
+  $share_backend_name           = $name,
+  $vmax_server_container        = $::os_service_default,
+  $vmax_share_data_pools        = $::os_service_default,
+  $vmax_ethernet_ports          = $::os_service_default,
+  $package_ensure               = 'present',
+  # DEPRECATED PARAMETERS
+  $driver_handles_share_servers = undef,
 ) {
 
   include manila::deps
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
 
+  if $driver_handles_share_servers != undef {
+    warning('The driver_handles_share_servers parameter has been deprecated and has no effect')
+  }
+
   $vmax_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
     "${share_backend_name}/share_driver":                 value => $vmax_share_driver;
-    "${share_backend_name}/driver_handles_share_servers": value => $driver_handles_share_servers;
+    "${share_backend_name}/driver_handles_share_servers": value => true;
     "${share_backend_name}/emc_nas_login":                value => $emc_nas_login;
     "${share_backend_name}/emc_nas_password":             value => $emc_nas_password, secret => true;
     "${share_backend_name}/emc_nas_server":               value => $emc_nas_server;

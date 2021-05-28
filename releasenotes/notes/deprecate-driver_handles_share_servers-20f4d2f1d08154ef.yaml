@@ -1,0 +1,8 @@
+---
+deprecations:
+  - |
+    The following parmaeters have been deprecated and has no effect now.
+
+    - ``manila::backend::dellemc_isilon::driver_handles_share_servers``
+    - ``manila::backend::dellemc_vmax::driver_handles_share_servers``
+    - ``manila::backend::dellemc_vnx::driver_handles_share_servers``

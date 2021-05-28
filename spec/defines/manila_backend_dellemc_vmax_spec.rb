@@ -4,16 +4,12 @@ describe 'manila::backend::dellemc_vmax' do
 
   let(:title) {'dellemc_vmax'}
 
-  let :params do
+  let :required_params do
     {
-      :driver_handles_share_servers  => true,
-      :emc_nas_login                 => 'admin',
-      :emc_nas_password              => 'password',
-      :emc_nas_server                => '127.0.0.2',
-      :emc_share_backend             => 'vmax',
-      :vmax_server_container         => 'container1',
-      :vmax_share_data_pools         => '*',
-      :vmax_ethernet_ports           => 'eth1',
+      :emc_nas_login     => 'admin',
+      :emc_nas_password  => 'password',
+      :emc_nas_server    => '127.0.0.2',
+      :emc_share_backend => 'vmax',
     }
   end
 
@@ -33,6 +29,7 @@ describe 'manila::backend::dellemc_vmax' do
     it 'configures dell emc vmax share driver' do
       is_expected.to contain_manila_config("dellemc_vmax/share_driver").with_value(
         'manila.share.drivers.dell_emc.driver.EMCShareDriver')
+      is_expected.to contain_manila_config("dellemc_vmax/driver_handles_share_servers").with_value(true)
       params_hash.each_pair do |config,value|
         is_expected.to contain_manila_config("dellemc_vmax/#{config}").with_value( value )
       end
@@ -45,25 +42,23 @@ describe 'manila::backend::dellemc_vmax' do
 
   shared_examples 'manila::backend::dellemc_vmax' do
     context 'with default parameters' do
-      before do
-        params = {}
+      let :params do
+        required_params
       end
 
       it_configures 'dell emc vmax share driver'
     end
 
     context 'with provided parameters' do
-      it_configures 'dell emc vmax share driver'
-    end
-
-    context 'with share server config' do
-      before do
-       params.merge!({
-          :emc_nas_password => true,
-       })
+      let :params do
+        required_params.merge!({
+          :vmax_server_container => 'container1',
+          :vmax_share_data_pools => '*',
+          :vmax_ethernet_ports   => 'eth1',
+        })
       end
 
-      it { is_expected.to raise_error(Puppet::Error) }
+      it_configures 'dell emc vmax share driver'
     end
   end
 
