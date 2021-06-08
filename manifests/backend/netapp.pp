@@ -131,6 +131,7 @@ define manila::backend::netapp (
 ) {
 
   include manila::deps
+  include manila::params
 
   validate_legacy(String, 'validate_string', $netapp_password)
 
@@ -163,7 +164,8 @@ define manila::backend::netapp (
     "${share_backend_name}/netapp_trace_flags":                   value => $netapp_trace_flags;
   }
 
-  ensure_resource('package','nfs-utils',{
+  ensure_packages('nfs-client', {
+    name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
     tag    => 'manila-support-package',
   })
