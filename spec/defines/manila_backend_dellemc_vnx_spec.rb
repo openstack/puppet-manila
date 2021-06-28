@@ -4,19 +4,12 @@ describe 'manila::backend::dellemc_vnx' do
 
   let(:title) {'dellemc_vnx'}
 
-  let :params do
+  let :required_params do
     {
-      :driver_handles_share_servers  => true,
-      :emc_nas_login                 => 'admin',
-      :emc_nas_password              => 'password',
-      :emc_nas_server                => '127.0.0.2',
-      :emc_share_backend             => 'vnx',
-      :vnx_server_container          => 'container1',
-      :vnx_share_data_pools          => '*',
-      :vnx_ethernet_ports            => 'eth1',
-      :network_plugin_ipv6_enabled   => true,
-      :emc_ssl_cert_verify           => true,
-      :emc_ssl_cert_path             => '/etc/ssl/certs/',
+      :emc_nas_login               => 'admin',
+      :emc_nas_password            => 'password',
+      :emc_nas_server              => '127.0.0.2',
+      :emc_share_backend           => 'vnx',
     }
   end
 
@@ -25,8 +18,8 @@ describe 'manila::backend::dellemc_vnx' do
       :vnx_server_container         => '<SERVICE DEFAULT>',
       :vnx_share_data_pools         => '<SERVICE DEFAULT>',
       :vnx_ethernet_ports           => '<SERVICE DEFAULT>',
-      :network_plugin_ipv6_enabled  => '<SERVICE DEFAULT>',
-      :emc_ssl_cert_verify          => '<SERVICE DEFAULT>',
+      :network_plugin_ipv6_enabled  => true,
+      :emc_ssl_cert_verify          => false,
       :emc_ssl_cert_path            => '<SERVICE DEFAULT>',
     }
   end
@@ -39,6 +32,7 @@ describe 'manila::backend::dellemc_vnx' do
     it 'configures dell emc vnx share driver' do
       is_expected.to contain_manila_config("dellemc_vnx/share_driver").with_value(
         'manila.share.drivers.dell_emc.driver.EMCShareDriver')
+      is_expected.to contain_manila_config("dellemc_vnx/driver_handles_share_servers").with_value(true)
       params_hash.each_pair do |config,value|
         is_expected.to contain_manila_config("dellemc_vnx/#{config}").with_value( value )
       end
@@ -51,25 +45,26 @@ describe 'manila::backend::dellemc_vnx' do
 
   shared_examples 'manila::backend::dellemc_vnx' do
     context 'with default parameters' do
-      before do
-        params = {}
+      let :params do
+        required_params
       end
 
       it_configures 'dell emc vnx share driver'
     end
 
     context 'with provided parameters' do
-      it_configures 'dell emc vnx share driver'
-    end
-
-    context 'with share server config' do
-      before do
-        params.merge!({
-          :emc_nas_password => true,
+      let :params do
+        required_params.merge({
+          :vnx_server_container        => 'container1',
+          :vnx_share_data_pools        => '*',
+          :vnx_ethernet_ports          => 'eth1',
+          :network_plugin_ipv6_enabled => true,
+          :emc_ssl_cert_verify         => true,
+          :emc_ssl_cert_path           => '/etc/ssl/certs/',
         })
       end
 
-      it { is_expected.to raise_error(Puppet::Error) }
+      it_configures 'dell emc vnx share driver'
     end
   end
 
