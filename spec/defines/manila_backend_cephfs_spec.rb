@@ -18,8 +18,6 @@ describe 'manila::backend::cephfs' do
         :cephfs_ganesha_server_username     => 'ganeshadmin',
         :cephfs_ganesha_path_to_private_key => '/readable/by/manila.key',
         :cephfs_volume_mode                 => '0775',
-        # deprecated parameters
-        :cephfs_enable_snapshots            => true,
       }
     end
 
@@ -49,9 +47,6 @@ describe 'manila::backend::cephfs' do
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_path_to_private_key').with_value(
         '/readable/by/manila.key'
       )
-      # deprecated parameters
-      is_expected.to contain_manila_config('cephfs/cephfs_enable_snapshots').with_value(
-        true)
     end
 
   end

@@ -62,12 +62,6 @@
 #   (optional) Sets helper type for CephFS driver, can be CEPHFS or NFS
 #   Defaults to: CEPHFS
 #
-# === DEPRECATED PARAMETERS
-#
-# [*cephfs_enable_snapshots*]
-#   (optional) If set to True, then Manila will utilize ceph snapshots.
-#   Defaults to: False
-#
 define manila::backend::cephfs (
   $driver_handles_share_servers       = false,
   $share_backend_name                 = $name,
@@ -82,8 +76,6 @@ define manila::backend::cephfs (
   $cephfs_ganesha_path_to_private_key = undef,
   $cephfs_volume_mode                 = $::os_service_default,
   $cephfs_protocol_helper_type        = 'CEPHFS',
-  # DEPRECATED PARAMETERS
-  $cephfs_enable_snapshots            = undef,
 ) {
 
   include manila::deps
@@ -105,12 +97,5 @@ define manila::backend::cephfs (
     "${name}/cephfs_ganesha_path_to_private_key": value => $cephfs_ganesha_path_to_private_key;
     "${name}/cephfs_volume_mode":                 value => $cephfs_volume_mode;
     "${name}/cephfs_protocol_helper_type":        value => $cephfs_protocol_helper_type;
-  }
-
-  if $cephfs_enable_snapshots != undef {
-    warning('The option cephfs_enable_snapshots has been deprecated and will be removed in a future release.')
-    manila_config {
-      "${name}/cephfs_enable_snapshots": value => $cephfs_enable_snapshots
-    }
   }
 }
