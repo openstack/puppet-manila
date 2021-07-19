@@ -23,6 +23,7 @@ class manila::params {
       $gluster_package_name        = 'glusterfs-common'
       $manila_wsgi_script_path     = '/usr/lib/cgi-bin/manila'
       $manila_wsgi_script_source   = '/usr/bin/manila-wsgi'
+      $nfs_client_package_name     = 'nfs-common'
     }
     'RedHat': {
       $package_name                = 'openstack-manila'
@@ -36,6 +37,7 @@ class manila::params {
       $gluster_package_name        = 'glusterfs'
       $manila_wsgi_script_path     = '/var/www/cgi-bin/manila'
       $manila_wsgi_script_source   = '/usr/bin/manila-wsgi'
+      $nfs_client_package_name     = 'nfs-utils'
     }
     default: {
       fail("unsupported osfamily ${::osfamily}, currently Debian and Redhat are the only supported platforms")

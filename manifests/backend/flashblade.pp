@@ -43,6 +43,7 @@ define manila::backend::flashblade (
 ) {
 
   include manila::deps
+  include manila::params
 
   validate_legacy(String, 'validate_string', $flashblade_api)
 
@@ -58,7 +59,8 @@ define manila::backend::flashblade (
     "${share_backend_name}/share_backend_name":           value => $share_backend_name;
   }
 
-  ensure_resource('package','nfs-utils',{
+  ensure_packages('nfs-client', {
+    name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
     tag    => 'manila-support-package',
   })

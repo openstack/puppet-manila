@@ -93,6 +93,7 @@ define manila::backend::dellemc_unity (
 ) {
 
   include manila::deps
+  include manila::params
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
 
@@ -114,7 +115,8 @@ define manila::backend::dellemc_unity (
     "${share_backend_name}/emc_ssl_cert_path":            value => $emc_ssl_cert_path;
   }
 
-  ensure_resource('package','nfs-utils',{
+  ensure_packages('nfs-client', {
+    name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
     tag    => 'manila-support-package',
   })

@@ -70,6 +70,7 @@ define manila::backend::dellemc_isilon (
 ) {
 
   include manila::deps
+  include manila::params
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
 
@@ -92,7 +93,8 @@ define manila::backend::dellemc_isilon (
     "${share_backend_name}/emc_nas_server_secure":        value => $emc_nas_server_secure;
   }
 
-  ensure_resource('package','nfs-utils',{
+  ensure_packages('nfs-client', {
+    name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
     tag    => 'manila-support-package',
   })
