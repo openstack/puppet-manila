@@ -49,9 +49,9 @@ describe 'manila::keystone::auth' do
       ) }
       it { is_expected.to contain_keystone_endpoint('RegionOne/manilav2::sharev2').with(
         :ensure       => 'present',
-        :public_url   => 'http://127.0.0.1:8786/v2/%(tenant_id)s',
-        :admin_url    => 'http://127.0.0.1:8786/v2/%(tenant_id)s',
-        :internal_url => 'http://127.0.0.1:8786/v2/%(tenant_id)s'
+        :public_url   => 'http://127.0.0.1:8786/v2',
+        :admin_url    => 'http://127.0.0.1:8786/v2',
+        :internal_url => 'http://127.0.0.1:8786/v2'
       ) }
 
     end
@@ -63,9 +63,9 @@ describe 'manila::keystone::auth' do
           :public_url      => 'https://10.0.42.1:4242/v42/%(tenant_id)s',
           :admin_url       => 'https://10.0.42.2:4242/v42/%(tenant_id)s',
           :internal_url    => 'https://10.0.42.3:4242/v42/%(tenant_id)s',
-          :public_url_v2   => 'https://10.0.42.1:4242/v43/%(tenant_id)s',
-          :admin_url_v2    => 'https://10.0.42.2:4242/v43/%(tenant_id)s',
-          :internal_url_v2 => 'https://10.0.42.3:4242/v43/%(tenant_id)s'
+          :public_url_v2   => 'https://10.0.42.1:4242/v43',
+          :admin_url_v2    => 'https://10.0.42.2:4242/v43',
+          :internal_url_v2 => 'https://10.0.42.3:4242/v43'
         )
       end
 
@@ -77,9 +77,9 @@ describe 'manila::keystone::auth' do
       )}
       it { is_expected.to contain_keystone_endpoint('RegionThree/manilav2::sharev2').with(
         :ensure       => 'present',
-        :public_url   => 'https://10.0.42.1:4242/v43/%(tenant_id)s',
-        :admin_url    => 'https://10.0.42.2:4242/v43/%(tenant_id)s',
-        :internal_url => 'https://10.0.42.3:4242/v43/%(tenant_id)s'
+        :public_url   => 'https://10.0.42.1:4242/v43',
+        :admin_url    => 'https://10.0.42.2:4242/v43',
+        :internal_url => 'https://10.0.42.3:4242/v43'
       )}
     end
 

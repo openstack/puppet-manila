@@ -86,17 +86,17 @@
 # [*public_url_v2*]
 #   (Optional) The v2 endpoint's public url.
 #   This url should *not* contain any trailing '/'.
-#   Defaults to 'http://127.0.0.1:8786/v2/%(tenant_id)s'
+#   Defaults to 'http://127.0.0.1:8786/v2'
 #
 # [*admin_url_v2*]
 #   (Optional) The endpoint's admin url.
 #   This url should *not* contain any trailing '/'.
-#   Defaults to 'http://127.0.0.1:8786/v2/%(tenant_id)s'
+#   Defaults to 'http://127.0.0.1:8786/v2'
 #
 # [*internal_url_v2*]
 #   (Optional) The endpoint's internal url.
 #   This url should *not* contain any trailing '/'.
-#   Defaults to 'http://127.0.0.1:8786/v2/%(tenant_id)s'
+#   Defaults to 'http://127.0.0.1:8786/v2'
 #
 # === Examples
 #
@@ -124,11 +124,11 @@ class manila::keystone::auth (
   $service_description_v2 = 'Manila Service v2',
   $region                 = 'RegionOne',
   $public_url             = 'http://127.0.0.1:8786/v1/%(tenant_id)s',
-  $public_url_v2          = 'http://127.0.0.1:8786/v2/%(tenant_id)s',
+  $public_url_v2          = 'http://127.0.0.1:8786/v2',
   $admin_url              = 'http://127.0.0.1:8786/v1/%(tenant_id)s',
-  $admin_url_v2           = 'http://127.0.0.1:8786/v2/%(tenant_id)s',
+  $admin_url_v2           = 'http://127.0.0.1:8786/v2',
   $internal_url           = 'http://127.0.0.1:8786/v1/%(tenant_id)s',
-  $internal_url_v2        = 'http://127.0.0.1:8786/v2/%(tenant_id)s',
+  $internal_url_v2        = 'http://127.0.0.1:8786/v2',
 ) {
 
   include manila::deps
