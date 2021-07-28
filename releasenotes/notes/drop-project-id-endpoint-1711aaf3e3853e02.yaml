@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    The default "v2" endpoints for the manila API service no longer contain
+    a "tenant_id" template. Support for such endpoints was added
+    in the manila service during the Wallaby release to accommodate
+    system-scoped API requests.
