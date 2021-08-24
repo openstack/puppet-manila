@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``manila::backend::cephfs::cephfs_enable_snapshots`` parameter has been
+    removed.
