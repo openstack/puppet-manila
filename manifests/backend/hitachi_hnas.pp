@@ -62,6 +62,7 @@ define manila::backend::hitachi_hnas (
 ) {
 
   include manila::deps
+  include manila::params
 
   validate_legacy(String, 'validate_string', $hitachi_hnas_password)
 
@@ -78,8 +79,9 @@ define manila::backend::hitachi_hnas (
     "${share_backend_name}/hitachi_hnas_file_system_name":    value => $hitachi_hnas_file_system_name;
   }
 
-  ensure_resource('package', 'nfs-utils', {
-    'ensure' => $package_ensure,
-    'tag'    => 'manila-support-package',
+  ensure_packages('nfs-client', {
+    name   => $::manila::params::nfs_client_package_name,
+    ensure => $package_ensure,
+    tag    => 'manila-support-package',
   })
 }
