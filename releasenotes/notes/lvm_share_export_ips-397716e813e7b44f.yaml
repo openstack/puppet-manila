@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixed usage of the removed ``lvm_share_export_ip`` parameter in
+    the ``manila::backend::lvm`` resource typeo.
+    Now the ``lvm_share_export_ips`` should be used instead.

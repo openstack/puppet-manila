@@ -8,7 +8,7 @@ describe 'manila::backend::lvm' do
     let :params do
       {
         :driver_handles_share_servers => false,
-        :lvm_share_export_ip          => '1.2.3.4',
+        :lvm_share_export_ips         => '1.2.3.4',
         :lvm_share_export_root        => '$state_path/mnt',
         :lvm_share_mirrors            => 1,
         :lvm_share_volume_group       => 'lvm-shares',
@@ -21,7 +21,7 @@ describe 'manila::backend::lvm' do
       is_expected.to contain_manila_config('mylvm/share_driver').with_value(
         'manila.share.drivers.lvm.LVMShareDriver')
       is_expected.to contain_manila_config('mylvm/driver_handles_share_servers').with_value(false)
-      is_expected.to contain_manila_config('mylvm/lvm_share_export_ip').with_value('1.2.3.4')
+      is_expected.to contain_manila_config('mylvm/lvm_share_export_ips').with_value('1.2.3.4')
       is_expected.to contain_manila_config('mylvm/lvm_share_export_root').with_value('$state_path/mnt')
       is_expected.to contain_manila_config('mylvm/lvm_share_mirrors').with_value('1')
       is_expected.to contain_manila_config('mylvm/lvm_share_volume_group').with_value('lvm-shares')

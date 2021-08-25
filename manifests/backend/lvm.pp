@@ -4,7 +4,7 @@
 # Configures Manila to use LVM as a share driver
 #
 # === Parameters
-# [*lvm_share_export_ip*]
+# [*lvm_share_export_ips*]
 #  (required) List of IPs to export shares belonging to the LVM storage driver.
 #
 # [*share_backend_name*]
@@ -36,7 +36,7 @@
 #  Defaults to: $::os_service_default
 #
 define manila::backend::lvm (
-  $lvm_share_export_ip,
+  $lvm_share_export_ips,
   $share_backend_name           = $name,
   $driver_handles_share_servers = $::os_service_default,
   $lvm_share_export_root        = $::os_service_default,
@@ -52,7 +52,7 @@ define manila::backend::lvm (
     "${name}/share_backend_name":           value => $share_backend_name;
     "${name}/share_driver":                 value => $share_driver;
     "${name}/driver_handles_share_servers": value => $driver_handles_share_servers;
-    "${name}/lvm_share_export_ip":          value => $lvm_share_export_ip;
+    "${name}/lvm_share_export_ips":         value => join(any2array($lvm_share_export_ips),',');
     "${name}/lvm_share_export_root":        value => $lvm_share_export_root;
     "${name}/lvm_share_mirrors":            value => $lvm_share_mirrors;
     "${name}/lvm_share_volume_group":       value => $lvm_share_volume_group;
