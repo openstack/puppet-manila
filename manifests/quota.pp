@@ -65,16 +65,31 @@ class manila::quota (
   include manila::deps
 
   manila_config {
-    'DEFAULT/quota_shares':             value => $quota_shares;
-    'DEFAULT/quota_snapshots':          value => $quota_snapshots;
-    'DEFAULT/quota_gigabytes':          value => $quota_gigabytes;
-    'DEFAULT/quota_driver':             value => $quota_driver;
-    'DEFAULT/quota_snapshot_gigabytes': value => $quota_snapshot_gigabytes;
-    'DEFAULT/quota_share_networks':     value => $quota_share_networks;
-    'DEFAULT/quota_share_replicas':     value => $quota_share_replicas;
-    'DEFAULT/quota_replica_gigabytes':  value => $quota_replica_gigabytes;
-    'DEFAULT/reservation_expire':       value => $reservation_expire;
-    'DEFAULT/until_refresh':            value => $until_refresh;
-    'DEFAULT/max_age':                  value => $max_age;
+    'quota/quota_shares':             value => $quota_shares;
+    'quota/quota_snapshots':          value => $quota_snapshots;
+    'quota/quota_gigabytes':          value => $quota_gigabytes;
+    'quota/quota_driver':             value => $quota_driver;
+    'quota/quota_snapshot_gigabytes': value => $quota_snapshot_gigabytes;
+    'quota/quota_share_networks':     value => $quota_share_networks;
+    'quota/quota_share_replicas':     value => $quota_share_replicas;
+    'quota/quota_replica_gigabytes':  value => $quota_replica_gigabytes;
+    'quota/reservation_expire':       value => $reservation_expire;
+    'quota/until_refresh':            value => $until_refresh;
+    'quota/max_age':                  value => $max_age;
+  }
+
+  # TODO(tkajinam): Remove this after Xena release.
+  manila_config {
+    'DEFAULT/quota_shares':             ensure => absent;
+    'DEFAULT/quota_snapshots':          ensure => absent;
+    'DEFAULT/quota_gigabytes':          ensure => absent;
+    'DEFAULT/quota_driver':             ensure => absent;
+    'DEFAULT/quota_snapshot_gigabytes': ensure => absent;
+    'DEFAULT/quota_share_networks':     ensure => absent;
+    'DEFAULT/quota_share_replicas':     ensure => absent;
+    'DEFAULT/quota_replica_gigabytes':  ensure => absent;
+    'DEFAULT/reservation_expire':       ensure => absent;
+    'DEFAULT/until_refresh':            ensure => absent;
+    'DEFAULT/max_age':                  ensure => absent;
   }
 }
