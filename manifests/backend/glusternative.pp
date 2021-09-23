@@ -8,6 +8,12 @@
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*glusterfs_servers*]
 #   (required) List of GlusterFS servers that can be used to create shares.
 #   Each GlusterFS server should be of the form [remoteuser@]<volserver>, and
@@ -34,6 +40,7 @@ define manila::backend::glusternative (
   $glusterfs_servers,
   $glusterfs_volume_pattern,
   $share_backend_name                   = $name,
+  $backend_availability_zone            = $::os_service_default,
   $package_ensure                       = 'present',
   $glusterfs_path_to_private_key        = undef,
   # DEPRECATED PARAMETERS
@@ -53,6 +60,7 @@ define manila::backend::glusternative (
 
   manila_config {
     "${share_backend_name}/share_backend_name":            value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":     value => $backend_availability_zone;
     "${share_backend_name}/share_driver":                  value => $share_driver;
     "${share_backend_name}/glusterfs_servers":             value => $glusterfs_servers;
     "${share_backend_name}/glusterfs_path_to_private_key": value => $glusterfs_path_to_private_key_real;

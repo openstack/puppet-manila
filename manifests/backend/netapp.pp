@@ -25,6 +25,12 @@
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*netapp_transport_type*]
 #   (optional) The transport protocol used when communicating with
 #   the storage system or proxy server. Valid values are
@@ -113,6 +119,7 @@ define manila::backend::netapp (
   $netapp_password,
   $netapp_server_hostname,
   $share_backend_name                   = $name,
+  $backend_availability_zone            = $::os_service_default,
   $netapp_transport_type                = 'http',
   $netapp_storage_family                = 'ontap_cluster',
   $netapp_server_port                   = undef,
@@ -150,6 +157,7 @@ define manila::backend::netapp (
     "${share_backend_name}/netapp_password":                      value => $netapp_password, secret => true;
     "${share_backend_name}/netapp_server_hostname":               value => $netapp_server_hostname;
     "${share_backend_name}/share_backend_name":                   value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":            value => $backend_availability_zone;
     "${share_backend_name}/netapp_transport_type":                value => $netapp_transport_type;
     "${share_backend_name}/netapp_storage_family":                value => $netapp_storage_family;
     "${share_backend_name}/netapp_server_port":                   value => $netapp_server_port;

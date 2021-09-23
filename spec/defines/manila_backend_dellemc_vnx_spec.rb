@@ -28,6 +28,7 @@ describe 'manila::backend::dellemc_vnx' do
       :network_plugin_ipv6_enabled  => '<SERVICE DEFAULT>',
       :emc_ssl_cert_verify          => '<SERVICE DEFAULT>',
       :emc_ssl_cert_path            => '<SERVICE DEFAULT>',
+      :backend_availability_zone    => '<SERVICE DEFAULT>',
     }
   end
 

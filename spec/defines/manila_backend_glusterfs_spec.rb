@@ -9,6 +9,7 @@ describe 'manila::backend::glusterfs' do
       {
         :glusterfs_volumes_config    => '/etc/manila/glusterfs_volumes',
         :glusterfs_mount_point_base  => '$state_path/mnt',
+        :backend_availability_zone   => 'my_zone',
       }
     end
 
@@ -21,6 +22,8 @@ describe 'manila::backend::glusterfs' do
         '/etc/manila/glusterfs_volumes')
       is_expected.to contain_manila_config('mygluster/glusterfs_mount_point_base').with_value(
         '$state_path/mnt')
+      is_expected.to contain_manila_config('mygluster/backend_availability_zone').with_value(
+        'my_zone')
     end
   end
 

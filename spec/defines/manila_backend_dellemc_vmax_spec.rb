@@ -19,9 +19,10 @@ describe 'manila::backend::dellemc_vmax' do
 
   let :default_params do
     {
-      :vmax_server_container  => '<SERVICE DEFAULT>',
-      :vmax_share_data_pools  => '<SERVICE DEFAULT>',
-      :vmax_ethernet_ports    => '<SERVICE DEFAULT>',
+      :vmax_server_container     => '<SERVICE DEFAULT>',
+      :vmax_share_data_pools     => '<SERVICE DEFAULT>',
+      :vmax_ethernet_ports       => '<SERVICE DEFAULT>',
+      :backend_availability_zone => '<SERVICE DEFAULT>',
     }
   end
 

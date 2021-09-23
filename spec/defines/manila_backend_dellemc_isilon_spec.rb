@@ -17,8 +17,9 @@ describe 'manila::backend::dellemc_isilon' do
 
   let :default_params do
     {
-      :emc_nas_server_port           => 8080,
-      :emc_nas_server_secure         => true,
+      :backend_availability_zone => '<SERVICE DEFAULT>',
+      :emc_nas_server_port       => 8080,
+      :emc_nas_server_secure     => true,
     }
   end
 

@@ -29,6 +29,12 @@
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*vnx_server_container*]
 #   (optional) Name of the Data Mover to serve the share service.
 #   Defaults to None
@@ -82,6 +88,7 @@ define manila::backend::dellemc_vnx (
   $emc_nas_server,
   $emc_share_backend,
   $share_backend_name          = $name,
+  $backend_availability_zone   = $::os_service_default,
   $vnx_server_container        = undef,
   $vnx_share_data_pools        = undef ,
   $vnx_ethernet_ports          = undef,
@@ -105,6 +112,7 @@ define manila::backend::dellemc_vnx (
     "${share_backend_name}/emc_nas_password":             value => $emc_nas_password, secret => true;
     "${share_backend_name}/emc_nas_server":               value => $emc_nas_server;
     "${share_backend_name}/share_backend_name":           value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":    value => $backend_availability_zone;
     "${share_backend_name}/emc_share_backend":            value => $emc_share_backend;
     "${share_backend_name}/vnx_server_container":         value => $vnx_server_container;
     "${share_backend_name}/vnx_share_data_pools":         value => $vnx_share_data_pools;

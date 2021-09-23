@@ -29,6 +29,12 @@
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*emc_nas_root_dir*]
 #   (optional) The root directory where shares will be located.
 #   Defaults to None
@@ -61,6 +67,7 @@ define manila::backend::dellemc_isilon (
   $emc_nas_server,
   $emc_share_backend,
   $share_backend_name        = $name,
+  $backend_availability_zone = $::os_service_default,
   $emc_nas_root_dir          = undef,
   $emc_nas_server_port       = 8080,
   $emc_nas_server_secure     = true,
@@ -81,6 +88,7 @@ define manila::backend::dellemc_isilon (
     "${share_backend_name}/emc_nas_password":             value => $emc_nas_password, secret => true;
     "${share_backend_name}/emc_nas_server":               value => $emc_nas_server;
     "${share_backend_name}/share_backend_name":           value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":    value => $backend_availability_zone;
     "${share_backend_name}/emc_share_backend":            value => $emc_share_backend;
     "${share_backend_name}/emc_nas_root_dir":             value => $emc_nas_root_dir;
     "${share_backend_name}/emc_nas_server_port":          value => $emc_nas_server_port;
