@@ -53,7 +53,7 @@ describe 'manila::backend::ganesha' do
 
     it { is_expected.to contain_package('nfs-ganesha').with(
       :name   => 'nfs-ganesha',
-      :ensure => 'present',
+      :ensure => 'installed'
     ) }
   end
 
