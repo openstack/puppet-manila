@@ -93,7 +93,7 @@ define manila::backend::cephfs (
     "${name}/cephfs_ganesha_export_ips":          value => $cephfs_ganesha_export_ips;
     "${name}/cephfs_ganesha_server_is_remote":    value => $cephfs_ganesha_server_is_remote;
     "${name}/cephfs_ganesha_server_username":     value => $cephfs_ganesha_server_username;
-    "${name}/cephfs_ganesha_server_password":     value => $cephfs_ganesha_server_password;
+    "${name}/cephfs_ganesha_server_password":     value => $cephfs_ganesha_server_password, secret => true;
     "${name}/cephfs_ganesha_path_to_private_key": value => $cephfs_ganesha_path_to_private_key;
     "${name}/cephfs_volume_mode":                 value => $cephfs_volume_mode;
     "${name}/cephfs_protocol_helper_type":        value => $cephfs_protocol_helper_type;
