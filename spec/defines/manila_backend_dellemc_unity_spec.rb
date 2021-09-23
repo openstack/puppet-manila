@@ -17,6 +17,7 @@ describe 'manila::backend::dellemc_unity' do
       :network_plugin_ipv6_enabled          => true,
       :emc_ssl_cert_verify                  => true,
       :emc_ssl_cert_path                    => '/etc/ssl/certs/',
+      :backend_availability_zone            => 'my_zone',
     }
   end
 
@@ -28,6 +29,7 @@ describe 'manila::backend::dellemc_unity' do
       :network_plugin_ipv6_enabled  => '<SERVICE DEFAULT>',
       :emc_ssl_cert_verify          => '<SERVICE DEFAULT>',
       :emc_ssl_cert_path            => '<SERVICE DEFAULT>',
+      :backend_availability_zone    => '<SERVICE DEFAULT>',
     }
   end
 

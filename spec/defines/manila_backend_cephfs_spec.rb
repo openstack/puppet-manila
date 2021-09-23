@@ -8,6 +8,7 @@ describe 'manila::backend::cephfs' do
       {
         :driver_handles_share_servers       => false,
         :share_backend_name                 => 'cephfs',
+        :backend_availability_zone          => 'my_zone',
         :cephfs_conf_path                   => '$state_path/ceph.conf',
         :cephfs_auth_id                     => 'manila',
         :cephfs_cluster_name                => 'ceph',
@@ -26,6 +27,8 @@ describe 'manila::backend::cephfs' do
         'manila.share.drivers.cephfs.driver.CephFSDriver')
       is_expected.to contain_manila_config('cephfs/share_backend_name').with_value(
         'cephfs')
+      is_expected.to contain_manila_config('cephfs/backend_availability_zone').with_value(
+        'my_zone')
       is_expected.to contain_manila_config('cephfs/cephfs_conf_path').with_value(
         '$state_path/ceph.conf')
       is_expected.to contain_manila_config('cephfs/cephfs_auth_id').with_value(

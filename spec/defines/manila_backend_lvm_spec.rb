@@ -13,6 +13,7 @@ describe 'manila::backend::lvm' do
         :lvm_share_mirrors            => 1,
         :lvm_share_volume_group       => 'lvm-shares',
         :lvm_share_helpers            => ['CIFS=manila.share.drivers.helpers.CIFSHelperUserAccess','NFS=manila.share.drivers.helpers.NFSHelper'],
+        :backend_availability_zone    => 'my_zone',
       }
     end
 
@@ -27,6 +28,8 @@ describe 'manila::backend::lvm' do
       is_expected.to contain_manila_config('mylvm/lvm_share_volume_group').with_value('lvm-shares')
       is_expected.to contain_manila_config('mylvm/lvm_share_helpers').with_value(
         'CIFS=manila.share.drivers.helpers.CIFSHelperUserAccess,NFS=manila.share.drivers.helpers.NFSHelper')
+      is_expected.to contain_manila_config('mylvm/backend_availability_zone').with_value(
+        'my_zone')
     end
   end
 

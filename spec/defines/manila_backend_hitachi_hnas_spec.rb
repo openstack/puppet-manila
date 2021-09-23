@@ -13,6 +13,7 @@ describe 'manila::backend::hitachi_hnas' do
       :hitachi_hnas_evs_id                 => '1',
       :hitachi_hnas_evs_ip                 => ' 172.24.53.1',
       :hitachi_hnas_file_system_name       => 'FS-Manila',
+      :backend_availability_zone           => 'my_zone',
     }
   end
 

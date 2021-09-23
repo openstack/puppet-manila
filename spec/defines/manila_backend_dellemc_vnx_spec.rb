@@ -21,6 +21,7 @@ describe 'manila::backend::dellemc_vnx' do
       :network_plugin_ipv6_enabled  => true,
       :emc_ssl_cert_verify          => false,
       :emc_ssl_cert_path            => '<SERVICE DEFAULT>',
+      :backend_availability_zone    => '<SERVICE DEFAULT>',
     }
   end
 
@@ -61,6 +62,7 @@ describe 'manila::backend::dellemc_vnx' do
           :network_plugin_ipv6_enabled => true,
           :emc_ssl_cert_verify         => true,
           :emc_ssl_cert_path           => '/etc/ssl/certs/',
+          :backend_availability_zone   => 'my_zone',
         })
       end
 

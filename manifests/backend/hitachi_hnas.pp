@@ -34,6 +34,12 @@
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
@@ -58,6 +64,7 @@ define manila::backend::hitachi_hnas (
   $hitachi_hnas_file_system_name,
   $driver_handles_share_servers = false,
   $share_backend_name           = $name,
+  $backend_availability_zone    = $::os_service_default,
   $package_ensure               = 'present',
 ) {
 
@@ -71,6 +78,7 @@ define manila::backend::hitachi_hnas (
   manila_config {
     "${share_backend_name}/share_driver":                     value => $hitachi_share_driver;
     "${share_backend_name}/driver_handles_share_servers":     value => $driver_handles_share_servers;
+    "${share_backend_name}/backend_availability_zone":        value => $backend_availability_zone;
     "${share_backend_name}/hitachi_hnas_username":            value => $hitachi_hnas_username;
     "${share_backend_name}/hitachi_hnas_password":            value => $hitachi_hnas_password, secret => true;
     "${share_backend_name}/hitachi_hnas_ip":                  value => $hitachi_hnas_ip;

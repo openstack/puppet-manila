@@ -11,6 +11,12 @@
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*smb_template_config_path*]
 #   (optional) Path to smb config.
 #   Defaults to: $state_path/smb.conf
@@ -72,6 +78,7 @@
 define manila::backend::generic (
   $driver_handles_share_servers,
   $share_backend_name                  = $name,
+  $backend_availability_zone           = $::os_service_default,
   $smb_template_config_path            = '$state_path/smb.conf',
   $volume_name_template                = 'manila-share-%s',
   $volume_snapshot_name_template       = 'manila-snapshot-%s',
@@ -95,6 +102,7 @@ define manila::backend::generic (
   manila_config {
     "${name}/driver_handles_share_servers":        value => $driver_handles_share_servers;
     "${name}/share_backend_name":                  value => $share_backend_name;
+    "${name}/backend_availability_zone":           value => $backend_availability_zone;
     "${name}/share_driver":                        value => $share_driver;
     "${name}/smb_template_config_path":            value => $smb_template_config_path;
     "${name}/volume_name_template":                value => $volume_name_template;
