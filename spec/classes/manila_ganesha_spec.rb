@@ -41,7 +41,7 @@ describe 'manila::ganesha' do
   shared_examples_for 'manila::ganesha on RedHat' do
     it { is_expected.to contain_package('nfs-ganesha').with(
       :name   => 'nfs-ganesha',
-      :ensure => 'present',
+      :ensure => 'installed',
     ) }
   end
 
