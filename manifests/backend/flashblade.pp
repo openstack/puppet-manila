@@ -18,6 +18,12 @@
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*flashblade_eradicate*]
 #   (optional) Fully eradicate deleted shares and snapshots.
 #   Defaults to True
@@ -37,9 +43,10 @@ define manila::backend::flashblade (
   $flashblade_api,
   $flashblade_data_vip,
   $flashblade_mgmt_vip,
-  $flashblade_eradicate = true,
-  $share_backend_name   = $name,
-  $package_ensure       = 'present',
+  $flashblade_eradicate      = true,
+  $share_backend_name        = $name,
+  $backend_availability_zone = $::os_service_default,
+  $package_ensure            = 'present',
 ) {
 
   include manila::deps
@@ -57,6 +64,7 @@ define manila::backend::flashblade (
     "${share_backend_name}/flashblade_mgmt_vip":          value => $flashblade_mgmt_vip;
     "${share_backend_name}/flashblade_data_vip":          value => $flashblade_data_vip;
     "${share_backend_name}/share_backend_name":           value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":    value => $backend_availability_zone;
   }
 
   ensure_packages('nfs-client', {

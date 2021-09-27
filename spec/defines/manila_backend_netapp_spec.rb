@@ -7,6 +7,7 @@ describe 'manila::backend::netapp' do
   let :params do
     {
       :driver_handles_share_servers        => true,
+      :backend_availability_zone           => 'my_zone',
       :netapp_login                        => 'netapp',
       :netapp_password                     => 'password',
       :netapp_server_hostname              => '127.0.0.2',
@@ -19,6 +20,7 @@ describe 'manila::backend::netapp' do
 
   let :default_params do
     {
+      :backend_availability_zone            => '<SERVICE DEFAULT>',
       :netapp_transport_type                => 'http',
       :netapp_storage_family                => 'ontap_cluster',
       :netapp_volume_name_template          => 'share_%(share_id)s',

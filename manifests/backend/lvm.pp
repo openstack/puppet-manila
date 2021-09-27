@@ -12,6 +12,12 @@
 #   reside in.
 #   Defaults to: $name
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*driver_handles_share_servers*]
 #  (optional) Denotes whether the driver should handle the responsibility of
 #  managing share servers. This must be set to false if the driver is to
@@ -38,6 +44,7 @@
 define manila::backend::lvm (
   $lvm_share_export_ips,
   $share_backend_name           = $name,
+  $backend_availability_zone    = $::os_service_default,
   $driver_handles_share_servers = $::os_service_default,
   $lvm_share_export_root        = $::os_service_default,
   $lvm_share_mirrors            = $::os_service_default,
@@ -50,6 +57,7 @@ define manila::backend::lvm (
 
   manila_config {
     "${name}/share_backend_name":           value => $share_backend_name;
+    "${name}/backend_availability_zone":    value => $backend_availability_zone;
     "${name}/share_driver":                 value => $share_driver;
     "${name}/driver_handles_share_servers": value => $driver_handles_share_servers;
     "${name}/lvm_share_export_ips":         value => join(any2array($lvm_share_export_ips),',');

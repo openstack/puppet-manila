@@ -6,7 +6,7 @@ describe 'manila::backend::flashblade' do
 
   let :required_params do
     {
-      :flashblade_api => 'admin',
+      :flashblade_api      => 'admin',
       :flashblade_mgmt_vip => '10.1.1.1',
       :flashblade_data_vip => '10.1.1.2',
     }
@@ -14,7 +14,8 @@ describe 'manila::backend::flashblade' do
 
   let :default_params do
     {
-     :flashblade_eradicate => true,
+     :flashblade_eradicate      => true,
+     :backend_availability_zone => '<SERVICE DEFAULT>',
     }
   end
 
@@ -49,7 +50,8 @@ describe 'manila::backend::flashblade' do
     context 'with share server config' do
       let :params do
         required_params.merge!({
-          :flashblade_eradicate => true,
+          :flashblade_eradicate      => true,
+          :backend_availability_zone => 'my_zone',
         })
       end
 

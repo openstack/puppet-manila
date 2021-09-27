@@ -23,6 +23,12 @@
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*vmax_server_container*]
 #   (optional) Name of the Data Mover to serve the share service.
 #   Defaults to $::os_service_default
@@ -65,6 +71,7 @@ define manila::backend::dellemc_vmax (
   $emc_nas_server,
   $emc_share_backend,
   $share_backend_name           = $name,
+  $backend_availability_zone    = $::os_service_default,
   $vmax_server_container        = $::os_service_default,
   $vmax_share_data_pools        = $::os_service_default,
   $vmax_ethernet_ports          = $::os_service_default,
@@ -90,6 +97,7 @@ define manila::backend::dellemc_vmax (
     "${share_backend_name}/emc_nas_password":             value => $emc_nas_password, secret => true;
     "${share_backend_name}/emc_nas_server":               value => $emc_nas_server;
     "${share_backend_name}/share_backend_name":           value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":    value => $backend_availability_zone;
     "${share_backend_name}/emc_share_backend":            value => $emc_share_backend;
     "${share_backend_name}/vmax_server_container":        value => $vmax_server_container;
     "${share_backend_name}/vmax_share_data_pools":        value => $vmax_share_data_pools;

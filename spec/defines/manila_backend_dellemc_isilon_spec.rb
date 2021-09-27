@@ -15,9 +15,10 @@ describe 'manila::backend::dellemc_isilon' do
 
   let :default_params do
     {
-      :emc_nas_root_dir      => '<SERVICE DEFAULT>',
-      :emc_nas_server_port   => 8080,
-      :emc_nas_server_secure => true,
+      :backend_availability_zone => '<SERVICE DEFAULT>',
+      :emc_nas_root_dir          => '<SERVICE DEFAULT>',
+      :emc_nas_server_port       => 8080,
+      :emc_nas_server_secure     => true,
     }
   end
 
@@ -52,9 +53,10 @@ describe 'manila::backend::dellemc_isilon' do
     context 'with provided parameters' do
       let :params do
         required_params.merge!({
-          :emc_nas_root_dir      => 'myroot',
-          :emc_nas_server_port   => 8000,
-          :emc_nas_server_secure => false,
+          :emc_nas_root_dir          => 'myroot',
+          :emc_nas_server_port       => 8000,
+          :emc_nas_server_secure     => false,
+          :backend_availability_zone => 'my_zone',
         })
       end
 

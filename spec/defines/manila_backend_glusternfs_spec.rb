@@ -12,6 +12,7 @@ describe 'manila::backend::glusternfs' do
         :glusterfs_nfs_server_type     => 'gluster',
         :glusterfs_path_to_private_key => '/etc/glusterfs/glusterfs.pem',
         :glusterfs_ganesha_server_ip   => '127.0.0.1',
+        :backend_availability_zone     => 'my_zone',
       }
     end
 

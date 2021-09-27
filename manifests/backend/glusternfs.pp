@@ -28,6 +28,12 @@
 # [*share_backend_name*]
 #   (optional) Backend name in manila.conf where these settings will reside in.
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
@@ -38,8 +44,9 @@ define manila::backend::glusternfs (
   $glusterfs_nfs_server_type,
   $glusterfs_path_to_private_key,
   $glusterfs_ganesha_server_ip,
-  $share_backend_name = $name,
-  $package_ensure     = 'present',
+  $share_backend_name        = $name,
+  $backend_availability_zone = $::os_service_default,
+  $package_ensure            = 'present',
 ) {
 
   include manila::deps
@@ -49,6 +56,7 @@ define manila::backend::glusternfs (
 
   manila_config {
     "${share_backend_name}/share_backend_name":            value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":     value => $backend_availability_zone;
     "${share_backend_name}/share_driver":                  value => $share_driver;
     "${share_backend_name}/glusterfs_target":              value => $glusterfs_target;
     "${share_backend_name}/glusterfs_mount_point_base":    value => $glusterfs_mount_point_base;

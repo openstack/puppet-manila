@@ -16,10 +16,12 @@ describe 'manila::backend::generic' do
       :service_instance_smb_config_path => '$share_mount_path/smb.conf',
       :share_volume_fstype              => 'ext4',
       :cinder_volume_type               => 'gold',
+      :backend_availability_zone        => 'my_zone',
     }
   end
 
   shared_examples 'manila::backend::generic' do
+
     context 'generic share driver' do
       it 'configures generic share driver' do
         is_expected.to contain_manila_config('hippo/share_backend_name').with(

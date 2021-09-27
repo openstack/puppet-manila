@@ -13,6 +13,12 @@
 #  these settings will reside in
 #  Defaults to: $name
 #
+# [*backend_availability_zone*]
+#   (Optional) Availability zone for this share backend.
+#   If not set, the storage_availability_zone option value
+#   is used as the default for all backends.
+#   Defaults to $::os_service_default.
+#
 # [*cephfs_conf_path*]
 #   (optional) Path to cephfs config.
 #   Defaults to: $state_path/ceph.conf
@@ -65,6 +71,7 @@
 define manila::backend::cephfs (
   $driver_handles_share_servers       = false,
   $share_backend_name                 = $name,
+  $backend_availability_zone          = $::os_service_default,
   $cephfs_conf_path                   = '$state_path/ceph.conf',
   $cephfs_auth_id                     = 'manila',
   $cephfs_cluster_name                = 'ceph',
@@ -85,6 +92,7 @@ define manila::backend::cephfs (
   manila_config {
     "${name}/driver_handles_share_servers":       value => $driver_handles_share_servers;
     "${name}/share_backend_name":                 value => $share_backend_name;
+    "${name}/backend_availability_zone":          value => $backend_availability_zone;
     "${name}/share_driver":                       value => $share_driver;
     "${name}/cephfs_conf_path":                   value => $cephfs_conf_path;
     "${name}/cephfs_auth_id":                     value => $cephfs_auth_id;

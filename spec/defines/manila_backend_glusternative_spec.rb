@@ -10,6 +10,7 @@ describe 'manila::backend::glusternative' do
         :glusterfs_servers                    => 'remoteuser@volserver',
         :glusterfs_path_to_private_key        => '/etc/glusterfs/glusterfs.pem',
         :glusterfs_volume_pattern             => 'manila-share-volume-\d+$',
+        :backend_availability_zone            => 'my_zone',
       }
     end
 

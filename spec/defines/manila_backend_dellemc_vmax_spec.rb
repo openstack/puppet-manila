@@ -15,9 +15,10 @@ describe 'manila::backend::dellemc_vmax' do
 
   let :default_params do
     {
-      :vmax_server_container  => '<SERVICE DEFAULT>',
-      :vmax_share_data_pools  => '<SERVICE DEFAULT>',
-      :vmax_ethernet_ports    => '<SERVICE DEFAULT>',
+      :vmax_server_container     => '<SERVICE DEFAULT>',
+      :vmax_share_data_pools     => '<SERVICE DEFAULT>',
+      :vmax_ethernet_ports       => '<SERVICE DEFAULT>',
+      :backend_availability_zone => '<SERVICE DEFAULT>',
     }
   end
 
@@ -52,9 +53,10 @@ describe 'manila::backend::dellemc_vmax' do
     context 'with provided parameters' do
       let :params do
         required_params.merge!({
-          :vmax_server_container => 'container1',
-          :vmax_share_data_pools => '*',
-          :vmax_ethernet_ports   => 'eth1',
+          :vmax_server_container     => 'container1',
+          :vmax_share_data_pools     => '*',
+          :vmax_ethernet_ports       => 'eth1',
+          :backend_availability_zone => 'my_zone',
         })
       end
 
