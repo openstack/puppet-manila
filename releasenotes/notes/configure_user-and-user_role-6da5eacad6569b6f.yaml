@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``manika::keystone::auth``
+    class.
+
+    - ``configure_user``
+    - ``configure_user_v2``
+    - ``configure_user_role``
+    - ``configure_user_role_v2``
