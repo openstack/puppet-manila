@@ -28,6 +28,14 @@
 #   API v1 endpoint should be enabled in Icehouse for compatibility with Nova.
 #   Defaults to true
 #
+# [*configure_user*]
+#   (Optional) Should the service user be configured?
+#   Defaults to true
+#
+# [*configure_user_role*]
+#   (Optional) Should the admin role be configured for the service user?
+#   Defaults to true
+#
 # [*service_type*]
 #   (Optional) Type of service.
 #   Defaults to 'share'.
@@ -75,6 +83,14 @@
 #   (Optional) Should Manila v2 endpoint be configured?
 #   Defaults to true.
 #
+# [*configure_user_v2*]
+#   (Optional) Should the v2 service user be configured?
+#   Defaults to true
+#
+# [*configure_user_role_v2*]
+#   (Optional) Should the admin role be configured for the v2 service user?
+#   Defaults to true
+#
 # [*service_type_v2*]
 #   (Optional) Type of service v2. Optional.
 #   Defaults to 'sharev2'.
@@ -118,6 +134,10 @@ class manila::keystone::auth (
   $tenant                 = 'services',
   $configure_endpoint     = true,
   $configure_endpoint_v2  = true,
+  $configure_user         = true,
+  $configure_user_v2      = true,
+  $configure_user_role    = true,
+  $configure_user_role_v2 = true,
   $service_type           = 'share',
   $service_type_v2        = 'sharev2',
   $service_description    = 'Manila Service',
@@ -142,8 +162,8 @@ class manila::keystone::auth (
   }
 
   keystone::resource::service_identity { 'manila':
-    configure_user      => true,
-    configure_user_role => true,
+    configure_user      => $configure_user,
+    configure_user_role => $configure_user_role,
     configure_endpoint  => $configure_endpoint,
     service_type        => $service_type,
     service_description => $service_description,
@@ -159,8 +179,8 @@ class manila::keystone::auth (
   }
 
   keystone::resource::service_identity { 'manilav2':
-    configure_user      => true,
-    configure_user_role => true,
+    configure_user      => $configure_user_v2,
+    configure_user_role => $configure_user_role_v2,
     configure_endpoint  => $configure_endpoint_v2,
     service_type        => $service_type_v2,
     service_description => $service_description_v2,
