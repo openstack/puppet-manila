@@ -1,7 +1,7 @@
 ---
 features:
   - |
-    The following parameters have been added to the ``manika::keystone::auth``
+    The following parameters have been added to the ``manila::keystone::auth``
     class.
 
     - ``configure_user``
