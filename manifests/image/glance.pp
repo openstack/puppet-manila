@@ -18,7 +18,7 @@
 #
 # [*auth_type*]
 #   (optional) Authentication type to load
-#   Defaults to $::os_service_default
+#   Defaults to 'password'
 #
 # [*cafile*]
 #   (optional) Path to PEM encoded Certificate Authority to use when verifying
@@ -66,7 +66,7 @@ class manila::image::glance (
   $api_microversion            = $::os_service_default,
   $insecure                    = $::os_service_default,
   $auth_url                    = $::os_service_default,
-  $auth_type                   = $::os_service_default,
+  $auth_type                   = 'password',
   $cafile                      = $::os_service_default,
   $certfile                    = $::os_service_default,
   $keyfile                     = $::os_service_default,

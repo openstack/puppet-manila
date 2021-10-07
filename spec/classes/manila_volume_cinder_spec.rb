@@ -6,7 +6,7 @@ describe 'manila::volume::cinder' do
       it 'configures manila volume cinder' do
         is_expected.to contain_manila_config('cinder/insecure').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/auth_url').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('cinder/auth_type').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('cinder/auth_type').with_value('password')
         is_expected.to contain_manila_config('cinder/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/endpoint_type').with_value('<SERVICE DEFAULT>')
@@ -25,7 +25,7 @@ describe 'manila::volume::cinder' do
         {
           :insecure        => true,
           :auth_url        => 'http://127.0.0.2:5000/',
-          :auth_type       => 'password',
+          :auth_type       => 'v3password',
           :cafile          => '/etc/ssl/certs/ca.crt',
           :region_name     => 'RegionOne',
           :endpoint_type   => 'publicURL',
@@ -39,7 +39,7 @@ describe 'manila::volume::cinder' do
       it 'configures manila cinder with overridden parameters' do
         is_expected.to contain_manila_config('cinder/insecure').with_value(true)
         is_expected.to contain_manila_config('cinder/auth_url').with_value('http://127.0.0.2:5000/')
-        is_expected.to contain_manila_config('cinder/auth_type').with_value('password')
+        is_expected.to contain_manila_config('cinder/auth_type').with_value('v3password')
         is_expected.to contain_manila_config('cinder/cafile').with_value('/etc/ssl/certs/ca.crt')
         is_expected.to contain_manila_config('cinder/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('cinder/project_domain_name').with_value('Default')

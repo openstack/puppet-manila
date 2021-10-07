@@ -14,7 +14,7 @@
 #
 # [*auth_type*]
 #   (optional) Authentication type to load
-#   Defaults to $::os_service_default
+#   Defaults to 'password'
 #
 # [*cafile*]
 #   (optional) PEM encoded Certificate Authority to use when verifying HTTPS
@@ -62,7 +62,7 @@
 class manila::volume::cinder (
   $insecure                    = $::os_service_default,
   $auth_url                    = $::os_service_default,
-  $auth_type                   = $::os_service_default,
+  $auth_type                   = 'password',
   $cafile                      = $::os_service_default,
   $user_domain_name            = 'Default',
   $project_domain_name         = 'Default',

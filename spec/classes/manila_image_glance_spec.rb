@@ -7,7 +7,7 @@ describe 'manila::image::glance' do
         is_expected.to contain_manila_config('glance/api_microversion').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/insecure').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/auth_url').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('glance/auth_type').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('glance/auth_type').with_value('password')
         is_expected.to contain_manila_config('glance/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/certfile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/keyfile').with_value('<SERVICE DEFAULT>')
@@ -27,7 +27,7 @@ describe 'manila::image::glance' do
           :api_microversion => '2',
           :insecure         => true,
           :auth_url         => 'http://127.0.0.2:5000/',
-          :auth_type        => 'password',
+          :auth_type        => 'v3password',
           :cafile           => '/etc/ssl/certs/ca.crt',
           :region_name      => 'RegionOne',
           :endpoint_type    => 'publicURL',
@@ -40,7 +40,7 @@ describe 'manila::image::glance' do
         is_expected.to contain_manila_config('glance/api_microversion').with_value('2')
         is_expected.to contain_manila_config('glance/insecure').with_value(true)
         is_expected.to contain_manila_config('glance/auth_url').with_value('http://127.0.0.2:5000/')
-        is_expected.to contain_manila_config('glance/auth_type').with_value('password')
+        is_expected.to contain_manila_config('glance/auth_type').with_value('v3password')
         is_expected.to contain_manila_config('glance/cafile').with_value('/etc/ssl/certs/ca.crt')
         is_expected.to contain_manila_config('glance/certfile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/keyfile').with_value('<SERVICE DEFAULT>')
