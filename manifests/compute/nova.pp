@@ -50,6 +50,10 @@
 #   (optional) User's password
 #   Defaults to $::os_service_default
 #
+# [*api_microversion*]
+#   (optional) Version of Nova API to be used
+#   Defaults to $::os_service_default
+#
 class manila::compute::nova (
   $insecure                  = $::os_service_default,
   $auth_url                  = $::os_service_default,
@@ -62,6 +66,7 @@ class manila::compute::nova (
   $endpoint_type             = $::os_service_default,
   $username                  = 'nova',
   $password                  = $::os_service_default,
+  $api_microversion          = $::os_service_default,
 ) {
 
   include manila::deps
@@ -78,5 +83,6 @@ class manila::compute::nova (
     'nova/password':            value => $password, secret => true;
     'nova/project_name':        value => $project_name;
     'nova/project_domain_name': value => $project_domain_name;
+    'nova/api_microversion':    value => $api_microversion;
   }
 }
