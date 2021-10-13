@@ -79,10 +79,12 @@ class manila::network::neutron (
   $network_plugin_ipv6_enabled  = $::os_service_default,
 ) {
 
-  $neutron_plugin_name = 'manila.network.neutron.neutron_network_plugin.NeutronNetworkPlugin'
+  # TODO(tkajinam): Remove this after Yoga release
+  manila_config {
+    'DEFAULT/network_api_class': ensure => absent;
+  }
 
   manila_config {
-    'DEFAULT/network_api_class':           value => $neutron_plugin_name;
     'neutron/insecure':                    value => $insecure;
     'neutron/auth_url':                    value => $auth_url;
     'neutron/auth_type':                   value => $auth_type;
