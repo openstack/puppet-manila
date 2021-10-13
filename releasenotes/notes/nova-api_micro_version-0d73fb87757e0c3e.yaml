@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``manila::compute::nova::api_micro_version`` parameter has been
+    added.

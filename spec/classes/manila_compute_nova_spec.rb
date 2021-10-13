@@ -15,20 +15,22 @@ describe 'manila::compute::nova' do
         is_expected.to contain_manila_config('nova/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('nova/username').with_value('nova')
         is_expected.to contain_manila_config('nova/password').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/api_microversion').with_value('<SERVICE DEFAULT>')
       end
     end
 
     context 'with overridden parameters' do
       let :params do
         {
-          :insecure       => true,
-          :auth_url       => 'http://127.0.0.2:5000/',
-          :auth_type      => 'v3password',
-          :cafile         => '/etc/ssl/certs/ca.crt',
-          :region_name    => 'RegionOne',
-          :endpoint_type  => 'publicURL',
-          :username       => 'novav1',
-          :password       => '123123',
+          :insecure         => true,
+          :auth_url         => 'http://127.0.0.2:5000/',
+          :auth_type        => 'v3password',
+          :cafile           => '/etc/ssl/certs/ca.crt',
+          :region_name      => 'RegionOne',
+          :endpoint_type    => 'publicURL',
+          :username         => 'novav1',
+          :password         => '123123',
+          :api_microversion => '2.10'
         }
       end
 
@@ -44,6 +46,7 @@ describe 'manila::compute::nova' do
         is_expected.to contain_manila_config('nova/endpoint_type').with_value('publicURL')
         is_expected.to contain_manila_config('nova/username').with_value('novav1')
         is_expected.to contain_manila_config('nova/password').with_value('123123').with_secret(true)
+        is_expected.to contain_manila_config('nova/api_microversion').with_value('2.10')
        end
     end
   end
