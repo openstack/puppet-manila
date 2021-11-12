@@ -140,7 +140,7 @@ server.")
   }
   manila_config {
     'DEFAULT/osapi_share_listen':      value => $bind_host;
-    'DEFAULT/enabled_share_protocols': value => $enabled_share_protocols;
+    'DEFAULT/enabled_share_protocols': value => join(any2array($enabled_share_protocols), ',');
     'DEFAULT/default_share_type':      value => $default_share_type;
     'DEFAULT/osapi_share_workers':     value => $service_workers;
   }

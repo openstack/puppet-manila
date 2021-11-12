@@ -185,8 +185,30 @@ describe 'manila::api' do
       it_raises 'a Puppet::Error', /Invalid service_name/
     end
 
-  end
+    context 'enabled_share_protocols is set' do
+      let :params do
+        req_params.merge!({
+          :enabled_share_protocols => 'NFS'
+        })
+      end
 
+      it 'configures enabled_share_protocols' do
+        is_expected.to contain_manila_config('DEFAULT/enabled_share_protocols').with_value('NFS')
+      end
+    end
+
+    context 'enabled_share_protocols is set by array' do
+      let :params do
+        req_params.merge!({
+          :enabled_share_protocols => ['NFS', 'CIFS']
+        })
+      end
+
+      it 'configures enabled_share_protocols' do
+        is_expected.to contain_manila_config('DEFAULT/enabled_share_protocols').with_value('NFS,CIFS')
+      end
+    end
+  end
 
   on_supported_os({
     :supported_os => OSDefaults.get_supported_os
