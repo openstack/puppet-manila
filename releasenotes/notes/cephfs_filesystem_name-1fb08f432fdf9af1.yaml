@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``manila::backend::cephfs::cephfs_filesystem_name`` parameter has
+    been added.

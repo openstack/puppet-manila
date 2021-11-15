@@ -68,6 +68,11 @@
 #   (optional) Sets helper type for CephFS driver, can be CEPHFS or NFS
 #   Defaults to: CEPHFS
 #
+# [*cephfs_filesystem_name*]
+#   (optional) The name of the filesystem to use, if there are multiple
+#   filesystems in the cluster.
+#   Defaults to: $::os_service_default
+#
 define manila::backend::cephfs (
   $driver_handles_share_servers       = false,
   $share_backend_name                 = $name,
@@ -83,6 +88,7 @@ define manila::backend::cephfs (
   $cephfs_ganesha_path_to_private_key = undef,
   $cephfs_volume_mode                 = $::os_service_default,
   $cephfs_protocol_helper_type        = 'CEPHFS',
+  $cephfs_filesystem_name             = $::os_service_default,
 ) {
 
   include manila::deps
@@ -105,5 +111,6 @@ define manila::backend::cephfs (
     "${name}/cephfs_ganesha_path_to_private_key": value => $cephfs_ganesha_path_to_private_key;
     "${name}/cephfs_volume_mode":                 value => $cephfs_volume_mode;
     "${name}/cephfs_protocol_helper_type":        value => $cephfs_protocol_helper_type;
+    "${name}/cephfs_filesystem_name":             value => $cephfs_filesystem_name;
   }
 }
