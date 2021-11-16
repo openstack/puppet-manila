@@ -107,8 +107,8 @@ define manila::backend::dellemc_unity (
     "${share_backend_name}/share_backend_name":           value => $share_backend_name;
     "${share_backend_name}/emc_share_backend":            value => $emc_share_backend;
     "${share_backend_name}/unity_server_meta_pool":       value => $unity_server_meta_pool;
-    "${share_backend_name}/unity_share_data_pools":       value => $unity_share_data_pools;
-    "${share_backend_name}/unity_ethernet_ports":         value => $unity_ethernet_ports;
+    "${share_backend_name}/unity_share_data_pools":       value => join(any2array($unity_share_data_pools), ',');
+    "${share_backend_name}/unity_ethernet_ports":         value => join(any2array($unity_ethernet_ports), ',');
     "${share_backend_name}/network_plugin_ipv6_enabled":  value => $network_plugin_ipv6_enabled;
     "${share_backend_name}/emc_ssl_cert_verify":          value => $emc_ssl_cert_verify;
     "${share_backend_name}/emc_ssl_cert_path":            value => $emc_ssl_cert_path;
