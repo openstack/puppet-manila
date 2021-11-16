@@ -9,12 +9,12 @@ describe 'manila::backend::dellemc_vmax' do
       :emc_nas_login     => 'admin',
       :emc_nas_password  => 'password',
       :emc_nas_server    => '127.0.0.2',
-      :emc_share_backend => 'vmax',
     }
   end
 
   let :default_params do
     {
+      :emc_share_backend         => 'vmax',
       :vmax_server_container     => '<SERVICE DEFAULT>',
       :vmax_share_data_pools     => '<SERVICE DEFAULT>',
       :vmax_ethernet_ports       => '<SERVICE DEFAULT>',
