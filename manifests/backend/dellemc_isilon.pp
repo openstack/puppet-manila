@@ -22,8 +22,8 @@
 #   (required) The hostname (or IP address) for the storage system.
 #
 # [*emc_share_backend*]
-#   (required) Share backend.
-#   Defaults to http
+#   (optional) Share backend.
+#   Defaults to 'isilon'
 #
 # [*share_backend_name*]
 #   (optional) Name of the backend in manila.conf that
@@ -51,7 +51,6 @@
 #    emc_nas_login                 => 'admin',
 #    emc_nas_password              => 'password',
 #    emc_nas_server                => <IP address of isilon cluster>,
-#    emc_share_backend             => 'isilon',
 #  }
 #
 define manila::backend::dellemc_isilon (
@@ -59,7 +58,7 @@ define manila::backend::dellemc_isilon (
   $emc_nas_login,
   $emc_nas_password,
   $emc_nas_server,
-  $emc_share_backend,
+  $emc_share_backend         = 'isilon',
   $share_backend_name        = $name,
   $emc_nas_root_dir          = undef,
   $emc_nas_server_port       = 8080,
