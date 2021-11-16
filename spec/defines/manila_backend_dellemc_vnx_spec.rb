@@ -10,7 +10,6 @@ describe 'manila::backend::dellemc_vnx' do
       :emc_nas_login                 => 'admin',
       :emc_nas_password              => 'password',
       :emc_nas_server                => '127.0.0.2',
-      :emc_share_backend             => 'vnx',
       :vnx_server_container          => 'container1',
       :vnx_share_data_pools          => '*',
       :vnx_ethernet_ports            => 'eth1',
@@ -22,6 +21,7 @@ describe 'manila::backend::dellemc_vnx' do
 
   let :default_params do
     {
+      :emc_share_backend            => 'vnx',
       :vnx_server_container         => '<SERVICE DEFAULT>',
       :vnx_share_data_pools         => '<SERVICE DEFAULT>',
       :vnx_ethernet_ports           => '<SERVICE DEFAULT>',

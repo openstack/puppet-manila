@@ -10,13 +10,13 @@ describe 'manila::backend::dellemc_isilon' do
       :emc_nas_login                        => 'admin',
       :emc_nas_password                     => 'password',
       :emc_nas_server                       => '127.0.0.2',
-      :emc_share_backend                    => 'isilon',
       :emc_nas_root_dir                     => '',
     }
   end
 
   let :default_params do
     {
+      :emc_share_backend         => 'isilon',
       :backend_availability_zone => '<SERVICE DEFAULT>',
       :emc_nas_server_port       => 8080,
       :emc_nas_server_secure     => true,
