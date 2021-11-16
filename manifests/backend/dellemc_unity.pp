@@ -1,6 +1,6 @@
 # == define: manila::backend::dellemc_unity
 #
-# Configures Manila to use the Dell EMC Isilon share driver
+# Configures Manila to use the Dell EMC Unity share driver
 # Compatible for multiple backends
 #
 # === Parameters
@@ -23,7 +23,8 @@
 #   (required) The hostname (or IP address) for the storage system.
 #
 # [*emc_share_backend*]
-#   (required) Share backend.
+#   (optional) Share backend.
+#   Defaults to 'unity'
 #
 # [*share_backend_name*]
 #   (optional) Name of the backend in manila.conf that
@@ -87,7 +88,7 @@ define manila::backend::dellemc_unity (
   $emc_nas_login,
   $emc_nas_password,
   $emc_nas_server,
-  $emc_share_backend,
+  $emc_share_backend            = 'unity',
   $share_backend_name           = $name,
   $backend_availability_zone    = $::os_service_default,
   $unity_server_meta_pool       = undef,

@@ -10,7 +10,6 @@ describe 'manila::backend::dellemc_unity' do
       :emc_nas_login                        => 'admin',
       :emc_nas_password                     => 'password',
       :emc_nas_server                       => '127.0.0.2',
-      :emc_share_backend                    => 'unity',
       :unity_server_meta_pool               => 'pool1',
       :unity_share_data_pools               => '*',
       :unity_ethernet_ports                 => 'eth1',
@@ -23,6 +22,7 @@ describe 'manila::backend::dellemc_unity' do
 
   let :default_params do
     {
+      :emc_share_backend            => 'unity',
       :unity_server_meta_pool       => '<SERVICE DEFAULT>',
       :unity_share_data_pools       => '<SERVICE DEFAULT>',
       :unity_ethernet_ports         => '<SERVICE DEFAULT>',
