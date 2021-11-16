@@ -121,8 +121,8 @@ define manila::backend::dellemc_vnx (
     "${share_backend_name}/backend_availability_zone":    value => $backend_availability_zone;
     "${share_backend_name}/emc_share_backend":            value => $emc_share_backend;
     "${share_backend_name}/vnx_server_container":         value => $vnx_server_container;
-    "${share_backend_name}/vnx_share_data_pools":         value => $vnx_share_data_pools;
-    "${share_backend_name}/vnx_ethernet_ports":           value => $vnx_ethernet_ports;
+    "${share_backend_name}/vnx_share_data_pools":         value => join(any2array($vnx_share_data_pools), ',');
+    "${share_backend_name}/vnx_ethernet_ports":           value => join(any2array($vnx_ethernet_ports), ',');
     "${share_backend_name}/network_plugin_ipv6_enabled":  value => $network_plugin_ipv6_enabled;
     "${share_backend_name}/emc_ssl_cert_verify":          value => $emc_ssl_cert_verify;
     "${share_backend_name}/emc_ssl_cert_path":            value => $emc_ssl_cert_path;
