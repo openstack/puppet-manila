@@ -86,8 +86,8 @@ define manila::backend::dellemc_vmax (
     "${share_backend_name}/share_backend_name":           value => $share_backend_name;
     "${share_backend_name}/emc_share_backend":            value => $emc_share_backend;
     "${share_backend_name}/vmax_server_container":        value => $vmax_server_container;
-    "${share_backend_name}/vmax_share_data_pools":        value => $vmax_share_data_pools;
-    "${share_backend_name}/vmax_ethernet_ports":          value => $vmax_ethernet_ports;
+    "${share_backend_name}/vmax_share_data_pools":        value => join(any2array($vmax_share_data_pools), ',');
+    "${share_backend_name}/vmax_ethernet_ports":          value => join(any2array($vmax_ethernet_ports), ',');
   }
 
   ensure_resource('package','nfs-utils',{
