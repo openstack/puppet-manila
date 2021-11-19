@@ -19,6 +19,7 @@ describe 'manila::backend::cephfs' do
         :cephfs_ganesha_server_username     => 'ganeshadmin',
         :cephfs_ganesha_path_to_private_key => '/readable/by/manila.key',
         :cephfs_volume_mode                 => '0775',
+        :cephfs_filesystem_name             => 'cephfs',
       }
     end
 
@@ -48,8 +49,9 @@ describe 'manila::backend::cephfs' do
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_server_username').with_value(
         'ganeshadmin')
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_path_to_private_key').with_value(
-        '/readable/by/manila.key'
-      )
+        '/readable/by/manila.key')
+      is_expected.to contain_manila_config('cephfs/cephfs_filesystem_name').with_value(
+        'cephfs')
     end
 
   end
