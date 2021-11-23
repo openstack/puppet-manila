@@ -1,6 +1,6 @@
 # == define: manila::backend::dellemc_vmax
 #
-# Configures Manila to use the Dell EMC Isilon share driver
+# Configures Manila to use the Dell EMC VMAX share driver
 # Compatible for multiple backends
 #
 # === Parameters
@@ -17,7 +17,8 @@
 #   (required) The hostname (or IP address) for the storage system.
 #
 # [*emc_share_backend*]
-#   (required) Share backend.
+#   (optional) Share backend.
+#   Defaults to 'vmax'
 #
 # [*share_backend_name*]
 #   (optional) Name of the backend in manila.conf that
@@ -62,14 +63,13 @@
 #    emc_nas_login     => 'admin',
 #    emc_nas_password  => 'password',
 #    emc_nas_server    => <IP address of Unity Syste,>,
-#    emc_share_backend => 'vmax',
 #  }
 #
 define manila::backend::dellemc_vmax (
   $emc_nas_login,
   $emc_nas_password,
   $emc_nas_server,
-  $emc_share_backend,
+  $emc_share_backend            = 'vmax',
   $share_backend_name           = $name,
   $backend_availability_zone    = $::os_service_default,
   $vmax_server_container        = $::os_service_default,
