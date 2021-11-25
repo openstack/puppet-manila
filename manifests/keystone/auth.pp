@@ -52,6 +52,18 @@
 #   (Optional) Tenant for Manila user.
 #   Defaults to 'services'.
 #
+# [*roles*]
+#   (Optional) List of roles assigned to Manila user.
+#   Defaults to ['admin']
+#
+# [*system_scope*]
+#   (Optional) Scope for system operations.
+#   Defaults to 'all'
+#
+# [*system_roles*]
+#   (Optional) List of system roles assigned to Manila user.
+#   Defaults to []
+#
 # [*public_url*]
 #   (0ptional) The endpoint's public url.
 #   This url should *not* contain any trailing '/'.
@@ -132,6 +144,9 @@ class manila::keystone::auth (
   $email                  = 'manila@localhost',
   $email_v2               = 'manilav2@localhost',
   $tenant                 = 'services',
+  $roles                  = ['admin'],
+  $system_scope           = 'all',
+  $system_roles           = [],
   $configure_endpoint     = true,
   $configure_endpoint_v2  = true,
   $configure_user         = true,
@@ -153,6 +168,17 @@ class manila::keystone::auth (
 
   include manila::deps
 
+  Keystone_user_role<| name == "${auth_name}@${tenant}" |> -> Anchor['manila::service::end']
+  Keystone_user_role<| name == "${auth_name}@::::${system_scope}" |> -> Anchor['manila::service::end']
+
+  if $configure_endpoint {
+    Keystone_endpoint["${region}/${service_name}::${service_type}"] -> Anchor['manila::service::end']
+  }
+
+  if $configure_endpoint_v2 {
+    Keystone_endpoint["${region}/${service_name_v2}::${service_type_v2}"] -> Anchor['manila::service::end']
+  }
+
   # for interface backward compatibility, we can't enforce to set a new parameter
   # so we take 'password' parameter by default but allow to override it.
   if ! $password_v2 {
@@ -173,6 +199,9 @@ class manila::keystone::auth (
     password            => $password,
     email               => $email,
     tenant              => $tenant,
+    roles               => $roles,
+    system_scope        => $system_scope,
+    system_roles        => $system_roles,
     public_url          => $public_url,
     admin_url           => $admin_url,
     internal_url        => $internal_url,
@@ -190,6 +219,9 @@ class manila::keystone::auth (
     password            => $password_v2_real,
     email               => $email_v2,
     tenant              => $tenant,
+    roles               => $roles,
+    system_scope        => $system_scope,
+    system_roles        => $system_roles,
     public_url          => $public_url_v2,
     admin_url           => $admin_url_v2,
     internal_url        => $internal_url_v2,
