@@ -35,7 +35,7 @@ class manila::deps {
 
   # policy config should occur in the config block also.
   Anchor['manila::config::begin']
-  -> Openstacklib::Policy::Base<||>
+  -> Openstacklib::Policy<||>
   ~> Anchor['manila::config::end']
 
   # On any uwsgi config change, we must restart Manila API.
