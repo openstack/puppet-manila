@@ -29,6 +29,10 @@ class manila::deps {
   -> Manila_api_paste_ini<||>
   ~> Anchor['manila::config::end']
 
+  # all coordination settings should be applied and all packages should be
+  # installed before service startup
+  Oslo::Coordination<||> -> Anchor['manila::service::begin']
+
   # all db settings should be applied and all packages should be installed
   # before dbsync starts
   Oslo::Db<||> -> Anchor['manila::dbsync::begin']
