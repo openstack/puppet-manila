@@ -66,6 +66,15 @@ describe 'manila' do
         is_expected.to contain_manila_config('DEFAULT/host').with(
           :value => '<SERVICE DEFAULT>'
         )
+        is_expected.to contain_manila_config('DEFAULT/report_interval').with(
+          :value => '<SERVICE DEFAULT>'
+        )
+        is_expected.to contain_manila_config('DEFAULT/periodic_interval').with(
+          :value => '<SERVICE DEFAULT>'
+        )
+        is_expected.to contain_manila_config('DEFAULT/periodic_fuzzy_delay').with(
+          :value => '<SERVICE DEFAULT>'
+        )
         is_expected.to contain_manila_config('oslo_concurrency/lock_path').with(
           :value => '/tmp/manila/manila_locks'
         )
