@@ -37,7 +37,7 @@ describe 'manila' do
           :value => 'messaging'
         )
         is_expected.to contain_manila_config('DEFAULT/control_exchange').with(
-          :value => 'openstack'
+          :value => '<SERVICE DEFAULT>'
         )
         is_expected.to contain_manila_config('oslo_messaging_rabbit/amqp_durable_queues').with(
           :value => '<SERVICE DEFAULT>'
