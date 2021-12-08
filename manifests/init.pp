@@ -18,7 +18,7 @@
 #
 # [*control_exchange*]
 #   (Optional) The default exchange under which topics are scope.
-#   Defaults to 'openstack'.
+#   Defaults to $::os_service_default
 #
 # [*package_ensure*]
 #    (Optional) Ensure state for package.
@@ -225,7 +225,7 @@
 class manila (
   $default_transport_url       = $::os_service_default,
   $rpc_response_timeout        = $::os_service_default,
-  $control_exchange            = 'openstack',
+  $control_exchange            = $::os_service_default,
   $notification_transport_url  = $::os_service_default,
   $notification_driver         = 'messaging',
   $notification_topics         = $::os_service_default,
