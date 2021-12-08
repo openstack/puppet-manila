@@ -187,6 +187,19 @@
 #   will be run through a green thread.
 #   Defaults to $::os_service_default
 #
+# [*report_interval*]
+#   (optional) Seconds between nodes reporting state to datastore.
+#   Defaults to $::os_service_default
+#
+# [*periodic_interval*]
+#   (optional) Seconds between running periodic tasks.
+#   Defaults to $::os_service_default
+#
+# [*periodic_fuzzy_delay*]
+#   (optional) Range of seconds to randomly delay when starting the periodic
+#   task scheduler to reduce stampending.
+#   Defaults to $::os_service_default.
+#
 # DEPRECATED PARAMETERS
 #
 # [*sql_connection*]
@@ -265,6 +278,9 @@ class manila (
   $amqp_password               = $::os_service_default,
   $purge_config                = false,
   $host                        = $::os_service_default,
+  $report_interval             = $::os_service_default,
+  $periodic_interval           = $::os_service_default,
+  $periodic_fuzzy_delay        = $::os_service_default,
   # DEPRECATED PARAMETERS
   $database_min_pool_size      = undef,
   $sql_connection              = undef,
@@ -384,6 +400,9 @@ removed in a future realse. Use manila::db::database_max_overflow instead')
     'DEFAULT/rootwrap_config':           value => $rootwrap_config;
     'DEFAULT/state_path':                value => $state_path;
     'DEFAULT/host':                      value => $host;
+    'DEFAULT/report_interval':           value => $report_interval;
+    'DEFAULT/periodic_interval':         value => $periodic_interval;
+    'DEFAULT/periodic_fuzzy_delay':      value => $periodic_fuzzy_delay;
   }
 
   oslo::concurrency { 'manila_config': lock_path => $lock_path }
