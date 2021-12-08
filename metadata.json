@@ -24,10 +24,6 @@
         {
             "name": "openstack/oslo",
             "version_requirement": ">=20.0.0 <21.0.0"
-        },
-        {
-            "name": "puppetlabs/apache",
-            "version_requirement": ">=5.0.0"
         }
     ],
     "description": "Installs and configures OpenStack Manila (Shared Filesystems).",

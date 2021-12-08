@@ -123,7 +123,6 @@ class manila::api (
   } elsif $service_name == 'httpd' {
     # We need to make sure manila-api/eventlet is stopped before trying to
     # start apache
-    include apache::params
     service { 'manila-api':
       ensure => 'stopped',
       name   => $::manila::params::api_service,

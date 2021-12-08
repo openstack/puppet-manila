@@ -5,9 +5,6 @@ describe 'manila::wsgi::apache' do
   shared_examples_for 'apache serving manila with mod_wsgi' do
     context 'with default parameters' do
       it { is_expected.to contain_class('manila::params') }
-      it { is_expected.to contain_class('apache') }
-      it { is_expected.to contain_class('apache::mod::wsgi') }
-      it { is_expected.to contain_class('apache::mod::ssl') }
       it { is_expected.to contain_openstacklib__wsgi__apache('manila_wsgi').with(
         :bind_port                   => 8786,
         :group                       => 'manila',
@@ -47,9 +44,6 @@ describe 'manila::wsgi::apache' do
         }
       end
       it { is_expected.to contain_class('manila::params') }
-      it { is_expected.to contain_class('apache') }
-      it { is_expected.to contain_class('apache::mod::wsgi') }
-      it { is_expected.to_not contain_class('apache::mod::ssl') }
       it { is_expected.to contain_openstacklib__wsgi__apache('manila_wsgi').with(
         :bind_host                 => '10.42.51.1',
         :bind_port                 => 12345,
@@ -93,15 +87,11 @@ describe 'manila::wsgi::apache' do
         case facts[:osfamily]
         when 'Debian'
           {
-            :httpd_service_name => 'apache2',
-            :httpd_ports_file   => '/etc/apache2/ports.conf',
             :wsgi_script_path   => '/usr/lib/cgi-bin/manila',
             :wsgi_script_source => '/usr/bin/manila-wsgi'
           }
         when 'RedHat'
           {
-            :httpd_service_name => 'httpd',
-            :httpd_ports_file   => '/etc/httpd/conf/ports.conf',
             :wsgi_script_path   => '/var/www/cgi-bin/manila',
             :wsgi_script_source => '/usr/bin/manila-wsgi'
           }
