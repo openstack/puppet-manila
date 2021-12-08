@@ -136,11 +136,6 @@ class manila::wsgi::apache (
 
   include manila::deps
   include manila::params
-  include apache
-  include apache::mod::wsgi
-  if $ssl_real {
-    include apache::mod::ssl
-  }
 
   ::openstacklib::wsgi::apache { 'manila_wsgi':
     bind_host                   => $bind_host,
