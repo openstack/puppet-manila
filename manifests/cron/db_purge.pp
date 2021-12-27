@@ -84,6 +84,6 @@ class manila::cron::db_purge (
     monthday    => $monthday,
     month       => $month,
     weekday     => $weekday,
-    require     => Anchor['manila::install::end'],
+    require     => Anchor['manila::dbsync::end'],
   }
 }
