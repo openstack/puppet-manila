@@ -26,7 +26,7 @@ describe 'manila::cron::db_purge' do
         :monthday    => params[:monthday],
         :month       => params[:month],
         :weekday     => params[:weekday],
-        :require     => 'Anchor[manila::install::end]'
+        :require     => 'Anchor[manila::dbsync::end]'
       )}
     end
 
@@ -46,7 +46,7 @@ describe 'manila::cron::db_purge' do
         :monthday    => params[:monthday],
         :month       => params[:month],
         :weekday     => params[:weekday],
-        :require     => 'Anchor[manila::install::end]'
+        :require     => 'Anchor[manila::dbsync::end]'
       )}
     end
   end
