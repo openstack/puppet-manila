@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``manila::backend::dellemc_unity`` resource type now supports
+    the ``report_default_filter_function`` parameter.
