@@ -1,5 +1,6 @@
 # == define: manila::backend::dellemc_vmax
 #
+# DEPRECATED !!!
 # Configures Manila to use the Dell EMC VMAX share driver
 # Compatible for multiple backends
 #
@@ -81,6 +82,9 @@ define manila::backend::dellemc_vmax (
 ) {
 
   include manila::deps
+
+  warning('The manila::backend::dellemc_vmax resource type is deprecated. \
+Use the manila::backend::dellemc_powermax resource type instead')
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
 
