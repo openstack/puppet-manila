@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``manila::backend::dellemc_unity`` resource type now supports
+    the ``unity_share_server`` parameter.
