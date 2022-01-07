@@ -53,6 +53,11 @@
 #   port and link aggregation port can be used by Unity share driver.
 #   Defaults to None
 #
+# [*unity_share_server*]
+#   (optional) NAS server used for creating share when driver is in DHSS=False
+#   mode. It is required when driver_handles_share_servers=False in manila.conf.
+#   Defaults to $::os_service_default
+#
 # [*network_plugin_ipv6_enabled*]
 #   (optional) Whether to support IPv6 network resource, Default=False.
 #   If this option is True, both IPv4 and IPv6 are supported.
@@ -94,6 +99,7 @@ define manila::backend::dellemc_unity (
   $unity_server_meta_pool       = undef,
   $unity_share_data_pools       = undef,
   $unity_ethernet_ports         = undef,
+  $unity_share_server           = $::os_service_default,
   $network_plugin_ipv6_enabled  = true,
   $emc_ssl_cert_verify          = false,
   $emc_ssl_cert_path            = undef,
@@ -119,6 +125,7 @@ define manila::backend::dellemc_unity (
     "${share_backend_name}/unity_server_meta_pool":       value => $unity_server_meta_pool;
     "${share_backend_name}/unity_share_data_pools":       value => join(any2array($unity_share_data_pools), ',');
     "${share_backend_name}/unity_ethernet_ports":         value => join(any2array($unity_ethernet_ports), ',');
+    "${share_backend_name}/unity_share_server":           value => $unity_share_server;
     "${share_backend_name}/network_plugin_ipv6_enabled":  value => $network_plugin_ipv6_enabled;
     "${share_backend_name}/emc_ssl_cert_verify":          value => $emc_ssl_cert_verify;
     "${share_backend_name}/emc_ssl_cert_path":            value => $emc_ssl_cert_path;
