@@ -105,7 +105,7 @@ define manila::backend::dellemc_unity (
   $unity_share_server             = $::os_service_default,
   $report_default_filter_function = $::os_service_default,
   $network_plugin_ipv6_enabled    = true,
-  $emc_ssl_cert_verify            = false,
+  $emc_ssl_cert_verify            = undef,
   $emc_ssl_cert_path              = $::os_service_default,
   $package_ensure                 = 'present',
 ) {
@@ -114,6 +114,11 @@ define manila::backend::dellemc_unity (
   include manila::params
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
+
+  if $emc_ssl_cert_verify == undef {
+    warning('Default of emc_ssl_cert_verify will be changed from false to service default(true).')
+  }
+  $emc_ssl_cert_verify_real = pick($emc_ssl_cert_verify, false)
 
   $unity_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
@@ -132,7 +137,7 @@ define manila::backend::dellemc_unity (
     "${share_backend_name}/unity_share_server":             value => $unity_share_server;
     "${share_backend_name}/report_default_filter_function": value => $report_default_filter_function;
     "${share_backend_name}/network_plugin_ipv6_enabled":    value => $network_plugin_ipv6_enabled;
-    "${share_backend_name}/emc_ssl_cert_verify":            value => $emc_ssl_cert_verify;
+    "${share_backend_name}/emc_ssl_cert_verify":            value => $emc_ssl_cert_verify_real;
     "${share_backend_name}/emc_ssl_cert_path":              value => $emc_ssl_cert_path;
   }
 
