@@ -58,6 +58,10 @@
 #   mode. It is required when driver_handles_share_servers=False in manila.conf.
 #   Defaults to $::os_service_default
 #
+# [*report_default_filter_function*]
+#   (optional) Whether or not report default filter function.
+#   Defaults to $::os_service_default
+#
 # [*network_plugin_ipv6_enabled*]
 #   (optional) Whether to support IPv6 network resource, Default=False.
 #   If this option is True, both IPv4 and IPv6 are supported.
@@ -93,17 +97,18 @@ define manila::backend::dellemc_unity (
   $emc_nas_login,
   $emc_nas_password,
   $emc_nas_server,
-  $emc_share_backend            = 'unity',
-  $share_backend_name           = $name,
-  $backend_availability_zone    = $::os_service_default,
-  $unity_server_meta_pool       = undef,
-  $unity_share_data_pools       = undef,
-  $unity_ethernet_ports         = undef,
-  $unity_share_server           = $::os_service_default,
-  $network_plugin_ipv6_enabled  = true,
-  $emc_ssl_cert_verify          = false,
-  $emc_ssl_cert_path            = undef,
-  $package_ensure               = 'present',
+  $emc_share_backend              = 'unity',
+  $share_backend_name             = $name,
+  $backend_availability_zone      = $::os_service_default,
+  $unity_server_meta_pool         = undef,
+  $unity_share_data_pools         = undef,
+  $unity_ethernet_ports           = undef,
+  $unity_share_server             = $::os_service_default,
+  $report_default_filter_function = $::os_service_default,
+  $network_plugin_ipv6_enabled    = true,
+  $emc_ssl_cert_verify            = false,
+  $emc_ssl_cert_path              = undef,
+  $package_ensure                 = 'present',
 ) {
 
   include manila::deps
@@ -114,21 +119,22 @@ define manila::backend::dellemc_unity (
   $unity_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
-    "${share_backend_name}/share_driver":                 value => $unity_share_driver;
-    "${share_backend_name}/driver_handles_share_servers": value => $driver_handles_share_servers;
-    "${share_backend_name}/emc_nas_login":                value => $emc_nas_login;
-    "${share_backend_name}/emc_nas_password":             value => $emc_nas_password, secret => true;
-    "${share_backend_name}/emc_nas_server":               value => $emc_nas_server;
-    "${share_backend_name}/share_backend_name":           value => $share_backend_name;
-    "${share_backend_name}/backend_availability_zone":    value => $backend_availability_zone;
-    "${share_backend_name}/emc_share_backend":            value => $emc_share_backend;
-    "${share_backend_name}/unity_server_meta_pool":       value => $unity_server_meta_pool;
-    "${share_backend_name}/unity_share_data_pools":       value => join(any2array($unity_share_data_pools), ',');
-    "${share_backend_name}/unity_ethernet_ports":         value => join(any2array($unity_ethernet_ports), ',');
-    "${share_backend_name}/unity_share_server":           value => $unity_share_server;
-    "${share_backend_name}/network_plugin_ipv6_enabled":  value => $network_plugin_ipv6_enabled;
-    "${share_backend_name}/emc_ssl_cert_verify":          value => $emc_ssl_cert_verify;
-    "${share_backend_name}/emc_ssl_cert_path":            value => $emc_ssl_cert_path;
+    "${share_backend_name}/share_driver":                   value => $unity_share_driver;
+    "${share_backend_name}/driver_handles_share_servers":   value => $driver_handles_share_servers;
+    "${share_backend_name}/emc_nas_login":                  value => $emc_nas_login;
+    "${share_backend_name}/emc_nas_password":               value => $emc_nas_password, secret => true;
+    "${share_backend_name}/emc_nas_server":                 value => $emc_nas_server;
+    "${share_backend_name}/share_backend_name":             value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":      value => $backend_availability_zone;
+    "${share_backend_name}/emc_share_backend":              value => $emc_share_backend;
+    "${share_backend_name}/unity_server_meta_pool":         value => $unity_server_meta_pool;
+    "${share_backend_name}/unity_share_data_pools":         value => join(any2array($unity_share_data_pools), ',');
+    "${share_backend_name}/unity_ethernet_ports":           value => join(any2array($unity_ethernet_ports), ',');
+    "${share_backend_name}/unity_share_server":             value => $unity_share_server;
+    "${share_backend_name}/report_default_filter_function": value => $report_default_filter_function;
+    "${share_backend_name}/network_plugin_ipv6_enabled":    value => $network_plugin_ipv6_enabled;
+    "${share_backend_name}/emc_ssl_cert_verify":            value => $emc_ssl_cert_verify;
+    "${share_backend_name}/emc_ssl_cert_path":              value => $emc_ssl_cert_path;
   }
 
   ensure_packages('nfs-client', {
