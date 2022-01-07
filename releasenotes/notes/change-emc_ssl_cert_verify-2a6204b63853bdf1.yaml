@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    Defaut value of the ``emc_ssl_cert_verify`` parameter in the following
+    resource types will be changed from ``false`` to service default which
+    is effectively ``true``. Make sure the parameter is set if needed.
+
+    - ``manila::backend::dellemc_unity``
+    - ``manila::backend::dellemc_vnx``
