@@ -137,6 +137,8 @@ class manila::wsgi::apache (
   include manila::deps
   include manila::params
 
+  Anchor['manila::install::end'] -> Class['apache']
+
   ::openstacklib::wsgi::apache { 'manila_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
@@ -166,6 +168,5 @@ class manila::wsgi::apache (
     access_log_file             => $access_log_file,
     access_log_format           => $access_log_format,
     error_log_file              => $error_log_file,
-    require                     => Anchor['manila::install::end'],
   }
 }
