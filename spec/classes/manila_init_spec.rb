@@ -21,35 +21,22 @@ describe 'manila' do
       end
 
       it 'should contain default config' do
-        is_expected.to contain_manila_config('DEFAULT/transport_url').with(
-          :value => '<SERVICE DEFAULT>'
+        is_expected.to contain_oslo__messaging__default('manila_config').with(
+          :transport_url        => '<SERVICE DEFAULT>',
+          :rpc_response_timeout => '<SERVICE DEFAULT>',
+          :control_exchange     => '<SERVICE DEFAULT>',
         )
-        is_expected.to contain_manila_config('DEFAULT/rpc_response_timeout').with(
-          :value => '<SERVICE DEFAULT>'
+        is_expected.to contain_oslo__messaging__notifications('manila_config').with(
+          :transport_url => '<SERVICE DEFAULT>',
+          :driver        => 'messaging',
+          :topics        => '<SERVICE DEFAULT>',
         )
-        is_expected.to contain_manila_config('oslo_messaging_notifications/transport_url').with(
-          :value => '<SERVICE DEFAULT>'
-        )
-        is_expected.to contain_manila_config('oslo_messaging_notifications/topics').with(
-          :value => '<SERVICE DEFAULT>'
-        )
-        is_expected.to contain_manila_config('oslo_messaging_notifications/driver').with(
-          :value => 'messaging'
-        )
-        is_expected.to contain_manila_config('DEFAULT/control_exchange').with(
-          :value => '<SERVICE DEFAULT>'
-        )
-        is_expected.to contain_manila_config('oslo_messaging_rabbit/amqp_durable_queues').with(
-          :value => '<SERVICE DEFAULT>'
-        )
-        is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_ha_queues').with(
-          :value => '<SERVICE DEFAULT>'
-        )
-        is_expected.to contain_manila_config('oslo_messaging_rabbit/kombu_failover_strategy').with(
-          :value => '<SERVICE DEFAULT>'
-        )
-        is_expected.to contain_manila_config('oslo_messaging_rabbit/heartbeat_in_pthread').with(
-          :value => '<SERVICE DEFAULT>'
+        is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
+          :rabbit_use_ssl          => '<SERVICE DEFAULT>',
+          :amqp_durable_queues     => '<SERVICE DEFAULT>',
+          :rabbit_ha_queues        => '<SERVICE DEFAULT>',
+          :kombu_failover_strategy => '<SERVICE DEFAULT>',
+          :heartbeat_in_pthread    => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_manila_config('DEFAULT/storage_availability_zone').with(
           :value => 'nova'
@@ -78,9 +65,6 @@ describe 'manila' do
         is_expected.to contain_manila_config('oslo_concurrency/lock_path').with(
           :value => '/tmp/manila/manila_locks'
         )
-        is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
-          :rabbit_use_ssl     => '<SERVICE DEFAULT>',
-        )
       end
     end
 
@@ -90,8 +74,8 @@ describe 'manila' do
       end
 
       it 'should contain rabbit_ha_queues' do
-        is_expected.to contain_manila_config('oslo_messaging_rabbit/rabbit_ha_queues').with(
-          :value => true
+        is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
+          :rabbit_ha_queues        => true,
         )
       end
     end
@@ -147,7 +131,9 @@ describe 'manila' do
         })
       end
 
-      it { is_expected.to contain_manila_config('oslo_messaging_rabbit/amqp_durable_queues').with_value(false) }
+      it { is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
+        :amqp_durable_queues => false,
+      )}
     end
 
     context 'with amqp_durable_queues enabled' do
@@ -157,7 +143,9 @@ describe 'manila' do
         })
       end
 
-      it { is_expected.to contain_manila_config('oslo_messaging_rabbit/amqp_durable_queues').with_value(true) }
+      it { is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
+        :amqp_durable_queues => true,
+      )}
     end
 
     context 'with SSL socket options set' do
@@ -190,18 +178,6 @@ describe 'manila' do
       it { is_expected.to contain_manila_config('DEFAULT/ssl_key_file').with_ensure('absent') }
     end
 
-    context 'with SSL socket options set wrongly configured' do
-      let :params do
-        {
-          :use_ssl         => true,
-          :ca_file         => '/path/to/ca',
-          :key_file        => '/path/to/key',
-        }
-      end
-
-      it_raises 'a Puppet::Error', /The cert_file parameter is required when use_ssl is set to true/
-    end
-
     context 'with transport_url entries' do
 
       let :params do
@@ -213,10 +189,15 @@ describe 'manila' do
         }
       end
 
-      it { is_expected.to contain_manila_config('DEFAULT/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673') }
-      it { is_expected.to contain_manila_config('DEFAULT/rpc_response_timeout').with_value('120') }
-      it { is_expected.to contain_manila_config('DEFAULT/control_exchange').with_value('manila') }
-      it { is_expected.to contain_manila_config('oslo_messaging_notifications/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673') }
+      it { is_expected.to contain_oslo__messaging__default('manila_config').with(
+        :transport_url        => 'rabbit://rabbit_user:password@localhost:5673',
+        :rpc_response_timeout => '120',
+        :control_exchange     => 'manila',
+      ) }
+
+      it { is_expected.to contain_oslo__messaging__notifications('manila_config').with(
+        :transport_url => 'rabbit://rabbit_user:password@localhost:5673'
+      ) }
     end
 
     context 'with amqp rpc supplied' do
@@ -225,21 +206,22 @@ describe 'manila' do
         {}
       end
 
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/server_request_prefix').with_value('exclusive') }
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/broadcast_prefix').with_value('broadcast') }
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/group_request_prefix').with_value('unicast') }
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/container_name').with_value('guest') }
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/idle_timeout').with_value('0') }
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/trace').with_value(false) }
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/ssl_key_password').with_value('<SERVICE DEFAULT>')}
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/ssl_ca_file').with_value('<SERVICE DEFAULT>')}
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/ssl_cert_file').with_value('<SERVICE DEFAULT>')}
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/ssl_key_file').with_value('<SERVICE DEFAULT>')}
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/sasl_mechanisms').with_value('<SERVICE DEFAULT>')}
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/sasl_config_dir').with_value('<SERVICE DEFAULT>')}
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/sasl_config_name').with_value('<SERVICE DEFAULT>')}
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/username').with_value('<SERVICE DEFAULT>')}
-      it { is_expected.to contain_manila_config('oslo_messaging_amqp/password').with_value('<SERVICE DEFAULT>')}
+      it { is_expected.to contain_oslo__messaging__amqp('manila_config').with(
+          :server_request_prefix => 'exclusive',
+          :broadcast_prefix      => 'broadcast',
+          :group_request_prefix  => 'unicast',
+          :container_name        => 'guest',
+          :idle_timeout          => '0',
+          :trace                 => 'false',
+          :ssl_ca_file           => '<SERVICE DEFAULT>',
+          :ssl_cert_file         => '<SERVICE DEFAULT>',
+          :ssl_key_file          => '<SERVICE DEFAULT>',
+          :sasl_mechanisms       => '<SERVICE DEFAULT>',
+          :sasl_config_dir       => '<SERVICE DEFAULT>',
+          :sasl_config_name      => '<SERVICE DEFAULT>',
+          :username              => '<SERVICE DEFAULT>',
+          :password              => '<SERVICE DEFAULT>',
+      ) }
     end
   end
 
