@@ -62,8 +62,8 @@ describe 'manila' do
         is_expected.to contain_manila_config('DEFAULT/periodic_fuzzy_delay').with(
           :value => '<SERVICE DEFAULT>'
         )
-        is_expected.to contain_manila_config('oslo_concurrency/lock_path').with(
-          :value => '/tmp/manila/manila_locks'
+        is_expected.to contain_oslo__concurrency('manila_config').with(
+          :lock_path => '/tmp/manila/manila_locks'
         )
       end
     end
