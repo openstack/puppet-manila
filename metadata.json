@@ -75,5 +75,5 @@
     ],
     "source": "https://opendev.org/openstack/puppet-manila.git",
     "summary": "Puppet module for OpenStack Manila",
-    "version": "18.4.0"
+    "version": "18.5.0"
 }
