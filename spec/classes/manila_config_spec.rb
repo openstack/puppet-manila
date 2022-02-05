@@ -34,6 +34,18 @@ describe 'manila::config' do
     end
   end
 
+  shared_examples 'manila_rootwrap_config' do
+    let :params do
+      { :manila_rootwrap_config => config_hash }
+    end
+
+    it 'configures arbitrary manila-rootwrap-config configurations' do
+      is_expected.to contain_manila_rootwrap_config('DEFAULT/foo').with_value('fooValue')
+      is_expected.to contain_manila_rootwrap_config('DEFAULT/bar').with_value('barValue')
+      is_expected.to contain_manila_rootwrap_config('DEFAULT/baz').with_ensure('absent')
+    end
+  end
+
   on_supported_os({
     :supported_os   => OSDefaults.get_supported_os
   }).each do |os,facts|
@@ -44,6 +56,7 @@ describe 'manila::config' do
 
       it_behaves_like 'manila_config'
       it_behaves_like 'manila_api_paste_ini'
+      it_behaves_like 'manila_rootwrap_config'
     end
   end
 end

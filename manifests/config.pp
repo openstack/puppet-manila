@@ -22,21 +22,27 @@
 #   (optional) Allow configuration of manila.conf configurations.
 #
 # [*api_paste_ini_config*]
-#   (optional) Allow configuration of /etc/manila/api-paste.ini configurations.
+#   (optional) Allow configuration of api-paste.ini configurations.
+#
+# [*manila_rootwrap_config*]
+#   (optional) Allow configuration of rootwrap.conf configurations.
 #
 #   NOTE: The configuration MUST NOT be already handled by this module
 #   or Puppet catalog compilation will fail with duplicate resources.
 #
 class manila::config (
-  $manila_config         = {},
-  $api_paste_ini_config  = {},
+  $manila_config          = {},
+  $api_paste_ini_config   = {},
+  $manila_rootwrap_config = {},
 ) {
 
   include manila::deps
 
   validate_legacy(Hash, 'validate_hash', $manila_config)
   validate_legacy(Hash, 'validate_hash', $api_paste_ini_config)
+  validate_legacy(Hash, 'validate_hash', $manila_rootwrap_config)
 
   create_resources('manila_config', $manila_config)
   create_resources('manila_api_paste_ini', $api_paste_ini_config)
+  create_resources('manila_rootwrap_config', $manila_rootwrap_config)
 }

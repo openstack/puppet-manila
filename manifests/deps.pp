@@ -29,6 +29,11 @@ class manila::deps {
   -> Manila_api_paste_ini<||>
   ~> Anchor['manila::config::end']
 
+  # rootwrap config should occur in the config block also.
+  Anchor['manila::config::begin']
+  -> Manila_rootwrap_config<||>
+  ~> Anchor['manila::config::end']
+
   # all coordination settings should be applied and all packages should be
   # installed before service startup
   Oslo::Coordination<||> -> Anchor['manila::service::begin']
