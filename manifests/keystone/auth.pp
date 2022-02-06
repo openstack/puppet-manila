@@ -168,16 +168,8 @@ class manila::keystone::auth (
 
   include manila::deps
 
-  Keystone_user_role<| name == "${auth_name}@${tenant}" |> -> Anchor['manila::service::end']
-  Keystone_user_role<| name == "${auth_name}@::::${system_scope}" |> -> Anchor['manila::service::end']
-
-  if $configure_endpoint {
-    Keystone_endpoint["${region}/${service_name}::${service_type}"] -> Anchor['manila::service::end']
-  }
-
-  if $configure_endpoint_v2 {
-    Keystone_endpoint["${region}/${service_name_v2}::${service_type_v2}"] -> Anchor['manila::service::end']
-  }
+  Keystone::Resource::Service_identity['manila'] -> Anchor['manila::service::end']
+  Keystone::Resource::Service_identity['manilav2'] -> Anchor['manila::service::end']
 
   # for interface backward compatibility, we can't enforce to set a new parameter
   # so we take 'password' parameter by default but allow to override it.
