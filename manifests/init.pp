@@ -202,35 +202,6 @@
 #
 # DEPRECATED PARAMETERS
 #
-# [*sql_connection*]
-#    Url used to connect to database.
-#    (Optional) Defaults to undef.
-#
-# [*sql_idle_timeout*]
-#   Timeout when db connections should be reaped.
-#   (Optional) Defaults to undef.
-#
-# [*database_min_pool_size*]
-#   (optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef.
-#
-# [*database_retry_interval*]
-#   (optional) Interval between retries of opening a database connection.
-#   (Defaults to undef)
-#
-# [*database_max_pool_size*]
-#   (optional) Maximum number of SQL connections to keep open in a pool.
-#   Defaults to undef.
-#
-# [*database_max_retries*]
-#   Maximum db connection retries during startup.
-#   Setting -1 implies an infinite retry count.
-#   (Optional) Defaults to undef.
-#
-# [*database_max_overflow*]
-#   (optional) If set, use this value for max_overflow with sqlalchemy.
-#   Defaults to undef.
-#
 # [*amqp_allow_insecure_clients*]
 #   (optional) Accept clients using either SSL or plain TCP
 #   Defaults to undef.
@@ -282,13 +253,6 @@ class manila (
   $periodic_interval           = $::os_service_default,
   $periodic_fuzzy_delay        = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $database_min_pool_size      = undef,
-  $sql_connection              = undef,
-  $sql_idle_timeout            = undef,
-  $database_max_retries        = undef,
-  $database_retry_interval     = undef,
-  $database_max_pool_size      = undef,
-  $database_max_overflow       = undef,
   $amqp_allow_insecure_clients = undef,
 ) {
 
@@ -299,37 +263,6 @@ class manila (
   if $amqp_allow_insecure_clients != undef {
     warning('The amqp_allow_insecure_clients parameter is deprecated and \
 will be removed in a future release.')
-  }
-
-  if $sql_connection != undef {
-    warning('The sql_connection parameter is deprecated and will be \
-removed in a future realse. Use manila::db::database_connection instead')
-  }
-
-  if $sql_idle_timeout != undef {
-    warning('The sql_idle_timeout parameter is deprecated and will be \
-removed in a future realse. Use manila::db::database_connection_recycle_time \
-instead')
-  }
-
-  if $database_max_pool_size != undef {
-    warning('The database_max_pool_size parameter is deprecated and will be \
-removed in a future realse. Use manila::db::database_max_pool_size instead')
-  }
-
-  if $database_max_retries!= undef {
-    warning('The database_max_retries parameter is deprecated and will be \
-removed in a future realse. Use manila::db::database_max_retries instead')
-  }
-
-  if $database_retry_interval != undef {
-    warning('The database_retry_interval parameter is deprecated and will be \
-removed in a future realse. Use manila::db::database_retry_interval instead')
-  }
-
-  if $database_max_overflow != undef {
-    warning('The database_max_overflow parameter is deprecated and will be \
-removed in a future realse. Use manila::db::database_max_overflow instead')
   }
 
   if $use_ssl {
