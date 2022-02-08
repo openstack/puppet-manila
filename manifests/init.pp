@@ -200,12 +200,6 @@
 #   task scheduler to reduce stampending.
 #   Defaults to $::os_service_default.
 #
-# DEPRECATED PARAMETERS
-#
-# [*amqp_allow_insecure_clients*]
-#   (optional) Accept clients using either SSL or plain TCP
-#   Defaults to undef.
-#
 class manila (
   $default_transport_url       = $::os_service_default,
   $rpc_response_timeout        = $::os_service_default,
@@ -252,18 +246,11 @@ class manila (
   $report_interval             = $::os_service_default,
   $periodic_interval           = $::os_service_default,
   $periodic_fuzzy_delay        = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $amqp_allow_insecure_clients = undef,
 ) {
 
   include manila::deps
   include manila::db
   include manila::params
-
-  if $amqp_allow_insecure_clients != undef {
-    warning('The amqp_allow_insecure_clients parameter is deprecated and \
-will be removed in a future release.')
-  }
 
   if $use_ssl {
     if !$cert_file {
