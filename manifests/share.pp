@@ -24,13 +24,7 @@ class manila::share (
   include manila::deps
   include manila::params
 
-  Manila_config<||> ~> Service['manila-share']
-  Manila_api_paste_ini<||> ~> Service['manila-share']
-  Exec<| title == 'manila-manage db_sync' |> ~> Service['manila-share']
-
   if $::manila::params::share_package {
-    Package['manila']        -> Package['manila-share']
-    Package['manila-share'] -> Service['manila-share']
     package { 'manila-share':
       ensure => $package_ensure,
       name   => $::manila::params::share_package,

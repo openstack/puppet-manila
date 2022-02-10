@@ -30,10 +30,6 @@ class manila::scheduler (
   include manila::deps
   include manila::params
 
-  Manila_config<||> ~> Service['manila-scheduler']
-  Manila_api_paste_ini<||> ~> Service['manila-scheduler']
-  Exec<| title == 'manila-manage db_sync' |> ~> Service['manila-scheduler']
-
   if $scheduler_driver {
     manila_config {
       'DEFAULT/scheduler_driver': value => $scheduler_driver;
@@ -41,7 +37,6 @@ class manila::scheduler (
   }
 
   if $::manila::params::scheduler_package {
-    Package['manila-scheduler'] -> Service['manila-scheduler']
     package { 'manila-scheduler':
       ensure => $package_ensure,
       name   => $::manila::params::scheduler_package,
