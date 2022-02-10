@@ -50,13 +50,13 @@ class manila::scheduler (
     } else {
       $ensure = 'stopped'
     }
-  }
 
-  service { 'manila-scheduler':
-    ensure    => $ensure,
-    name      => $::manila::params::scheduler_service,
-    enable    => $enabled,
-    hasstatus => true,
-    tag       => 'manila-service',
+    service { 'manila-scheduler':
+      ensure    => $ensure,
+      name      => $::manila::params::scheduler_service,
+      enable    => $enabled,
+      hasstatus => true,
+      tag       => 'manila-service',
+    }
   }
 }

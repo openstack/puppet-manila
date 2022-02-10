@@ -101,42 +101,41 @@ class manila::api (
     include manila::db::sync
   }
 
-  if $enabled {
-    if $manage_service {
+  if $manage_service {
+    if $enabled {
       $ensure = 'running'
-    }
-  } else {
-    if $manage_service {
+    } else {
       $ensure = 'stopped'
     }
-  }
 
-  if $service_name == $::manila::params::api_service {
-    service { 'manila-api':
-      ensure    => $ensure,
-      name      => $::manila::params::api_service,
-      enable    => $enabled,
-      hasstatus => true,
-      tag       => 'manila-service',
-    }
+    if $service_name == $::manila::params::api_service {
+      service { 'manila-api':
+        ensure    => $ensure,
+        name      => $::manila::params::api_service,
+        enable    => $enabled,
+        hasstatus => true,
+        tag       => 'manila-service',
+      }
 
-  } elsif $service_name == 'httpd' {
-    # We need to make sure manila-api/eventlet is stopped before trying to
-    # start apache
-    service { 'manila-api':
-      ensure => 'stopped',
-      name   => $::manila::params::api_service,
-      enable => false,
-      tag    => ['manila-service'],
-    }
-    Service <| title == 'httpd' |> { tag +> 'manila-service' }
+    } elsif $service_name == 'httpd' {
+      # We need to make sure manila-api/eventlet is stopped before trying to
+      # start apache
+      service { 'manila-api':
+        ensure => 'stopped',
+        name   => $::manila::params::api_service,
+        enable => false,
+        tag    => ['manila-service'],
+      }
+      Service <| title == 'httpd' |> { tag +> 'manila-service' }
 
-    Service['manila-api'] -> Service[$service_name]
-  } else {
-    fail("Invalid service_name. Either use manila-api/openstack-manila-api \
+      Service['manila-api'] -> Service[$service_name]
+    } else {
+      fail("Invalid service_name. Either use manila-api/openstack-manila-api \
 for running as a standalone service, or httpd for being run by a httpd \
 server.")
+    }
   }
+
   manila_config {
     'DEFAULT/osapi_share_listen':      value => $bind_host;
     'DEFAULT/enabled_share_protocols': value => join(any2array($enabled_share_protocols), ',');

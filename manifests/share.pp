@@ -38,14 +38,14 @@ class manila::share (
     } else {
       $ensure = 'stopped'
     }
-  }
 
-  service { 'manila-share':
-    ensure    => $ensure,
-    name      => $::manila::params::share_service,
-    enable    => $enabled,
-    hasstatus => true,
-    require   => Package['manila'],
-    tag       => 'manila-service',
+    service { 'manila-share':
+      ensure    => $ensure,
+      name      => $::manila::params::share_service,
+      enable    => $enabled,
+      hasstatus => true,
+      require   => Package['manila'],
+      tag       => 'manila-service',
+    }
   }
 }

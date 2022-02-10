@@ -131,8 +131,8 @@ describe 'manila::api' do
         req_params.merge({'manage_service' => false})
       end
       it { is_expected.to contain_class('manila::policy') }
-      it 'should not change the state of the service' do
-        is_expected.to contain_service('manila-api').without_ensure
+      it 'should not configure the service' do
+        is_expected.to_not contain_service('manila-api')
       end
     end
 

@@ -40,8 +40,8 @@ describe 'manila::scheduler' do
         { 'manage_service' => false
         }
       end
-      it 'should not change the state of the service' do
-        is_expected.to contain_service('manila-scheduler').without_ensure
+      it 'should not configure the service' do
+        is_expected.to_not contain_service('manila-scheduler')
       end
     end
   end
