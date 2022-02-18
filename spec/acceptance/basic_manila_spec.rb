@@ -63,6 +63,9 @@ describe 'basic manila' do
       class { 'manila::cron::db_purge': }
 
       # missing: backends, share, service_instance
+
+      manila_type { 'sharetype':
+      }
       EOS
 
 

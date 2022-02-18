@@ -41,8 +41,7 @@ define manila::type_set (
   include manila::deps
   include manila::client
 
-# TODO: (xarses) This should be moved to a ruby provider so that among other
-#   reasons, the credential discovery magic can occur like in neutron.
+  warning('The manila::type_set resource type is deprecated. Use the manila_type resource instead')
 
   $manila_env = [
     "OS_TENANT_NAME=${os_tenant_name}",
