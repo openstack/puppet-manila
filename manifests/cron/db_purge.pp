@@ -36,7 +36,7 @@
 #
 #  [*user*]
 #    (optional) User with access to manila files.
-#    Defaults to 'manila'.
+#    Defaults to $::manila::params::user.
 #
 #  [*age*]
 #    (optional) Number of days prior to today for deletion,
@@ -61,11 +61,11 @@ class manila::cron::db_purge (
   $monthday    = '*',
   $month       = '*',
   $weekday     = '*',
-  $user        = 'manila',
+  $user        = $::manila::params::user,
   $age         = 0,
   $destination = '/var/log/manila/manila-rowsflush.log',
   $maxdelay    = 0,
-) {
+) inherits manila::params {
 
   include manila::deps
 

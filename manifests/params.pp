@@ -5,10 +5,11 @@
 class manila::params {
   include openstacklib::defaults
 
-  $client_package       = 'python3-manilaclient'
-  $db_sync_command      = 'manila-manage db sync'
-  $lio_package_name     = 'targetcli'
-  $group                = 'manila'
+  $client_package   = 'python3-manilaclient'
+  $db_sync_command  = 'manila-manage db sync'
+  $lio_package_name = 'targetcli'
+  $user             = 'manila'
+  $group            = 'manila'
 
   case $::osfamily {
     'Debian': {

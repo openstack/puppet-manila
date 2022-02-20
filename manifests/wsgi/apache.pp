@@ -142,7 +142,7 @@ class manila::wsgi::apache (
   ::openstacklib::wsgi::apache { 'manila_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
-    group                       => 'manila',
+    group                       => $::manila::params::group,
     path                        => $path,
     priority                    => $priority,
     servername                  => $servername,
@@ -155,7 +155,7 @@ class manila::wsgi::apache (
     ssl_crl_path                => $ssl_crl_path,
     ssl_key                     => $ssl_key,
     threads                     => $threads,
-    user                        => 'manila',
+    user                        => $::manila::params::user,
     vhost_custom_fragment       => $vhost_custom_fragment,
     workers                     => $workers,
     wsgi_daemon_process         => 'manila-api',
