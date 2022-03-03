@@ -11,6 +11,7 @@ describe 'manila::network::neutron' do
         is_expected.to contain_manila_config('neutron/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('neutron/project_domain_name').with_value('Default')
         is_expected.to contain_manila_config('neutron/project_name').with_value('services')
+        is_expected.to contain_manila_config('neutron/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/endpoint_type').with_value('<SERVICE DEFAULT>')
@@ -46,6 +47,7 @@ describe 'manila::network::neutron' do
         is_expected.to contain_manila_config('neutron/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('neutron/project_domain_name').with_value('Default')
         is_expected.to contain_manila_config('neutron/project_name').with_value('services')
+        is_expected.to contain_manila_config('neutron/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/region_name').with_value('RegionOne')
         is_expected.to contain_manila_config('neutron/timeout').with_value(30)
         is_expected.to contain_manila_config('neutron/endpoint_type').with_value('publicURL')
@@ -54,6 +56,19 @@ describe 'manila::network::neutron' do
         is_expected.to contain_manila_config('DEFAULT/network_plugin_ipv4_enabled').with_value(false)
         is_expected.to contain_manila_config('DEFAULT/network_plugin_ipv6_enabled').with_value(true)
        end
+    end
+
+    context 'when system_scope is set' do
+      let :params do
+        {
+          :system_scope => 'all'
+        }
+      end
+      it 'configures system-scoped credential' do
+        is_expected.to contain_manila_config('neutron/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('neutron/project_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('neutron/system_scope').with_value('all')
+      end
     end
   end
 

@@ -45,6 +45,10 @@
 #   (optional) Project name to scope to
 #   Defaults to 'services'
 #
+# [*system_scope*]
+#   (optional) Scope for system operations.
+#   Defaults to $::os_service_default
+#
 # [*region_name*]
 #   (optional) Region name for connecting to cinder
 #   Defaults to $::os_service_default
@@ -73,6 +77,7 @@ class manila::image::glance (
   $user_domain_name            = 'Default',
   $project_domain_name         = 'Default',
   $project_name                = 'services',
+  $system_scope                = $::os_service_default,
   $region_name                 = $::os_service_default,
   $endpoint_type               = $::os_service_default,
   $username                    = 'glance',
@@ -80,6 +85,14 @@ class manila::image::glance (
 ) {
 
   include manila::deps
+
+  if is_service_default($system_scope) {
+    $project_name_real = $project_name
+    $project_domain_name_real = $project_domain_name
+  } else {
+    $project_name_real = $::os_service_default
+    $project_domain_name_real = $::os_service_default
+  }
 
   manila_config {
     'glance/api_microversion':    value => $api_microversion;
@@ -90,8 +103,9 @@ class manila::image::glance (
     'glance/certfile':            value => $certfile;
     'glance/keyfile':             value => $keyfile;
     'glance/user_domain_name':    value => $user_domain_name;
-    'glance/project_domain_name': value => $project_domain_name;
-    'glance/project_name':        value => $project_name;
+    'glance/project_domain_name': value => $project_domain_name_real;
+    'glance/project_name':        value => $project_name_real;
+    'glance/system_scope':        value => $system_scope;
     'glance/region_name':         value => $region_name;
     'glance/endpoint_type':       value => $endpoint_type;
     'glance/username':            value => $username;

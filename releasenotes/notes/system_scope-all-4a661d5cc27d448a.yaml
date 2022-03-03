@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The new ``system_scope`` parameter has been added to the following classes.
+
+    - ``manila::compute::nova``
+    - ``manila::image::glance``
+    - ``manila::network::neutron``
+    - ``manila::volume::cinder``

@@ -14,6 +14,7 @@ describe 'manila::image::glance' do
         is_expected.to contain_manila_config('glance/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('glance/project_domain_name').with_value('Default')
         is_expected.to contain_manila_config('glance/project_name').with_value('services')
+        is_expected.to contain_manila_config('glance/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/username').with_value('glance')
@@ -47,11 +48,25 @@ describe 'manila::image::glance' do
         is_expected.to contain_manila_config('glance/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('glance/project_domain_name').with_value('Default')
         is_expected.to contain_manila_config('glance/project_name').with_value('services')
+        is_expected.to contain_manila_config('glance/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/region_name').with_value('RegionOne')
         is_expected.to contain_manila_config('glance/endpoint_type').with_value('publicURL')
         is_expected.to contain_manila_config('glance/username').with_value('glancev1')
         is_expected.to contain_manila_config('glance/password').with_value('123123').with_secret(true)
        end
+    end
+
+    context 'when system_scope is set' do
+      let :params do
+        {
+          :system_scope => 'all'
+        }
+      end
+      it 'configures system-scoped credential' do
+        is_expected.to contain_manila_config('glance/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('glance/project_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('glance/system_scope').with_value('all')
+      end
     end
   end
 

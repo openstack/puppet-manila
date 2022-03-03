@@ -33,6 +33,10 @@
 #   (optional) Project name to scope to
 #   Defaults to 'services'
 #
+# [*system_scope*]
+#   (optional) Scope for system operations.
+#   Defaults to $::os_service_default
+#
 # [*region_name*]
 #   (optional) Region name for connecting to cinder
 #   Defaults to $::os_service_default
@@ -67,6 +71,7 @@ class manila::volume::cinder (
   $user_domain_name            = 'Default',
   $project_domain_name         = 'Default',
   $project_name                = 'services',
+  $system_scope                = $::os_service_default,
   $region_name                 = $::os_service_default,
   $endpoint_type               = $::os_service_default,
   $username                    = 'cinder',
@@ -76,6 +81,14 @@ class manila::volume::cinder (
 ) {
 
   include manila::deps
+
+  if is_service_default($system_scope) {
+    $project_name_real = $project_name
+    $project_domain_name_real = $project_domain_name
+  } else {
+    $project_name_real = $::os_service_default
+    $project_domain_name_real = $::os_service_default
+  }
 
   manila_config {
     'cinder/insecure':            value => $insecure;
@@ -87,8 +100,9 @@ class manila::volume::cinder (
     'cinder/username':            value => $username;
     'cinder/user_domain_name':    value => $user_domain_name;
     'cinder/password':            value => $password, secret => true;
-    'cinder/project_name':        value => $project_name;
-    'cinder/project_domain_name': value => $project_domain_name;
+    'cinder/project_name':        value => $project_name_real;
+    'cinder/project_domain_name': value => $project_domain_name_real;
+    'cinder/system_scope':        value => $system_scope;
     'cinder/http_retries':        value => $http_retries;
     'cinder/cross_az_attach':     value => $cross_az_attach;
   }

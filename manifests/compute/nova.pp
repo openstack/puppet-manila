@@ -33,6 +33,10 @@
 #   (optional) Project name to scope to
 #   Defaults to 'services'
 #
+# [*system_scope*]
+#   (optional) Scope for system operations.
+#   Defaults to $::os_service_default
+#
 # [*region_name*]
 #   (optional) Region name for connecting to nova
 #   Defaults to $::os_service_default
@@ -62,6 +66,7 @@ class manila::compute::nova (
   $user_domain_name          = 'Default',
   $project_domain_name       = 'Default',
   $project_name              = 'services',
+  $system_scope              = $::os_service_default,
   $region_name               = $::os_service_default,
   $endpoint_type             = $::os_service_default,
   $username                  = 'nova',
@@ -70,6 +75,14 @@ class manila::compute::nova (
 ) {
 
   include manila::deps
+
+  if is_service_default($system_scope) {
+    $project_name_real = $project_name
+    $project_domain_name_real = $project_domain_name
+  } else {
+    $project_name_real = $::os_service_default
+    $project_domain_name_real = $::os_service_default
+  }
 
   manila_config {
     'nova/insecure':            value => $insecure;
@@ -81,8 +94,9 @@ class manila::compute::nova (
     'nova/username':            value => $username;
     'nova/user_domain_name':    value => $user_domain_name;
     'nova/password':            value => $password, secret => true;
-    'nova/project_name':        value => $project_name;
-    'nova/project_domain_name': value => $project_domain_name;
+    'nova/project_name':        value => $project_name_real;
+    'nova/project_domain_name': value => $project_domain_name_real;
+    'nova/system_scope':        value => $system_scope;
     'nova/api_microversion':    value => $api_microversion;
   }
 }

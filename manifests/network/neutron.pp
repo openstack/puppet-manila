@@ -33,6 +33,10 @@
 #   (optional) Project name to scope to
 #   Defaults to 'services'
 #
+# [*system_scope*]
+#   (optional) Scope for system operations.
+#   Defaults to $::os_service_default
+#
 # [*region_name*]
 #   (optional) Region name for connecting to neutron
 #   Defaults to $::os_service_default
@@ -70,6 +74,7 @@ class manila::network::neutron (
   $user_domain_name             = 'Default',
   $project_domain_name          = 'Default',
   $project_name                 = 'services',
+  $system_scope                 = $::os_service_default,
   $region_name                  = $::os_service_default,
   $timeout                      = $::os_service_default,
   $endpoint_type                = $::os_service_default,
@@ -79,9 +84,19 @@ class manila::network::neutron (
   $network_plugin_ipv6_enabled  = $::os_service_default,
 ) {
 
+  include manila::deps
+
   # TODO(tkajinam): Remove this after Yoga release
   manila_config {
     'DEFAULT/network_api_class': ensure => absent;
+  }
+
+  if is_service_default($system_scope) {
+    $project_name_real = $project_name
+    $project_domain_name_real = $project_domain_name
+  } else {
+    $project_name_real = $::os_service_default
+    $project_domain_name_real = $::os_service_default
   }
 
   manila_config {
@@ -95,8 +110,9 @@ class manila::network::neutron (
     'neutron/username':                    value => $username;
     'neutron/user_domain_name':            value => $user_domain_name;
     'neutron/password':                    value => $password, secret => true;
-    'neutron/project_name':                value => $project_name;
-    'neutron/project_domain_name':         value => $project_domain_name;
+    'neutron/project_name':                value => $project_name_real;
+    'neutron/project_domain_name':         value => $project_domain_name_real;
+    'neutron/system_scope':                value => $system_scope;
     'DEFAULT/network_plugin_ipv4_enabled': value => $network_plugin_ipv4_enabled;
     'DEFAULT/network_plugin_ipv6_enabled': value => $network_plugin_ipv6_enabled;
   }
