@@ -1,5 +1,3 @@
-File.expand_path('../../../../openstacklib/lib', File.dirname(__FILE__)).tap { |dir| $LOAD_PATH.unshift(dir) unless $LOAD_PATH.include?(dir) }
-
 require 'puppet/util/inifile'
 require 'puppet/provider/openstack'
 require 'puppet/provider/openstack/auth'
@@ -20,7 +18,15 @@ class Puppet::Provider::Manila < Puppet::Provider::Openstack
     @manila_conf
   end
 
-  def self.request(service, action, properties=nil)
+  def self.project_request(service, action, properties=nil, options={})
+    self.request(service, action, properties, options, 'project')
+  end
+
+  def self.system_request(service, action, properties=nil, options={})
+    self.request(service, action, properties, options, 'system')
+  end
+
+  def self.request(service, action, properties=nil, options={}, scope='project')
     begin
       super
     rescue Puppet::Error::OpenstackAuthInputError, Puppet::Error::OpenstackUnauthorizedError => error
@@ -28,7 +34,8 @@ class Puppet::Provider::Manila < Puppet::Provider::Openstack
     end
   end
 
-  def self.manila_request(service, action, error, properties=nil)
+  def self.manila_request(service, action, error, properties=nil, options={})
+    warning('Usage of keystone_authtoken parameters is deprecated.')
     properties ||= []
     @credentials.username = manila_credentials['username']
     @credentials.password = manila_credentials['password']
@@ -40,7 +47,7 @@ class Puppet::Provider::Manila < Puppet::Provider::Openstack
       @credentials.region_name = manila_credentials['region_name']
     end
     raise error unless @credentials.set?
-    Puppet::Provider::Openstack.request(service, action, properties, @credentials)
+    Puppet::Provider::Openstack.request(service, action, properties, @credentials, options)
   end
 
   def self.manila_credentials
