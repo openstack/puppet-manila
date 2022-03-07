@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The parameters of the ``manila::quota`` class with ``quota_`` prefix have
+    been deprecated. Use the parameters WITHOUT ``quota_`` prefix.
