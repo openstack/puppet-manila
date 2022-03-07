@@ -65,17 +65,17 @@ class manila::quota (
   include manila::deps
 
   manila_config {
-    'quota/quota_shares':             value => $quota_shares;
-    'quota/quota_snapshots':          value => $quota_snapshots;
-    'quota/quota_gigabytes':          value => $quota_gigabytes;
-    'quota/quota_driver':             value => $quota_driver;
-    'quota/quota_snapshot_gigabytes': value => $quota_snapshot_gigabytes;
-    'quota/quota_share_networks':     value => $quota_share_networks;
-    'quota/quota_share_replicas':     value => $quota_share_replicas;
-    'quota/quota_replica_gigabytes':  value => $quota_replica_gigabytes;
-    'quota/reservation_expire':       value => $reservation_expire;
-    'quota/until_refresh':            value => $until_refresh;
-    'quota/max_age':                  value => $max_age;
+    'quota/shares':             value => $quota_shares;
+    'quota/snapshots':          value => $quota_snapshots;
+    'quota/gigabytes':          value => $quota_gigabytes;
+    'quota/driver':             value => $quota_driver;
+    'quota/snapshot_gigabytes': value => $quota_snapshot_gigabytes;
+    'quota/share_networks':     value => $quota_share_networks;
+    'quota/share_replicas':     value => $quota_share_replicas;
+    'quota/replica_gigabytes':  value => $quota_replica_gigabytes;
+    'quota/reservation_expire': value => $reservation_expire;
+    'quota/until_refresh':      value => $until_refresh;
+    'quota/max_age':            value => $max_age;
   }
 
   # TODO(tkajinam): Remove this after Xena release.

@@ -5,21 +5,21 @@ describe 'manila::quota' do
   shared_examples_for 'manila::quota' do
     context 'with default parameters' do
       it 'contains default values' do
-        is_expected.to contain_manila_config('quota/quota_shares').with(
+        is_expected.to contain_manila_config('quota/shares').with(
           :value => '<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('quota/quota_snapshots').with(
+        is_expected.to contain_manila_config('quota/snapshots').with(
           :value => '<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('quota/quota_gigabytes').with(
+        is_expected.to contain_manila_config('quota/gigabytes').with(
           :value => '<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('quota/quota_driver').with(
+        is_expected.to contain_manila_config('quota/driver').with(
           :value => '<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('quota/quota_snapshot_gigabytes').with(
+        is_expected.to contain_manila_config('quota/snapshot_gigabytes').with(
           :value => '<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('quota/quota_share_networks').with(
+        is_expected.to contain_manila_config('quota/share_networks').with(
           :value => '<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('quota/quota_share_replicas').with(
+        is_expected.to contain_manila_config('quota/share_replicas').with(
           :value => '<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('quota/quota_replica_gigabytes').with(
+        is_expected.to contain_manila_config('quota/replica_gigabytes').with(
           :value => '<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('quota/reservation_expire').with(
           :value => '<SERVICE DEFAULT>')
@@ -45,21 +45,21 @@ describe 'manila::quota' do
           :max_age                  => 10,}
       end
       it 'contains overrided values' do
-        is_expected.to contain_manila_config('quota/quota_shares').with(
+        is_expected.to contain_manila_config('quota/shares').with(
           :value => 1000)
-        is_expected.to contain_manila_config('quota/quota_snapshots').with(
+        is_expected.to contain_manila_config('quota/snapshots').with(
           :value => 1000)
-        is_expected.to contain_manila_config('quota/quota_gigabytes').with(
+        is_expected.to contain_manila_config('quota/gigabytes').with(
           :value => 100000)
-        is_expected.to contain_manila_config('quota/quota_driver').with(
+        is_expected.to contain_manila_config('quota/driver').with(
           :value => 'manila.quota.DbQuotaDriver')
-        is_expected.to contain_manila_config('quota/quota_snapshot_gigabytes').with(
+        is_expected.to contain_manila_config('quota/snapshot_gigabytes').with(
           :value => 10000)
-        is_expected.to contain_manila_config('quota/quota_share_networks').with(
+        is_expected.to contain_manila_config('quota/share_networks').with(
           :value => 100)
-        is_expected.to contain_manila_config('quota/quota_share_replicas').with(
+        is_expected.to contain_manila_config('quota/share_replicas').with(
           :value => 10)
-        is_expected.to contain_manila_config('quota/quota_replica_gigabytes').with(
+        is_expected.to contain_manila_config('quota/replica_gigabytes').with(
           :value => 100)
         is_expected.to contain_manila_config('quota/reservation_expire').with(
           :value => 864000)
