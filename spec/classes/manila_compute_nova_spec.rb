@@ -11,6 +11,7 @@ describe 'manila::compute::nova' do
         is_expected.to contain_manila_config('nova/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('nova/project_domain_name').with_value('Default')
         is_expected.to contain_manila_config('nova/project_name').with_value('services')
+        is_expected.to contain_manila_config('nova/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('nova/region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('nova/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('nova/username').with_value('nova')
@@ -42,12 +43,26 @@ describe 'manila::compute::nova' do
         is_expected.to contain_manila_config('nova/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('nova/project_domain_name').with_value('Default')
         is_expected.to contain_manila_config('nova/project_name').with_value('services')
+        is_expected.to contain_manila_config('nova/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('nova/region_name').with_value('RegionOne')
         is_expected.to contain_manila_config('nova/endpoint_type').with_value('publicURL')
         is_expected.to contain_manila_config('nova/username').with_value('novav1')
         is_expected.to contain_manila_config('nova/password').with_value('123123').with_secret(true)
         is_expected.to contain_manila_config('nova/api_microversion').with_value('2.10')
        end
+    end
+
+    context 'when system_scope is set' do
+      let :params do
+        {
+          :system_scope => 'all'
+        }
+      end
+      it 'configures system-scoped credential' do
+        is_expected.to contain_manila_config('nova/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/project_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/system_scope').with_value('all')
+      end
     end
   end
 
