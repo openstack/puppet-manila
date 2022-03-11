@@ -1,0 +1,14 @@
+---
+upgrade:
+  - |
+    Now the ``manila_type`` resource type uses system scope credential instead
+    of project scope credential when sending requests to Manila API.
+
+deprecations:
+  - |
+    Currently the manila_type`` resource type uses the credential written in
+    the ``[keystone_authtoken]`` section of ``manila.conf``. However this
+    behavior has been deprecated and now the resource type first looks for
+    the yaml files in ``/etc/openstack/puppet``. Make sure one of
+    ``clouds.yaml`` or ``admin-clouds.yaml`` (which is created by
+    puppet-keystone) is created in that directory.

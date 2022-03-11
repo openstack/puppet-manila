@@ -8,7 +8,7 @@ describe provider_class do
   let(:set_creds_env) do
     ENV['OS_USERNAME']     = 'test'
     ENV['OS_PASSWORD']     = 'abc123'
-    ENV['OS_PROJECT_NAME'] = 'test'
+    ENV['OS_SYSTEM_SCOPE'] = 'all' 
     ENV['OS_AUTH_URL']     = 'http://127.0.0.1:5000'
   end
 
