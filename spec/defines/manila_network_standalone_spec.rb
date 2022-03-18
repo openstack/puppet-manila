@@ -5,38 +5,52 @@ describe 'manila::network::standalone' do
 
   let :params do
     {
-      :standalone_network_plugin_gateway            => '192.168.1.1',
-      :standalone_network_plugin_mask               => '255.255.255.0',
-      :standalone_network_plugin_segmentation_id    => '1001',
-      :standalone_network_plugin_allowed_ip_ranges  => '10.0.0.10-10.0.0.20',
+      :standalone_network_plugin_gateway => '192.168.1.1',
+      :standalone_network_plugin_mask    => '255.255.255.0',
     }
   end
 
-
-  shared_examples_for 'standalone network plugin' do
-
-    it 'configures standalone network plugin' do
-
-      is_expected.to contain_manila_config("standalone/network_api_class").with_value(
-        'manila.network.standalone_network_plugin.StandaloneNetworkPlugin')
-
-      params.each_pair do |config,value|
-        is_expected.to contain_manila_config("standalone/#{config}").with_value( value )
-      end
-    end
-  end
-
   shared_examples 'manila::network::standalone' do
-    context 'with default parameters' do
-      before do
-        params = {}
-      end
+    context 'with required parameters' do
+      it 'configures standalone network plugin' do
+        is_expected.to contain_manila_config("standalone/network_api_class").with_value(
+          'manila.network.standalone_network_plugin.StandaloneNetworkPlugin')
 
-      it_configures 'standalone network plugin'
+        is_expected.to contain_manila_config('standalone/standalone_network_plugin_gateway')\
+          .with_value('192.168.1.1')
+        is_expected.to contain_manila_config('standalone/standalone_network_plugin_mask')\
+          .with_value('255.255.255.0')
+        is_expected.to contain_manila_config('standalone/standalone_network_plugin_segmentation_id')\
+          .with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('standalone/standalone_network_plugin_allowed_ip_ranges')\
+          .with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('standalone/network_plugin_ipv4_enabled')\
+          .with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('standalone/network_plugin_ipv6_enabled')\
+          .with_value('<SERVICE DEFAULT>')
+      end
     end
 
-    context 'with provided parameters' do
-      it_configures 'standalone network plugin'
+    context 'with custom parameters' do
+      before do
+        params.merge!({
+          :standalone_network_plugin_segmentation_id   => '1001',
+          :standalone_network_plugin_allowed_ip_ranges => '10.0.0.10-10.0.0.20',
+          :network_plugin_ipv4_enabled                 => true,
+          :network_plugin_ipv6_enabled                 => false,
+        })
+      end
+
+      it 'configures standalone network plugin' do
+        is_expected.to contain_manila_config('standalone/standalone_network_plugin_segmentation_id')\
+          .with_value('1001')
+        is_expected.to contain_manila_config('standalone/standalone_network_plugin_allowed_ip_ranges')\
+          .with_value('10.0.0.10-10.0.0.20')
+        is_expected.to contain_manila_config('standalone/network_plugin_ipv4_enabled')\
+          .with_value(true)
+        is_expected.to contain_manila_config('standalone/network_plugin_ipv6_enabled')\
+          .with_value(false)
+      end
     end
   end
 
