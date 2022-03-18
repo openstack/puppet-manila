@@ -16,17 +16,18 @@
 # class 'NeutronSingleNetworkPlugin'.
 #
 # [*network_plugin_ipv4_enabled*]
-# (optional) Whether to support Ipv4 network resource
+# (optional) Whether to support Ipv4 network resource.
+# Defaults to $::os_service_default.
 #
 # [*network_plugin_ipv6_enabled*]
-# (optional) whether to support IPv6 network resource
+# (optional) whether to support IPv6 network resource.
+# Defaults to $::os_service_default.
 #
-
 define manila::network::neutron_single_network (
   $neutron_net_id,
   $neutron_subnet_id,
-  $network_plugin_ipv4_enabled,
-  $network_plugin_ipv6_enabled,
+  $network_plugin_ipv4_enabled = $::os_service_default,
+  $network_plugin_ipv6_enabled = $::os_service_default,
 ) {
 
   $neutron_single_plugin_name = 'manila.network.neutron.neutron_network_plugin.NeutronSingleNetworkPlugin'
@@ -37,6 +38,5 @@ define manila::network::neutron_single_network (
     "${name}/neutron_subnet_id":            value => $neutron_subnet_id;
     "${name}/network_plugin_ipv4_enabled":  value => $network_plugin_ipv4_enabled;
     "${name}/network_plugin_ipv6_enabled":  value => $network_plugin_ipv6_enabled;
-
   }
 }

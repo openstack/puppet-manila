@@ -5,22 +5,47 @@ describe 'manila::network::neutron_single_network' do
 
   let :params do
     {
-      :neutron_net_id              => 'abcdef',
-      :neutron_subnet_id           => 'ghijkl',
-      :network_plugin_ipv4_enabled => '<SERVICE DEFAULT>',
-      :network_plugin_ipv6_enabled => '<SERVICE DEFAULT>',
+      :neutron_net_id    => 'e378d6e6-7d6c-4e59-86cc-067043145377',
+      :neutron_subnet_id => 'a0a8c559-09ad-4112-abc6-473137117880',
     }
   end
 
   shared_examples 'manila::network::neutron_single_network' do
-    context 'with provided parameters' do
+    context 'with required parameters' do
       it 'configures neutron single network plugin' do
         is_expected.to contain_manila_config("neutronsingle/network_api_class").with_value(
           'manila.network.neutron.neutron_network_plugin.NeutronSingleNetworkPlugin')
 
-        params.each_pair do |config,value|
-          is_expected.to contain_manila_config("neutronsingle/#{config}").with_value( value )
-        end
+        is_expected.to contain_manila_config('neutronsingle/neutron_net_id')\
+          .with_value('e378d6e6-7d6c-4e59-86cc-067043145377')
+        is_expected.to contain_manila_config('neutronsingle/neutron_subnet_id')\
+          .with_value('a0a8c559-09ad-4112-abc6-473137117880')
+        is_expected.to contain_manila_config('neutronsingle/network_plugin_ipv4_enabled')\
+          .with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('neutronsingle/network_plugin_ipv6_enabled')\
+          .with_value('<SERVICE DEFAULT>')
+      end
+    end
+
+    context 'with custom parameters' do
+      before do
+        params.merge!({
+          :network_plugin_ipv4_enabled => true,
+          :network_plugin_ipv6_enabled => false,
+        })
+      end
+      it 'configures neutron single network plugin' do
+        is_expected.to contain_manila_config("neutronsingle/network_api_class").with_value(
+          'manila.network.neutron.neutron_network_plugin.NeutronSingleNetworkPlugin')
+
+        is_expected.to contain_manila_config('neutronsingle/neutron_net_id')\
+          .with_value('e378d6e6-7d6c-4e59-86cc-067043145377')
+        is_expected.to contain_manila_config('neutronsingle/neutron_subnet_id')\
+          .with_value('a0a8c559-09ad-4112-abc6-473137117880')
+        is_expected.to contain_manila_config('neutronsingle/network_plugin_ipv4_enabled')\
+          .with_value(true)
+        is_expected.to contain_manila_config('neutronsingle/network_plugin_ipv6_enabled')\
+          .with_value(false)
       end
     end
   end
