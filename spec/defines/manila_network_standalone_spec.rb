@@ -52,6 +52,18 @@ describe 'manila::network::standalone' do
           .with_value(false)
       end
     end
+
+    context 'with standalone_network_plugin_allowed_ip_ranges set by array' do
+      before do
+        params.merge!({
+          :standalone_network_plugin_allowed_ip_ranges => ['10.0.0.10-10.0.0.20', '10.0.0.30-10.0.0.40'],
+        })
+      end
+      it 'configures standalone network plugin' do
+        is_expected.to contain_manila_config('standalone/standalone_network_plugin_allowed_ip_ranges')\
+          .with_value('10.0.0.10-10.0.0.20,10.0.0.30-10.0.0.40')
+      end
+    end
   end
 
   on_supported_os({

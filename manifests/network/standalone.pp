@@ -47,12 +47,19 @@ define manila::network::standalone (
   $standalone_plugin_name = 'manila.network.standalone_network_plugin.StandaloneNetworkPlugin'
 
   manila_config {
-    "${name}/network_api_class":                           value => $standalone_plugin_name;
-    "${name}/standalone_network_plugin_gateway":           value => $standalone_network_plugin_gateway;
-    "${name}/standalone_network_plugin_mask":              value => $standalone_network_plugin_mask;
-    "${name}/standalone_network_plugin_segmentation_id":   value => $standalone_network_plugin_segmentation_id;
-    "${name}/standalone_network_plugin_allowed_ip_ranges": value => $standalone_network_plugin_allowed_ip_ranges;
-    "${name}/network_plugin_ipv4_enabled":                 value => $network_plugin_ipv4_enabled;
-    "${name}/network_plugin_ipv6_enabled":                 value => $network_plugin_ipv6_enabled;
+    "${name}/network_api_class":
+      value => $standalone_plugin_name;
+    "${name}/standalone_network_plugin_gateway":
+      value => $standalone_network_plugin_gateway;
+    "${name}/standalone_network_plugin_mask":
+      value => $standalone_network_plugin_mask;
+    "${name}/standalone_network_plugin_segmentation_id":
+      value => $standalone_network_plugin_segmentation_id;
+    "${name}/standalone_network_plugin_allowed_ip_ranges":
+      value => join(any2array($standalone_network_plugin_allowed_ip_ranges), ',');
+    "${name}/network_plugin_ipv4_enabled":
+      value => $network_plugin_ipv4_enabled;
+    "${name}/network_plugin_ipv6_enabled":
+      value => $network_plugin_ipv6_enabled;
   }
 }
