@@ -24,6 +24,7 @@
 # [*share_backend_name*]
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
+#   Defaults to $::name.
 #
 # [*backend_availability_zone*]
 #   (Optional) Availability zone for this share backend.
@@ -35,46 +36,49 @@
 #   (optional) The transport protocol used when communicating with
 #   the storage system or proxy server. Valid values are
 #   http or https.
-#   Defaults to http
+#   Defaults to $::os_service_default.
 #
 # [*netapp_storage_family*]
 #   (optional) The storage family type used on the storage system; valid
 #   values are ontap_cluster for clustered Data ONTAP.
-#   Defaults to ontap_cluster
+#   Defaults to $::os_service_default.
 #
 # [*netapp_server_port*]
 #   (optional) The TCP port to use for communication with the storage system
 #   or proxy server. If not specified, Data ONTAP drivers will use 80 for HTTP
 #   and 443 for HTTPS.
+#   Defaults to $::os_service_default.
 #
 # [*netapp_volume_name_template*]
 #   (optional) NetApp volume name template.
-#   Defaults to share_%(share_id)s
+#   Defaults to $::os_service_default.
 #
 # [*netapp_vserver*]
 #   (optional) This option specifies the storage virtual machine (previously
 #   called a Vserver) name on the storage cluster on which provisioning of
 #   shared file systems should occur. This option only applies
 #   when the option driver_handles_share_servers is set to False.
+#   Defaults to $::os_service_default.
 #
 # [*netapp_vserver_name_template*]
 #   (optional) Name template to use for new vserver. This option only applies
 #   when the option driver_handles_share_servers is set to True.
-#   Defaults to os_%s
+#   Defaults to $::os_service_default.
 #
 # [*netapp_lif_name_template*]
 #   (optional) Logical interface (LIF) name template. This option only applies
 #   when the option driver_handles_share_servers is set to True.
-#   Defaults to os_%(net_allocation_id)s
+#   Defaults to $::os_service_default.
 #
 # [*netapp_aggregate_name_search_pattern*]
 #   (optional) Pattern for searching available aggregates
 #   for provisioning.
-#   Defaults to (.*)
+#   Defaults to $::os_service_default.
 #
 # [*netapp_root_volume_aggregate*]
 #   (optional) Name of aggregate to create root volume on. This option only
 #   applies when the option driver_handles_share_servers is set to True.
+#   Defaults to $::os_service_default.
 #
 # [*netapp_root_volume*]
 #   (optional) Root volume name. This option only applies when the option
@@ -84,12 +88,13 @@
 # [*netapp_port_name_search_pattern*]
 #   (optional) Pattern for overriding the selection of network ports on which
 #   to create Vserver LIFs.
-#   Defaults to (.*)
+#   Defaults to $::os_service_default.
 #
 # [*netapp_trace_flags*]
 #   (optional) This option is a comma-separated list of options (valid values
 #   include method and api) that controls which trace info is written to the
-#   Manila logs when the debug level is set to True
+#   Manila logs when the debug level is set to True.
+#   Defaults to $::os_service_default.
 #
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
@@ -120,18 +125,18 @@ define manila::backend::netapp (
   $netapp_server_hostname,
   $share_backend_name                   = $name,
   $backend_availability_zone            = $::os_service_default,
-  $netapp_transport_type                = 'http',
-  $netapp_storage_family                = 'ontap_cluster',
-  $netapp_server_port                   = undef,
-  $netapp_volume_name_template          = 'share_%(share_id)s',
-  $netapp_vserver                       = undef,
-  $netapp_vserver_name_template         = 'os_%s',
-  $netapp_lif_name_template             = 'os_%(net_allocation_id)s',
-  $netapp_aggregate_name_search_pattern = '(.*)',
-  $netapp_root_volume_aggregate         = undef,
+  $netapp_transport_type                = $::os_service_default,
+  $netapp_storage_family                = $::os_service_default,
+  $netapp_server_port                   = $::os_service_default,
+  $netapp_volume_name_template          = $::os_service_default,
+  $netapp_vserver                       = $::os_service_default,
+  $netapp_vserver_name_template         = $::os_service_default,
+  $netapp_lif_name_template             = $::os_service_default,
+  $netapp_aggregate_name_search_pattern = $::os_service_default,
+  $netapp_root_volume_aggregate         = $::os_service_default,
   $netapp_root_volume                   = $::os_service_default,
-  $netapp_port_name_search_pattern      = '(.*)',
-  $netapp_trace_flags                   = undef,
+  $netapp_port_name_search_pattern      = $::os_service_default,
+  $netapp_trace_flags                   = $::os_service_default,
   $package_ensure                       = 'present',
   # DEPRECATED PARAMETERS
   $netapp_root_volume_name              = undef,
