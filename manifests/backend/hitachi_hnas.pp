@@ -5,10 +5,6 @@
 #
 # === Parameters
 #
-# [*driver_handles_share_servers*]
-#   (required) Denotes whether the driver should handle the responsibility of
-#   managing share servers. This must be set to false.
-#
 # [*hitachi_hnas_username*]
 #   (required) Denotes the username credential used to manage HNAS through
 #   management interface.
@@ -29,6 +25,11 @@
 #
 # [*hitachi_hnas_file_system_name*]
 #   (required) Denotes the hnas filesystem name used for volume provisioning
+#
+# [*driver_handles_share_servers*]
+#   (optional) Denotes whether the driver should handle the responsibility of
+#   managing share servers.
+#   Defaults to false
 #
 # [*share_backend_name*]
 #   (optional) Name of the backend in manila.conf that
