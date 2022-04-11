@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixed the wrong user name parameter of HNAS share driver. Because of this
+    fix, the ``hitachi_hnas_username`` parameters was renamed to
+    ``hitachi_hnas_user``. See `Launchpad bug 1968514
+    <https://launchpad.net/bugs/1968514>`_ for more details.

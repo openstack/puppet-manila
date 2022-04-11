@@ -7,7 +7,7 @@
 #   (required) Denotes whether the driver should handle the responsibility of
 #   managing share servers. This must be set to false.
 #
-# [*hitachi_hnas_username*]
+# [*hitachi_hnas_user*]
 #   (required) Denotes the username credential used to manage HNAS through
 #   management interface.
 #
@@ -36,7 +36,7 @@
 #
 #  manila::backend::hds_hnas { 'HITACHI1':
 #    driver_handles_share_servers => false,
-#    hitachi_hnas_username => 'supervisor',
+#    hitachi_hnas_user => 'supervisor',
 #    hitachi_hnas_password => 'supervisor',
 #    hitachi_hnas_ip => '172.24.44.15',
 #    hitachi_hnas_evs_id => '1',
@@ -45,7 +45,7 @@
 #  }
 #
 class manila::share::hitachi_hnas (
-    $hitachi_hnas_username,
+    $hitachi_hnas_user,
     $hitachi_hnas_password,
     $hitachi_hnas_ip,
     $hitachi_hnas_evs_id,
@@ -57,7 +57,7 @@ class manila::share::hitachi_hnas (
 
   manila::backend::hitachi_hnas { 'DEFAULT':
     driver_handles_share_servers  => $driver_handles_share_servers,
-    hitachi_hnas_username         => $hitachi_hnas_username,
+    hitachi_hnas_user             => $hitachi_hnas_user,
     hitachi_hnas_password         => $hitachi_hnas_password,
     hitachi_hnas_ip               => $hitachi_hnas_ip,
     hitachi_hnas_evs_id           => $hitachi_hnas_evs_id,

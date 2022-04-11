@@ -5,7 +5,7 @@
 #
 # === Parameters
 #
-# [*hitachi_hnas_username*]
+# [*hitachi_hnas_user*]
 #   (required) Denotes the username credential used to manage HNAS through
 #   management interface.
 #
@@ -48,7 +48,7 @@
 #
 #  manila::backend::hitachi_hnas { 'HITACHI1':
 #    driver_handles_share_servers => false,
-#    hitachi_hnas_username => 'supervisor',
+#    hitachi_hnas_user => 'supervisor',
 #    hitachi_hnas_password => 'supervisor',
 #    hitachi_hnas_ip => '172.24.44.15',
 #    hitachi_hnas_evs_id => '1',
@@ -57,7 +57,7 @@
 #  }
 
 define manila::backend::hitachi_hnas (
-  $hitachi_hnas_username,
+  $hitachi_hnas_user,
   $hitachi_hnas_password,
   $hitachi_hnas_ip,
   $hitachi_hnas_evs_id,
@@ -77,15 +77,15 @@ define manila::backend::hitachi_hnas (
   $hitachi_share_driver = 'manila.share.drivers.hitachi.hds_hnas.HDSHNASDriver'
 
   manila_config {
-    "${share_backend_name}/share_driver":                     value => $hitachi_share_driver;
-    "${share_backend_name}/driver_handles_share_servers":     value => $driver_handles_share_servers;
-    "${share_backend_name}/backend_availability_zone":        value => $backend_availability_zone;
-    "${share_backend_name}/hitachi_hnas_username":            value => $hitachi_hnas_username;
-    "${share_backend_name}/hitachi_hnas_password":            value => $hitachi_hnas_password, secret => true;
-    "${share_backend_name}/hitachi_hnas_ip":                  value => $hitachi_hnas_ip;
-    "${share_backend_name}/hitachi_hnas_evs_id":              value => $hitachi_hnas_evs_id;
-    "${share_backend_name}/hitachi_hnas_evs_ip":              value => $hitachi_hnas_evs_ip;
-    "${share_backend_name}/hitachi_hnas_file_system_name":    value => $hitachi_hnas_file_system_name;
+    "${share_backend_name}/share_driver":                  value => $hitachi_share_driver;
+    "${share_backend_name}/driver_handles_share_servers":  value => $driver_handles_share_servers;
+    "${share_backend_name}/backend_availability_zone":     value => $backend_availability_zone;
+    "${share_backend_name}/hitachi_hnas_user":             value => $hitachi_hnas_user;
+    "${share_backend_name}/hitachi_hnas_password":         value => $hitachi_hnas_password, secret => true;
+    "${share_backend_name}/hitachi_hnas_ip":               value => $hitachi_hnas_ip;
+    "${share_backend_name}/hitachi_hnas_evs_id":           value => $hitachi_hnas_evs_id;
+    "${share_backend_name}/hitachi_hnas_evs_ip":           value => $hitachi_hnas_evs_ip;
+    "${share_backend_name}/hitachi_hnas_file_system_name": value => $hitachi_hnas_file_system_name;
   }
 
   ensure_packages('nfs-client', {
