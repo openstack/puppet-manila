@@ -33,11 +33,11 @@
 #
 # [*cephfs_ganesha_server_ip*]
 #   (optional) IP of a server where Ganesha service runs on.
-#   Defaults to: undef
+#   Defaults to: $::os_service_default
 #
 # [*cephfs_ganesha_export_ips*]
 #   (optional) List of IPs on which Ganesha provides NFS share service.
-#   Defaults to: undef
+#   Defaults to: $::os_service_default
 #
 # [*cephfs_ganesha_server_is_remote*]
 #   (required) Whether the Ganesha service is remote or colocated on the
@@ -47,17 +47,17 @@
 # [*cephfs_ganesha_server_username*]
 #   (optional) The username to use when logging on the remote node
 #   hosting the Ganesha service
-#   Defaults to: undef
+#   Defaults to: $::os_service_default
 #
 # [*cephfs_ganesha_server_password*]
 #   (optional) The password to use when logging on the remote node
 #   hosting the Ganesha service
-#   Defaults to: undef
+#   Defaults to: $::os_service_default
 #
 # [*cephfs_ganesha_path_to_private_key*]
 #   (optional) The secret key to use when logging on the remote node
 #   hosting the Ganesha service (preveals on server_password)
-#   Defaults to: undef
+#   Defaults to: $::os_service_default
 #
 # [*cephfs_volume_mode*]
 #   (optional) octal rwx permissions for CephFS backing volumes,
@@ -80,12 +80,12 @@ define manila::backend::cephfs (
   $cephfs_conf_path                   = '$state_path/ceph.conf',
   $cephfs_auth_id                     = 'manila',
   $cephfs_cluster_name                = 'ceph',
-  $cephfs_ganesha_server_ip           = undef,
-  $cephfs_ganesha_export_ips          = undef,
+  $cephfs_ganesha_server_ip           = $::os_service_default,
+  $cephfs_ganesha_export_ips          = $::os_service_default,
   $cephfs_ganesha_server_is_remote    = $::os_service_default,
-  $cephfs_ganesha_server_username     = undef,
-  $cephfs_ganesha_server_password     = undef,
-  $cephfs_ganesha_path_to_private_key = undef,
+  $cephfs_ganesha_server_username     = $::os_service_default,
+  $cephfs_ganesha_server_password     = $::os_service_default,
+  $cephfs_ganesha_path_to_private_key = $::os_service_default,
   $cephfs_volume_mode                 = $::os_service_default,
   $cephfs_protocol_helper_type        = 'CEPHFS',
   $cephfs_filesystem_name             = $::os_service_default,
