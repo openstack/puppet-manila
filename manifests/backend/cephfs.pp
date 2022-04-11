@@ -104,7 +104,7 @@ define manila::backend::cephfs (
     "${name}/cephfs_auth_id":                     value => $cephfs_auth_id;
     "${name}/cephfs_cluster_name":                value => $cephfs_cluster_name;
     "${name}/cephfs_ganesha_server_ip":           value => $cephfs_ganesha_server_ip;
-    "${name}/cephfs_ganesha_export_ips":          value => $cephfs_ganesha_export_ips;
+    "${name}/cephfs_ganesha_export_ips":          value => join(any2array($cephfs_ganesha_export_ips), ',');
     "${name}/cephfs_ganesha_server_is_remote":    value => $cephfs_ganesha_server_is_remote;
     "${name}/cephfs_ganesha_server_username":     value => $cephfs_ganesha_server_username;
     "${name}/cephfs_ganesha_server_password":     value => $cephfs_ganesha_server_password, secret => true;
