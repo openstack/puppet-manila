@@ -39,9 +39,9 @@ describe 'manila::backend::cephfs' do
       is_expected.to contain_manila_config('cephfs/cephfs_protocol_helper_type').with_value(
         'NFS')
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_server_ip').with_value(
-                       '10.0.0.1')
+        '10.0.0.1')
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_export_ips').with_value(
-                       '10.0.0.1,1001::1001')
+        '10.0.0.1,1001::1001')
       is_expected.to contain_manila_config('cephfs/cephfs_volume_mode').with_value(
         '0775')
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_server_is_remote').with_value(
@@ -54,6 +54,18 @@ describe 'manila::backend::cephfs' do
         'cephfs')
     end
 
+    context 'with cephfs_ganesha_export_ips set by array' do
+      before do
+        params.merge!({
+          :cephfs_ganesha_export_ips => ['10.0.0.1', '1001::1001']
+        })
+      end
+
+      it 'configures cephfs_ganesha_export_ips' do
+        is_expected.to contain_manila_config('cephfs/cephfs_ganesha_export_ips').with_value(
+          '10.0.0.1,1001::1001')
+      end
+    end
   end
 
   on_supported_os({
