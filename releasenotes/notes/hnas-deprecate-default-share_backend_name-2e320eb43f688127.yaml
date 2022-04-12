@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``manila::share::hitachi_hnas::share_backend_name`` parameter has been
+    deprecated and has no effect.
