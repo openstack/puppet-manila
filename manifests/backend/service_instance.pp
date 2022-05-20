@@ -1,4 +1,4 @@
-# ==define manila::service_instance
+# ==define manila::backend::service_instance
 #
 # ===Parameters
 #
@@ -75,7 +75,7 @@
 #   (optional) Attach share server directly to share network.
 #   Defaults to: false
 #
-define manila::service_instance (
+define manila::backend::service_instance (
   $service_instance_user,
   $service_instance_password,
   $create_service_image                   = true,
@@ -97,26 +97,36 @@ define manila::service_instance (
 
   include manila::deps
 
-  warning('The manila::service_instance defined type has been deprecated. \
-use the manila::backend::service_instance defined type.')
+  if $create_service_image {
+    if $service_image_location {
+      glance_image { $service_image_name:
+        ensure           => present,
+        is_public        => 'yes',
+        container_format => 'bare',
+        disk_format      => 'qcow2',
+        source           => $service_image_location,
+      }
+    }
+    else {
+      fail('Missing required parameter service_image_location')
+    }
+  }
 
-  manila::backend::service_instance { $name:
-    service_instance_user                  => $service_instance_user,
-    service_instance_password              => $service_instance_password,
-    create_service_image                   => $create_service_image,
-    service_image_name                     => $service_image_name,
-    service_image_location                 => $service_image_location,
-    service_instance_name_template         => $service_instance_name_template,
-    manila_service_keypair_name            => $manila_service_keypair_name,
-    path_to_public_key                     => $path_to_public_key,
-    path_to_private_key                    => $path_to_private_key,
-    max_time_to_build_instance             => $max_time_to_build_instance,
-    service_instance_security_group        => $service_instance_security_group,
-    service_instance_flavor_id             => $service_instance_flavor_id,
-    service_network_name                   => $service_network_name,
-    service_network_cidr                   => $service_network_cidr,
-    service_network_division_mask          => $service_network_division_mask,
-    interface_driver                       => $interface_driver,
-    connect_share_server_to_tenant_network => $connect_share_server_to_tenant_network,
+  manila_config {
+    "${name}/service_image_name":                     value => $service_image_name;
+    "${name}/service_instance_name_template":         value => $service_instance_name_template;
+    "${name}/service_instance_user":                  value => $service_instance_user;
+    "${name}/service_instance_password":              value => $service_instance_password, secret => true;
+    "${name}/manila_service_keypair_name":            value => $manila_service_keypair_name;
+    "${name}/path_to_public_key":                     value => $path_to_public_key;
+    "${name}/path_to_private_key":                    value => $path_to_private_key;
+    "${name}/max_time_to_build_instance":             value => $max_time_to_build_instance;
+    "${name}/service_instance_security_group":        value => $service_instance_security_group;
+    "${name}/service_instance_flavor_id":             value => $service_instance_flavor_id;
+    "${name}/service_network_name":                   value => $service_network_name;
+    "${name}/service_network_cidr":                   value => $service_network_cidr;
+    "${name}/service_network_division_mask":          value => $service_network_division_mask;
+    "${name}/interface_driver":                       value => $interface_driver;
+    "${name}/connect_share_server_to_tenant_network": value => $connect_share_server_to_tenant_network;
   }
 }
