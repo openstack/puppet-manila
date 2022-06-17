@@ -80,7 +80,7 @@
 #    driver_handles_share_servers  => true,
 #    emc_nas_login                 => 'admin',
 #    emc_nas_password              => 'password',
-#    emc_nas_server                => <IP address of Unity Syste,>,
+#    emc_nas_server                => <IP address of Unity System>,
 #  }
 #
 define manila::backend::dellemc_vnx (

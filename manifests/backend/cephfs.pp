@@ -56,7 +56,7 @@
 #
 # [*cephfs_ganesha_path_to_private_key*]
 #   (optional) The secret key to use when logging on the remote node
-#   hosting the Ganesha service (preveals on server_password)
+#   hosting the Ganesha service (prevails on server_password)
 #   Defaults to: $::os_service_default
 #
 # [*cephfs_volume_mode*]

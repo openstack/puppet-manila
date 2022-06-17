@@ -26,7 +26,7 @@
 #
 # [*lvm_share_export_root*]
 #  (optional) Base folder where exported shares are located.
-#  Defauls to: $::os_service_default
+#  Defaults to: $::os_service_default
 #
 # [*lvm_share_mirrors*]
 #  (optional) If set, create LVMs with multiple mirrors. Note that this requires

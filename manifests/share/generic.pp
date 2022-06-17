@@ -51,7 +51,7 @@
 #   volumes created by driver.
 #
 # [*delete_share_server_with_last_share*]
-#   (optional) With this option is set to True share server willbe deleted
+#   (optional) With this option is set to True share server will be deleted
 #   on deletion of last share.
 #   Defaults to: False
 #

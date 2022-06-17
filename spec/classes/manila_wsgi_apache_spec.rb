@@ -25,7 +25,7 @@ describe 'manila::wsgi::apache' do
       )}
     end
 
-    context'when overriding parameters using different ports' do
+    context 'when overriding parameters using different ports' do
       let :params do
         {
           :servername                  => 'dummy.host',

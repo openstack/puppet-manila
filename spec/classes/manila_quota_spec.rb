@@ -44,7 +44,7 @@ describe 'manila::quota' do
           :until_refresh      => 10,
           :max_age            => 10,}
       end
-      it 'contains overrided values' do
+      it 'contains overridden values' do
         is_expected.to contain_manila_config('quota/shares').with(
           :value => 1000)
         is_expected.to contain_manila_config('quota/snapshots').with(

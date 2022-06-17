@@ -55,7 +55,7 @@ class manila::deps {
   # Support packages need to be installed in the install phase, but we don't
   # put them in the chain above because we don't want any false dependencies
   # between packages with the manila-package tag and the manila-support-package
-  # tag.  Note: the package resources here will have a 'before' relationshop on
+  # tag.  Note: the package resources here will have a 'before' relationship on
   # the manila::install::end anchor.  The line between manila-support-package and
   # manila-package should be whether or not manila services would need to be
   # restarted if the package state was changed.
@@ -66,7 +66,7 @@ class manila::deps {
   # Support services need to be started in the service phase, but we don't
   # put them in the chain above because we don't want any false dependencies
   # between them and manila services. Note: the service resources here will
-  # have a 'before' relationshop on the manila::service::end anchor.
+  # have a 'before' relationship on the manila::service::end anchor.
   # The line between manila-support-service and manila-service should be
   # whether or not manila services would need to be restarted if the service
   # state was changed.

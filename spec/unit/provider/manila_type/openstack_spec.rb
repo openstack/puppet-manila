@@ -56,7 +56,7 @@ name="test_type"
 visibility="public"
 required_extra_specs="{\'driver_handles_share_servers\': \'False\'}"
 optional_extra_specs="{\'snapshot_support\': \'False\', \'create_share_from_snapshot_support\': \'False\', \'revert_to_snapshot_support\': \'False\', \'mount_snapshot_support\': \'False\'}"
-descrpiton="None"
+description="None"
 ')
           provider.create
           expect(provider.exists?).to be_truthy

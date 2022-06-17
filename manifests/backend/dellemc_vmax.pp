@@ -63,7 +63,7 @@
 #  manila::backend::dellemc_vmax { 'myBackend':
 #    emc_nas_login     => 'admin',
 #    emc_nas_password  => 'password',
-#    emc_nas_server    => <IP address of Unity Syste,>,
+#    emc_nas_server    => <IP address of Unity System>,
 #  }
 #
 define manila::backend::dellemc_vmax (

@@ -30,7 +30,7 @@
 #   managing share servers.
 #   Defaults to false.
 #
-# DEPRECAED PARAMETERS
+# DEPRECATED PARAMETERS
 #
 # [*share_backend_name*]
 #   (optional) Name of the backend in manila.conf that

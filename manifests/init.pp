@@ -81,7 +81,7 @@
 #   Defaults to false, not set
 #
 # [*cert_file*]
-#   (optinal) Certificate file to use when starting API server securely
+#   (optional) Certificate file to use when starting API server securely
 #   Defaults to false, not set
 #
 # [*key_file*]
@@ -197,7 +197,7 @@
 #
 # [*periodic_fuzzy_delay*]
 #   (optional) Range of seconds to randomly delay when starting the periodic
-#   task scheduler to reduce stampending.
+#   task scheduler to reduce stampeding.
 #   Defaults to $::os_service_default.
 #
 class manila (
