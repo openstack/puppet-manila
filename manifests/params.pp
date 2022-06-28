@@ -13,6 +13,7 @@ class manila::params {
 
   case $::osfamily {
     'Debian': {
+      $lock_path                   = '/var/lock/manila'
       $package_name                = 'manila-common'
       $api_package                 = 'manila-api'
       $api_service                 = 'manila-api'
@@ -27,6 +28,7 @@ class manila::params {
       $nfs_client_package_name     = 'nfs-common'
     }
     'RedHat': {
+      $lock_path                   = '/var/lib/manila/tmp'
       $package_name                = 'openstack-manila'
       $api_package                 = false
       $api_service                 = 'openstack-manila-api'

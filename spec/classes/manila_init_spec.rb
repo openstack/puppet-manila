@@ -63,7 +63,7 @@ describe 'manila' do
           :value => '<SERVICE DEFAULT>'
         )
         is_expected.to contain_oslo__concurrency('manila_config').with(
-          :lock_path => '/tmp/manila/manila_locks'
+          :lock_path => platform_params[:lock_path]
         )
       end
     end
@@ -232,6 +232,19 @@ describe 'manila' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
       end
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          {
+            :lock_path => '/var/lock/manila'
+          }
+        when 'RedHat'
+          {
+            :lock_path => '/var/lib/manila/tmp'
+          }
+        end
+      end
+
       it_behaves_like 'manila'
     end
   end

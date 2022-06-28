@@ -105,7 +105,7 @@
 #
 # [*lock_path*]
 #   (optional) Location to store Manila locks
-#   Defaults to '/tmp/manila/manila_locks'
+#   Defaults to $::manila::params::lock_path
 #
 # [*amqp_server_request_prefix*]
 #   address prefix used when sending to a specific server
@@ -225,7 +225,7 @@ class manila (
   $storage_availability_zone   = 'nova',
   $rootwrap_config             = '/etc/manila/rootwrap.conf',
   $state_path                  = '/var/lib/manila',
-  $lock_path                   = '/tmp/manila/manila_locks',
+  $lock_path                   = $::manila::params::lock_path,
   $amqp_server_request_prefix  = 'exclusive',
   $amqp_broadcast_prefix       = 'broadcast',
   $amqp_group_request_prefix   = 'unicast',
@@ -246,11 +246,10 @@ class manila (
   $report_interval             = $::os_service_default,
   $periodic_interval           = $::os_service_default,
   $periodic_fuzzy_delay        = $::os_service_default,
-) {
+) inherits manila::params {
 
   include manila::deps
   include manila::db
-  include manila::params
 
   if $use_ssl {
     if !$cert_file {
