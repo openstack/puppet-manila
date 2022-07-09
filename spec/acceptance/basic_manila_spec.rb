@@ -37,6 +37,7 @@ describe 'basic manila' do
         sql_connection        => 'mysql+pymysql://manila:a_big_secret@127.0.0.1/manila?charset=utf8',
       }
       class { 'manila::db::mysql':
+        charset  => $::openstack_integration::params::mysql_charset,
         password => 'a_big_secret',
       }
       class { 'manila::keystone::auth':
