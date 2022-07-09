@@ -39,6 +39,7 @@ describe 'basic manila' do
         default_transport_url => 'rabbit://manila:an_even_bigger_secret@127.0.0.1:5672/',
       }
       class { 'manila::db::mysql':
+        charset  => $::openstack_integration::params::mysql_charset,
         password => 'a_big_secret',
       }
       class { 'manila::keystone::auth':
