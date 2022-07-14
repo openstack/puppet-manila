@@ -36,7 +36,19 @@ describe 'manila::backends' do
       default_params.merge(params)
     end
 
-    context 'configure manila with default parameters' do
+    context 'with enabled_share_backends set by string' do
+      before :each do
+        params.merge!(
+         :enabled_share_backends => 'lowcost,regular,premium'
+        )
+      end
+
+      it 'configures manila.conf with default params' do
+        is_expected.to contain_manila_config('DEFAULT/enabled_share_backends').with_value(p[:enabled_share_backends])
+      end
+    end
+
+    context 'with enabled_share_backends set by array' do
       before :each do
         params.merge!(
          :enabled_share_backends => ['lowcost', 'regular', 'premium']
