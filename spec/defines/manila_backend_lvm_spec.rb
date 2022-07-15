@@ -7,13 +7,12 @@ describe 'manila::backend::lvm' do
 
     let :params do
       {
-        :driver_handles_share_servers => false,
-        :lvm_share_export_ips         => '1.2.3.4',
-        :lvm_share_export_root        => '$state_path/mnt',
-        :lvm_share_mirrors            => 1,
-        :lvm_share_volume_group       => 'lvm-shares',
-        :lvm_share_helpers            => ['CIFS=manila.share.drivers.helpers.CIFSHelperUserAccess','NFS=manila.share.drivers.helpers.NFSHelper'],
-        :backend_availability_zone    => 'my_zone',
+        :lvm_share_export_ips      => '1.2.3.4',
+        :lvm_share_export_root     => '$state_path/mnt',
+        :lvm_share_mirrors         => 1,
+        :lvm_share_volume_group    => 'lvm-shares',
+        :lvm_share_helpers         => ['CIFS=manila.share.drivers.helpers.CIFSHelperUserAccess','NFS=manila.share.drivers.helpers.NFSHelper'],
+        :backend_availability_zone => 'my_zone',
       }
     end
 
