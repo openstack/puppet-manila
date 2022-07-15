@@ -37,7 +37,7 @@ describe 'Puppet::Type.type(:manila_api_paste_ini)' do
       expect(@manila_api_paste_ini[:value]).to eq('bar')
     end
 
-    it 'should not accept a value with whitespace' do
+    it 'should accept a value with whitespace' do
       @manila_api_paste_ini[:value] = 'b ar'
       expect(@manila_api_paste_ini[:value]).to eq('b ar')
     end
