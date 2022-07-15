@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The ``manila::backend::lvm::driver_handles_share_servers`` parameter has
+    been deprecated and has no effect now. The ``driver_handles_share_servers``
+    option for lvm backends are always set to ``False``.
