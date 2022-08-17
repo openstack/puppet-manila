@@ -40,6 +40,7 @@ describe 'basic manila' do
       }
       class { 'manila::db::mysql':
         charset  => $::openstack_integration::params::mysql_charset,
+        collate  => $::openstack_integration::params::mysql_collate,
         password => 'a_big_secret',
       }
       class { 'manila::keystone::auth':
