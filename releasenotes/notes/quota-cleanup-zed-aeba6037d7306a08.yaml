@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The parameters of the ``manila::quota`` class with ``quota_`` prefix have
+    been removed.

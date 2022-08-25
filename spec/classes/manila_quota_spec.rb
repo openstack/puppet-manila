@@ -69,37 +69,6 @@ describe 'manila::quota' do
           :value => 10)
       end
     end
-
-    context 'with deprecated parameters' do
-      let :params do
-        { :quota_shares             => 1000,
-          :quota_snapshots          => 1000,
-          :quota_gigabytes          => 100000,
-          :quota_driver             => 'manila.quota.DbQuotaDriver',
-          :quota_snapshot_gigabytes => 10000,
-          :quota_share_networks     => 100,
-          :quota_share_replicas     => 10,
-          :quota_replica_gigabytes  => 100,}
-      end
-      it 'contains overrided values' do
-        is_expected.to contain_manila_config('quota/shares').with(
-          :value => 1000)
-        is_expected.to contain_manila_config('quota/snapshots').with(
-          :value => 1000)
-        is_expected.to contain_manila_config('quota/gigabytes').with(
-          :value => 100000)
-        is_expected.to contain_manila_config('quota/driver').with(
-          :value => 'manila.quota.DbQuotaDriver')
-        is_expected.to contain_manila_config('quota/snapshot_gigabytes').with(
-          :value => 10000)
-        is_expected.to contain_manila_config('quota/share_networks').with(
-          :value => 100)
-        is_expected.to contain_manila_config('quota/share_replicas').with(
-          :value => 10)
-        is_expected.to contain_manila_config('quota/replica_gigabytes').with(
-          :value => 100)
-      end
-    end
   end
 
   on_supported_os({
