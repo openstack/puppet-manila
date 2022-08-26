@@ -67,12 +67,11 @@ define manila::backend::glusternative (
     "${share_backend_name}/glusterfs_volume_pattern":      value => $glusterfs_volume_pattern;
   }
 
-  package { $::manila::params::gluster_package_name:
+  ensure_packages( [
+    $::manila::params::gluster_package_name,
+    $::manila::params::gluster_client_package_name
+  ], {
     ensure => $package_ensure,
     tag    => 'manila-support-package',
-  }
-  package { $::manila::params::gluster_client_package_name:
-    ensure => $package_ensure,
-    tag    => 'manila-support-package',
-  }
+  })
 }
