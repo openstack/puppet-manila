@@ -65,12 +65,11 @@ define manila::backend::glusternfs (
     "${share_backend_name}/glusterfs_ganesha_server_ip":   value => $glusterfs_ganesha_server_ip;
   }
 
-  package { $::manila::params::gluster_package_name:
+  ensure_packages( [
+    $::manila::params::gluster_package_name,
+    $::manila::params::gluster_client_package_name
+  ], {
     ensure => $package_ensure,
     tag    => 'manila-support-package',
-  }
-  package { $::manila::params::gluster_client_package_name:
-    ensure => $package_ensure,
-    tag    => 'manila-support-package',
-  }
+  })
 }
