@@ -7,7 +7,6 @@ class manila::params {
 
   $client_package   = 'python3-manilaclient'
   $db_sync_command  = 'manila-manage db sync'
-  $lio_package_name = 'targetcli'
   $user             = 'manila'
   $group            = 'manila'
 
