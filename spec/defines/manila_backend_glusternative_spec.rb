@@ -24,6 +24,17 @@ describe 'manila::backend::glusternative' do
           is_expected.to contain_manila_config("fuse/#{config}").with_value( value )
         end
       end
+
+      it 'installs gluster packages' do
+        is_expected.to contain_package(platform_params[:gluster_package_name]).with(
+          'ensure' => 'installed',
+          'tag'    => 'manila-support-package',
+        )
+        is_expected.to contain_package(platform_params[:gluster_client_package_name]).with(
+          'ensure' => 'installed',
+          'tag'    => 'manila-support-package',
+        )
+      end
     end
   end
 
@@ -33,6 +44,21 @@ describe 'manila::backend::glusternative' do
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
+      end
+
+      let :platform_params do
+        case facts[:osfamily]
+        when 'Debian'
+          {
+            :gluster_client_package_name => 'glusterfs-client',
+            :gluster_package_name        => 'glusterfs-common'
+          }
+        when 'RedHat'
+          {
+            :gluster_client_package_name => 'glusterfs-fuse',
+            :gluster_package_name        => 'glusterfs'
+          }
+        end
       end
 
       it_behaves_like 'glusternative volume driver'
