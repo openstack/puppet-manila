@@ -55,7 +55,7 @@ describe 'basic manila' do
         password => 'a_big_secret',
       }
       class { 'manila::api':
-        service_name        => 'httpd',
+        service_name => 'httpd',
       }
       include apache
       class { 'manila::wsgi::apache':
@@ -64,7 +64,26 @@ describe 'basic manila' do
       class { 'manila::scheduler': }
       class { 'manila::cron::db_purge': }
 
-      # missing: backends, share, service_instance
+      class { 'manila::share': }
+      class { 'manila::backends':
+        enabled_share_backends => ['lvm']
+      }
+      class { 'manila::setup_test_volume':
+        size => '15G',
+      }
+      manila::backend::lvm { 'lvm':
+        lvm_share_export_ips => $::openstack_integration::config::host,
+      }
+
+      # TODO(tkajinam): This should be fixed in the RDO package
+      if $::osfamily == 'RedHat' {
+        file_line { 'manila-sudoers-privsep-helper':
+          path    => '/etc/sudoers.d/manila',
+          line    => 'manila ALL = (root) NOPASSWD: /usr/bin/privsep-helper *',
+          require => Anchor['manila::config::begin'],
+          notify  => Anchor['manila::config::end']
+        }
+      }
 
       manila_type { 'sharetype':
       }

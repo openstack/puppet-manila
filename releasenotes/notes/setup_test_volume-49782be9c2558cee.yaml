@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``manila::setup_test_volume`` class has been added. This class prepares
+    the loop back block device and the volume group for LVM share driver.
