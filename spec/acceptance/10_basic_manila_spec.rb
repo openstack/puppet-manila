@@ -12,78 +12,7 @@ describe 'basic manila' do
       include openstack_integration::rabbitmq
       include openstack_integration::mysql
       include openstack_integration::keystone
-
-      rabbitmq_user { 'manila':
-        admin    => true,
-        password => 'an_even_bigger_secret',
-        provider => 'rabbitmqctl',
-        require  => Class['rabbitmq'],
-      }
-
-      rabbitmq_user_permissions { 'manila@/':
-        configure_permission => '.*',
-        write_permission     => '.*',
-        read_permission      => '.*',
-        provider             => 'rabbitmqctl',
-        require              => Class['rabbitmq'],
-      }
-
-      # Manila resources
-      class { 'manila::logging':
-        debug => true,
-      }
-      class { 'manila::db':
-        database_connection => 'mysql+pymysql://manila:a_big_secret@127.0.0.1/manila?charset=utf8',
-      }
-      class { 'manila':
-        default_transport_url => 'rabbit://manila:an_even_bigger_secret@127.0.0.1:5672/',
-      }
-      class { 'manila::db::mysql':
-        charset  => $::openstack_integration::params::mysql_charset,
-        collate  => $::openstack_integration::params::mysql_collate,
-        password => 'a_big_secret',
-      }
-      class { 'manila::keystone::auth':
-        password    => 'a_big_secret',
-        password_v2 => 'a_big_secret',
-      }
-      class { 'manila::client': }
-      class { 'manila::compute::nova': }
-      class { 'manila::network::neutron': }
-      class { 'manila::volume::cinder': }
-      class { 'manila::keystone::authtoken':
-        password => 'a_big_secret',
-      }
-      class { 'manila::api':
-        service_name => 'httpd',
-      }
-      include apache
-      class { 'manila::wsgi::apache':
-        ssl => false,
-      }
-      class { 'manila::scheduler': }
-      class { 'manila::cron::db_purge': }
-
-      class { 'manila::share': }
-      class { 'manila::backends':
-        enabled_share_backends => ['lvm']
-      }
-      class { 'manila::setup_test_volume':
-        size => '15G',
-      }
-      manila::backend::lvm { 'lvm':
-        lvm_share_export_ips => $::openstack_integration::config::host,
-      }
-
-      # TODO(tkajinam): This should be fixed in the RDO package
-      if $::osfamily == 'RedHat' {
-        file_line { 'manila-sudoers-privsep-helper':
-          path    => '/etc/sudoers.d/manila',
-          line    => 'manila ALL = (root) NOPASSWD: /usr/bin/privsep-helper *',
-          require => Anchor['manila::config::begin'],
-          notify  => Anchor['manila::config::end']
-        }
-      }
+      include openstack_integration::manila
 
       manila_type { 'sharetype':
       }
