@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The ``manila_type`` resource type now uses project scope credential instead
+    of system scope credential, following the change in Manila to retain legacy
+    project admin behavior.

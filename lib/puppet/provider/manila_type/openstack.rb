@@ -36,7 +36,7 @@ Puppet::Type.type(:manila_type).provide(
     opts << '--revert-to-snapshot-support' << @resource[:revert_to_snapshot_support].to_s.capitalize
     opts << '--mount-snapshot-support' << @resource[:mount_snapshot_support].to_s.capitalize
 
-    self.class.system_request('share type', 'create', opts)
+    self.class.request('share type', 'create', opts)
 
     [
       :name,
@@ -56,7 +56,7 @@ Puppet::Type.type(:manila_type).provide(
     if self.class.do_not_manage
       fail("Not managing Manila_type[#{@resource[:name]}] due to earlier Manila API failures.")
     end
-    self.class.system_request('share type', 'delete', name)
+    self.class.request('share type', 'delete', name)
     @property_hash.clear
     @property_hash[:ensure] = :absent
   end
@@ -71,7 +71,7 @@ Puppet::Type.type(:manila_type).provide(
 
   def self.instances
     self.do_not_manage = true
-    list = system_request('share type', 'list').collect do |type|
+    list = request('share type', 'list').collect do |type|
       required_extra_specs = self.parse_specs(type[:required_extra_specs])
       optional_extra_specs = self.parse_specs(type[:optional_extra_specs])
 
@@ -124,7 +124,7 @@ Puppet::Type.type(:manila_type).provide(
         opts << '--mount-snapshot-support' << @property_flush[:mount_snapshot_support].to_s.capitalize
       end
 
-      self.class.system_request('share type', 'set', opts)
+      self.class.request('share type', 'set', opts)
       @property_flush.clear
     end
   end

@@ -18,15 +18,7 @@ class Puppet::Provider::Manila < Puppet::Provider::Openstack
     @manila_conf
   end
 
-  def self.project_request(service, action, properties=nil, options={})
-    self.request(service, action, properties, options, 'project')
-  end
-
-  def self.system_request(service, action, properties=nil, options={})
-    self.request(service, action, properties, options, 'system')
-  end
-
-  def self.request(service, action, properties=nil, options={}, scope='project')
+  def self.request(service, action, properties=nil)
     begin
       super
     rescue Puppet::Error::OpenstackAuthInputError, Puppet::Error::OpenstackUnauthorizedError => error
@@ -34,7 +26,7 @@ class Puppet::Provider::Manila < Puppet::Provider::Openstack
     end
   end
 
-  def self.manila_request(service, action, error, properties=nil, options={})
+  def self.manila_request(service, action, error, properties=nil)
     warning('Usage of keystone_authtoken parameters is deprecated.')
     properties ||= []
     @credentials.username = manila_credentials['username']
@@ -47,7 +39,7 @@ class Puppet::Provider::Manila < Puppet::Provider::Openstack
       @credentials.region_name = manila_credentials['region_name']
     end
     raise error unless @credentials.set?
-    Puppet::Provider::Openstack.request(service, action, properties, @credentials, options)
+    Puppet::Provider::Openstack.request(service, action, properties, @credentials)
   end
 
   def self.manila_credentials
