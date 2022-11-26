@@ -86,11 +86,6 @@ class manila::network::neutron (
 
   include manila::deps
 
-  # TODO(tkajinam): Remove this after Yoga release
-  manila_config {
-    'DEFAULT/network_api_class': ensure => absent;
-  }
-
   if is_service_default($system_scope) {
     $project_name_real = $project_name
     $project_domain_name_real = $project_domain_name
