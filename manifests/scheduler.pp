@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*scheduler_driver*]
-#   (Optional) Description
+#   (Optional) Default scheduler driver to use
 #   Defaults to false.
 #
 # [*package_ensure*]
@@ -33,6 +33,10 @@ class manila::scheduler (
   if $scheduler_driver {
     manila_config {
       'DEFAULT/scheduler_driver': value => $scheduler_driver;
+    }
+  } else {
+    manila_config {
+      'DEFAULT/scheduler_driver': value => $::os_service_default;
     }
   }
 
