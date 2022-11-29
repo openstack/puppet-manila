@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``manila::data`` class has been added. This class configures
+    the ``manila-data`` service.

@@ -16,6 +16,8 @@ class manila::params {
       $package_name                = 'manila-common'
       $api_package                 = 'manila-api'
       $api_service                 = 'manila-api'
+      $data_package                = 'manila-data'
+      $data_service                = 'manila-data'
       $scheduler_package           = 'manila-scheduler'
       $scheduler_service           = 'manila-scheduler'
       $share_package               = 'manila-share'
@@ -31,6 +33,8 @@ class manila::params {
       $package_name                = 'openstack-manila'
       $api_package                 = false
       $api_service                 = 'openstack-manila-api'
+      $data_package                = false
+      $data_service                = 'openstack-manila-data'
       $scheduler_package           = false
       $scheduler_service           = 'openstack-manila-scheduler'
       $share_package               = 'openstack-manila-share'
