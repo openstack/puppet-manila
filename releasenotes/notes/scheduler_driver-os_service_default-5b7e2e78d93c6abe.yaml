@@ -1,0 +1,7 @@
+---
+deprecations:
+  - |
+    Using a false value for ``manila::scheduler::scheduler_driver``  has been
+    deprecated and the specified value will be directly rendered into
+    manila.conf in a future release. Use ``$::os_service_default`` if
+    the service default should be used.
