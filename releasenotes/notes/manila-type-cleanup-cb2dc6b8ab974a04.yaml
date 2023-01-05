@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    The following defined resource types have been removed.
+
+    - ``manila::type``
+    - ``manila::type_set``
