@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The ``manila::backend::netapp::netapp_root_volume_name`` parameter and
+    the ``manila::share::netapp::netapp_root_volume_name`` parameter have been
+    removed.
