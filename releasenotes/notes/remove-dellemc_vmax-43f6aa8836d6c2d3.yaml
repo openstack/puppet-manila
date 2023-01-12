@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Dell EMC VMAX share driver is no longer supported.
