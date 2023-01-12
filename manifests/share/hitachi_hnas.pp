@@ -30,15 +30,9 @@
 #   managing share servers.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*share_backend_name*]
-#   (optional) Name of the backend in manila.conf that
-#   these settings will reside in
-#
 # === Examples
 #
-#  manila::backend::hds_hnas { 'HITACHI1':
+#  class { 'manila::share::hds_hnas':
 #    driver_handles_share_servers => false,
 #    hitachi_hnas_user => 'supervisor',
 #    hitachi_hnas_password => 'supervisor',
@@ -56,13 +50,7 @@ class manila::share::hitachi_hnas (
   $hitachi_hnas_evs_ip,
   $hitachi_hnas_file_system_name,
   $driver_handles_share_servers = false,
-  # DEPRECAED PARAMETERS
-  $share_backend_name           = undef,
 ) {
-
-  if $share_backend_name != undef {
-    warning('The share_backend_name parameter is deprecated and has no effect.')
-  }
 
   manila::backend::hitachi_hnas { 'DEFAULT':
     driver_handles_share_servers  => $driver_handles_share_servers,
