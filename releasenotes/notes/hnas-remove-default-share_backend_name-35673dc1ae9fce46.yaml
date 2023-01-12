@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``manila::share::hitachi_hnas::share_backend_name`` parameter has been
+    removed.
