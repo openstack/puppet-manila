@@ -10,6 +10,11 @@ describe 'manila::backend::ganesha' do
         {}
       end
 
+      it { is_expected.to contain_package('nfs-ganesha').with(
+        :name   => 'nfs-ganesha',
+        :ensure => 'installed'
+      ) }
+
       it 'set the default values' do
         is_expected.to contain_manila_config('ganesha/ganesha_config_dir').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('ganesha/ganesha_config_path').with_value('<SERVICE DEFAULT>')
@@ -48,15 +53,6 @@ describe 'manila::backend::ganesha' do
     end
   end
 
-  shared_examples_for 'manila::backend::ganesha on RedHat' do
-    let(:title) {'ganesha'}
-
-    it { is_expected.to contain_package('nfs-ganesha').with(
-      :name   => 'nfs-ganesha',
-      :ensure => 'installed'
-    ) }
-  end
-
   on_supported_os({
     :supported_os => OSDefaults.get_supported_os
   }).each do |os,facts|
@@ -65,9 +61,6 @@ describe 'manila::backend::ganesha' do
         facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
       end
       it_configures 'manila::backend::ganesha'
-      if facts[:osfamily] == 'RedHat'
-        it_configures 'manila::backend::ganesha on RedHat'
-      end
     end
   end
 end

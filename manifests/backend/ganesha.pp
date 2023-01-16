@@ -83,12 +83,8 @@ define manila::backend::ganesha (
     "${share_backend_name}/ganesha_rados_export_index":    value => $ganesha_rados_export_index;
   }
 
-  if ($::osfamily == 'RedHat') {
-    ensure_packages( 'nfs-ganesha', {
-      ensure => present,
-      tag    => ['openstack', 'manila-support-package'],
-    })
-  } else {
-    warning("Unsupported osfamily ${::osfamily}, Red Hat is the only supported platform.")
-  }
+  ensure_packages( 'nfs-ganesha', {
+    ensure => present,
+    tag    => ['openstack', 'manila-support-package'],
+  })
 }

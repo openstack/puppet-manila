@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``manila::backend::ganesha`` defined resource type now supports Ubuntu
+    and Debian.
