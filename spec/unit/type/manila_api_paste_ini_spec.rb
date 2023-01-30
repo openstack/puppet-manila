@@ -4,7 +4,6 @@ require 'puppet/type/manila_api_paste_ini'
 describe 'Puppet::Type.type(:manila_api_paste_ini)' do
   before :each do
     Puppet::Type.rmtype(:manila_api_paste_ini)
-    Facter.fact(:osfamily).stubs(:value).returns(platform_params[:osfamily])
     @manila_api_paste_ini = Puppet::Type.type(:manila_api_paste_ini).new(:name => 'DEFAULT/foo', :value => 'bar')
   end
 
