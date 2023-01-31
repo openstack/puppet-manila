@@ -44,14 +44,14 @@ describe provider_class do
     describe '#create' do
       context 'with defaults' do
         it 'creates a type' do
-          provider_class.expects(:openstack)
+          expect(provider_class).to receive(:openstack)
             .with('share type', 'create', '--format', 'shell',
                   ['test_type', 'False', '--public', 'True',
                    '--snapshot-support', 'False',
                    '--create-share-from-snapshot-support', 'False',
                    '--revert-to-snapshot-support', 'False',
                    '--mount-snapshot-support', 'False'])
-            .returns('id="90e19aff-1b35-4d60-9ee3-383c530275ab"
+            .and_return('id="90e19aff-1b35-4d60-9ee3-383c530275ab"
 name="test_type"
 visibility="public"
 required_extra_specs="{\'driver_handles_share_servers\': \'False\'}"
@@ -66,9 +66,9 @@ description="None"
 
     describe '#instances' do
       it 'finds types' do
-        provider_class.expects(:openstack)
+        expect(provider_class).to receive(:openstack)
           .with('share type', 'list', '--quiet', '--format', 'csv', [])
-          .returns('"ID","Name","Visibility","Is Default","Required Extra Specs","Optional Extra Specs","Description"
+          .and_return('"ID","Name","Visibility","Is Default","Required Extra Specs","Optional Extra Specs","Description"
 "90e19aff-1b35-4d60-9ee3-383c530275ab","type0","public","False","{\'driver_handles_share_servers\': \'True\'}","{\'snapshot_support\': \'True\'}",""
 "90e19aff-1b35-4d60-9ee3-383c530275ab","type1","private","False","{\'driver_handles_share_servers\': \'False\'}","{}",""
 ')
@@ -96,12 +96,12 @@ description="None"
     describe '#flush' do
       context '.is_public' do
         it 'updates type' do
-          provider_class.expects(:openstack)
+          expect(provider_class).to receive(:openstack)
             .with('share type', 'set', ['test_type', '--public', 'False'])
           provider.is_public = false
           provider.flush
 
-          provider_class.expects(:openstack)
+          expect(provider_class).to receive(:openstack)
             .with('share type', 'set', ['test_type', '--public', 'True'])
           provider.is_public = true
           provider.flush
@@ -110,12 +110,12 @@ description="None"
 
       context '.snapshot_support' do
         it 'updates type' do
-          provider_class.expects(:openstack)
+          expect(provider_class).to receive(:openstack)
             .with('share type', 'set', ['test_type', '--snapshot-support', 'False'])
           provider.snapshot_support = false
           provider.flush
 
-          provider_class.expects(:openstack)
+          expect(provider_class).to receive(:openstack)
             .with('share type', 'set', ['test_type', '--snapshot-support', 'True'])
           provider.snapshot_support = true
           provider.flush
@@ -125,7 +125,7 @@ description="None"
 
     describe '#destroy' do
       it 'destroys a type' do
-        provider_class.expects(:openstack)
+        expect(provider_class).to receive(:openstack)
           .with('share type', 'delete', 'test_type')
         provider.destroy
         expect(provider.exists?).to be_falsey

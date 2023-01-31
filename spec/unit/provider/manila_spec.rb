@@ -15,8 +15,8 @@ describe Puppet::Provider::Manila do
 
     it 'should fail if no auth params are passed and the manila config file does not have the expected contents' do
       mock = {}
-      Puppet::Util::IniConfig::File.expects(:new).returns(mock)
-      mock.expects(:read).with('/etc/manila/manila.conf')
+      expect(Puppet::Util::IniConfig::File).to receive(:new).and_return(mock)
+      expect(mock).to receive(:read).with('/etc/manila/manila.conf')
       expect do
         klass.manila_credentials
       end.to raise_error(Puppet::Error, /Manila types will not work/)
@@ -39,8 +39,8 @@ describe Puppet::Provider::Manila do
           'password'     => 'password',
         }
       }
-      Puppet::Util::IniConfig::File.expects(:new).returns(mock)
-      mock.expects(:read).with('/etc/manila/manila.conf')
+      expect(Puppet::Util::IniConfig::File).to receive(:new).and_return(mock)
+      expect(mock).to receive(:read).with('/etc/manila/manila.conf')
       expect(klass.manila_credentials).to eq(creds_hash)
     end
 
