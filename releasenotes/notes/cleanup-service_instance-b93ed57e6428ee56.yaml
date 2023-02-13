@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The deprecated ``manila::service_instance`` defined resource type has been
+    removed. Use the ``manila::backend::service_instance`` defined resource
+    type instead.
