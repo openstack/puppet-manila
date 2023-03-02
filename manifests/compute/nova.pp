@@ -6,11 +6,11 @@
 #
 # [*insecure*]
 #   (optional) Verify HTTPS connections
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*auth_url*]
 #   (optional) Authentication URL
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*auth_type*]
 #   (optional) Authentication type to load
@@ -19,7 +19,7 @@
 # [*cafile*]
 #   (optional) PEM encoded Certificate Authority to use when verifying HTTPS
 #   connections.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*user_domain_name*]
 #   (optional) User's domain name
@@ -35,16 +35,16 @@
 #
 # [*system_scope*]
 #   (optional) Scope for system operations.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*region_name*]
 #   (optional) Region name for connecting to nova
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*endpoint_type*]
 #   (optional) The type of nova endpoint to use when
 #   looking up in the keystone catalog.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*username*]
 #   (optional) Username
@@ -52,26 +52,26 @@
 #
 # [*password*]
 #   (optional) User's password
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*api_microversion*]
 #   (optional) Version of Nova API to be used
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class manila::compute::nova (
-  $insecure                  = $::os_service_default,
-  $auth_url                  = $::os_service_default,
+  $insecure                  = $facts['os_service_default'],
+  $auth_url                  = $facts['os_service_default'],
   $auth_type                 = 'password',
-  $cafile                    = $::os_service_default,
+  $cafile                    = $facts['os_service_default'],
   $user_domain_name          = 'Default',
   $project_domain_name       = 'Default',
   $project_name              = 'services',
-  $system_scope              = $::os_service_default,
-  $region_name               = $::os_service_default,
-  $endpoint_type             = $::os_service_default,
+  $system_scope              = $facts['os_service_default'],
+  $region_name               = $facts['os_service_default'],
+  $endpoint_type             = $facts['os_service_default'],
   $username                  = 'nova',
-  $password                  = $::os_service_default,
-  $api_microversion          = $::os_service_default,
+  $password                  = $facts['os_service_default'],
+  $api_microversion          = $facts['os_service_default'],
 ) {
 
   include manila::deps
@@ -80,8 +80,8 @@ class manila::compute::nova (
     $project_name_real = $project_name
     $project_domain_name_real = $project_domain_name
   } else {
-    $project_name_real = $::os_service_default
-    $project_domain_name_real = $::os_service_default
+    $project_name_real = $facts['os_service_default']
+    $project_domain_name_real = $facts['os_service_default']
   }
 
   manila_config {

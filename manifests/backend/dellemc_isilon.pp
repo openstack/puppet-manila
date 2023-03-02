@@ -28,11 +28,11 @@
 #   (Optional) Availability zone for this share backend.
 #   If not set, the storage_availability_zone option value
 #   is used as the default for all backends.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*emc_nas_root_dir*]
 #   (optional) The root directory where shares will be located.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*emc_nas_server_port*]
 #   (optional)  Port number for the Dell EMC isilon server.
@@ -66,8 +66,8 @@ define manila::backend::dellemc_isilon (
   $emc_nas_server,
   $emc_share_backend            = 'isilon',
   $share_backend_name           = $name,
-  $backend_availability_zone    = $::os_service_default,
-  $emc_nas_root_dir             = $::os_service_default,
+  $backend_availability_zone    = $facts['os_service_default'],
+  $emc_nas_root_dir             = $facts['os_service_default'],
   $emc_nas_server_port          = 8080,
   $emc_nas_server_secure        = true,
   $package_ensure               = 'present',

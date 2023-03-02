@@ -81,7 +81,7 @@ describe 'manila::scheduler' do
       end
 
       let :platform_params do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :scheduler_service => 'manila-scheduler' }
         when 'RedHat'
@@ -90,7 +90,7 @@ describe 'manila::scheduler' do
       end
 
       it_behaves_like 'manila::scheduler'
-      it_behaves_like "manila::scheduler on #{facts[:osfamily]}"
+      it_behaves_like "manila::scheduler on #{facts[:os]['family']}"
     end
   end
 

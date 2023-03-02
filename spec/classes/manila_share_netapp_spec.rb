@@ -53,7 +53,7 @@ describe 'manila::share::netapp' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+        facts.merge!(OSDefaults.get_facts())
       end
       context 'with default parameters' do
         before do

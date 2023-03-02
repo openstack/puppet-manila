@@ -17,7 +17,7 @@
 #   (Optional) Availability zone for this share backend.
 #   If not set, the storage_availability_zone option value
 #   is used as the default for all backends.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*cephfs_conf_path*]
 #   (optional) Path to cephfs config.
@@ -33,36 +33,36 @@
 #
 # [*cephfs_ganesha_server_ip*]
 #   (optional) IP of a server where Ganesha service runs on.
-#   Defaults to: $::os_service_default
+#   Defaults to: $facts['os_service_default']
 #
 # [*cephfs_ganesha_export_ips*]
 #   (optional) List of IPs on which Ganesha provides NFS share service.
-#   Defaults to: $::os_service_default
+#   Defaults to: $facts['os_service_default']
 #
 # [*cephfs_ganesha_server_is_remote*]
 #   (required) Whether the Ganesha service is remote or colocated on the
 #   same node where the Share service runs.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*cephfs_ganesha_server_username*]
 #   (optional) The username to use when logging on the remote node
 #   hosting the Ganesha service
-#   Defaults to: $::os_service_default
+#   Defaults to: $facts['os_service_default']
 #
 # [*cephfs_ganesha_server_password*]
 #   (optional) The password to use when logging on the remote node
 #   hosting the Ganesha service
-#   Defaults to: $::os_service_default
+#   Defaults to: $facts['os_service_default']
 #
 # [*cephfs_ganesha_path_to_private_key*]
 #   (optional) The secret key to use when logging on the remote node
 #   hosting the Ganesha service (prevails on server_password)
-#   Defaults to: $::os_service_default
+#   Defaults to: $facts['os_service_default']
 #
 # [*cephfs_volume_mode*]
 #   (optional) octal rwx permissions for CephFS backing volumes,
 #   snapshots, and groups of volumes and snapshots.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*cephfs_protocol_helper_type*]
 #   (optional) Sets helper type for CephFS driver, can be CEPHFS or NFS
@@ -71,24 +71,24 @@
 # [*cephfs_filesystem_name*]
 #   (optional) The name of the filesystem to use, if there are multiple
 #   filesystems in the cluster.
-#   Defaults to: $::os_service_default
+#   Defaults to: $facts['os_service_default']
 #
 define manila::backend::cephfs (
   $driver_handles_share_servers       = false,
   $share_backend_name                 = $name,
-  $backend_availability_zone          = $::os_service_default,
+  $backend_availability_zone          = $facts['os_service_default'],
   $cephfs_conf_path                   = '$state_path/ceph.conf',
   $cephfs_auth_id                     = 'manila',
   $cephfs_cluster_name                = 'ceph',
-  $cephfs_ganesha_server_ip           = $::os_service_default,
-  $cephfs_ganesha_export_ips          = $::os_service_default,
-  $cephfs_ganesha_server_is_remote    = $::os_service_default,
-  $cephfs_ganesha_server_username     = $::os_service_default,
-  $cephfs_ganesha_server_password     = $::os_service_default,
-  $cephfs_ganesha_path_to_private_key = $::os_service_default,
-  $cephfs_volume_mode                 = $::os_service_default,
+  $cephfs_ganesha_server_ip           = $facts['os_service_default'],
+  $cephfs_ganesha_export_ips          = $facts['os_service_default'],
+  $cephfs_ganesha_server_is_remote    = $facts['os_service_default'],
+  $cephfs_ganesha_server_username     = $facts['os_service_default'],
+  $cephfs_ganesha_server_password     = $facts['os_service_default'],
+  $cephfs_ganesha_path_to_private_key = $facts['os_service_default'],
+  $cephfs_volume_mode                 = $facts['os_service_default'],
   $cephfs_protocol_helper_type        = 'CEPHFS',
-  $cephfs_filesystem_name             = $::os_service_default,
+  $cephfs_filesystem_name             = $facts['os_service_default'],
 ) {
 
   include manila::deps

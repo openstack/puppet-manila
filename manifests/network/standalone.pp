@@ -16,7 +16,7 @@
 # It will be assigned to share-network and share drivers will be
 # able to use this for network interfaces within provisioned
 # share servers. Optional. Example: 1001
-# Defaults to $::os_service_default
+# Defaults to $facts['os_service_default']
 #
 # [*standalone_network_plugin_allowed_ip_ranges*]
 # (optional) Can be IP address, range of IP addresses or list of addresses
@@ -25,23 +25,23 @@
 # addresses from network can be used. Optional.
 # Examples: 10.0.0.10 or 10.0.0.10-10.0.0.20 or
 # 10.0.0.10-10.0.0.20,10.0.0.30-10.0.0.40,10.0.0.50
-# Defaults to $::os_service_default
+# Defaults to $facts['os_service_default']
 #
 # [*network_plugin_ipv4_enabled*]
 # (optional) Whether to support Ipv4 network resource
-# Defaults to $::os_service_default
+# Defaults to $facts['os_service_default']
 #
 # [*network_plugin_ipv6_enabled*]
 # (optional) whether to support IPv6 network resource
-# Defaults to $::os_service_default
+# Defaults to $facts['os_service_default']
 #
 define manila::network::standalone (
   $standalone_network_plugin_gateway,
   $standalone_network_plugin_mask,
-  $standalone_network_plugin_segmentation_id   = $::os_service_default,
-  $standalone_network_plugin_allowed_ip_ranges = $::os_service_default,
-  $network_plugin_ipv4_enabled                 = $::os_service_default,
-  $network_plugin_ipv6_enabled                 = $::os_service_default,
+  $standalone_network_plugin_segmentation_id   = $facts['os_service_default'],
+  $standalone_network_plugin_allowed_ip_ranges = $facts['os_service_default'],
+  $network_plugin_ipv4_enabled                 = $facts['os_service_default'],
+  $network_plugin_ipv6_enabled                 = $facts['os_service_default'],
 ) {
 
   $standalone_plugin_name = 'manila.network.standalone_network_plugin.StandaloneNetworkPlugin'

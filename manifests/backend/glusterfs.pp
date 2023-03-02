@@ -12,7 +12,7 @@
 #   (Optional) Availability zone for this share backend.
 #   If not set, the storage_availability_zone option value
 #   is used as the default for all backends.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*glusterfs_volumes_config*]
 #   (required) File with the list of Gluster volumes that can be used to
@@ -30,7 +30,7 @@
 #
 define manila::backend::glusterfs (
   $share_backend_name         = $name,
-  $backend_availability_zone  = $::os_service_default,
+  $backend_availability_zone  = $facts['os_service_default'],
   $glusterfs_volumes_config   = '/etc/manila/glusterfs_volumes',
   $glusterfs_mount_point_base = '$state_path/mnt',
 ) {

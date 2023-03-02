@@ -28,35 +28,35 @@
 #   (Optional) Availability zone for this share backend.
 #   If not set, the storage_availability_zone option value
 #   is used as the default for all backends.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*powermax_server_container*]
 #   (optional) Name of the Data Mover to serve the share service.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*powermax_share_data_pools*]
 #   (optional)  Comma separated list specifying the name of the pools to be
 #   used by this back end. Do not set this option if all storage pools on the
 #   system can be used. Wild card character is supported
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*powermax_ethernet_ports*]
 #   (optional) Comma-separated list specifying the ports (devices) of Data Mover
 #   that can be used for share server interface. Do not set this option if all
 #   ports on the Data Mover can be used. Wild card character is supported.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*emc_nas_server_secure*]
 #   (optional) Use SSL validation
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*emc_ssl_cert_path*]
 #   (optional) Path to SSL certificates
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*emc_ssl_cert_verify*]
 #   (optional) Verify SSL certificates
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
@@ -75,13 +75,13 @@ define manila::backend::dellemc_powermax (
   $emc_nas_server,
   $emc_share_backend         = 'powermax',
   $share_backend_name        = $name,
-  $backend_availability_zone = $::os_service_default,
-  $powermax_server_container = $::os_service_default,
-  $powermax_share_data_pools = $::os_service_default,
-  $powermax_ethernet_ports   = $::os_service_default,
-  $emc_nas_server_secure     = $::os_service_default,
-  $emc_ssl_cert_path         = $::os_service_default,
-  $emc_ssl_cert_verify       = $::os_service_default,
+  $backend_availability_zone = $facts['os_service_default'],
+  $powermax_server_container = $facts['os_service_default'],
+  $powermax_share_data_pools = $facts['os_service_default'],
+  $powermax_ethernet_ports   = $facts['os_service_default'],
+  $emc_nas_server_secure     = $facts['os_service_default'],
+  $emc_ssl_cert_path         = $facts['os_service_default'],
+  $emc_ssl_cert_verify       = $facts['os_service_default'],
   $package_ensure            = 'present',
 ) {
 

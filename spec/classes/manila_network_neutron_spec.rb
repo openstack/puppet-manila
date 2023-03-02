@@ -77,7 +77,7 @@ describe 'manila::network::neutron' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+        facts.merge!(OSDefaults.get_facts())
       end
 
       it_behaves_like 'manila::neutron'

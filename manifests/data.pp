@@ -18,19 +18,19 @@
 #
 # [*mount_tmp_location*]
 #   (Optional) Temporary path to create and mount shares during migration.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*check_hash*]
 #   (Optional) Chooses whether hash of each file should be checked on data
 #   copying.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 class manila::data (
   $package_ensure     = 'present',
   $enabled            = true,
   $manage_service     = true,
-  $mount_tmp_location = $::os_service_default,
-  $check_hash         = $::os_service_default,
+  $mount_tmp_location = $facts['os_service_default'],
+  $check_hash         = $facts['os_service_default'],
 ) {
 
   include manila::deps

@@ -6,11 +6,11 @@
 #
 # [*insecure*]
 #   (optional) Verify HTTPS connections
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*auth_url*]
 #   (optional) Authentication URL
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*auth_type*]
 #   (optional) Authentication type to load
@@ -19,7 +19,7 @@
 # [*cafile*]
 #   (optional) PEM encoded Certificate Authority to use when verifying HTTPS
 #   connections.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*user_domain_name*]
 #   (optional) User's domain name
@@ -35,16 +35,16 @@
 #
 # [*system_scope*]
 #   (optional) Scope for system operations.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*region_name*]
 #   (optional) Region name for connecting to cinder
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*endpoint_type*]
 #   (optional) The type of cinder endpoint to use when
 #   looking up in the keystone catalog.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*username*]
 #   (optional) Username
@@ -52,32 +52,32 @@
 #
 # [*password*]
 #   (optional) User's password
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*http_retries*]
 #   (optional) Number of cinderclient retries on failed http calls.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*cross_az_attach*]
 #   (optional) Allow attach between instance and volume in different
 #   availability zones.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class manila::volume::cinder (
-  $insecure                    = $::os_service_default,
-  $auth_url                    = $::os_service_default,
+  $insecure                    = $facts['os_service_default'],
+  $auth_url                    = $facts['os_service_default'],
   $auth_type                   = 'password',
-  $cafile                      = $::os_service_default,
+  $cafile                      = $facts['os_service_default'],
   $user_domain_name            = 'Default',
   $project_domain_name         = 'Default',
   $project_name                = 'services',
-  $system_scope                = $::os_service_default,
-  $region_name                 = $::os_service_default,
-  $endpoint_type               = $::os_service_default,
+  $system_scope                = $facts['os_service_default'],
+  $region_name                 = $facts['os_service_default'],
+  $endpoint_type               = $facts['os_service_default'],
   $username                    = 'cinder',
-  $password                    = $::os_service_default,
-  $http_retries                = $::os_service_default,
-  $cross_az_attach             = $::os_service_default,
+  $password                    = $facts['os_service_default'],
+  $http_retries                = $facts['os_service_default'],
+  $cross_az_attach             = $facts['os_service_default'],
 ) {
 
   include manila::deps
@@ -86,8 +86,8 @@ class manila::volume::cinder (
     $project_name_real = $project_name
     $project_domain_name_real = $project_domain_name
   } else {
-    $project_name_real = $::os_service_default
-    $project_domain_name_real = $::os_service_default
+    $project_name_real = $facts['os_service_default']
+    $project_domain_name_real = $facts['os_service_default']
   }
 
   manila_config {

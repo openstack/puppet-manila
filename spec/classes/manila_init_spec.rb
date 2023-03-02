@@ -230,10 +230,10 @@ describe 'manila' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+        facts.merge!(OSDefaults.get_facts())
       end
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           {
             :lock_path => '/var/lock/manila'

@@ -28,23 +28,23 @@
 #   (Optional) Availability zone for this share backend.
 #   If not set, the storage_availability_zone option value
 #   is used as the default for all backends.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*vnx_server_container*]
 #   (optional) Name of the Data Mover to serve the share service.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*vnx_share_data_pools*]
 #   (optional)  Comma separated list specifying the name of the pools to be
 #   used by this back end. Do not set this option if all storage pools on the
 #   system can be used. Wild card character is supported
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*vnx_ethernet_ports*]
 #   (optional) Comma-separated list specifying the ports (devices) of Data Mover
 #   that can be used for share server interface. Do not set this option if all
 #   ports on the Data Mover can be used. Wild card character is supported.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*network_plugin_ipv6_enabled*]
 #   (optional) Whether to support IPv6 network resource, Default=False.
@@ -61,7 +61,7 @@
 #   (optional) Can be used to specify a non default path to a
 #   CA_BUNDLE file or directory with certificates of trusted
 #   CAs, which will be used to validate the backend.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
@@ -89,13 +89,13 @@ define manila::backend::dellemc_vnx (
   $emc_nas_server,
   $emc_share_backend            = 'vnx',
   $share_backend_name           = $name,
-  $backend_availability_zone    = $::os_service_default,
-  $vnx_server_container         = $::os_service_default,
-  $vnx_share_data_pools         = $::os_service_default,
-  $vnx_ethernet_ports           = $::os_service_default,
+  $backend_availability_zone    = $facts['os_service_default'],
+  $vnx_server_container         = $facts['os_service_default'],
+  $vnx_share_data_pools         = $facts['os_service_default'],
+  $vnx_ethernet_ports           = $facts['os_service_default'],
   $network_plugin_ipv6_enabled  = true,
   $emc_ssl_cert_verify          = undef,
-  $emc_ssl_cert_path            = $::os_service_default,
+  $emc_ssl_cert_path            = $facts['os_service_default'],
   $package_ensure               = 'present',
   $driver_handles_share_servers = undef,
 ) {

@@ -16,24 +16,24 @@
 #   (Optional) Availability zone for this share backend.
 #   If not set, the storage_availability_zone option value
 #   is used as the default for all backends.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*lvm_share_export_root*]
 #  (optional) Base folder where exported shares are located.
-#  Defaults to: $::os_service_default
+#  Defaults to: $facts['os_service_default']
 #
 # [*lvm_share_mirrors*]
 #  (optional) If set, create LVMs with multiple mirrors. Note that this requires
 #  lvm_mirrors + 2 PVs with available space.
-#  Defaults to: $::os_service_default
+#  Defaults to: $facts['os_service_default']
 
 # [*lvm_share_volume_group*]
 #  (optional) Name for the VG that will contain exported shares. (string value)
-#  Defaults to: $::os_service_default
+#  Defaults to: $facts['os_service_default']
 
 # [*lvm_share_helpers*]
 #  (optional) Specify list of share export helpers. (list value)
-#  Defaults to: $::os_service_default
+#  Defaults to: $facts['os_service_default']
 #
 # DEPRECATED PARAMETERS
 #
@@ -47,11 +47,11 @@
 define manila::backend::lvm (
   $lvm_share_export_ips,
   $share_backend_name           = $name,
-  $backend_availability_zone    = $::os_service_default,
-  $lvm_share_export_root        = $::os_service_default,
-  $lvm_share_mirrors            = $::os_service_default,
-  $lvm_share_volume_group       = $::os_service_default,
-  $lvm_share_helpers            = $::os_service_default,
+  $backend_availability_zone    = $facts['os_service_default'],
+  $lvm_share_export_root        = $facts['os_service_default'],
+  $lvm_share_mirrors            = $facts['os_service_default'],
+  $lvm_share_volume_group       = $facts['os_service_default'],
+  $lvm_share_helpers            = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $driver_handles_share_servers = undef,
 ) {

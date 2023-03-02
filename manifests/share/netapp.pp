@@ -67,7 +67,7 @@
 # [*netapp_root_volume*]
 #   (optional) Root volume name. This option only applies when the option
 #   driver_handles_share_servers is set to True.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*netapp_port_name_search_pattern*]
 #   (optional) Pattern for overriding the selection of network ports on which
@@ -103,7 +103,7 @@ class manila::share::netapp (
     $netapp_lif_name_template             = 'os_%(net_allocation_id)s',
     $netapp_aggregate_name_search_pattern = '(.*)',
     $netapp_root_volume_aggregate         = undef,
-    $netapp_root_volume                   = $::os_service_default,
+    $netapp_root_volume                   = $facts['os_service_default'],
     $netapp_port_name_search_pattern      = '(.*)',
     $netapp_trace_flags                   = undef,
 ) {

@@ -12,60 +12,60 @@
 #
 # [*ganesha_config_dir*]
 #  (optional) Directory where Ganesha config files are stored.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*ganesha_config_path*]
 #  (optional) Path to main Ganesha config file.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*ganesha_service_name*]
 #  (optional) Name of the ganesha nfs service.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*ganesha_db_path*]
 #  (optional) Location of Ganesha database file (Ganesha module only).
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*ganesha_export_dir*]
 #  (optional) Path to directory containing Ganesha export configuration.
 #  (Ganesha module only.)
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*ganesha_export_template_dir*]
 #  (optional) Path to directory containing Ganesha export block templates.
 #  (Ganesha module only.)
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*ganesha_rados_store_enable*]
 #  (optional) Persist Ganesha exports and export counter in Ceph RADOS objects
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*ganesha_rados_store_pool_name*]
 #  (optional) Name of the Ceph RADOS pool to store Ganesha exports and export
 #  counter.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*ganesha_rados_export_counter*]
 #  (optional) Name of the CEPH RADOS object used as the Ganesha export counter.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*ganesha_rados_export_index*]
 #  (optional) Name of the CEPH RADOS object used to store a list of the export
 #  RADOS object URLs.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 define manila::backend::ganesha (
   $share_backend_name            = $name,
-  $ganesha_config_dir            = $::os_service_default,
-  $ganesha_config_path           = $::os_service_default,
-  $ganesha_service_name          = $::os_service_default,
-  $ganesha_db_path               = $::os_service_default,
-  $ganesha_export_dir            = $::os_service_default,
-  $ganesha_export_template_dir   = $::os_service_default,
-  $ganesha_rados_store_enable    = $::os_service_default,
-  $ganesha_rados_store_pool_name = $::os_service_default,
-  $ganesha_rados_export_counter  = $::os_service_default,
-  $ganesha_rados_export_index    = $::os_service_default,
+  $ganesha_config_dir            = $facts['os_service_default'],
+  $ganesha_config_path           = $facts['os_service_default'],
+  $ganesha_service_name          = $facts['os_service_default'],
+  $ganesha_db_path               = $facts['os_service_default'],
+  $ganesha_export_dir            = $facts['os_service_default'],
+  $ganesha_export_template_dir   = $facts['os_service_default'],
+  $ganesha_rados_store_enable    = $facts['os_service_default'],
+  $ganesha_rados_store_pool_name = $facts['os_service_default'],
+  $ganesha_rados_export_counter  = $facts['os_service_default'],
+  $ganesha_rados_export_index    = $facts['os_service_default'],
 ) {
 
   include manila::deps

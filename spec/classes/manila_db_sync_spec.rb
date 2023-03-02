@@ -31,10 +31,7 @@ describe 'manila::db::sync' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge(OSDefaults.get_facts({
-          :os_workers     => 8,
-          :concat_basedir => '/var/lib/puppet/concat'
-        }))
+        facts.merge(OSDefaults.get_facts())
       end
 
       it_configures 'manila-dbsync'

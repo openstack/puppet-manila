@@ -19,7 +19,7 @@
 # [*default_share_type*]
 #   (optional) Name of default share type which is used if user doesn't
 #   set a share type explicitly when creating a share.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*enabled*]
 #   (optional) The state of the service
@@ -53,35 +53,35 @@
 # [*enable_proxy_headers_parsing*]
 #   (Optional) Enable paste middleware to handle SSL requests through
 #   HTTPProxyToWSGI middleware.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*max_request_body_size*]
 #   (Optional) Set max request body size
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*enabled_share_protocols*]
 #   (optional) Defines the enabled share protocols provided by Manila.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*service_workers*]
 #   (optional) Number of manila-api workers
-#   Defaults to $::os_workers
+#   Defaults to $facts['os_workers']
 #
 class manila::api (
   $auth_strategy                = 'keystone',
   $package_ensure               = 'present',
   $bind_host                    = '0.0.0.0',
-  $default_share_type           = $::os_service_default,
+  $default_share_type           = $facts['os_service_default'],
   $enabled                      = true,
   $sync_db                      = true,
   $manage_service               = true,
   $service_name                 = $::manila::params::api_service,
   $ratelimits                   = undef,
   $ratelimits_factory           = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
-  $enable_proxy_headers_parsing = $::os_service_default,
-  $max_request_body_size        = $::os_service_default,
-  $enabled_share_protocols      = $::os_service_default,
-  $service_workers              = $::os_workers,
+  $enable_proxy_headers_parsing = $facts['os_service_default'],
+  $max_request_body_size        = $facts['os_service_default'],
+  $enabled_share_protocols      = $facts['os_service_default'],
+  $service_workers              = $facts['os_workers'],
 ) inherits manila::params {
 
   include manila::deps

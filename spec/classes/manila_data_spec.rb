@@ -83,7 +83,7 @@ describe 'manila::data' do
       end
 
       let :platform_params do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :data_service => 'manila-data' }
         when 'RedHat'
@@ -92,7 +92,7 @@ describe 'manila::data' do
       end
 
       it_behaves_like 'manila::data'
-      it_behaves_like "manila::data on #{facts[:osfamily]}"
+      it_behaves_like "manila::data on #{facts[:os]['family']}"
     end
   end
 

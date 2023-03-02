@@ -6,7 +6,7 @@
 #
 # [*scheduler_driver*]
 #   (Optional) Default scheduler driver to use
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*package_ensure*]
 #   (Optional) The state of the scheduler package
@@ -21,7 +21,7 @@
 #   Defaults to true.
 #
 class manila::scheduler (
-  $scheduler_driver = $::os_service_default,
+  $scheduler_driver = $facts['os_service_default'],
   $package_ensure   = 'present',
   $enabled          = true,
   $manage_service   = true
@@ -35,10 +35,10 @@ class manila::scheduler (
       'DEFAULT/scheduler_driver': value => $scheduler_driver
     }
   } else {
-    warning('Using a false value for scheduler_driver is deprecated.'
-            + 'Use $::os_service_default instead.')
+    warning("Using a false value for scheduler_driver is deprecated. \
+Use the os_service_default fact instead.")
     manila_config {
-      'DEFAULT/scheduler_driver': value => $::os_service_default
+      'DEFAULT/scheduler_driver': value => $facts['os_service_default']
     }
   }
 

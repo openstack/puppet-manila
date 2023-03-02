@@ -37,29 +37,29 @@
 #   (Optional) Availability zone for this share backend.
 #   If not set, the storage_availability_zone option value
 #   is used as the default for all backends.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*unity_share_data_pools*]
 #   (optional)  Comma separated list specifying the name of the pools to be
 #   used by this back end. Do not set this option if all storage pools on the
 #   system can be used. Wild card character is supported
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*unity_ethernet_ports*]
 #   (optional) Comma separated list specifying the ethernet ports of Unity
 #   system that can be used for share. Do not set this option if all ethernet
 #   ports can be used. Wild card character is supported. Both the normal ethernet
 #   port and link aggregation port can be used by Unity share driver.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*unity_share_server*]
 #   (optional) NAS server used for creating share when driver is in DHSS=False
 #   mode. It is required when driver_handles_share_servers=False in manila.conf.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*report_default_filter_function*]
 #   (optional) Whether or not report default filter function.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*network_plugin_ipv6_enabled*]
 #   (optional) Whether to support IPv6 network resource, Default=False.
@@ -99,14 +99,14 @@ define manila::backend::dellemc_unity (
   $unity_server_meta_pool,
   $emc_share_backend              = 'unity',
   $share_backend_name             = $name,
-  $backend_availability_zone      = $::os_service_default,
-  $unity_share_data_pools         = $::os_service_default,
-  $unity_ethernet_ports           = $::os_service_default,
-  $unity_share_server             = $::os_service_default,
-  $report_default_filter_function = $::os_service_default,
+  $backend_availability_zone      = $facts['os_service_default'],
+  $unity_share_data_pools         = $facts['os_service_default'],
+  $unity_ethernet_ports           = $facts['os_service_default'],
+  $unity_share_server             = $facts['os_service_default'],
+  $report_default_filter_function = $facts['os_service_default'],
   $network_plugin_ipv6_enabled    = true,
   $emc_ssl_cert_verify            = undef,
-  $emc_ssl_cert_path              = $::os_service_default,
+  $emc_ssl_cert_path              = $facts['os_service_default'],
   $package_ensure                 = 'present',
 ) {
 

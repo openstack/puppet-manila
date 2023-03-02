@@ -39,7 +39,7 @@
 #   (Optional) Availability zone for this share backend.
 #   If not set, the storage_availability_zone option value
 #   is used as the default for all backends.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
@@ -65,7 +65,7 @@ define manila::backend::hitachi_hnas (
   $hitachi_hnas_file_system_name,
   $driver_handles_share_servers = false,
   $share_backend_name           = $name,
-  $backend_availability_zone    = $::os_service_default,
+  $backend_availability_zone    = $facts['os_service_default'],
   $package_ensure               = 'present',
 ) {
 

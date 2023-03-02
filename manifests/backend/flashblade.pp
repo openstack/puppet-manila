@@ -22,7 +22,7 @@
 #   (Optional) Availability zone for this share backend.
 #   If not set, the storage_availability_zone option value
 #   is used as the default for all backends.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*flashblade_eradicate*]
 #   (optional) Fully eradicate deleted shares and snapshots.
@@ -45,7 +45,7 @@ define manila::backend::flashblade (
   $flashblade_mgmt_vip,
   $flashblade_eradicate      = true,
   $share_backend_name        = $name,
-  $backend_availability_zone = $::os_service_default,
+  $backend_availability_zone = $facts['os_service_default'],
   $package_ensure            = 'present',
 ) {
 

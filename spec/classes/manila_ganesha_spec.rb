@@ -50,10 +50,10 @@ describe 'manila::ganesha' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({ :fqdn => 'some.host.tld'}))
+        facts.merge!(OSDefaults.get_facts())
       end
       it_configures 'manila::ganesha'
-      if facts[:osfamily] == 'RedHat'
+      if facts[:os]['family'] == 'RedHat'
         it_configures 'manila::ganesha on RedHat'
       end
     end

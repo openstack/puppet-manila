@@ -10,7 +10,7 @@ class manila::params {
   $user             = 'manila'
   $group            = 'manila'
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
       $lock_path                   = '/var/lock/manila'
       $package_name                = 'manila-common'
@@ -46,7 +46,7 @@ class manila::params {
       $nfs_client_package_name     = 'nfs-utils'
     }
     default: {
-      fail("unsupported osfamily ${::osfamily}, currently Debian and Redhat are the only supported platforms")
+      fail("unsupported osfamily ${facts['os']['family']}, currently Debian and Redhat are the only supported platforms")
     }
 
   }
