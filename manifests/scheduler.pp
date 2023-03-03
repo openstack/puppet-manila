@@ -30,6 +30,9 @@ class manila::scheduler (
   include manila::deps
   include manila::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+
   if $scheduler_driver {
     manila_config {
       'DEFAULT/scheduler_driver': value => $scheduler_driver

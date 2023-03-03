@@ -89,6 +89,10 @@ class manila::api (
   include manila::policy
   require keystone::client
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+  validate_legacy(Boolean, 'validate_bool', $sync_db)
+
   if $::manila::params::api_package {
     package { 'manila-api':
       ensure => $package_ensure,

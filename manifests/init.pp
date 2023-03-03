@@ -251,6 +251,8 @@ class manila (
   include manila::deps
   include manila::db
 
+  validate_legacy(Boolean, 'validate_bool', $use_ssl)
+
   if $use_ssl {
     if !$cert_file {
       fail('The cert_file parameter is required when use_ssl is set to true')

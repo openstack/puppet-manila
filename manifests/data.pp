@@ -36,6 +36,9 @@ class manila::data (
   include manila::deps
   include manila::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+
   if $::manila::params::data_package {
     package { 'manila-data':
       ensure => $package_ensure,

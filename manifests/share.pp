@@ -24,6 +24,9 @@ class manila::share (
   include manila::deps
   include manila::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+
   if $::manila::params::share_package {
     package { 'manila-share':
       ensure => $package_ensure,
