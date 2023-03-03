@@ -148,10 +148,10 @@ server.")
     max_request_body_size        => $max_request_body_size,
   }
 
+  manila_config {
+    'DEFAULT/auth_strategy': value => $auth_strategy;
+  }
   if $auth_strategy == 'keystone' {
-    manila_config {
-      'DEFAULT/auth_strategy': value => $auth_strategy;
-    }
     include manila::keystone::authtoken
   }
 
