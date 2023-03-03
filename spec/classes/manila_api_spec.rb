@@ -36,6 +36,8 @@ describe 'manila::api' do
         )
         is_expected.to contain_manila_config('DEFAULT/default_share_type').with(:value => '<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('DEFAULT/osapi_share_workers').with(:value => '2')
+        is_expected.to contain_manila_api_paste_ini('filter:ratelimit/paste.filter_factory').with_ensure('absent')
+        is_expected.to contain_manila_api_paste_ini('filter:ratelimit/limits').with_ensure('absent')
       end
 
       it 'should run db sync' do
@@ -142,6 +144,9 @@ describe 'manila::api' do
       end
 
       it { is_expected.to contain_class('manila::policy') }
+      it { is_expected.to contain_manila_api_paste_ini('filter:ratelimit/paste.filter_factory').with(
+        :value => 'manila.api.v1.limits:RateLimitingMiddleware.factory'
+      )}
       it { is_expected.to contain_manila_api_paste_ini('filter:ratelimit/limits').with(
         :value => '(GET, "*", .*, 100, MINUTE);(POST, "*", .*, 200, MINUTE)'
       )}
