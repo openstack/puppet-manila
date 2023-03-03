@@ -153,12 +153,17 @@ server.")
       'DEFAULT/auth_strategy': value => $auth_strategy;
     }
     include manila::keystone::authtoken
+  }
 
-    if ($ratelimits != undef) {
-      manila_api_paste_ini {
-        'filter:ratelimit/paste.filter_factory': value => $ratelimits_factory;
-        'filter:ratelimit/limits':               value => $ratelimits;
-      }
+  if $ratelimits != undef {
+    manila_api_paste_ini {
+      'filter:ratelimit/paste.filter_factory': value => $ratelimits_factory;
+      'filter:ratelimit/limits':               value => $ratelimits;
+    }
+  } else {
+    manila_api_paste_ini {
+      'filter:ratelimit/paste.filter_factory': ensure => absent;
+      'filter:ratelimit/limits':               ensure => absent;
     }
   }
 }
