@@ -54,6 +54,9 @@
 #    all cron jobs at the same time on all hosts this job is configured.
 #    Defaults to 0.
 #
+#  [*ensure*]
+#    (optional) Ensure cron jobs present or absent
+#    Defaults to present.
 #
 class manila::cron::db_purge (
   $minute      = 1,
@@ -65,6 +68,7 @@ class manila::cron::db_purge (
   $age         = 0,
   $destination = '/var/log/manila/manila-rowsflush.log',
   $maxdelay    = 0,
+  Enum['present', 'absent'] $ensure = 'present',
 ) inherits manila::params {
 
   include manila::deps
@@ -76,6 +80,7 @@ class manila::cron::db_purge (
   }
 
   cron { 'manila-manage db purge':
+    ensure      => $ensure,
     command     => "${sleep}manila-manage db purge ${age} >>${destination} 2>&1",
     environment => 'PATH=/bin:/usr/bin:/usr/sbin SHELL=/bin/sh',
     user        => $user,
