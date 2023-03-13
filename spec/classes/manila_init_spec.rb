@@ -22,9 +22,10 @@ describe 'manila' do
 
       it 'should contain default config' do
         is_expected.to contain_oslo__messaging__default('manila_config').with(
-          :transport_url        => '<SERVICE DEFAULT>',
-          :rpc_response_timeout => '<SERVICE DEFAULT>',
-          :control_exchange     => '<SERVICE DEFAULT>',
+          :executor_thread_pool_size => '<SERVICE DEFAULT>',
+          :transport_url             => '<SERVICE DEFAULT>',
+          :rpc_response_timeout      => '<SERVICE DEFAULT>',
+          :control_exchange          => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_oslo__messaging__notifications('manila_config').with(
           :transport_url => '<SERVICE DEFAULT>',
@@ -186,13 +187,15 @@ describe 'manila' do
           :rpc_response_timeout       => '120',
           :control_exchange           => 'manila',
           :notification_transport_url => 'rabbit://rabbit_user:password@localhost:5673',
+          :executor_thread_pool_size  => 64,
         }
       end
 
       it { is_expected.to contain_oslo__messaging__default('manila_config').with(
-        :transport_url        => 'rabbit://rabbit_user:password@localhost:5673',
-        :rpc_response_timeout => '120',
-        :control_exchange     => 'manila',
+        :executor_thread_pool_size => 64,
+        :transport_url             => 'rabbit://rabbit_user:password@localhost:5673',
+        :rpc_response_timeout      => '120',
+        :control_exchange          => 'manila',
       ) }
 
       it { is_expected.to contain_oslo__messaging__notifications('manila_config').with(

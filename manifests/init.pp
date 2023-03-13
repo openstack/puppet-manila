@@ -20,6 +20,10 @@
 #   (Optional) The default exchange under which topics are scope.
 #   Defaults to $facts['os_service_default']
 #
+# [*executor_thread_pool_size*]
+#   (Optional) Size of executor thread pool when executor is threading or eventlet.
+#   Defaults to $facts['os_service_default'].
+#
 # [*package_ensure*]
 #    (Optional) Ensure state for package.
 #    Defaults to 'present'
@@ -204,6 +208,7 @@ class manila (
   $default_transport_url       = $facts['os_service_default'],
   $rpc_response_timeout        = $facts['os_service_default'],
   $control_exchange            = $facts['os_service_default'],
+  $executor_thread_pool_size   = $facts['os_service_default'],
   $notification_transport_url  = $facts['os_service_default'],
   $notification_driver         = 'messaging',
   $notification_topics         = $facts['os_service_default'],
@@ -304,9 +309,10 @@ class manila (
   }
 
   oslo::messaging::default { 'manila_config':
-    transport_url        => $default_transport_url,
-    rpc_response_timeout => $rpc_response_timeout,
-    control_exchange     => $control_exchange,
+    executor_thread_pool_size => $executor_thread_pool_size,
+    transport_url             => $default_transport_url,
+    rpc_response_timeout      => $rpc_response_timeout,
+    control_exchange          => $control_exchange,
   }
 
   oslo::messaging::notifications { 'manila_config':
