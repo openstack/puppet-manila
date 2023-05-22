@@ -19,7 +19,7 @@ describe 'manila::backend::dellemc_vnx' do
       :vnx_share_data_pools         => '<SERVICE DEFAULT>',
       :vnx_ethernet_ports           => '<SERVICE DEFAULT>',
       :network_plugin_ipv6_enabled  => true,
-      :emc_ssl_cert_verify          => false,
+      :emc_ssl_cert_verify          => '<SERVICE DEFAULT>',
       :emc_ssl_cert_path            => '<SERVICE DEFAULT>',
       :backend_availability_zone    => '<SERVICE DEFAULT>',
     }

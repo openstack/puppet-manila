@@ -55,7 +55,7 @@
 # [*emc_ssl_cert_verify*]
 #   (optional) If set to False the https client will not validate the
 #   SSL certificate of the backend endpoint.
-#   Defaults to false
+#   Defaults to $facts['os_service_default']
 #
 # [*emc_ssl_cert_path*]
 #   (optional) Can be used to specify a non default path to a
@@ -94,7 +94,7 @@ define manila::backend::dellemc_vnx (
   $vnx_share_data_pools         = $facts['os_service_default'],
   $vnx_ethernet_ports           = $facts['os_service_default'],
   $network_plugin_ipv6_enabled  = true,
-  $emc_ssl_cert_verify          = undef,
+  $emc_ssl_cert_verify          = $facts['os_service_default'],
   $emc_ssl_cert_path            = $facts['os_service_default'],
   $package_ensure               = 'present',
   $driver_handles_share_servers = undef,
@@ -104,11 +104,6 @@ define manila::backend::dellemc_vnx (
   include manila::params
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
-
-  if $emc_ssl_cert_verify == undef {
-    warning('Default of emc_ssl_cert_verify will be changed from false to service default(true).')
-  }
-  $emc_ssl_cert_verify_real = pick($emc_ssl_cert_verify, false)
 
   if $driver_handles_share_servers != undef {
     warning('The driver_handles_share_servers parameter has been deprecated and has no effect')
@@ -129,7 +124,7 @@ define manila::backend::dellemc_vnx (
     "${share_backend_name}/vnx_share_data_pools":         value => join(any2array($vnx_share_data_pools), ',');
     "${share_backend_name}/vnx_ethernet_ports":           value => join(any2array($vnx_ethernet_ports), ',');
     "${share_backend_name}/network_plugin_ipv6_enabled":  value => $network_plugin_ipv6_enabled;
-    "${share_backend_name}/emc_ssl_cert_verify":          value => $emc_ssl_cert_verify_real;
+    "${share_backend_name}/emc_ssl_cert_verify":          value => $emc_ssl_cert_verify;
     "${share_backend_name}/emc_ssl_cert_path":            value => $emc_ssl_cert_path;
   }
 
