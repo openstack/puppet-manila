@@ -22,7 +22,7 @@ describe 'manila::backend::dellemc_unity' do
       :unity_share_server             => '<SERVICE DEFAULT>',
       :report_default_filter_function => '<SERVICE DEFAULT>',
       :network_plugin_ipv6_enabled    => true,
-      :emc_ssl_cert_verify            => false,
+      :emc_ssl_cert_verify            => '<SERVICE DEFAULT>',
       :emc_ssl_cert_path              => '<SERVICE DEFAULT>',
       :backend_availability_zone      => '<SERVICE DEFAULT>',
     }

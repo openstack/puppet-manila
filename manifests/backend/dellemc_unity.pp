@@ -70,13 +70,13 @@
 # [*emc_ssl_cert_verify*]
 #   (optional) If set to False the https client will not validate the
 #   SSL certificate of the backend endpoint.
-#   Defaults to false
+#   Defaults to $facts['os_service_default']
 #
 # [*emc_ssl_cert_path*]
 #   (optional) Can be used to specify a non default path to a
 #   CA_BUNDLE file or directory with certificates of trusted
 #   CAs, which will be used to validate the backend.
-#   Defaults to None
+#   Defaults to $facts['os_service_default']
 #
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
@@ -105,7 +105,7 @@ define manila::backend::dellemc_unity (
   $unity_share_server             = $facts['os_service_default'],
   $report_default_filter_function = $facts['os_service_default'],
   $network_plugin_ipv6_enabled    = true,
-  $emc_ssl_cert_verify            = undef,
+  $emc_ssl_cert_verify            = $facts['os_service_default'],
   $emc_ssl_cert_path              = $facts['os_service_default'],
   $package_ensure                 = 'present',
 ) {
@@ -114,11 +114,6 @@ define manila::backend::dellemc_unity (
   include manila::params
 
   validate_legacy(String, 'validate_string', $emc_nas_password)
-
-  if $emc_ssl_cert_verify == undef {
-    warning('Default of emc_ssl_cert_verify will be changed from false to service default(true).')
-  }
-  $emc_ssl_cert_verify_real = pick($emc_ssl_cert_verify, false)
 
   $unity_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
@@ -137,7 +132,7 @@ define manila::backend::dellemc_unity (
     "${share_backend_name}/unity_share_server":             value => $unity_share_server;
     "${share_backend_name}/report_default_filter_function": value => $report_default_filter_function;
     "${share_backend_name}/network_plugin_ipv6_enabled":    value => $network_plugin_ipv6_enabled;
-    "${share_backend_name}/emc_ssl_cert_verify":            value => $emc_ssl_cert_verify_real;
+    "${share_backend_name}/emc_ssl_cert_verify":            value => $emc_ssl_cert_verify;
     "${share_backend_name}/emc_ssl_cert_path":              value => $emc_ssl_cert_path;
   }
 
