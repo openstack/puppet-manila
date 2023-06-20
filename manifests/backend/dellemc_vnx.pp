@@ -84,9 +84,9 @@
 #  }
 #
 define manila::backend::dellemc_vnx (
-  $emc_nas_login,
-  $emc_nas_password,
-  $emc_nas_server,
+  String[1] $emc_nas_login,
+  String[1] $emc_nas_password,
+  String[1] $emc_nas_server,
   $emc_share_backend            = 'vnx',
   $share_backend_name           = $name,
   $backend_availability_zone    = $facts['os_service_default'],
@@ -102,8 +102,6 @@ define manila::backend::dellemc_vnx (
 
   include manila::deps
   include manila::params
-
-  validate_legacy(String, 'validate_string', $emc_nas_password)
 
   if $driver_handles_share_servers != undef {
     warning('The driver_handles_share_servers parameter has been deprecated and has no effect')

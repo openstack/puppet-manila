@@ -70,9 +70,9 @@
 #  }
 #
 define manila::backend::dellemc_powermax (
-  $emc_nas_login,
-  $emc_nas_password,
-  $emc_nas_server,
+  String[1] $emc_nas_login,
+  String[1] $emc_nas_password,
+  String[1] $emc_nas_server,
   $emc_share_backend         = 'powermax',
   $share_backend_name        = $name,
   $backend_availability_zone = $facts['os_service_default'],
@@ -86,8 +86,6 @@ define manila::backend::dellemc_powermax (
 ) {
 
   include manila::deps
-
-  validate_legacy(String, 'validate_string', $emc_nas_password)
 
   $powermax_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 

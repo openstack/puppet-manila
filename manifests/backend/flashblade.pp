@@ -40,9 +40,9 @@
 #  }
 #
 define manila::backend::flashblade (
-  $flashblade_api,
-  $flashblade_data_vip,
-  $flashblade_mgmt_vip,
+  String[1] $flashblade_api,
+  String[1] $flashblade_data_vip,
+  String[1] $flashblade_mgmt_vip,
   $flashblade_eradicate      = true,
   $share_backend_name        = $name,
   $backend_availability_zone = $facts['os_service_default'],
@@ -51,8 +51,6 @@ define manila::backend::flashblade (
 
   include manila::deps
   include manila::params
-
-  validate_legacy(String, 'validate_string', $flashblade_api)
 
   $flashblade_share_driver = 'manila.share.drivers.purestorage.flashblade.FlashBladeShareDriver'
 

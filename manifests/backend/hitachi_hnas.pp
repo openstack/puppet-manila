@@ -57,11 +57,11 @@
 #  }
 
 define manila::backend::hitachi_hnas (
-  $hitachi_hnas_user,
-  $hitachi_hnas_password,
-  $hitachi_hnas_ip,
-  $hitachi_hnas_evs_id,
-  $hitachi_hnas_evs_ip,
+  String[1] $hitachi_hnas_user,
+  String[1] $hitachi_hnas_password,
+  String[1] $hitachi_hnas_ip,
+  String[1] $hitachi_hnas_evs_id,
+  String[1] $hitachi_hnas_evs_ip,
   $hitachi_hnas_file_system_name,
   $driver_handles_share_servers = false,
   $share_backend_name           = $name,
@@ -71,8 +71,6 @@ define manila::backend::hitachi_hnas (
 
   include manila::deps
   include manila::params
-
-  validate_legacy(String, 'validate_string', $hitachi_hnas_password)
 
   $hitachi_share_driver = 'manila.share.drivers.hitachi.hds_hnas.HDSHNASDriver'
 

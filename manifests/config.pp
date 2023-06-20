@@ -31,16 +31,12 @@
 #   or Puppet catalog compilation will fail with duplicate resources.
 #
 class manila::config (
-  $manila_config          = {},
-  $api_paste_ini_config   = {},
-  $manila_rootwrap_config = {},
+  Hash $manila_config          = {},
+  Hash $api_paste_ini_config   = {},
+  Hash $manila_rootwrap_config = {},
 ) {
 
   include manila::deps
-
-  validate_legacy(Hash, 'validate_hash', $manila_config)
-  validate_legacy(Hash, 'validate_hash', $api_paste_ini_config)
-  validate_legacy(Hash, 'validate_hash', $manila_rootwrap_config)
 
   create_resources('manila_config', $manila_config)
   create_resources('manila_api_paste_ini', $api_paste_ini_config)

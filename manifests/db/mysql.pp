@@ -35,7 +35,7 @@
 #   Defaults to 'localzone'.
 #
 class manila::db::mysql (
-  $password,
+  String[1] $password,
   $dbname        = 'manila',
   $user          = 'manila',
   $host          = '127.0.0.1',
@@ -46,8 +46,6 @@ class manila::db::mysql (
 ) {
 
   include manila::deps
-
-  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::mysql { 'manila':
     user          => $user,

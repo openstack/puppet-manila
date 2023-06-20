@@ -26,18 +26,15 @@
 #   Defaults to $facts['os_service_default'].
 #
 class manila::data (
-  $package_ensure     = 'present',
-  $enabled            = true,
-  $manage_service     = true,
-  $mount_tmp_location = $facts['os_service_default'],
-  $check_hash         = $facts['os_service_default'],
+  $package_ensure         = 'present',
+  Boolean $enabled        = true,
+  Boolean $manage_service = true,
+  $mount_tmp_location     = $facts['os_service_default'],
+  $check_hash             = $facts['os_service_default'],
 ) {
 
   include manila::deps
   include manila::params
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   if $::manila::params::data_package {
     package { 'manila-data':

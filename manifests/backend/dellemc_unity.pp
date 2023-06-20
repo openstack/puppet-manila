@@ -93,10 +93,10 @@
 #
 define manila::backend::dellemc_unity (
   $driver_handles_share_servers,
-  $emc_nas_login,
-  $emc_nas_password,
-  $emc_nas_server,
-  $unity_server_meta_pool,
+  String[1] $emc_nas_login,
+  String[1] $emc_nas_password,
+  String[1] $emc_nas_server,
+  String[1] $unity_server_meta_pool,
   $emc_share_backend              = 'unity',
   $share_backend_name             = $name,
   $backend_availability_zone      = $facts['os_service_default'],

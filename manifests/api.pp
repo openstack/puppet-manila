@@ -72,9 +72,9 @@ class manila::api (
   $package_ensure               = 'present',
   $bind_host                    = '0.0.0.0',
   $default_share_type           = $facts['os_service_default'],
-  $enabled                      = true,
-  $sync_db                      = true,
-  $manage_service               = true,
+  Boolean $enabled              = true,
+  Boolean $sync_db              = true,
+  Boolean $manage_service       = true,
   $service_name                 = $::manila::params::api_service,
   $ratelimits                   = undef,
   $ratelimits_factory           = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
@@ -88,10 +88,6 @@ class manila::api (
   include manila::params
   include manila::policy
   require keystone::client
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
-  validate_legacy(Boolean, 'validate_bool', $sync_db)
 
   if $::manila::params::api_package {
     package { 'manila-api':

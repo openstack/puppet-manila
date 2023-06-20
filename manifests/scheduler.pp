@@ -21,17 +21,14 @@
 #   Defaults to true.
 #
 class manila::scheduler (
-  $scheduler_driver = $facts['os_service_default'],
-  $package_ensure   = 'present',
-  $enabled          = true,
-  $manage_service   = true
+  $scheduler_driver       = $facts['os_service_default'],
+  $package_ensure         = 'present',
+  Boolean $enabled        = true,
+  Boolean $manage_service = true
 ) {
 
   include manila::deps
   include manila::params
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   if $scheduler_driver {
     manila_config {

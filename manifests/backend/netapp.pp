@@ -112,9 +112,9 @@
 #
 define manila::backend::netapp (
   $driver_handles_share_servers,
-  $netapp_login,
-  $netapp_password,
-  $netapp_server_hostname,
+  String[1] $netapp_login,
+  String[1] $netapp_password,
+  String[1] $netapp_server_hostname,
   $share_backend_name                   = $name,
   $backend_availability_zone            = $facts['os_service_default'],
   $netapp_transport_type                = $facts['os_service_default'],
