@@ -67,6 +67,7 @@ class manila::policy (
     file_group   => $::manila::params::group,
     file_format  => 'yaml',
     purge_config => $purge_config,
+    tag          => 'manila',
   }
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
