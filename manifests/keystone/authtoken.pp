@@ -5,8 +5,7 @@
 # === Parameters
 #
 # [*password*]
-#   (Optional) Password to create for the service user
-#   Defaults to $facts['os_service_default']
+#   (Required) Password to create for the service user
 #
 # [*username*]
 #   (Optional) The name of the service user
@@ -196,7 +195,7 @@
 #  authtoken class. Values set here override the individual parameters above.
 #
 class manila::keystone::authtoken(
-  $password                       = $facts['os_service_default'],
+  String[1] $password,
   $username                       = 'manila',
   $auth_url                       = 'http://localhost:5000',
   $project_name                   = 'services',
@@ -237,10 +236,6 @@ class manila::keystone::authtoken(
 ) {
 
   include manila::deps
-
-  if is_service_default($password) {
-    fail('Please set password for manila service user')
-  }
 
   keystone::resource::authtoken {
     'manila_config':
