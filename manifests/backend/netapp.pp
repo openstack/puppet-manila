@@ -135,8 +135,6 @@ define manila::backend::netapp (
   include manila::deps
   include manila::params
 
-  validate_legacy(String, 'validate_string', $netapp_password)
-
   $netapp_share_driver = 'manila.share.drivers.netapp.common.NetAppDriver'
 
   manila_config {

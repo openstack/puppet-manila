@@ -113,8 +113,6 @@ define manila::backend::dellemc_unity (
   include manila::deps
   include manila::params
 
-  validate_legacy(String, 'validate_string', $emc_nas_password)
-
   $unity_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
