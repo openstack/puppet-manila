@@ -222,7 +222,7 @@ class manila (
   $amqp_durable_queues         = $facts['os_service_default'],
   $rabbit_heartbeat_in_pthread = $facts['os_service_default'],
   $package_ensure              = 'present',
-  $use_ssl                     = false,
+  Boolean $use_ssl             = false,
   $ca_file                     = false,
   $cert_file                   = false,
   $key_file                    = false,
@@ -255,8 +255,6 @@ class manila (
 
   include manila::deps
   include manila::db
-
-  validate_legacy(Boolean, 'validate_bool', $use_ssl)
 
   if $use_ssl {
     if !$cert_file {
