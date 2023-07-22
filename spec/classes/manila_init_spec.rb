@@ -210,12 +210,12 @@ describe 'manila' do
       end
 
       it { is_expected.to contain_oslo__messaging__amqp('manila_config').with(
-          :server_request_prefix => 'exclusive',
-          :broadcast_prefix      => 'broadcast',
-          :group_request_prefix  => 'unicast',
+          :server_request_prefix => '<SERVICE DEFAULT>',
+          :broadcast_prefix      => '<SERVICE DEFAULT>',
+          :group_request_prefix  => '<SERVICE DEFAULT>',
           :container_name        => 'guest',
-          :idle_timeout          => '0',
-          :trace                 => 'false',
+          :idle_timeout          => '<SERVICE DEFAULT>',
+          :trace                 => '<SERVICE DEFAULT>',
           :ssl_ca_file           => '<SERVICE DEFAULT>',
           :ssl_cert_file         => '<SERVICE DEFAULT>',
           :ssl_key_file          => '<SERVICE DEFAULT>',
