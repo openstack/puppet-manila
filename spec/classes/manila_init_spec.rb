@@ -213,7 +213,7 @@ describe 'manila' do
           :server_request_prefix => '<SERVICE DEFAULT>',
           :broadcast_prefix      => '<SERVICE DEFAULT>',
           :group_request_prefix  => '<SERVICE DEFAULT>',
-          :container_name        => 'guest',
+          :container_name        => '<SERVICE DEFAULT>',
           :idle_timeout          => '<SERVICE DEFAULT>',
           :trace                 => '<SERVICE DEFAULT>',
           :ssl_ca_file           => '<SERVICE DEFAULT>',

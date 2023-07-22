@@ -234,7 +234,7 @@ class manila (
   $amqp_server_request_prefix  = $facts['os_service_default'],
   $amqp_broadcast_prefix       = $facts['os_service_default'],
   $amqp_group_request_prefix   = $facts['os_service_default'],
-  $amqp_container_name         = 'guest',
+  $amqp_container_name         = $facts['os_service_default'],
   $amqp_idle_timeout           = $facts['os_service_default'],
   $amqp_trace                  = $facts['os_service_default'],
   $amqp_ssl_ca_file            = $facts['os_service_default'],
