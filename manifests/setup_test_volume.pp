@@ -21,10 +21,10 @@
 #   Defaults to '/var/lib/manila'.
 #
 class manila::setup_test_volume(
-  $volume_name     = 'lvm-shares',
-  $volume_path     = '/var/lib/manila',
-  $size            = '4G',
-  $loopback_device = '/dev/loop2'
+  String[1] $volume_name            = 'lvm-shares',
+  Stdlib::Absolutepath $volume_path = '/var/lib/manila',
+  $size                             = '4G',
+  $loopback_device                  = '/dev/loop2'
 ) {
 
   include manila::deps
