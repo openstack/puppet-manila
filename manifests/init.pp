@@ -48,6 +48,24 @@
 #   (optional) Use HA queues in RabbitMQ (x-ha-policy: all).
 #   Defaults to  $facts['os_service_default'].
 #
+# [*rabbit_quorum_queue*]
+#   (Optional) Use quorum queues in RabbitMQ.
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_quorum_delivery_limit*]
+#   (Optional) Each time a message is rdelivered to a consumer, a counter is
+#   incremented. Once the redelivery count exceeds the delivery limit
+#   the message gets dropped or dead-lettered.
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_quorum_max_memory_length*]
+#   (Optional) Limit the number of messages in the quorum queue.
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_quorum_max_memory_bytes*]
+#   (Optional) Limit the number of memory bytes used by the quorum queue.
+#   Defaults to $facts['os_service_default']
+#
 # [*rabbit_use_ssl*]
 #   (Optional) Connect over SSL for RabbitMQ.
 #   Defaults to $facts['os_service_default'].
@@ -205,52 +223,56 @@
 #   Defaults to $facts['os_service_default'].
 #
 class manila (
-  $default_transport_url       = $facts['os_service_default'],
-  $rpc_response_timeout        = $facts['os_service_default'],
-  $control_exchange            = $facts['os_service_default'],
-  $executor_thread_pool_size   = $facts['os_service_default'],
-  $notification_transport_url  = $facts['os_service_default'],
-  $notification_driver         = 'messaging',
-  $notification_topics         = $facts['os_service_default'],
-  $rabbit_ha_queues            = $facts['os_service_default'],
-  $rabbit_use_ssl              = $facts['os_service_default'],
-  $kombu_ssl_ca_certs          = $facts['os_service_default'],
-  $kombu_ssl_certfile          = $facts['os_service_default'],
-  $kombu_ssl_keyfile           = $facts['os_service_default'],
-  $kombu_ssl_version           = $facts['os_service_default'],
-  $kombu_failover_strategy     = $facts['os_service_default'],
-  $amqp_durable_queues         = $facts['os_service_default'],
-  $rabbit_heartbeat_in_pthread = $facts['os_service_default'],
-  $package_ensure              = 'present',
-  Boolean $use_ssl             = false,
-  $ca_file                     = false,
-  $cert_file                   = false,
-  $key_file                    = false,
-  $api_paste_config            = '/etc/manila/api-paste.ini',
-  $storage_availability_zone   = 'nova',
-  $rootwrap_config             = '/etc/manila/rootwrap.conf',
-  $state_path                  = '/var/lib/manila',
-  $lock_path                   = $::manila::params::lock_path,
-  $amqp_server_request_prefix  = $facts['os_service_default'],
-  $amqp_broadcast_prefix       = $facts['os_service_default'],
-  $amqp_group_request_prefix   = $facts['os_service_default'],
-  $amqp_container_name         = $facts['os_service_default'],
-  $amqp_idle_timeout           = $facts['os_service_default'],
-  $amqp_trace                  = $facts['os_service_default'],
-  $amqp_ssl_ca_file            = $facts['os_service_default'],
-  $amqp_ssl_cert_file          = $facts['os_service_default'],
-  $amqp_ssl_key_file           = $facts['os_service_default'],
-  $amqp_ssl_key_password       = $facts['os_service_default'],
-  $amqp_sasl_mechanisms        = $facts['os_service_default'],
-  $amqp_sasl_config_dir        = $facts['os_service_default'],
-  $amqp_sasl_config_name       = $facts['os_service_default'],
-  $amqp_username               = $facts['os_service_default'],
-  $amqp_password               = $facts['os_service_default'],
-  Boolean $purge_config        = false,
-  $host                        = $facts['os_service_default'],
-  $report_interval             = $facts['os_service_default'],
-  $periodic_interval           = $facts['os_service_default'],
-  $periodic_fuzzy_delay        = $facts['os_service_default'],
+  $default_transport_url           = $facts['os_service_default'],
+  $rpc_response_timeout            = $facts['os_service_default'],
+  $control_exchange                = $facts['os_service_default'],
+  $executor_thread_pool_size       = $facts['os_service_default'],
+  $notification_transport_url      = $facts['os_service_default'],
+  $notification_driver             = 'messaging',
+  $notification_topics             = $facts['os_service_default'],
+  $rabbit_ha_queues                = $facts['os_service_default'],
+  $rabbit_quorum_queue             = $facts['os_service_default'],
+  $rabbit_quorum_delivery_limit    = $facts['os_service_default'],
+  $rabbit_quorum_max_memory_length = $facts['os_service_default'],
+  $rabbit_quorum_max_memory_bytes  = $facts['os_service_default'],
+  $rabbit_use_ssl                  = $facts['os_service_default'],
+  $kombu_ssl_ca_certs              = $facts['os_service_default'],
+  $kombu_ssl_certfile              = $facts['os_service_default'],
+  $kombu_ssl_keyfile               = $facts['os_service_default'],
+  $kombu_ssl_version               = $facts['os_service_default'],
+  $kombu_failover_strategy         = $facts['os_service_default'],
+  $amqp_durable_queues             = $facts['os_service_default'],
+  $rabbit_heartbeat_in_pthread     = $facts['os_service_default'],
+  $package_ensure                  = 'present',
+  Boolean $use_ssl                 = false,
+  $ca_file                         = false,
+  $cert_file                       = false,
+  $key_file                        = false,
+  $api_paste_config                = '/etc/manila/api-paste.ini',
+  $storage_availability_zone       = 'nova',
+  $rootwrap_config                 = '/etc/manila/rootwrap.conf',
+  $state_path                      = '/var/lib/manila',
+  $lock_path                       = $::manila::params::lock_path,
+  $amqp_server_request_prefix      = $facts['os_service_default'],
+  $amqp_broadcast_prefix           = $facts['os_service_default'],
+  $amqp_group_request_prefix       = $facts['os_service_default'],
+  $amqp_container_name             = $facts['os_service_default'],
+  $amqp_idle_timeout               = $facts['os_service_default'],
+  $amqp_trace                      = $facts['os_service_default'],
+  $amqp_ssl_ca_file                = $facts['os_service_default'],
+  $amqp_ssl_cert_file              = $facts['os_service_default'],
+  $amqp_ssl_key_file               = $facts['os_service_default'],
+  $amqp_ssl_key_password           = $facts['os_service_default'],
+  $amqp_sasl_mechanisms            = $facts['os_service_default'],
+  $amqp_sasl_config_dir            = $facts['os_service_default'],
+  $amqp_sasl_config_name           = $facts['os_service_default'],
+  $amqp_username                   = $facts['os_service_default'],
+  $amqp_password                   = $facts['os_service_default'],
+  Boolean $purge_config            = false,
+  $host                            = $facts['os_service_default'],
+  $report_interval                 = $facts['os_service_default'],
+  $periodic_interval               = $facts['os_service_default'],
+  $periodic_fuzzy_delay            = $facts['os_service_default'],
 ) inherits manila::params {
 
   include manila::deps
@@ -277,15 +299,19 @@ class manila (
   }
 
   oslo::messaging::rabbit { 'manila_config':
-    rabbit_use_ssl          => $rabbit_use_ssl,
-    amqp_durable_queues     => $amqp_durable_queues,
-    rabbit_ha_queues        => $rabbit_ha_queues,
-    kombu_ssl_ca_certs      => $kombu_ssl_ca_certs,
-    kombu_ssl_certfile      => $kombu_ssl_certfile,
-    kombu_ssl_keyfile       => $kombu_ssl_keyfile,
-    kombu_ssl_version       => $kombu_ssl_version,
-    kombu_failover_strategy => $kombu_failover_strategy,
-    heartbeat_in_pthread    => $rabbit_heartbeat_in_pthread,
+    rabbit_use_ssl                  => $rabbit_use_ssl,
+    amqp_durable_queues             => $amqp_durable_queues,
+    rabbit_ha_queues                => $rabbit_ha_queues,
+    kombu_ssl_ca_certs              => $kombu_ssl_ca_certs,
+    kombu_ssl_certfile              => $kombu_ssl_certfile,
+    kombu_ssl_keyfile               => $kombu_ssl_keyfile,
+    kombu_ssl_version               => $kombu_ssl_version,
+    kombu_failover_strategy         => $kombu_failover_strategy,
+    heartbeat_in_pthread            => $rabbit_heartbeat_in_pthread,
+    rabbit_quorum_queue             => $rabbit_quorum_queue,
+    rabbit_quorum_delivery_limit    => $rabbit_quorum_delivery_limit,
+    rabbit_quorum_max_memory_length => $rabbit_quorum_max_memory_length,
+    rabbit_quorum_max_memory_bytes  => $rabbit_quorum_max_memory_bytes,
   }
 
   oslo::messaging::amqp { 'manila_config':

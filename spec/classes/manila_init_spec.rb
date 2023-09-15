@@ -33,11 +33,15 @@ describe 'manila' do
           :topics        => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
-          :rabbit_use_ssl          => '<SERVICE DEFAULT>',
-          :amqp_durable_queues     => '<SERVICE DEFAULT>',
-          :rabbit_ha_queues        => '<SERVICE DEFAULT>',
-          :kombu_failover_strategy => '<SERVICE DEFAULT>',
-          :heartbeat_in_pthread    => '<SERVICE DEFAULT>',
+          :rabbit_use_ssl                  => '<SERVICE DEFAULT>',
+          :amqp_durable_queues             => '<SERVICE DEFAULT>',
+          :rabbit_ha_queues                => '<SERVICE DEFAULT>',
+          :kombu_failover_strategy         => '<SERVICE DEFAULT>',
+          :heartbeat_in_pthread            => '<SERVICE DEFAULT>',
+          :rabbit_quorum_queue             => '<SERVICE DEFAULT>',
+          :rabbit_quorum_delivery_limit    => '<SERVICE DEFAULT>',
+          :rabbit_quorum_max_memory_length => '<SERVICE DEFAULT>',
+          :rabbit_quorum_max_memory_bytes  => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_manila_config('DEFAULT/storage_availability_zone').with(
           :value => 'nova'
