@@ -27,6 +27,8 @@ describe 'manila::share' do
         is_expected.to contain_manila_config('DEFAULT/share_service_inithost_offload').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('DEFAULT/check_for_expired_shares_in_recycle_bin_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('DEFAULT/check_for_expired_transfers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/driver_backup_continue_update_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/driver_restore_continue_update_interval').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -45,6 +47,8 @@ describe 'manila::share' do
           :share_service_inithost_offload                   => false,
           :check_for_expired_shares_in_recycle_bin_interval => 3600,
           :check_for_expired_transfers                      => 300,
+          :driver_backup_continue_update_interval           => 60,
+          :driver_restore_continue_update_interval          => 60,
         }
       end
 
@@ -61,6 +65,8 @@ describe 'manila::share' do
         is_expected.to contain_manila_config('DEFAULT/share_service_inithost_offload').with_value(false)
         is_expected.to contain_manila_config('DEFAULT/check_for_expired_shares_in_recycle_bin_interval').with_value(3600)
         is_expected.to contain_manila_config('DEFAULT/check_for_expired_transfers').with_value(300)
+        is_expected.to contain_manila_config('DEFAULT/driver_backup_continue_update_interval').with_value(60)
+        is_expected.to contain_manila_config('DEFAULT/driver_restore_continue_update_interval').with_value(60)
       end
     end
 
