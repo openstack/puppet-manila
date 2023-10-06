@@ -86,6 +86,7 @@ define manila::backend::dellemc_powermax (
 ) {
 
   include manila::deps
+  include manila::params
 
   $powermax_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
@@ -106,7 +107,8 @@ define manila::backend::dellemc_powermax (
     "${share_backend_name}/emc_ssl_cert_verify":          value => $emc_ssl_cert_verify;
   }
 
-  ensure_resource('package','nfs-utils',{
+  ensure_packages('nfs-client', {
+    name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
     tag    => 'manila-support-package',
   })
