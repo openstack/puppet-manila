@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The ``manila::share`` class now supports share manager options.
