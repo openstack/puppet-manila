@@ -288,10 +288,9 @@ class manila (
   }
 
   package { 'manila':
-    ensure  => $package_ensure,
-    name    => $::manila::params::package_name,
-    require => Anchor['manila::install::begin'],
-    tag     => ['openstack', 'manila-package'],
+    ensure => $package_ensure,
+    name   => $::manila::params::package_name,
+    tag    => ['openstack', 'manila-package'],
   }
 
   resources { 'manila_config':

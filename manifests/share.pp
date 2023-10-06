@@ -44,7 +44,6 @@ class manila::share (
       name      => $::manila::params::share_service,
       enable    => $enabled,
       hasstatus => true,
-      require   => Package['manila'],
       tag       => 'manila-service',
     }
   }
