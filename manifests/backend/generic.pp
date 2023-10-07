@@ -75,24 +75,42 @@
 #   of share servers will be disabled.
 #   Defaults to: True
 #
+# [*reserved_share_percentage*]
+#   (optional) The percentage of backend capacity reserved.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_from_snapshot_percentage*]
+#   (optional) The percentage of backend capacity reserved. Used for shares
+#   created from the snapshot.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_extend_percentage*]
+#   (optional) The percentage of backend capacity reserved for share extend
+#   operation.
+#   Defaults to: $facts['os_service_default']
+#
 define manila::backend::generic (
   $driver_handles_share_servers,
-  $share_backend_name                  = $name,
-  $backend_availability_zone           = $facts['os_service_default'],
-  $smb_template_config_path            = '$state_path/smb.conf',
-  $volume_name_template                = 'manila-share-%s',
-  $volume_snapshot_name_template       = 'manila-snapshot-%s',
-  $share_mount_path                    = '/shares',
-  $max_time_to_create_volume           = 180,
-  $max_time_to_attach                  = 120,
-  $service_instance_smb_config_path    = '$share_mount_path/smb.conf',
-  $share_volume_fstype                 = 'ext4',
-  $share_helpers = ['CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess',
-                    'NFS=manila.share.drivers.helpers.NFSHelper'],
-  $cinder_volume_type                  = undef,
-  $delete_share_server_with_last_share = 'False',
-  $unmanage_remove_access_rules        = 'False',
-  $automatic_share_server_cleanup      = 'True',
+  $share_backend_name                      = $name,
+  $backend_availability_zone               = $facts['os_service_default'],
+  $smb_template_config_path                = '$state_path/smb.conf',
+  $volume_name_template                    = 'manila-share-%s',
+  $volume_snapshot_name_template           = 'manila-snapshot-%s',
+  $share_mount_path                        = '/shares',
+  $max_time_to_create_volume               = 180,
+  $max_time_to_attach                      = 120,
+  $service_instance_smb_config_path        = '$share_mount_path/smb.conf',
+  $share_volume_fstype                     = 'ext4',
+  $share_helpers = [
+    'CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess',
+    'NFS=manila.share.drivers.helpers.NFSHelper'],
+  $cinder_volume_type                      = undef,
+  $delete_share_server_with_last_share     = 'False',
+  $unmanage_remove_access_rules            = 'False',
+  $automatic_share_server_cleanup          = 'True',
+  $reserved_share_percentage               = $facts['os_service_default'],
+  $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
+  $reserved_share_extend_percentage        = $facts['os_service_default'],
 ) {
 
   include manila::deps
@@ -100,22 +118,25 @@ define manila::backend::generic (
   $share_driver = 'manila.share.drivers.generic.GenericShareDriver'
 
   manila_config {
-    "${name}/driver_handles_share_servers":        value => $driver_handles_share_servers;
-    "${name}/share_backend_name":                  value => $share_backend_name;
-    "${name}/backend_availability_zone":           value => $backend_availability_zone;
-    "${name}/share_driver":                        value => $share_driver;
-    "${name}/smb_template_config_path":            value => $smb_template_config_path;
-    "${name}/volume_name_template":                value => $volume_name_template;
-    "${name}/volume_snapshot_name_template":       value => $volume_snapshot_name_template;
-    "${name}/share_mount_path":                    value => $share_mount_path;
-    "${name}/max_time_to_create_volume":           value => $max_time_to_create_volume;
-    "${name}/max_time_to_attach":                  value => $max_time_to_attach;
-    "${name}/service_instance_smb_config_path":    value => $service_instance_smb_config_path;
-    "${name}/share_volume_fstype":                 value => $share_volume_fstype;
-    "${name}/share_helpers":                       value => join($share_helpers, ',');
-    "${name}/cinder_volume_type":                  value => $cinder_volume_type;
-    "${name}/delete_share_server_with_last_share": value => $delete_share_server_with_last_share;
-    "${name}/unmanage_remove_access_rules":        value => $unmanage_remove_access_rules;
-    "${name}/automatic_share_server_cleanup":      value => $automatic_share_server_cleanup;
+    "${name}/driver_handles_share_servers":            value => $driver_handles_share_servers;
+    "${name}/share_backend_name":                      value => $share_backend_name;
+    "${name}/backend_availability_zone":               value => $backend_availability_zone;
+    "${name}/share_driver":                            value => $share_driver;
+    "${name}/smb_template_config_path":                value => $smb_template_config_path;
+    "${name}/volume_name_template":                    value => $volume_name_template;
+    "${name}/volume_snapshot_name_template":           value => $volume_snapshot_name_template;
+    "${name}/share_mount_path":                        value => $share_mount_path;
+    "${name}/max_time_to_create_volume":               value => $max_time_to_create_volume;
+    "${name}/max_time_to_attach":                      value => $max_time_to_attach;
+    "${name}/service_instance_smb_config_path":        value => $service_instance_smb_config_path;
+    "${name}/share_volume_fstype":                     value => $share_volume_fstype;
+    "${name}/share_helpers":                           value => join($share_helpers, ',');
+    "${name}/cinder_volume_type":                      value => $cinder_volume_type;
+    "${name}/delete_share_server_with_last_share":     value => $delete_share_server_with_last_share;
+    "${name}/unmanage_remove_access_rules":            value => $unmanage_remove_access_rules;
+    "${name}/automatic_share_server_cleanup":          value => $automatic_share_server_cleanup;
+    "${name}/reserved_share_percentage":               value => $reserved_share_percentage;
+    "${name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
+    "${name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
   }
 }

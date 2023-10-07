@@ -78,6 +78,20 @@
 #   CAs, which will be used to validate the backend.
 #   Defaults to $facts['os_service_default']
 #
+# [*reserved_share_percentage*]
+#   (optional) The percentage of backend capacity reserved.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_from_snapshot_percentage*]
+#   (optional) The percentage of backend capacity reserved. Used for shares
+#   created from the snapshot.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_extend_percentage*]
+#   (optional) The percentage of backend capacity reserved for share extend
+#   operation.
+#   Defaults to: $facts['os_service_default']
+#
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
@@ -97,17 +111,20 @@ define manila::backend::dellemc_unity (
   String[1] $emc_nas_password,
   String[1] $emc_nas_server,
   String[1] $unity_server_meta_pool,
-  $emc_share_backend              = 'unity',
-  $share_backend_name             = $name,
-  $backend_availability_zone      = $facts['os_service_default'],
-  $unity_share_data_pools         = $facts['os_service_default'],
-  $unity_ethernet_ports           = $facts['os_service_default'],
-  $unity_share_server             = $facts['os_service_default'],
-  $report_default_filter_function = $facts['os_service_default'],
-  $network_plugin_ipv6_enabled    = true,
-  $emc_ssl_cert_verify            = $facts['os_service_default'],
-  $emc_ssl_cert_path              = $facts['os_service_default'],
-  $package_ensure                 = 'present',
+  $emc_share_backend                       = 'unity',
+  $share_backend_name                      = $name,
+  $backend_availability_zone               = $facts['os_service_default'],
+  $unity_share_data_pools                  = $facts['os_service_default'],
+  $unity_ethernet_ports                    = $facts['os_service_default'],
+  $unity_share_server                      = $facts['os_service_default'],
+  $report_default_filter_function          = $facts['os_service_default'],
+  $network_plugin_ipv6_enabled             = true,
+  $emc_ssl_cert_verify                     = $facts['os_service_default'],
+  $emc_ssl_cert_path                       = $facts['os_service_default'],
+  $reserved_share_percentage               = $facts['os_service_default'],
+  $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
+  $reserved_share_extend_percentage        = $facts['os_service_default'],
+  $package_ensure                          = 'present',
 ) {
 
   include manila::deps
@@ -116,22 +133,25 @@ define manila::backend::dellemc_unity (
   $unity_share_driver = 'manila.share.drivers.dell_emc.driver.EMCShareDriver'
 
   manila_config {
-    "${share_backend_name}/share_driver":                   value => $unity_share_driver;
-    "${share_backend_name}/driver_handles_share_servers":   value => $driver_handles_share_servers;
-    "${share_backend_name}/emc_nas_login":                  value => $emc_nas_login;
-    "${share_backend_name}/emc_nas_password":               value => $emc_nas_password, secret => true;
-    "${share_backend_name}/emc_nas_server":                 value => $emc_nas_server;
-    "${share_backend_name}/share_backend_name":             value => $share_backend_name;
-    "${share_backend_name}/backend_availability_zone":      value => $backend_availability_zone;
-    "${share_backend_name}/emc_share_backend":              value => $emc_share_backend;
-    "${share_backend_name}/unity_server_meta_pool":         value => $unity_server_meta_pool;
-    "${share_backend_name}/unity_share_data_pools":         value => join(any2array($unity_share_data_pools), ',');
-    "${share_backend_name}/unity_ethernet_ports":           value => join(any2array($unity_ethernet_ports), ',');
-    "${share_backend_name}/unity_share_server":             value => $unity_share_server;
-    "${share_backend_name}/report_default_filter_function": value => $report_default_filter_function;
-    "${share_backend_name}/network_plugin_ipv6_enabled":    value => $network_plugin_ipv6_enabled;
-    "${share_backend_name}/emc_ssl_cert_verify":            value => $emc_ssl_cert_verify;
-    "${share_backend_name}/emc_ssl_cert_path":              value => $emc_ssl_cert_path;
+    "${share_backend_name}/share_driver":                            value => $unity_share_driver;
+    "${share_backend_name}/driver_handles_share_servers":            value => $driver_handles_share_servers;
+    "${share_backend_name}/emc_nas_login":                           value => $emc_nas_login;
+    "${share_backend_name}/emc_nas_password":                        value => $emc_nas_password, secret => true;
+    "${share_backend_name}/emc_nas_server":                          value => $emc_nas_server;
+    "${share_backend_name}/share_backend_name":                      value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":               value => $backend_availability_zone;
+    "${share_backend_name}/emc_share_backend":                       value => $emc_share_backend;
+    "${share_backend_name}/unity_server_meta_pool":                  value => $unity_server_meta_pool;
+    "${share_backend_name}/unity_share_data_pools":                  value => join(any2array($unity_share_data_pools), ',');
+    "${share_backend_name}/unity_ethernet_ports":                    value => join(any2array($unity_ethernet_ports), ',');
+    "${share_backend_name}/unity_share_server":                      value => $unity_share_server;
+    "${share_backend_name}/report_default_filter_function":          value => $report_default_filter_function;
+    "${share_backend_name}/network_plugin_ipv6_enabled":             value => $network_plugin_ipv6_enabled;
+    "${share_backend_name}/emc_ssl_cert_verify":                     value => $emc_ssl_cert_verify;
+    "${share_backend_name}/emc_ssl_cert_path":                       value => $emc_ssl_cert_path;
+    "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
   }
 
   ensure_packages('nfs-client', {

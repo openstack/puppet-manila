@@ -23,26 +23,46 @@
 #   (optional) Base dir containing mount points for Gluster volumes.
 #   Defaults to: $state_path/mnt
 #
+# [*reserved_share_percentage*]
+#   (optional) The percentage of backend capacity reserved.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_from_snapshot_percentage*]
+#   (optional) The percentage of backend capacity reserved. Used for shares
+#   created from the snapshot.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_extend_percentage*]
+#   (optional) The percentage of backend capacity reserved for share extend
+#   operation.
+#   Defaults to: $facts['os_service_default']
+#
 # === Examples
 # manila::backend::glusterfs { 'myGluster':
 #   glusterfs_shares = ['192.168.1.1:/shares'],
 # }
 #
 define manila::backend::glusterfs (
-  $share_backend_name         = $name,
-  $backend_availability_zone  = $facts['os_service_default'],
-  $glusterfs_volumes_config   = '/etc/manila/glusterfs_volumes',
-  $glusterfs_mount_point_base = '$state_path/mnt',
+  $share_backend_name                      = $name,
+  $backend_availability_zone               = $facts['os_service_default'],
+  $glusterfs_volumes_config                = '/etc/manila/glusterfs_volumes',
+  $glusterfs_mount_point_base              = '$state_path/mnt',
+  $reserved_share_percentage               = $facts['os_service_default'],
+  $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
+  $reserved_share_extend_percentage        = $facts['os_service_default'],
 ) {
 
   include manila::deps
   $share_driver = 'manila.share.drivers.glusterfs.GlusterfsShareDriver'
 
   manila_config {
-    "${name}/share_backend_name":          value => $share_backend_name;
-    "${name}/backend_availability_zone":   value => $backend_availability_zone;
-    "${name}/share_driver":                value => $share_driver;
-    "${name}/glusterfs_volumes_config":    value => $glusterfs_volumes_config;
-    "${name}/glusterfs_mount_point_base":  value => $glusterfs_mount_point_base;
+    "${name}/share_backend_name":                      value => $share_backend_name;
+    "${name}/backend_availability_zone":               value => $backend_availability_zone;
+    "${name}/share_driver":                            value => $share_driver;
+    "${name}/glusterfs_volumes_config":                value => $glusterfs_volumes_config;
+    "${name}/glusterfs_mount_point_base":              value => $glusterfs_mount_point_base;
+    "${name}/reserved_share_percentage":               value => $reserved_share_percentage;
+    "${name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
+    "${name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
   }
 }

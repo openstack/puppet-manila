@@ -96,6 +96,20 @@
 #   Manila logs when the debug level is set to True.
 #   Defaults to $facts['os_service_default'].
 #
+# [*reserved_share_percentage*]
+#   (optional) The percentage of backend capacity reserved.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_from_snapshot_percentage*]
+#   (optional) The percentage of backend capacity reserved. Used for shares
+#   created from the snapshot.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_extend_percentage*]
+#   (optional) The percentage of backend capacity reserved for share extend
+#   operation.
+#   Defaults to: $facts['os_service_default']
+#
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
@@ -115,21 +129,24 @@ define manila::backend::netapp (
   String[1] $netapp_login,
   String[1] $netapp_password,
   String[1] $netapp_server_hostname,
-  $share_backend_name                   = $name,
-  $backend_availability_zone            = $facts['os_service_default'],
-  $netapp_transport_type                = $facts['os_service_default'],
-  $netapp_storage_family                = $facts['os_service_default'],
-  $netapp_server_port                   = $facts['os_service_default'],
-  $netapp_volume_name_template          = $facts['os_service_default'],
-  $netapp_vserver                       = $facts['os_service_default'],
-  $netapp_vserver_name_template         = $facts['os_service_default'],
-  $netapp_lif_name_template             = $facts['os_service_default'],
-  $netapp_aggregate_name_search_pattern = $facts['os_service_default'],
-  $netapp_root_volume_aggregate         = $facts['os_service_default'],
-  $netapp_root_volume                   = $facts['os_service_default'],
-  $netapp_port_name_search_pattern      = $facts['os_service_default'],
-  $netapp_trace_flags                   = $facts['os_service_default'],
-  $package_ensure                       = 'present',
+  $share_backend_name                      = $name,
+  $backend_availability_zone               = $facts['os_service_default'],
+  $netapp_transport_type                   = $facts['os_service_default'],
+  $netapp_storage_family                   = $facts['os_service_default'],
+  $netapp_server_port                      = $facts['os_service_default'],
+  $netapp_volume_name_template             = $facts['os_service_default'],
+  $netapp_vserver                          = $facts['os_service_default'],
+  $netapp_vserver_name_template            = $facts['os_service_default'],
+  $netapp_lif_name_template                = $facts['os_service_default'],
+  $netapp_aggregate_name_search_pattern    = $facts['os_service_default'],
+  $netapp_root_volume_aggregate            = $facts['os_service_default'],
+  $netapp_root_volume                      = $facts['os_service_default'],
+  $netapp_port_name_search_pattern         = $facts['os_service_default'],
+  $netapp_trace_flags                      = $facts['os_service_default'],
+  $reserved_share_percentage               = $facts['os_service_default'],
+  $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
+  $reserved_share_extend_percentage        = $facts['os_service_default'],
+  $package_ensure                          = 'present',
 ) {
 
   include manila::deps
@@ -138,25 +155,28 @@ define manila::backend::netapp (
   $netapp_share_driver = 'manila.share.drivers.netapp.common.NetAppDriver'
 
   manila_config {
-    "${share_backend_name}/share_driver":                         value => $netapp_share_driver;
-    "${share_backend_name}/driver_handles_share_servers":         value => $driver_handles_share_servers;
-    "${share_backend_name}/netapp_login":                         value => $netapp_login;
-    "${share_backend_name}/netapp_password":                      value => $netapp_password, secret => true;
-    "${share_backend_name}/netapp_server_hostname":               value => $netapp_server_hostname;
-    "${share_backend_name}/share_backend_name":                   value => $share_backend_name;
-    "${share_backend_name}/backend_availability_zone":            value => $backend_availability_zone;
-    "${share_backend_name}/netapp_transport_type":                value => $netapp_transport_type;
-    "${share_backend_name}/netapp_storage_family":                value => $netapp_storage_family;
-    "${share_backend_name}/netapp_server_port":                   value => $netapp_server_port;
-    "${share_backend_name}/netapp_volume_name_template":          value => $netapp_volume_name_template;
-    "${share_backend_name}/netapp_vserver":                       value => $netapp_vserver;
-    "${share_backend_name}/netapp_vserver_name_template":         value => $netapp_vserver_name_template;
-    "${share_backend_name}/netapp_lif_name_template":             value => $netapp_lif_name_template;
-    "${share_backend_name}/netapp_aggregate_name_search_pattern": value => $netapp_aggregate_name_search_pattern;
-    "${share_backend_name}/netapp_root_volume_aggregate":         value => $netapp_root_volume_aggregate;
-    "${share_backend_name}/netapp_root_volume":                   value => $netapp_root_volume;
-    "${share_backend_name}/netapp_port_name_search_pattern":      value => $netapp_port_name_search_pattern;
-    "${share_backend_name}/netapp_trace_flags":                   value => $netapp_trace_flags;
+    "${share_backend_name}/share_driver":                            value => $netapp_share_driver;
+    "${share_backend_name}/driver_handles_share_servers":            value => $driver_handles_share_servers;
+    "${share_backend_name}/netapp_login":                            value => $netapp_login;
+    "${share_backend_name}/netapp_password":                         value => $netapp_password, secret => true;
+    "${share_backend_name}/netapp_server_hostname":                  value => $netapp_server_hostname;
+    "${share_backend_name}/share_backend_name":                      value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":               value => $backend_availability_zone;
+    "${share_backend_name}/netapp_transport_type":                   value => $netapp_transport_type;
+    "${share_backend_name}/netapp_storage_family":                   value => $netapp_storage_family;
+    "${share_backend_name}/netapp_server_port":                      value => $netapp_server_port;
+    "${share_backend_name}/netapp_volume_name_template":             value => $netapp_volume_name_template;
+    "${share_backend_name}/netapp_vserver":                          value => $netapp_vserver;
+    "${share_backend_name}/netapp_vserver_name_template":            value => $netapp_vserver_name_template;
+    "${share_backend_name}/netapp_lif_name_template":                value => $netapp_lif_name_template;
+    "${share_backend_name}/netapp_aggregate_name_search_pattern":    value => $netapp_aggregate_name_search_pattern;
+    "${share_backend_name}/netapp_root_volume_aggregate":            value => $netapp_root_volume_aggregate;
+    "${share_backend_name}/netapp_root_volume":                      value => $netapp_root_volume;
+    "${share_backend_name}/netapp_port_name_search_pattern":         value => $netapp_port_name_search_pattern;
+    "${share_backend_name}/netapp_trace_flags":                      value => $netapp_trace_flags;
+    "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
   }
 
   ensure_packages('nfs-client', {

@@ -73,22 +73,39 @@
 #   filesystems in the cluster.
 #   Defaults to: $facts['os_service_default']
 #
+# [*reserved_share_percentage*]
+#   (optional) The percentage of backend capacity reserved.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_from_snapshot_percentage*]
+#   (optional) The percentage of backend capacity reserved. Used for shares
+#   created from the snapshot.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_extend_percentage*]
+#   (optional) The percentage of backend capacity reserved for share extend
+#   operation.
+#   Defaults to: $facts['os_service_default']
+#
 define manila::backend::cephfs (
-  $driver_handles_share_servers       = false,
-  $share_backend_name                 = $name,
-  $backend_availability_zone          = $facts['os_service_default'],
-  $cephfs_conf_path                   = '$state_path/ceph.conf',
-  $cephfs_auth_id                     = 'manila',
-  $cephfs_cluster_name                = 'ceph',
-  $cephfs_ganesha_server_ip           = $facts['os_service_default'],
-  $cephfs_ganesha_export_ips          = $facts['os_service_default'],
-  $cephfs_ganesha_server_is_remote    = $facts['os_service_default'],
-  $cephfs_ganesha_server_username     = $facts['os_service_default'],
-  $cephfs_ganesha_server_password     = $facts['os_service_default'],
-  $cephfs_ganesha_path_to_private_key = $facts['os_service_default'],
-  $cephfs_volume_mode                 = $facts['os_service_default'],
-  $cephfs_protocol_helper_type        = 'CEPHFS',
-  $cephfs_filesystem_name             = $facts['os_service_default'],
+  $driver_handles_share_servers            = false,
+  $share_backend_name                      = $name,
+  $backend_availability_zone               = $facts['os_service_default'],
+  $cephfs_conf_path                        = '$state_path/ceph.conf',
+  $cephfs_auth_id                          = 'manila',
+  $cephfs_cluster_name                     = 'ceph',
+  $cephfs_ganesha_server_ip                = $facts['os_service_default'],
+  $cephfs_ganesha_export_ips               = $facts['os_service_default'],
+  $cephfs_ganesha_server_is_remote         = $facts['os_service_default'],
+  $cephfs_ganesha_server_username          = $facts['os_service_default'],
+  $cephfs_ganesha_server_password          = $facts['os_service_default'],
+  $cephfs_ganesha_path_to_private_key      = $facts['os_service_default'],
+  $cephfs_volume_mode                      = $facts['os_service_default'],
+  $cephfs_protocol_helper_type             = 'CEPHFS',
+  $cephfs_filesystem_name                  = $facts['os_service_default'],
+  $reserved_share_percentage               = $facts['os_service_default'],
+  $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
+  $reserved_share_extend_percentage        = $facts['os_service_default'],
 ) {
 
   include manila::deps
@@ -96,21 +113,24 @@ define manila::backend::cephfs (
   $share_driver = 'manila.share.drivers.cephfs.driver.CephFSDriver'
 
   manila_config {
-    "${name}/driver_handles_share_servers":       value => $driver_handles_share_servers;
-    "${name}/share_backend_name":                 value => $share_backend_name;
-    "${name}/backend_availability_zone":          value => $backend_availability_zone;
-    "${name}/share_driver":                       value => $share_driver;
-    "${name}/cephfs_conf_path":                   value => $cephfs_conf_path;
-    "${name}/cephfs_auth_id":                     value => $cephfs_auth_id;
-    "${name}/cephfs_cluster_name":                value => $cephfs_cluster_name;
-    "${name}/cephfs_ganesha_server_ip":           value => $cephfs_ganesha_server_ip;
-    "${name}/cephfs_ganesha_export_ips":          value => join(any2array($cephfs_ganesha_export_ips), ',');
-    "${name}/cephfs_ganesha_server_is_remote":    value => $cephfs_ganesha_server_is_remote;
-    "${name}/cephfs_ganesha_server_username":     value => $cephfs_ganesha_server_username;
-    "${name}/cephfs_ganesha_server_password":     value => $cephfs_ganesha_server_password, secret => true;
-    "${name}/cephfs_ganesha_path_to_private_key": value => $cephfs_ganesha_path_to_private_key;
-    "${name}/cephfs_volume_mode":                 value => $cephfs_volume_mode;
-    "${name}/cephfs_protocol_helper_type":        value => $cephfs_protocol_helper_type;
-    "${name}/cephfs_filesystem_name":             value => $cephfs_filesystem_name;
+    "${name}/driver_handles_share_servers":            value => $driver_handles_share_servers;
+    "${name}/share_backend_name":                      value => $share_backend_name;
+    "${name}/backend_availability_zone":               value => $backend_availability_zone;
+    "${name}/share_driver":                            value => $share_driver;
+    "${name}/cephfs_conf_path":                        value => $cephfs_conf_path;
+    "${name}/cephfs_auth_id":                          value => $cephfs_auth_id;
+    "${name}/cephfs_cluster_name":                     value => $cephfs_cluster_name;
+    "${name}/cephfs_ganesha_server_ip":                value => $cephfs_ganesha_server_ip;
+    "${name}/cephfs_ganesha_export_ips":               value => join(any2array($cephfs_ganesha_export_ips), ',');
+    "${name}/cephfs_ganesha_server_is_remote":         value => $cephfs_ganesha_server_is_remote;
+    "${name}/cephfs_ganesha_server_username":          value => $cephfs_ganesha_server_username;
+    "${name}/cephfs_ganesha_server_password":          value => $cephfs_ganesha_server_password, secret => true;
+    "${name}/cephfs_ganesha_path_to_private_key":      value => $cephfs_ganesha_path_to_private_key;
+    "${name}/cephfs_volume_mode":                      value => $cephfs_volume_mode;
+    "${name}/cephfs_protocol_helper_type":             value => $cephfs_protocol_helper_type;
+    "${name}/cephfs_filesystem_name":                  value => $cephfs_filesystem_name;
+    "${name}/reserved_share_percentage":               value => $reserved_share_percentage;
+    "${name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
+    "${name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
   }
 }

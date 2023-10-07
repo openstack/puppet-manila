@@ -28,6 +28,20 @@
 #   (optional) Fully eradicate deleted shares and snapshots.
 #   Defaults to True
 #
+# [*reserved_share_percentage*]
+#   (optional) The percentage of backend capacity reserved.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_from_snapshot_percentage*]
+#   (optional) The percentage of backend capacity reserved. Used for shares
+#   created from the snapshot.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_extend_percentage*]
+#   (optional) The percentage of backend capacity reserved for share extend
+#   operation.
+#   Defaults to: $facts['os_service_default']
+#
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
@@ -43,10 +57,13 @@ define manila::backend::flashblade (
   String[1] $flashblade_api,
   String[1] $flashblade_data_vip,
   String[1] $flashblade_mgmt_vip,
-  $flashblade_eradicate      = true,
-  $share_backend_name        = $name,
-  $backend_availability_zone = $facts['os_service_default'],
-  $package_ensure            = 'present',
+  $flashblade_eradicate                    = true,
+  $share_backend_name                      = $name,
+  $backend_availability_zone               = $facts['os_service_default'],
+  $reserved_share_percentage               = $facts['os_service_default'],
+  $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
+  $reserved_share_extend_percentage        = $facts['os_service_default'],
+  $package_ensure                          = 'present',
 ) {
 
   include manila::deps
@@ -55,14 +72,17 @@ define manila::backend::flashblade (
   $flashblade_share_driver = 'manila.share.drivers.purestorage.flashblade.FlashBladeShareDriver'
 
   manila_config {
-    "${share_backend_name}/share_driver":                 value => $flashblade_share_driver;
-    "${share_backend_name}/driver_handles_share_servers": value => false;
-    "${share_backend_name}/flashblade_eradicate":         value => $flashblade_eradicate;
-    "${share_backend_name}/flashblade_api":               value => $flashblade_api, secret => true;
-    "${share_backend_name}/flashblade_mgmt_vip":          value => $flashblade_mgmt_vip;
-    "${share_backend_name}/flashblade_data_vip":          value => $flashblade_data_vip;
-    "${share_backend_name}/share_backend_name":           value => $share_backend_name;
-    "${share_backend_name}/backend_availability_zone":    value => $backend_availability_zone;
+    "${share_backend_name}/share_driver":                            value => $flashblade_share_driver;
+    "${share_backend_name}/driver_handles_share_servers":            value => false;
+    "${share_backend_name}/flashblade_eradicate":                    value => $flashblade_eradicate;
+    "${share_backend_name}/flashblade_api":                          value => $flashblade_api, secret => true;
+    "${share_backend_name}/flashblade_mgmt_vip":                     value => $flashblade_mgmt_vip;
+    "${share_backend_name}/flashblade_data_vip":                     value => $flashblade_data_vip;
+    "${share_backend_name}/share_backend_name":                      value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":               value => $backend_availability_zone;
+    "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
   }
 
   ensure_packages('nfs-client', {

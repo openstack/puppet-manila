@@ -34,19 +34,35 @@
 #   is used as the default for all backends.
 #   Defaults to $facts['os_service_default'].
 #
+# [*reserved_share_percentage*]
+#   (optional) The percentage of backend capacity reserved.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_from_snapshot_percentage*]
+#   (optional) The percentage of backend capacity reserved. Used for shares
+#   created from the snapshot.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_extend_percentage*]
+#   (optional) The percentage of backend capacity reserved for share extend
+#   operation.
+#   Defaults to: $facts['os_service_default']
+#
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
-
 define manila::backend::glusternfs (
   $glusterfs_target,
   $glusterfs_mount_point_base,
   $glusterfs_nfs_server_type,
   $glusterfs_path_to_private_key,
   $glusterfs_ganesha_server_ip,
-  $share_backend_name        = $name,
-  $backend_availability_zone = $facts['os_service_default'],
-  $package_ensure            = 'present',
+  $share_backend_name                      = $name,
+  $backend_availability_zone               = $facts['os_service_default'],
+  $reserved_share_percentage               = $facts['os_service_default'],
+  $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
+  $reserved_share_extend_percentage        = $facts['os_service_default'],
+  $package_ensure                          = 'present',
 ) {
 
   include manila::deps
@@ -55,14 +71,17 @@ define manila::backend::glusternfs (
   $share_driver = 'manila.share.drivers.glusterfs.GlusterfsShareDriver'
 
   manila_config {
-    "${share_backend_name}/share_backend_name":            value => $share_backend_name;
-    "${share_backend_name}/backend_availability_zone":     value => $backend_availability_zone;
-    "${share_backend_name}/share_driver":                  value => $share_driver;
-    "${share_backend_name}/glusterfs_target":              value => $glusterfs_target;
-    "${share_backend_name}/glusterfs_mount_point_base":    value => $glusterfs_mount_point_base;
-    "${share_backend_name}/glusterfs_nfs_server_type":     value => $glusterfs_nfs_server_type;
-    "${share_backend_name}/glusterfs_path_to_private_key": value => $glusterfs_path_to_private_key;
-    "${share_backend_name}/glusterfs_ganesha_server_ip":   value => $glusterfs_ganesha_server_ip;
+    "${share_backend_name}/share_backend_name":                      value => $share_backend_name;
+    "${share_backend_name}/backend_availability_zone":               value => $backend_availability_zone;
+    "${share_backend_name}/share_driver":                            value => $share_driver;
+    "${share_backend_name}/glusterfs_target":                        value => $glusterfs_target;
+    "${share_backend_name}/glusterfs_mount_point_base":              value => $glusterfs_mount_point_base;
+    "${share_backend_name}/glusterfs_nfs_server_type":               value => $glusterfs_nfs_server_type;
+    "${share_backend_name}/glusterfs_path_to_private_key":           value => $glusterfs_path_to_private_key;
+    "${share_backend_name}/glusterfs_ganesha_server_ip":             value => $glusterfs_ganesha_server_ip;
+    "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
   }
 
   ensure_packages( [

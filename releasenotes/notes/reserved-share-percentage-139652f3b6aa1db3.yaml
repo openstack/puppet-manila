@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following parameters have been added to the defined resouce types for
+    share driver options.
+
+    - ``reserved_share_percentage``
+    - ``reserved_share_from_snapshot_percentage``
+    - ``reserved_share_extend_percentage``

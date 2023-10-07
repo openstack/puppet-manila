@@ -41,6 +41,20 @@
 #   is used as the default for all backends.
 #   Defaults to $facts['os_service_default'].
 #
+# [*reserved_share_percentage*]
+#   (optional) The percentage of backend capacity reserved.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_from_snapshot_percentage*]
+#   (optional) The percentage of backend capacity reserved. Used for shares
+#   created from the snapshot.
+#   Defaults to: $facts['os_service_default']
+#
+# [*reserved_share_extend_percentage*]
+#   (optional) The percentage of backend capacity reserved for share extend
+#   operation.
+#   Defaults to: $facts['os_service_default']
+#
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
@@ -63,10 +77,13 @@ define manila::backend::hitachi_hnas (
   String[1] $hitachi_hnas_evs_id,
   String[1] $hitachi_hnas_evs_ip,
   $hitachi_hnas_file_system_name,
-  $driver_handles_share_servers = false,
-  $share_backend_name           = $name,
-  $backend_availability_zone    = $facts['os_service_default'],
-  $package_ensure               = 'present',
+  $driver_handles_share_servers            = false,
+  $share_backend_name                      = $name,
+  $backend_availability_zone               = $facts['os_service_default'],
+  $reserved_share_percentage               = $facts['os_service_default'],
+  $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
+  $reserved_share_extend_percentage        = $facts['os_service_default'],
+  $package_ensure                          = 'present',
 ) {
 
   include manila::deps
@@ -75,15 +92,18 @@ define manila::backend::hitachi_hnas (
   $hitachi_share_driver = 'manila.share.drivers.hitachi.hds_hnas.HDSHNASDriver'
 
   manila_config {
-    "${share_backend_name}/share_driver":                  value => $hitachi_share_driver;
-    "${share_backend_name}/driver_handles_share_servers":  value => $driver_handles_share_servers;
-    "${share_backend_name}/backend_availability_zone":     value => $backend_availability_zone;
-    "${share_backend_name}/hitachi_hnas_user":             value => $hitachi_hnas_user;
-    "${share_backend_name}/hitachi_hnas_password":         value => $hitachi_hnas_password, secret => true;
-    "${share_backend_name}/hitachi_hnas_ip":               value => $hitachi_hnas_ip;
-    "${share_backend_name}/hitachi_hnas_evs_id":           value => $hitachi_hnas_evs_id;
-    "${share_backend_name}/hitachi_hnas_evs_ip":           value => $hitachi_hnas_evs_ip;
-    "${share_backend_name}/hitachi_hnas_file_system_name": value => $hitachi_hnas_file_system_name;
+    "${share_backend_name}/share_driver":                            value => $hitachi_share_driver;
+    "${share_backend_name}/driver_handles_share_servers":            value => $driver_handles_share_servers;
+    "${share_backend_name}/backend_availability_zone":               value => $backend_availability_zone;
+    "${share_backend_name}/hitachi_hnas_user":                       value => $hitachi_hnas_user;
+    "${share_backend_name}/hitachi_hnas_password":                   value => $hitachi_hnas_password, secret => true;
+    "${share_backend_name}/hitachi_hnas_ip":                         value => $hitachi_hnas_ip;
+    "${share_backend_name}/hitachi_hnas_evs_id":                     value => $hitachi_hnas_evs_id;
+    "${share_backend_name}/hitachi_hnas_evs_ip":                     value => $hitachi_hnas_evs_ip;
+    "${share_backend_name}/hitachi_hnas_file_system_name":           value => $hitachi_hnas_file_system_name;
+    "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
   }
 
   ensure_packages('nfs-client', {
