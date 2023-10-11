@@ -8,8 +8,17 @@ describe 'manila::data' do
 
       it { is_expected.to contain_class('manila::params') }
 
-      it { is_expected.to contain_manila_config('DEFAULT/mount_tmp_location').with_value('<SERVICE DEFAULT>') }
-      it { is_expected.to contain_manila_config('DEFAULT/check_hash').with_value('<SERVICE DEFAULT>') }
+      it 'should configure manila-data options' do
+        is_expected.to contain_manila_config('DEFAULT/mount_tmp_location').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/backup_mount_tmp_location').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/check_hash').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/backup_continue_update_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/restore_continue_update_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/backup_driver').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/backup_share_mount_template').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/backup_share_unmount_template').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/backup_ignore_files').with_value('<SERVICE DEFAULT>')
+      end
 
       it { is_expected.to contain_service('manila-data').with(
         :name      => platform_params[:data_service],
@@ -23,13 +32,29 @@ describe 'manila::data' do
     context 'with parameters' do
       let :params do
         {
-          :mount_tmp_location => '/tmp/',
-          :check_hash         => false,
+          :mount_tmp_location               => '/tmp/',
+          :backup_mount_tmp_location        => '/tmp/backup/',
+          :check_hash                       => false,
+          :backup_continue_update_interval  => 10,
+          :restore_continue_update_interval => 11,
+          :backup_driver                    => 'manila.data.drivers.nfs.NFSBackupDriver',
+          :backup_share_mount_template      => 'mount -vt %(proto)s %(options)s %(export)s %(path)s',
+          :backup_share_unmount_template    => 'umount -v %(path)s',
+          :backup_ignore_files              => ['lost+found'],
         }
       end
 
-      it { is_expected.to contain_manila_config('DEFAULT/mount_tmp_location').with_value('/tmp/') }
-      it { is_expected.to contain_manila_config('DEFAULT/check_hash').with_value(false) }
+      it 'should configure manila-data options' do
+        is_expected.to contain_manila_config('DEFAULT/mount_tmp_location').with_value('/tmp/')
+        is_expected.to contain_manila_config('DEFAULT/backup_mount_tmp_location').with_value('/tmp/backup/')
+        is_expected.to contain_manila_config('DEFAULT/check_hash').with_value(false)
+        is_expected.to contain_manila_config('DEFAULT/backup_continue_update_interval').with_value(10)
+        is_expected.to contain_manila_config('DEFAULT/restore_continue_update_interval').with_value(11)
+        is_expected.to contain_manila_config('DEFAULT/backup_driver').with_value('manila.data.drivers.nfs.NFSBackupDriver')
+        is_expected.to contain_manila_config('DEFAULT/backup_share_mount_template').with_value('mount -vt %(proto)s %(options)s %(export)s %(path)s')
+        is_expected.to contain_manila_config('DEFAULT/backup_share_unmount_template').with_value('umount -v %(path)s')
+        is_expected.to contain_manila_config('DEFAULT/backup_ignore_files').with_value('lost+found')
+      end
     end
 
     context 'with manage_service false' do

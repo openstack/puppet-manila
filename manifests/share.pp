@@ -70,6 +70,14 @@
 #   roll back share state.
 #   Defaults to $facts['os_service_default'].
 #
+# [*driver_backup_continue_update_interval*]
+#   (Optional) Interval to poll to perform the next steps of backup.
+#   Defaults to $facts['os_service_default'].
+#
+# [*driver_restore_continue_update_interval*]
+#   (Optional) Interval to poll to perform the next steps of restore.
+#   Defaults to $facts['os_service_default'].
+#
 class manila::share (
   $package_ensure                                   = 'present',
   Boolean $enabled                                  = true,
@@ -86,6 +94,8 @@ class manila::share (
   $share_service_inithost_offload                   = $facts['os_service_default'],
   $check_for_expired_shares_in_recycle_bin_interval = $facts['os_service_default'],
   $check_for_expired_transfers                      = $facts['os_service_default'],
+  $driver_backup_continue_update_interval           = $facts['os_service_default'],
+  $driver_restore_continue_update_interval          = $facts['os_service_default'],
 ) {
 
   include manila::deps
@@ -112,6 +122,8 @@ class manila::share (
     'DEFAULT/share_service_inithost_offload':                   value => $share_service_inithost_offload;
     'DEFAULT/check_for_expired_shares_in_recycle_bin_interval': value => $check_for_expired_shares_in_recycle_bin_interval;
     'DEFAULT/check_for_expired_transfers':                      value => $check_for_expired_transfers;
+    'DEFAULT/driver_backup_continue_update_interval':           value => $driver_backup_continue_update_interval;
+    'DEFAULT/driver_restore_continue_update_interval':          value => $driver_restore_continue_update_interval;
   }
 
   if $manage_service {

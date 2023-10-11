@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The ``manila::share`` class and the ``manila::data`` class now support
+    options for share backup and restore.
+
+  - |
+    The new ``manila::data::backup::nfs`` class has been added.
