@@ -161,8 +161,8 @@ define manila::backend::dellemc_unity (
   })
 
   # Python library storops is required to run Unity driver.
-  package{'storops':
+  ensure_packages( 'storops', {
     ensure   => $package_ensure,
     provider => 'pip',
-  }
+  })
 }
