@@ -44,6 +44,14 @@ describe 'manila::backend::dellemc_unity' do
     it 'marks emc_nas_password as secret' do
       is_expected.to contain_manila_config("dellemc_unity/emc_nas_password").with_secret( true )
     end
+
+    it 'installs storops library' do
+      is_expected.to contain_package('storops').with(
+        :ensure   => 'installed',
+        :provider => 'pip',
+        :tag      => 'manila-support-package',
+      )
+    end
   end
 
   shared_examples 'manila::backend::dellemc_unity' do
@@ -80,6 +88,16 @@ describe 'manila::backend::dellemc_unity' do
       end
 
      it { is_expected.to raise_error(Puppet::Error) }
+    end
+
+    context 'with storops library unmanaged' do
+      let :params do
+        required_params.merge({
+          :manage_storops => false
+        })
+      end
+
+      it { is_expected.to_not contain_package('storops') }
     end
   end
 

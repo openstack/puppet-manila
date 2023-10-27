@@ -95,6 +95,10 @@
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
+# [*manage_storops*]
+#   (optional) Manage the storops python library.
+#   Defaults to true
+#
 # === Examples
 #
 #  manila::backend::dellemc_unity { 'myBackend':
@@ -125,6 +129,7 @@ define manila::backend::dellemc_unity (
   $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
   $reserved_share_extend_percentage        = $facts['os_service_default'],
   $package_ensure                          = 'present',
+  Boolean $manage_storops                  = true,
 ) {
 
   include manila::deps
@@ -160,9 +165,12 @@ define manila::backend::dellemc_unity (
     tag    => 'manila-support-package',
   })
 
-  # Python library storops is required to run Unity driver.
-  ensure_packages( 'storops', {
-    ensure   => $package_ensure,
-    provider => 'pip',
-  })
+  if $manage_storops {
+    # Python library storops is required to run Unity driver.
+    ensure_packages( 'storops', {
+      ensure   => $package_ensure,
+      provider => 'pip',
+      tag      => 'manila-support-package',
+    })
+  }
 }

@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``manila::backend::dellemc_unity::manage_storops`` parameter has
+    been added.
