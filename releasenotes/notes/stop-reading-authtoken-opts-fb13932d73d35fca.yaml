@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``manila_type`` resource type no longer attempts to load user
+    credentials from the ``[keystone_authtoken]`` section in ``manila.conf``.
