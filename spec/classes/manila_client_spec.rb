@@ -11,7 +11,7 @@ describe 'manila::client' do
       is_expected.to contain_package('python-manilaclient').with(
         :ensure => 'present',
         :name   => platform_params[:client_package],
-        :tag    => ['openstack', 'manila-support-package']
+        :tag    => ['openstack', 'openstackclient'],
       )
     end
   end
