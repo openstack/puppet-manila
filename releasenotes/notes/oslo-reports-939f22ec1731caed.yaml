@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``manila::reports`` class has been added.
