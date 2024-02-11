@@ -1,0 +1,13 @@
+---
+deprecations:
+  - |
+    The following defined resource types have been deprecated and will be
+    removed in a future release.
+
+    - ``manila::backend::glusterfs``
+    - ``manila::backend::glusternative``
+    - ``manila::backend::glusternfs``
+
+  - |
+    The ``manila::share::glustefs`` class has been deprecated and will be
+    removed in a future release.

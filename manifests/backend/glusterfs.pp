@@ -1,6 +1,6 @@
+# == define: manila::backend::glusterfs
 #
-# == Class: manila::backend::glusterfs
-#
+# DEPRECATED !!
 # Configures Manila to use GlusterFS as a share driver
 #
 # === Parameters
@@ -54,6 +54,8 @@ define manila::backend::glusterfs (
 
   include manila::deps
   $share_driver = 'manila.share.drivers.glusterfs.GlusterfsShareDriver'
+
+  warning('Support for GlusterFS driver has been deprecated.')
 
   manila_config {
     "${name}/share_backend_name":                      value => $share_backend_name;

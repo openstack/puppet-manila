@@ -1,7 +1,7 @@
-#
 # == define: manila::backend::glusternfs
 #
-# Configures Manila to use GlusteFS NFS (Ganesha/GlusterNFS) as a share driver
+# DEPRECATED !!
+# Configures Manila to use GlusterFS NFS (Ganesha/GlusterNFS) as a share driver
 #
 # Currently Red Hat is the only supported platform, due to lack of packages
 # other platforms are not yet supported.
@@ -69,6 +69,8 @@ define manila::backend::glusternfs (
   include manila::params
 
   $share_driver = 'manila.share.drivers.glusterfs.GlusterfsShareDriver'
+
+  warning('Support for GlusterFS driver has been deprecated.')
 
   manila_config {
     "${share_backend_name}/share_backend_name":                      value => $share_backend_name;

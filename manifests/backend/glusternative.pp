@@ -1,6 +1,6 @@
-#
 # == define: manila::backend::glusternative
 #
+# DEPRECATED !!
 # Configures Manila to use GlusterFS native as a share driver
 #
 # === Parameters
@@ -60,6 +60,8 @@ define manila::backend::glusternative (
   include manila::params
 
   $share_driver = 'manila.share.drivers.glusterfs_native.GlusterfsNativeShareDriver'
+
+  warning('Support for GlusterFS native driver has been deprecated.')
 
   manila_config {
     "${share_backend_name}/share_backend_name":                      value => $share_backend_name;
