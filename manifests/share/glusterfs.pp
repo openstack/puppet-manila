@@ -1,6 +1,6 @@
-#
 # == Class: manila::share::glusterfs
 #
+# DEPRECATED !!
 # Configures Manila to use GlusterFS as a share driver
 #
 # === Parameters
@@ -22,6 +22,8 @@ class manila::share::glusterfs (
   $glusterfs_volumes_config   = '/etc/manila/glusterfs_volumes',
   $glusterfs_mount_point_base = '$state_path/mnt',
 ) {
+
+  warning('Support for GlusterFS driver has been deprecated.')
 
   manila::backend::glusterfs { 'DEFAULT':
     glusterfs_volumes_config   => $glusterfs_volumes_config,
