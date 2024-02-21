@@ -1,5 +1,6 @@
 # == define: manila::backend::dellemc_vnx
 #
+# DEPRECATED !!
 # Configures Manila to use the Dell EMC Isilon share driver
 # Compatible for multiple backends
 #
@@ -120,6 +121,8 @@ define manila::backend::dellemc_vnx (
 
   include manila::deps
   include manila::params
+
+  warning('Support for Dell EMC VNX driver has been deprecated.')
 
   if $driver_handles_share_servers != undef {
     warning('The driver_handles_share_servers parameter has been deprecated and has no effect')
