@@ -70,6 +70,11 @@ class manila::policy (
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
 
+  # policy config should occur in the config block also.
+  Anchor['manila::config::begin']
+  -> Openstacklib::Policy[$policy_path]
+  -> Anchor['manila::config::end']
+
   oslo::policy { 'manila_config':
     enforce_scope        => $enforce_scope,
     enforce_new_defaults => $enforce_new_defaults,

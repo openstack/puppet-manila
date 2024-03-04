@@ -68,4 +68,8 @@ class manila::db (
     mysql_enable_ndb        => $mysql_enable_ndb,
     db_max_retries          => $database_db_max_retries,
   }
+
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db['manila_config'] -> Anchor['manila::dbsync::begin']
 }

@@ -24,32 +24,17 @@ class manila::deps {
   ~> Service<| tag == 'manila-service' |>
   ~> anchor { 'manila::service::end': }
 
-  # paste-api.ini config should occur in the config block also.
   Anchor['manila::config::begin']
   -> Manila_api_paste_ini<||>
-  ~> Anchor['manila::config::end']
+  -> Anchor['manila::config::end']
+
+  Anchor['manila::config::begin']
+  -> Manila_api_uwsgi_config<||>
+  -> Anchor['manila::config::end']
 
   # rootwrap config should occur in the config block also.
   Anchor['manila::config::begin']
   -> Manila_rootwrap_config<||>
-  ~> Anchor['manila::config::end']
-
-  # all coordination settings should be applied and all packages should be
-  # installed before service startup
-  Oslo::Coordination<||> -> Anchor['manila::service::begin']
-
-  # all db settings should be applied and all packages should be installed
-  # before dbsync starts
-  Oslo::Db<||> -> Anchor['manila::dbsync::begin']
-
-  # policy config should occur in the config block also.
-  Anchor['manila::config::begin']
-  -> Openstacklib::Policy<| tag == 'manila' |>
-  -> Anchor['manila::config::end']
-
-  # On any uwsgi config change, we must restart Manila API.
-  Anchor['manila::config::begin']
-  -> Manila_api_uwsgi_config<||>
   ~> Anchor['manila::config::end']
 
   # Support packages need to be installed in the install phase, but we don't

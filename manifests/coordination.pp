@@ -17,4 +17,8 @@ class manila::coordination (
   oslo::coordination{ 'manila_config':
     backend_url => $backend_url
   }
+
+  # all coordination settings should be applied and all packages should be
+  # installed before service startup
+  Oslo::Coordination['manila_config'] -> Anchor['manila::service::begin']
 }

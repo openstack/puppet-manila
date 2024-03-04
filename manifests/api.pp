@@ -117,6 +117,11 @@ class manila::api (
         tag       => 'manila-service',
       }
 
+      # On any api-paste.ini config change, we must restart Manila API.
+      Manila_api_paste_ini<||> ~> Service['manila-api']
+      # On any uwsgi config change, we must restart Manila API.
+      Manila_api_uwsgi_config<||> ~> Service['manila-api']
+
     } elsif $service_name == 'httpd' {
       # We need to make sure manila-api/eventlet is stopped before trying to
       # start apache
@@ -129,6 +134,10 @@ class manila::api (
       Service <| title == 'httpd' |> { tag +> 'manila-service' }
 
       Service['manila-api'] -> Service[$service_name]
+
+      # On any api-paste.ini config change, we must restart Manila API.
+      Manila_api_paste_ini<||> ~> Service[$service_name]
+
     } else {
       fail("Invalid service_name. Either use manila-api/openstack-manila-api \
 for running as a standalone service, or httpd for being run by a httpd \

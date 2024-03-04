@@ -279,4 +279,6 @@ class manila::keystone::authtoken(
       service_type                   => $service_type,
       interface                      => $interface;
   }
+
+  Keystone::Resource::Authtoken['manila_config'] -> Anchor['manila::config::end']
 }
