@@ -78,7 +78,7 @@
 define manila::backend::service_instance (
   $service_instance_user,
   $service_instance_password,
-  $create_service_image                   = true,
+  Boolean $create_service_image           = true,
   $service_image_name                     = 'manila-service-image',
   $service_image_location                 = undef,
   $service_instance_name_template         = 'manila_service_instance_%s',
