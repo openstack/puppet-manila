@@ -17,6 +17,7 @@ describe 'manila::backend::hitachi_hnas' do
       :reserved_share_percentage               => 10.0,
       :reserved_share_from_snapshot_percentage => 10.1,
       :reserved_share_extend_percentage        => 10.2,
+      :max_over_subscription_ratio             => 1.5,
     }
   end
 

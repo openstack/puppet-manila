@@ -55,6 +55,11 @@
 #   operation.
 #   Defaults to: $facts['os_service_default']
 #
+# [*max_over_subscription_ratio*]
+#   (optional) Float representation of the over subscription ratio when thin
+#   provisionig is involved.
+#   Defaults to: $facts['os_service_default']
+#
 # [*package_ensure*]
 #   (optional) Ensure state for package. Defaults to 'present'.
 #
@@ -83,6 +88,7 @@ define manila::backend::hitachi_hnas (
   $reserved_share_percentage               = $facts['os_service_default'],
   $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
   $reserved_share_extend_percentage        = $facts['os_service_default'],
+  $max_over_subscription_ratio             = $facts['os_service_default'],
   $package_ensure                          = 'present',
 ) {
 
@@ -104,6 +110,7 @@ define manila::backend::hitachi_hnas (
     "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
     "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
+    "${share_backend_name}/max_over_subscription_ratio":             value => $max_over_subscription_ratio;
   }
 
   ensure_packages('nfs-client', {

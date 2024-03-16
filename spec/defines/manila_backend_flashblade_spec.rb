@@ -19,6 +19,7 @@ describe 'manila::backend::flashblade' do
       :reserved_share_percentage               => '<SERVICE DEFAULT>',
       :reserved_share_from_snapshot_percentage => '<SERVICE DEFAULT>',
       :reserved_share_extend_percentage        => '<SERVICE DEFAULT>',
+      :max_over_subscription_ratio             => '<SERVICE DEFAULT>',
     }
   end
 
@@ -58,6 +59,7 @@ describe 'manila::backend::flashblade' do
           :reserved_share_percentage               => 10.0,
           :reserved_share_from_snapshot_percentage => 10.1,
           :reserved_share_extend_percentage        => 10.2,
+          :max_over_subscription_ratio             => 1.5,
         })
       end
 
