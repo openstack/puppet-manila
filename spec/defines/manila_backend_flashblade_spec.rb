@@ -14,8 +14,11 @@ describe 'manila::backend::flashblade' do
 
   let :default_params do
     {
-     :flashblade_eradicate      => true,
-     :backend_availability_zone => '<SERVICE DEFAULT>',
+      :flashblade_eradicate                    => true,
+      :backend_availability_zone               => '<SERVICE DEFAULT>',
+      :reserved_share_percentage               => '<SERVICE DEFAULT>',
+      :reserved_share_from_snapshot_percentage => '<SERVICE DEFAULT>',
+      :reserved_share_extend_percentage        => '<SERVICE DEFAULT>',
     }
   end
 
@@ -50,8 +53,11 @@ describe 'manila::backend::flashblade' do
     context 'with share server config' do
       let :params do
         required_params.merge!({
-          :flashblade_eradicate      => true,
-          :backend_availability_zone => 'my_zone',
+          :flashblade_eradicate                    => true,
+          :backend_availability_zone               => 'my_zone',
+          :reserved_share_percentage               => 10.0,
+          :reserved_share_from_snapshot_percentage => 10.1,
+          :reserved_share_extend_percentage        => 10.2,
         })
       end
 

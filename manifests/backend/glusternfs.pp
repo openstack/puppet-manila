@@ -83,7 +83,7 @@ define manila::backend::glusternfs (
     "${share_backend_name}/glusterfs_ganesha_server_ip":             value => $glusterfs_ganesha_server_ip;
     "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
-    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 
   ensure_packages( [

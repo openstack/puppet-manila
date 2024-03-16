@@ -14,11 +14,14 @@ describe 'manila::backend::dellemc_powermax' do
 
   let :default_params do
     {
-      :emc_share_backend         => 'powermax',
-      :powermax_server_container => '<SERVICE DEFAULT>',
-      :powermax_share_data_pools => '<SERVICE DEFAULT>',
-      :powermax_ethernet_ports   => '<SERVICE DEFAULT>',
-      :backend_availability_zone => '<SERVICE DEFAULT>',
+      :emc_share_backend                       => 'powermax',
+      :powermax_server_container               => '<SERVICE DEFAULT>',
+      :powermax_share_data_pools               => '<SERVICE DEFAULT>',
+      :powermax_ethernet_ports                 => '<SERVICE DEFAULT>',
+      :backend_availability_zone               => '<SERVICE DEFAULT>',
+      :reserved_share_percentage               => '<SERVICE DEFAULT>',
+      :reserved_share_from_snapshot_percentage => '<SERVICE DEFAULT>',
+      :reserved_share_extend_percentage        => '<SERVICE DEFAULT>',
     }
   end
 
@@ -53,10 +56,13 @@ describe 'manila::backend::dellemc_powermax' do
     context 'with provided parameters' do
       let :params do
         required_params.merge!({
-          :powermax_server_container => 'container1',
-          :powermax_share_data_pools => '*',
-          :powermax_ethernet_ports   => 'eth1',
-          :backend_availability_zone => 'my_zone',
+          :powermax_server_container               => 'container1',
+          :powermax_share_data_pools               => '*',
+          :powermax_ethernet_ports                 => 'eth1',
+          :backend_availability_zone               => 'my_zone',
+          :reserved_share_percentage               => 10.0,
+          :reserved_share_from_snapshot_percentage => 10.1,
+          :reserved_share_extend_percentage        => 10.2,
         })
       end
 

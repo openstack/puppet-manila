@@ -131,6 +131,6 @@ define manila::backend::cephfs (
     "${name}/cephfs_filesystem_name":                  value => $cephfs_filesystem_name;
     "${name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
-    "${name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
+    "${name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 }

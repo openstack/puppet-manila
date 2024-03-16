@@ -6,14 +6,17 @@ describe 'manila::backend::hitachi_hnas' do
 
   let :params do
     {
-      :driver_handles_share_servers  => false,
-      :hitachi_hnas_ip               => '172.24.44.15',
-      :hitachi_hnas_user             => 'supervisor',
-      :hitachi_hnas_password         => 'supervisor',
-      :hitachi_hnas_evs_id           => '1',
-      :hitachi_hnas_evs_ip           => ' 172.24.53.1',
-      :hitachi_hnas_file_system_name => 'FS-Manila',
-      :backend_availability_zone     => 'my_zone',
+      :driver_handles_share_servers            => false,
+      :hitachi_hnas_ip                         => '172.24.44.15',
+      :hitachi_hnas_user                       => 'supervisor',
+      :hitachi_hnas_password                   => 'supervisor',
+      :hitachi_hnas_evs_id                     => '1',
+      :hitachi_hnas_evs_ip                     => ' 172.24.53.1',
+      :hitachi_hnas_file_system_name           => 'FS-Manila',
+      :backend_availability_zone               => 'my_zone',
+      :reserved_share_percentage               => 10.0,
+      :reserved_share_from_snapshot_percentage => 10.1,
+      :reserved_share_extend_percentage        => 10.2,
     }
   end
 

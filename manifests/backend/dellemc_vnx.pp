@@ -147,7 +147,7 @@ define manila::backend::dellemc_vnx (
     "${share_backend_name}/emc_ssl_cert_path":                       value => $emc_ssl_cert_path;
     "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
-    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 
   ensure_packages('nfs-client', {

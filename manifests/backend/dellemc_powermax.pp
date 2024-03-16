@@ -124,7 +124,7 @@ define manila::backend::dellemc_powermax (
     "${share_backend_name}/emc_ssl_cert_verify":                     value => $emc_ssl_cert_verify;
     "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
-    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 
   ensure_packages('nfs-client', {

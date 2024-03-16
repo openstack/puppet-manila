@@ -7,10 +7,13 @@ describe 'manila::backend::glusternative' do
 
     let :params do
       {
-        :glusterfs_servers                    => 'remoteuser@volserver',
-        :glusterfs_path_to_private_key        => '/etc/glusterfs/glusterfs.pem',
-        :glusterfs_volume_pattern             => 'manila-share-volume-\d+$',
-        :backend_availability_zone            => 'my_zone',
+        :glusterfs_servers                       => 'remoteuser@volserver',
+        :glusterfs_path_to_private_key           => '/etc/glusterfs/glusterfs.pem',
+        :glusterfs_volume_pattern                => 'manila-share-volume-\d+$',
+        :backend_availability_zone               => 'my_zone',
+        :reserved_share_percentage               => 10.0,
+        :reserved_share_from_snapshot_percentage => 10.1,
+        :reserved_share_extend_percentage        => 10.2,
       }
     end
 

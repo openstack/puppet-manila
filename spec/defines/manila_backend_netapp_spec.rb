@@ -15,19 +15,22 @@ describe 'manila::backend::netapp' do
 
   let :default_params do
     {
-      :backend_availability_zone            => '<SERVICE DEFAULT>',
-      :netapp_transport_type                => '<SERVICE DEFAULT>',
-      :netapp_storage_family                => '<SERVICE DEFAULT>',
-      :netapp_server_port                   => '<SERVICE DEFAULT>',
-      :netapp_volume_name_template          => '<SERVICE DEFAULT>',
-      :netapp_vserver                       => '<SERVICE DEFAULT>',
-      :netapp_vserver_name_template         => '<SERVICE DEFAULT>',
-      :netapp_lif_name_template             => '<SERVICE DEFAULT>',
-      :netapp_aggregate_name_search_pattern => '<SERVICE DEFAULT>',
-      :netapp_root_volume_aggregate         => '<SERVICE DEFAULT>',
-      :netapp_root_volume                   => '<SERVICE DEFAULT>',
-      :netapp_port_name_search_pattern      => '<SERVICE DEFAULT>',
-      :netapp_trace_flags                   => '<SERVICE DEFAULT>',
+      :backend_availability_zone               => '<SERVICE DEFAULT>',
+      :netapp_transport_type                   => '<SERVICE DEFAULT>',
+      :netapp_storage_family                   => '<SERVICE DEFAULT>',
+      :netapp_server_port                      => '<SERVICE DEFAULT>',
+      :netapp_volume_name_template             => '<SERVICE DEFAULT>',
+      :netapp_vserver                          => '<SERVICE DEFAULT>',
+      :netapp_vserver_name_template            => '<SERVICE DEFAULT>',
+      :netapp_lif_name_template                => '<SERVICE DEFAULT>',
+      :netapp_aggregate_name_search_pattern    => '<SERVICE DEFAULT>',
+      :netapp_root_volume_aggregate            => '<SERVICE DEFAULT>',
+      :netapp_root_volume                      => '<SERVICE DEFAULT>',
+      :netapp_port_name_search_pattern         => '<SERVICE DEFAULT>',
+      :netapp_trace_flags                      => '<SERVICE DEFAULT>',
+      :reserved_share_percentage               => '<SERVICE DEFAULT>',
+      :reserved_share_from_snapshot_percentage => '<SERVICE DEFAULT>',
+      :reserved_share_extend_percentage        => '<SERVICE DEFAULT>',
     }
   end
 
@@ -61,19 +64,22 @@ describe 'manila::backend::netapp' do
     context 'with provided parameters' do
       let :params do
         req_params.merge({
-          :backend_availability_zone            => 'my_zone',
-          :netapp_transport_type                => 'https',
-          :netapp_storage_family                => 'ontap_cluster',
-          :netapp_server_port                   => '443',
-          :netapp_volume_name_template          => 'share_%(share_id)s',
-          :netapp_vserver                       => 'manilasvm',
-          :netapp_vserver_name_template         => 'os_%s',
-          :netapp_lif_name_template             => 'os_%(net_allocation_id)s',
-          :netapp_aggregate_name_search_pattern => '(.*)',
-          :netapp_root_volume_aggregate         => 'aggr1',
-          :netapp_root_volume                   => 'rootvolume',
-          :netapp_port_name_search_pattern      => '(.*)',
-          :netapp_trace_flags                   => 'method,api',
+          :backend_availability_zone               => 'my_zone',
+          :netapp_transport_type                   => 'https',
+          :netapp_storage_family                   => 'ontap_cluster',
+          :netapp_server_port                      => '443',
+          :netapp_volume_name_template             => 'share_%(share_id)s',
+          :netapp_vserver                          => 'manilasvm',
+          :netapp_vserver_name_template            => 'os_%s',
+          :netapp_lif_name_template                => 'os_%(net_allocation_id)s',
+          :netapp_aggregate_name_search_pattern    => '(.*)',
+          :netapp_root_volume_aggregate            => 'aggr1',
+          :netapp_root_volume                      => 'rootvolume',
+          :netapp_port_name_search_pattern         => '(.*)',
+          :netapp_trace_flags                      => 'method,api',
+          :reserved_share_percentage               => 10.0,
+          :reserved_share_from_snapshot_percentage => 10.1,
+          :reserved_share_extend_percentage        => 10.2,
         })
       end
 

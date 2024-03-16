@@ -82,7 +82,7 @@ define manila::backend::flashblade (
     "${share_backend_name}/backend_availability_zone":               value => $backend_availability_zone;
     "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
-    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 
   ensure_packages('nfs-client', {

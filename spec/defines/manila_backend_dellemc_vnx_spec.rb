@@ -14,14 +14,17 @@ describe 'manila::backend::dellemc_vnx' do
 
   let :default_params do
     {
-      :emc_share_backend            => 'vnx',
-      :vnx_server_container         => '<SERVICE DEFAULT>',
-      :vnx_share_data_pools         => '<SERVICE DEFAULT>',
-      :vnx_ethernet_ports           => '<SERVICE DEFAULT>',
-      :network_plugin_ipv6_enabled  => true,
-      :emc_ssl_cert_verify          => '<SERVICE DEFAULT>',
-      :emc_ssl_cert_path            => '<SERVICE DEFAULT>',
-      :backend_availability_zone    => '<SERVICE DEFAULT>',
+      :emc_share_backend                       => 'vnx',
+      :vnx_server_container                    => '<SERVICE DEFAULT>',
+      :vnx_share_data_pools                    => '<SERVICE DEFAULT>',
+      :vnx_ethernet_ports                      => '<SERVICE DEFAULT>',
+      :network_plugin_ipv6_enabled             => true,
+      :emc_ssl_cert_verify                     => '<SERVICE DEFAULT>',
+      :emc_ssl_cert_path                       => '<SERVICE DEFAULT>',
+      :backend_availability_zone               => '<SERVICE DEFAULT>',
+      :reserved_share_percentage               => '<SERVICE DEFAULT>',
+      :reserved_share_from_snapshot_percentage => '<SERVICE DEFAULT>',
+      :reserved_share_extend_percentage        => '<SERVICE DEFAULT>',
     }
   end
 
@@ -56,13 +59,16 @@ describe 'manila::backend::dellemc_vnx' do
     context 'with provided parameters' do
       let :params do
         required_params.merge({
-          :vnx_server_container        => 'container1',
-          :vnx_share_data_pools        => '*',
-          :vnx_ethernet_ports          => 'eth1',
-          :network_plugin_ipv6_enabled => true,
-          :emc_ssl_cert_verify         => true,
-          :emc_ssl_cert_path           => '/etc/ssl/certs/',
-          :backend_availability_zone   => 'my_zone',
+          :vnx_server_container                    => 'container1',
+          :vnx_share_data_pools                    => '*',
+          :vnx_ethernet_ports                      => 'eth1',
+          :network_plugin_ipv6_enabled             => true,
+          :emc_ssl_cert_verify                     => true,
+          :emc_ssl_cert_path                       => '/etc/ssl/certs/',
+          :backend_availability_zone               => 'my_zone',
+          :reserved_share_percentage               => 10.0,
+          :reserved_share_from_snapshot_percentage => 10.1,
+          :reserved_share_extend_percentage        => 10.2,
         })
       end
 

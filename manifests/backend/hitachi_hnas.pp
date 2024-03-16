@@ -103,7 +103,7 @@ define manila::backend::hitachi_hnas (
     "${share_backend_name}/hitachi_hnas_file_system_name":           value => $hitachi_hnas_file_system_name;
     "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${share_backend_name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
-    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
+    "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 
   ensure_packages('nfs-client', {

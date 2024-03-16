@@ -7,12 +7,18 @@ describe 'manila::backend::lvm' do
 
     let :params do
       {
-        :lvm_share_export_ips      => '1.2.3.4',
-        :lvm_share_export_root     => '$state_path/mnt',
-        :lvm_share_mirrors         => 1,
-        :lvm_share_volume_group    => 'lvm-shares',
-        :lvm_share_helpers         => ['CIFS=manila.share.drivers.helpers.CIFSHelperUserAccess','NFS=manila.share.drivers.helpers.NFSHelper'],
-        :backend_availability_zone => 'my_zone',
+        :lvm_share_export_ips                    => '1.2.3.4',
+        :lvm_share_export_root                   => '$state_path/mnt',
+        :lvm_share_mirrors                       => 1,
+        :lvm_share_volume_group                  => 'lvm-shares',
+        :lvm_share_helpers                       => [
+          'CIFS=manila.share.drivers.helpers.CIFSHelperUserAccess',
+          'NFS=manila.share.drivers.helpers.NFSHelper'
+        ],
+        :backend_availability_zone               => 'my_zone',
+        :reserved_share_percentage               => 10.0,
+        :reserved_share_from_snapshot_percentage => 10.1,
+        :reserved_share_extend_percentage        => 10.2,
       }
     end
 
@@ -29,6 +35,9 @@ describe 'manila::backend::lvm' do
         'CIFS=manila.share.drivers.helpers.CIFSHelperUserAccess,NFS=manila.share.drivers.helpers.NFSHelper')
       is_expected.to contain_manila_config('mylvm/backend_availability_zone').with_value(
         'my_zone')
+      is_expected.to contain_manila_config('mylvm/reserved_share_percentage').with_value(10.0)
+      is_expected.to contain_manila_config('mylvm/reserved_share_from_snapshot_percentage').with_value(10.1)
+      is_expected.to contain_manila_config('mylvm/reserved_share_extend_percentage').with_value(10.2)
     end
   end
 

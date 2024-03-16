@@ -65,6 +65,6 @@ define manila::backend::glusterfs (
     "${name}/glusterfs_mount_point_base":              value => $glusterfs_mount_point_base;
     "${name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
-    "${name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
+    "${name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 }

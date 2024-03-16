@@ -24,6 +24,12 @@ describe 'manila::backend::glusterfs' do
         '$state_path/mnt')
       is_expected.to contain_manila_config('mygluster/backend_availability_zone').with_value(
         'my_zone')
+      is_expected.to contain_manila_config('mygluster/reserved_share_percentage').with_value(
+        '<SERVICE DEFAULT>')
+      is_expected.to contain_manila_config('mygluster/reserved_share_from_snapshot_percentage').with_value(
+        '<SERVICE DEFAULT>')
+      is_expected.to contain_manila_config('mygluster/reserved_share_extend_percentage').with_value(
+        '<SERVICE DEFAULT>')
     end
   end
 

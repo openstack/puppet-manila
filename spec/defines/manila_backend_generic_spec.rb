@@ -6,17 +6,20 @@ describe 'manila::backend::generic' do
 
   let :params do
     {
-      :driver_handles_share_servers     => true,
-      :smb_template_config_path         => '$state_path/smb.conf',
-      :volume_name_template             => 'manila-share-%s',
-      :volume_snapshot_name_template    => 'manila-snapshot-%s',
-      :share_mount_path                 => '/shares',
-      :max_time_to_create_volume        => 180,
-      :max_time_to_attach               => 120,
-      :service_instance_smb_config_path => '$share_mount_path/smb.conf',
-      :share_volume_fstype              => 'ext4',
-      :cinder_volume_type               => 'gold',
-      :backend_availability_zone        => 'my_zone',
+      :driver_handles_share_servers            => true,
+      :smb_template_config_path                => '$state_path/smb.conf',
+      :volume_name_template                    => 'manila-share-%s',
+      :volume_snapshot_name_template           => 'manila-snapshot-%s',
+      :share_mount_path                        => '/shares',
+      :max_time_to_create_volume               => 180,
+      :max_time_to_attach                      => 120,
+      :service_instance_smb_config_path        => '$share_mount_path/smb.conf',
+      :share_volume_fstype                     => 'ext4',
+      :cinder_volume_type                      => 'gold',
+      :backend_availability_zone               => 'my_zone',
+      :reserved_share_percentage               => 10.0,
+      :reserved_share_from_snapshot_percentage => 10.1,
+      :reserved_share_extend_percentage        => 10.2,
     }
   end
 

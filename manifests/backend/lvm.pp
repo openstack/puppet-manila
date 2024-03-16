@@ -93,6 +93,6 @@ and has no effect.')
     "${name}/lvm_share_helpers":                       value => join(any2array($lvm_share_helpers), ',');
     "${name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
-    "${name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
+    "${name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 }

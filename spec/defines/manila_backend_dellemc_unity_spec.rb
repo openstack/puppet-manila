@@ -16,15 +16,18 @@ describe 'manila::backend::dellemc_unity' do
 
   let :default_params do
     {
-      :emc_share_backend              => 'unity',
-      :unity_share_data_pools         => '<SERVICE DEFAULT>',
-      :unity_ethernet_ports           => '<SERVICE DEFAULT>',
-      :unity_share_server             => '<SERVICE DEFAULT>',
-      :report_default_filter_function => '<SERVICE DEFAULT>',
-      :network_plugin_ipv6_enabled    => true,
-      :emc_ssl_cert_verify            => '<SERVICE DEFAULT>',
-      :emc_ssl_cert_path              => '<SERVICE DEFAULT>',
-      :backend_availability_zone      => '<SERVICE DEFAULT>',
+      :emc_share_backend                       => 'unity',
+      :unity_share_data_pools                  => '<SERVICE DEFAULT>',
+      :unity_ethernet_ports                    => '<SERVICE DEFAULT>',
+      :unity_share_server                      => '<SERVICE DEFAULT>',
+      :report_default_filter_function          => '<SERVICE DEFAULT>',
+      :network_plugin_ipv6_enabled             => true,
+      :emc_ssl_cert_verify                     => '<SERVICE DEFAULT>',
+      :emc_ssl_cert_path                       => '<SERVICE DEFAULT>',
+      :backend_availability_zone               => '<SERVICE DEFAULT>',
+      :reserved_share_percentage               => '<SERVICE DEFAULT>',
+      :reserved_share_from_snapshot_percentage => '<SERVICE DEFAULT>',
+      :reserved_share_extend_percentage        => '<SERVICE DEFAULT>',
     }
   end
 
@@ -66,14 +69,17 @@ describe 'manila::backend::dellemc_unity' do
     context 'with provided parameters' do
       let :params do
         required_params.merge({
-          :unity_share_data_pools         => '*',
-          :unity_ethernet_ports           => 'eth1',
-          :unity_share_server             => '192.168.0.1',
-          :report_default_filter_function => false,
-          :network_plugin_ipv6_enabled    => true,
-          :emc_ssl_cert_verify            => true,
-          :emc_ssl_cert_path              => '/etc/ssl/certs/',
-          :backend_availability_zone      => 'my_zone',
+          :unity_share_data_pools                  => '*',
+          :unity_ethernet_ports                    => 'eth1',
+          :unity_share_server                      => '192.168.0.1',
+          :report_default_filter_function          => false,
+          :network_plugin_ipv6_enabled             => true,
+          :emc_ssl_cert_verify                     => true,
+          :emc_ssl_cert_path                       => '/etc/ssl/certs/',
+          :backend_availability_zone               => 'my_zone',
+          :reserved_share_percentage               => 10.0,
+          :reserved_share_from_snapshot_percentage => 10.1,
+          :reserved_share_extend_percentage        => 10.2,
         })
       end
 

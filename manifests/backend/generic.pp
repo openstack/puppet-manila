@@ -137,6 +137,6 @@ define manila::backend::generic (
     "${name}/automatic_share_server_cleanup":          value => $automatic_share_server_cleanup;
     "${name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
-    "${name}/reserved_share_extend_percentage":        value => $reserved_share_percentage;
+    "${name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 }
