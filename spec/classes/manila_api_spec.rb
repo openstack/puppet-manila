@@ -69,7 +69,7 @@ describe 'manila::api' do
       end
     end
 
-    context 'with only required params' do
+    context 'with bind_host' do
       let :params do
         req_params.merge({'bind_host' => '192.168.1.3'})
       end
@@ -81,26 +81,18 @@ describe 'manila::api' do
       end
     end
 
-    context 'with only required params' do
+    context 'with oslo.middleware options' do
       let :params do
-        req_params.merge({'enable_proxy_headers_parsing' => true})
+        req_params.merge({
+          'enable_proxy_headers_parsing' => true,
+          'max_request_body_size'        => '102400'
+        })
       end
-      it { is_expected.to contain_class('manila::policy') }
-      it 'should configure manila api correctly' do
+
+      it 'should configure oslo.middleware correctly' do
         is_expected.to contain_oslo__middleware('manila_config').with(
           :enable_proxy_headers_parsing => true,
-        )
-      end
-    end
-
-    context 'with only required params' do
-      let :params do
-        req_params.merge({'max_request_body_size' => '102400'})
-      end
-      it { is_expected.to contain_class('manila::policy') }
-      it 'should configure manila api correctly' do
-        is_expected.to contain_oslo__middleware('manila_config').with(
-          :max_request_body_size => '102400',
+          :max_request_body_size        => '102400',
         )
       end
     end
