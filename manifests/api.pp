@@ -67,6 +67,10 @@
 #   (optional) Number of manila-api workers
 #   Defaults to $facts['os_workers']
 #
+# [*admin_only_metadata*]
+#   (optional) Metadata keys that should only be manipulated by administrators.
+#   Defaults to $facts['os_service_default'].
+#
 class manila::api (
   $auth_strategy                = 'keystone',
   $package_ensure               = 'present',
@@ -82,6 +86,7 @@ class manila::api (
   $max_request_body_size        = $facts['os_service_default'],
   $enabled_share_protocols      = $facts['os_service_default'],
   $service_workers              = $facts['os_workers'],
+  $admin_only_metadata          = $facts['os_service_default'],
 ) inherits manila::params {
 
   include manila::deps
@@ -150,6 +155,7 @@ server.")
     'DEFAULT/enabled_share_protocols': value => join(any2array($enabled_share_protocols), ',');
     'DEFAULT/default_share_type':      value => $default_share_type;
     'DEFAULT/osapi_share_workers':     value => $service_workers;
+    'DEFAULT/admin_only_metadata':     value => join(any2array($admin_only_metadata), ',');
   }
 
   oslo::middleware { 'manila_config':

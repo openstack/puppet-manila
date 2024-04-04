@@ -36,6 +36,7 @@ describe 'manila::api' do
         )
         is_expected.to contain_manila_config('DEFAULT/default_share_type').with(:value => '<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('DEFAULT/osapi_share_workers').with(:value => '2')
+        is_expected.to contain_manila_config('DEFAULT/admin_only_metadata').with(:value => '<SERVICE DEFAULT>')
         is_expected.to contain_manila_api_paste_ini('filter:ratelimit/paste.filter_factory').with_ensure('absent')
         is_expected.to contain_manila_api_paste_ini('filter:ratelimit/limits').with_ensure('absent')
       end
@@ -203,6 +204,20 @@ describe 'manila::api' do
 
       it 'configures enabled_share_protocols' do
         is_expected.to contain_manila_config('DEFAULT/enabled_share_protocols').with_value('NFS,CIFS')
+      end
+    end
+
+    context 'admin_only_metadata is set' do
+      let :params do
+        req_params.merge!({
+          :admin_only_metadata => ['__affinity_same_host', '__affinity_different_host']
+        })
+      end
+
+      it 'configures enabled_share_protocols' do
+        is_expected.to contain_manila_config('DEFAULT/admin_only_metadata').with_value(
+          '__affinity_same_host,__affinity_different_host'
+        )
       end
     end
   end

@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``manila::api::admin_only_metadata`` parameter has been added.
