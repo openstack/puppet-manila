@@ -59,15 +59,15 @@
 #    Defaults to present.
 #
 class manila::cron::db_purge (
-  $minute      = 1,
-  $hour        = 0,
-  $monthday    = '*',
-  $month       = '*',
-  $weekday     = '*',
-  $user        = $::manila::params::user,
-  $age         = 0,
-  $destination = '/var/log/manila/manila-rowsflush.log',
-  $maxdelay    = 0,
+  $minute                           = 1,
+  $hour                             = 0,
+  $monthday                         = '*',
+  $month                            = '*',
+  $weekday                          = '*',
+  $user                             = $::manila::params::user,
+  $age                              = 0,
+  $destination                      = '/var/log/manila/manila-rowsflush.log',
+  Integer[0] $maxdelay              = 0,
   Enum['present', 'absent'] $ensure = 'present',
 ) inherits manila::params {
 
