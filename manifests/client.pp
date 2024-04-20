@@ -19,4 +19,6 @@ class manila::client (
     name   => $::manila::params::client_package,
     tag    => ['openstack', 'openstackclient'],
   }
+
+  include openstacklib::openstackclient
 }
