@@ -133,66 +133,6 @@
 #   (optional) Location to store Manila locks
 #   Defaults to $::manila::params::lock_path
 #
-# [*amqp_server_request_prefix*]
-#   address prefix used when sending to a specific server
-#   Defaults to 'exclusive'
-#
-# [*amqp_broadcast_prefix*]
-#   address prefix used when broadcasting to all servers
-#   Defaults to 'broadcast'
-#
-# [*amqp_group_request_prefix*]
-#   address prefix when sending to any server in group
-#   Defaults to 'unicast'
-#
-# [*amqp_container_name*]
-#   Name for the AMQP container
-#   Defaults to guest
-#
-# [*amqp_idle_timeout*]
-#   Timeout for inactive connections (in seconds)
-#   Defaults to 0
-#
-# [*amqp_trace*]
-#   Debug: dump AMQP frames to stdout
-#   Defaults to false
-#
-# [*amqp_ssl_ca_file*]
-#   (optional) CA certificate PEM file to verify server certificate
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_ssl_cert_file*]
-#   (optional) Identifying certificate PEM file to present to clients
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_ssl_key_file*]
-#   (optional) Private key PEM file used to sign cert_file certificate
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_ssl_key_password*]
-#   (optional) Password for decrypting ssl_key_file (if encrypted)
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_sasl_mechanisms*]
-#   (Optional) Space separated list of acceptable SASL mechanisms
-#   Defaults to $facts['os_service_default'].
-#
-# [*amqp_sasl_config_dir*]
-#   (Optional) Path to directory that contains the SASL configuration
-#   Defaults to $facts['os_service_default'].
-#
-# [*amqp_sasl_config_name*]
-#   (Optional) Name of configuration file (without .conf suffix)
-#   Defaults to $facts['os_service_default'].
-#
-# [*amqp_username*]
-#   (Optional) User name for message broker authentication
-#   Defaults to $facts['os_service_default'].
-#
-# [*amqp_password*]
-#   (Optional) Password for message broker authentication
-#   Defaults to $facts['os_service_default'].
-#
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
 #   in the manila config.
@@ -258,21 +198,6 @@ class manila (
   $rootwrap_config                 = '/etc/manila/rootwrap.conf',
   $state_path                      = '/var/lib/manila',
   $lock_path                       = $::manila::params::lock_path,
-  $amqp_server_request_prefix      = $facts['os_service_default'],
-  $amqp_broadcast_prefix           = $facts['os_service_default'],
-  $amqp_group_request_prefix       = $facts['os_service_default'],
-  $amqp_container_name             = $facts['os_service_default'],
-  $amqp_idle_timeout               = $facts['os_service_default'],
-  $amqp_trace                      = $facts['os_service_default'],
-  $amqp_ssl_ca_file                = $facts['os_service_default'],
-  $amqp_ssl_cert_file              = $facts['os_service_default'],
-  $amqp_ssl_key_file               = $facts['os_service_default'],
-  $amqp_ssl_key_password           = $facts['os_service_default'],
-  $amqp_sasl_mechanisms            = $facts['os_service_default'],
-  $amqp_sasl_config_dir            = $facts['os_service_default'],
-  $amqp_sasl_config_name           = $facts['os_service_default'],
-  $amqp_username                   = $facts['os_service_default'],
-  $amqp_password                   = $facts['os_service_default'],
   Boolean $purge_config            = false,
   $host                            = $facts['os_service_default'],
   $report_interval                 = $facts['os_service_default'],
@@ -317,24 +242,6 @@ class manila (
     rabbit_quorum_delivery_limit    => $rabbit_quorum_delivery_limit,
     rabbit_quorum_max_memory_length => $rabbit_quorum_max_memory_length,
     rabbit_quorum_max_memory_bytes  => $rabbit_quorum_max_memory_bytes,
-  }
-
-  oslo::messaging::amqp { 'manila_config':
-    server_request_prefix => $amqp_server_request_prefix,
-    broadcast_prefix      => $amqp_broadcast_prefix,
-    group_request_prefix  => $amqp_group_request_prefix,
-    container_name        => $amqp_container_name,
-    idle_timeout          => $amqp_idle_timeout,
-    trace                 => $amqp_trace,
-    ssl_ca_file           => $amqp_ssl_ca_file,
-    ssl_key_password      => $amqp_ssl_key_password,
-    ssl_cert_file         => $amqp_ssl_cert_file,
-    ssl_key_file          => $amqp_ssl_key_file,
-    sasl_mechanisms       => $amqp_sasl_mechanisms,
-    sasl_config_dir       => $amqp_sasl_config_dir,
-    sasl_config_name      => $amqp_sasl_config_name,
-    username              => $amqp_username,
-    password              => $amqp_password,
   }
 
   oslo::messaging::default { 'manila_config':
