@@ -19,6 +19,7 @@ describe 'manila::backend::cephfs' do
         :cephfs_ganesha_server_is_remote         => true,
         :cephfs_ganesha_server_username          => 'ganeshadmin',
         :cephfs_ganesha_path_to_private_key      => '/readable/by/manila.key',
+        :cephfs_nfs_cluster_id                   => 'mycephfsnfscluster',
         :cephfs_volume_mode                      => '0775',
         :cephfs_filesystem_name                  => 'cephfs',
         :reserved_share_percentage               => 10.0,
@@ -54,6 +55,8 @@ describe 'manila::backend::cephfs' do
         'ganeshadmin')
       is_expected.to contain_manila_config('cephfs/cephfs_ganesha_path_to_private_key').with_value(
         '/readable/by/manila.key')
+      is_expected.to contain_manila_config('cephfs/cephfs_nfs_cluster_id').with_value(
+        'mycephfsnfscluster')
       is_expected.to contain_manila_config('cephfs/cephfs_filesystem_name').with_value(
         'cephfs')
       is_expected.to contain_manila_config('cephfs/reserved_share_percentage').with_value(10.0)

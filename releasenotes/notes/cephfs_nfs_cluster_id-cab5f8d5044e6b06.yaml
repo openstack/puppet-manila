@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``manila::backend::cephfs::cephfs_nfs_cluster_id`` parameter has been added.

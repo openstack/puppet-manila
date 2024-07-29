@@ -59,6 +59,11 @@
 #   hosting the Ganesha service (prevails on server_password)
 #   Defaults to: $facts['os_service_default']
 #
+# [*cephfs_nfs_cluster_id*]
+#   (optional) ID of the NFS cluster to use (when using ceph orchestrator
+#   deployed clustered NFS service)
+#   Defaults to: $facts['os_service_default']
+#
 # [*cephfs_volume_mode*]
 #   (optional) octal rwx permissions for CephFS backing volumes,
 #   snapshots, and groups of volumes and snapshots.
@@ -100,6 +105,7 @@ define manila::backend::cephfs (
   $cephfs_ganesha_server_username          = $facts['os_service_default'],
   $cephfs_ganesha_server_password          = $facts['os_service_default'],
   $cephfs_ganesha_path_to_private_key      = $facts['os_service_default'],
+  $cephfs_nfs_cluster_id                   = $facts['os_service_default'],
   $cephfs_volume_mode                      = $facts['os_service_default'],
   $cephfs_protocol_helper_type             = 'CEPHFS',
   $cephfs_filesystem_name                  = $facts['os_service_default'],
@@ -126,6 +132,7 @@ define manila::backend::cephfs (
     "${name}/cephfs_ganesha_server_username":          value => $cephfs_ganesha_server_username;
     "${name}/cephfs_ganesha_server_password":          value => $cephfs_ganesha_server_password, secret => true;
     "${name}/cephfs_ganesha_path_to_private_key":      value => $cephfs_ganesha_path_to_private_key;
+    "${name}/cephfs_nfs_cluster_id":                   value => $cephfs_nfs_cluster_id;
     "${name}/cephfs_volume_mode":                      value => $cephfs_volume_mode;
     "${name}/cephfs_protocol_helper_type":             value => $cephfs_protocol_helper_type;
     "${name}/cephfs_filesystem_name":                  value => $cephfs_filesystem_name;
