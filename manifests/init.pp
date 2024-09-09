@@ -42,7 +42,7 @@
 #
 # [*notification_driver*]
 #   (optional) Driver or drivers to handle sending notifications.
-#   Defaults to 'messaging'
+#   Default to $facts['os_service_default']
 #
 # [*rabbit_ha_queues*]
 #   (optional) Use HA queues in RabbitMQ (x-ha-policy: all).
@@ -172,7 +172,7 @@ class manila (
   $control_exchange                = $facts['os_service_default'],
   $executor_thread_pool_size       = $facts['os_service_default'],
   $notification_transport_url      = $facts['os_service_default'],
-  $notification_driver             = 'messaging',
+  $notification_driver             = $facts['os_service_default'],
   $notification_topics             = $facts['os_service_default'],
   $rabbit_ha_queues                = $facts['os_service_default'],
   $rabbit_quorum_queue             = $facts['os_service_default'],
