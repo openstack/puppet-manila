@@ -166,6 +166,10 @@
 #   task scheduler to reduce stampeding.
 #   Defaults to $facts['os_service_default'].
 #
+# [*service_down_time*]
+#   (optional) Maximum time since last check-in for up service.
+#   Defaults to $facts['os_service_default'].
+#
 class manila (
   $default_transport_url           = $facts['os_service_default'],
   $rpc_response_timeout            = $facts['os_service_default'],
@@ -203,6 +207,7 @@ class manila (
   $report_interval                 = $facts['os_service_default'],
   $periodic_interval               = $facts['os_service_default'],
   $periodic_fuzzy_delay            = $facts['os_service_default'],
+  $service_down_time               = $facts['os_service_default'],
 ) inherits manila::params {
 
   include manila::deps
@@ -266,6 +271,7 @@ class manila (
     'DEFAULT/report_interval':           value => $report_interval;
     'DEFAULT/periodic_interval':         value => $periodic_interval;
     'DEFAULT/periodic_fuzzy_delay':      value => $periodic_fuzzy_delay;
+    'DEFAULT/service_down_time':         value => $service_down_time;
   }
 
   oslo::concurrency { 'manila_config': lock_path => $lock_path }

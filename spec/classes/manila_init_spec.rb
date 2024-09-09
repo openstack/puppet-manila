@@ -68,6 +68,9 @@ describe 'manila' do
         is_expected.to contain_manila_config('DEFAULT/periodic_fuzzy_delay').with(
           :value => '<SERVICE DEFAULT>'
         )
+        is_expected.to contain_manila_config('DEFAULT/service_down_time').with(
+          :value => '<SERVICE DEFAULT>'
+        )
         is_expected.to contain_oslo__concurrency('manila_config').with(
           :lock_path => platform_params[:lock_path]
         )

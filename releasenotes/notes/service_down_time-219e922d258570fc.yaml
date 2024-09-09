@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``manila::service_down_time`` parameter has been added.
