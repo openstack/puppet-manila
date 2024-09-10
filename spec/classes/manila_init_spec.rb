@@ -29,7 +29,7 @@ describe 'manila' do
         )
         is_expected.to contain_oslo__messaging__notifications('manila_config').with(
           :transport_url => '<SERVICE DEFAULT>',
-          :driver        => 'messaging',
+          :driver        => '<SERVICE DEFAULT>',
           :topics        => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
@@ -195,6 +195,8 @@ describe 'manila' do
           :rpc_response_timeout       => '120',
           :control_exchange           => 'manila',
           :notification_transport_url => 'rabbit://rabbit_user:password@localhost:5673',
+          :notification_driver        => 'messagingv2',
+          :notification_topics        => ['notifications'],
           :executor_thread_pool_size  => 64,
         }
       end
@@ -207,7 +209,9 @@ describe 'manila' do
       ) }
 
       it { is_expected.to contain_oslo__messaging__notifications('manila_config').with(
-        :transport_url => 'rabbit://rabbit_user:password@localhost:5673'
+        :transport_url => 'rabbit://rabbit_user:password@localhost:5673',
+        :driver        => 'messagingv2',
+        :topics        => ['notifications']
       ) }
     end
   end
