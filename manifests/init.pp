@@ -153,6 +153,10 @@
 #   will be run through a green thread.
 #   Defaults to $facts['os_service_default']
 #
+# [*rabbit_qos_prefetch_count*]
+#   (Optional) Specifies the number of messages to prefetch.
+#   Defaults to $facts['os_service_default']
+#
 # [*report_interval*]
 #   (optional) Seconds between nodes reporting state to datastore.
 #   Defaults to $facts['os_service_default']
@@ -192,6 +196,7 @@ class manila (
   $kombu_failover_strategy         = $facts['os_service_default'],
   $amqp_durable_queues             = $facts['os_service_default'],
   $rabbit_heartbeat_in_pthread     = $facts['os_service_default'],
+  $rabbit_qos_prefetch_count       = $facts['os_service_default'],
   $package_ensure                  = 'present',
   Boolean $use_ssl                 = false,
   $ca_file                         = false,
@@ -242,6 +247,7 @@ class manila (
     kombu_ssl_version               => $kombu_ssl_version,
     kombu_failover_strategy         => $kombu_failover_strategy,
     heartbeat_in_pthread            => $rabbit_heartbeat_in_pthread,
+    rabbit_qos_prefetch_count       => $rabbit_qos_prefetch_count,
     rabbit_quorum_queue             => $rabbit_quorum_queue,
     rabbit_transient_quorum_queue   => $rabbit_transient_quorum_queue,
     rabbit_quorum_delivery_limit    => $rabbit_quorum_delivery_limit,
