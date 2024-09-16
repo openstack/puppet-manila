@@ -32,8 +32,8 @@ describe 'manila::keystone::auth' do
       ) }
 
       it { is_expected.to contain_keystone__resource__service_identity('manilav2').with(
-        :configure_user      => true,
-        :configure_user_role => true,
+        :configure_user      => false,
+        :configure_user_role => false,
         :configure_endpoint  => true,
         :service_name        => 'manilav2',
         :service_type        => 'sharev2',
@@ -75,8 +75,8 @@ describe 'manila::keystone::auth' do
           :auth_name_v2           => 'alt_manilav2',
           :email_v2               => 'alt_manilav2@alt_localhost',
           :configure_endpoint_v2  => false,
-          :configure_user_v2      => false,
-          :configure_user_role_v2 => false,
+          :configure_user_v2      => true,
+          :configure_user_role_v2 => true,
           :service_description_v2 => 'Alternative Manila Service v2',
           :service_name_v2        => 'alt_servicev2',
           :service_type_v2        => 'alt_sharev2',
@@ -106,8 +106,8 @@ describe 'manila::keystone::auth' do
       ) }
 
       it { is_expected.to contain_keystone__resource__service_identity('manilav2').with(
-        :configure_user      => false,
-        :configure_user_role => false,
+        :configure_user      => true,
+        :configure_user_role => true,
         :configure_endpoint  => false,
         :service_name        => 'alt_servicev2',
         :service_type        => 'alt_sharev2',
