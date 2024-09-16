@@ -1,0 +1,12 @@
+---
+deprecations:
+  - |
+    Management of manila v2 user by the ``manila::keystone::auth`` class has
+    been deprecated and will be removed in a future release. Because of this
+    change the following parameters of the auth class have been deprecated.
+
+    - ``password_v2``
+    - ``email_v2``
+    - ``auth_name_v2``
+    - ``configure_user_v2``
+    - ``configure_user_role_v2``
