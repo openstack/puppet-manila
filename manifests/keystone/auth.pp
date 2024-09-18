@@ -97,11 +97,11 @@
 #
 # [*configure_user_v2*]
 #   (Optional) Should the v2 service user be configured?
-#   Defaults to true
+#   Defaults to false
 #
 # [*configure_user_role_v2*]
 #   (Optional) Should the admin role be configured for the v2 service user?
-#   Defaults to true
+#   Defaults to false
 #
 # [*service_type_v2*]
 #   (Optional) Type of service v2. Optional.
@@ -150,9 +150,9 @@ class manila::keystone::auth (
   Boolean $configure_endpoint                = true,
   Boolean $configure_endpoint_v2             = true,
   Boolean $configure_user                    = true,
-  Boolean $configure_user_v2                 = true,
+  Boolean $configure_user_v2                 = false,
   Boolean $configure_user_role               = true,
-  Boolean $configure_user_role_v2            = true,
+  Boolean $configure_user_role_v2            = false,
   String[1] $service_type                    = 'share',
   String[1] $service_type_v2                 = 'sharev2',
   String[1] $service_description             = 'Manila Service',

@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    Default value of the following parameters have been changed from ``true``
+    to ``false``. Because of this change, the ``manila::keystone::auth`` class
+    no longer creates the additional keystone user for v2 API by default.
+
+    - ``manila::keystone::auth::configure_user_v2``
+    - ``manila::keystone::auth::configure_user_role_v2``
