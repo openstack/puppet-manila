@@ -143,6 +143,21 @@
 #   not necessarily a host name, FQDN, or IP address.
 #   Defaults to $facts['os_service_default']
 #
+# [*rabbit_heartbeat_timeout_threshold*]
+#   (Optional) Number of seconds after which the RabbitMQ broker is considered
+#   down if the heartbeat keepalive fails.  Any value >0 enables heartbeats.
+#   Heartbeating helps to ensure the TCP connection to RabbitMQ isn't silently
+#   closed, resulting in missed or lost messages from the queue.
+#   (Requires kombu >= 3.0.7 and amqp >= 1.4.0)
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_heartbeat_rate*]
+#   (Optional) How often during the rabbit_heartbeat_timeout_threshold period to
+#   check the heartbeat on RabbitMQ connection.  (i.e. rabbit_heartbeat_rate=2
+#   when rabbit_heartbeat_timeout_threshold=60, the heartbeat will be checked
+#   every 30 seconds.
+#   Defaults to $facts['os_service_default']
+#
 # [*rabbit_heartbeat_in_pthread*]
 #   (Optional) EXPERIMENTAL: Run the health check heartbeat thread
 #   through a native python thread. By default if this
@@ -175,44 +190,46 @@
 #   Defaults to $facts['os_service_default'].
 #
 class manila (
-  $default_transport_url           = $facts['os_service_default'],
-  $rpc_response_timeout            = $facts['os_service_default'],
-  $control_exchange                = $facts['os_service_default'],
-  $executor_thread_pool_size       = $facts['os_service_default'],
-  $notification_transport_url      = $facts['os_service_default'],
-  $notification_driver             = $facts['os_service_default'],
-  $notification_topics             = $facts['os_service_default'],
-  $rabbit_ha_queues                = $facts['os_service_default'],
-  $rabbit_quorum_queue             = $facts['os_service_default'],
-  $rabbit_transient_quorum_queue   = $facts['os_service_default'],
-  $rabbit_quorum_delivery_limit    = $facts['os_service_default'],
-  $rabbit_quorum_max_memory_length = $facts['os_service_default'],
-  $rabbit_quorum_max_memory_bytes  = $facts['os_service_default'],
-  $rabbit_use_ssl                  = $facts['os_service_default'],
-  $kombu_ssl_ca_certs              = $facts['os_service_default'],
-  $kombu_ssl_certfile              = $facts['os_service_default'],
-  $kombu_ssl_keyfile               = $facts['os_service_default'],
-  $kombu_ssl_version               = $facts['os_service_default'],
-  $kombu_failover_strategy         = $facts['os_service_default'],
-  $amqp_durable_queues             = $facts['os_service_default'],
-  $rabbit_heartbeat_in_pthread     = $facts['os_service_default'],
-  $rabbit_qos_prefetch_count       = $facts['os_service_default'],
-  $package_ensure                  = 'present',
-  Boolean $use_ssl                 = false,
-  $ca_file                         = false,
-  $cert_file                       = false,
-  $key_file                        = false,
-  $api_paste_config                = '/etc/manila/api-paste.ini',
-  $storage_availability_zone       = 'nova',
-  $rootwrap_config                 = '/etc/manila/rootwrap.conf',
-  $state_path                      = '/var/lib/manila',
-  $lock_path                       = $::manila::params::lock_path,
-  Boolean $purge_config            = false,
-  $host                            = $facts['os_service_default'],
-  $report_interval                 = $facts['os_service_default'],
-  $periodic_interval               = $facts['os_service_default'],
-  $periodic_fuzzy_delay            = $facts['os_service_default'],
-  $service_down_time               = $facts['os_service_default'],
+  $default_transport_url              = $facts['os_service_default'],
+  $rpc_response_timeout               = $facts['os_service_default'],
+  $control_exchange                   = $facts['os_service_default'],
+  $rabbit_heartbeat_timeout_threshold = $facts['os_service_default'],
+  $rabbit_heartbeat_rate              = $facts['os_service_default'],
+  $executor_thread_pool_size          = $facts['os_service_default'],
+  $notification_transport_url         = $facts['os_service_default'],
+  $notification_driver                = $facts['os_service_default'],
+  $notification_topics                = $facts['os_service_default'],
+  $rabbit_ha_queues                   = $facts['os_service_default'],
+  $rabbit_quorum_queue                = $facts['os_service_default'],
+  $rabbit_transient_quorum_queue      = $facts['os_service_default'],
+  $rabbit_quorum_delivery_limit       = $facts['os_service_default'],
+  $rabbit_quorum_max_memory_length    = $facts['os_service_default'],
+  $rabbit_quorum_max_memory_bytes     = $facts['os_service_default'],
+  $rabbit_use_ssl                     = $facts['os_service_default'],
+  $kombu_ssl_ca_certs                 = $facts['os_service_default'],
+  $kombu_ssl_certfile                 = $facts['os_service_default'],
+  $kombu_ssl_keyfile                  = $facts['os_service_default'],
+  $kombu_ssl_version                  = $facts['os_service_default'],
+  $kombu_failover_strategy            = $facts['os_service_default'],
+  $amqp_durable_queues                = $facts['os_service_default'],
+  $rabbit_heartbeat_in_pthread        = $facts['os_service_default'],
+  $rabbit_qos_prefetch_count          = $facts['os_service_default'],
+  $package_ensure                     = 'present',
+  Boolean $use_ssl                    = false,
+  $ca_file                            = false,
+  $cert_file                          = false,
+  $key_file                           = false,
+  $api_paste_config                   = '/etc/manila/api-paste.ini',
+  $storage_availability_zone          = 'nova',
+  $rootwrap_config                    = '/etc/manila/rootwrap.conf',
+  $state_path                         = '/var/lib/manila',
+  $lock_path                          = $::manila::params::lock_path,
+  Boolean $purge_config               = false,
+  $host                               = $facts['os_service_default'],
+  $report_interval                    = $facts['os_service_default'],
+  $periodic_interval                  = $facts['os_service_default'],
+  $periodic_fuzzy_delay               = $facts['os_service_default'],
+  $service_down_time                  = $facts['os_service_default'],
 ) inherits manila::params {
 
   include manila::deps
@@ -246,6 +263,8 @@ class manila (
     kombu_ssl_keyfile               => $kombu_ssl_keyfile,
     kombu_ssl_version               => $kombu_ssl_version,
     kombu_failover_strategy         => $kombu_failover_strategy,
+    heartbeat_timeout_threshold     => $rabbit_heartbeat_timeout_threshold,
+    heartbeat_rate                  => $rabbit_heartbeat_rate,
     heartbeat_in_pthread            => $rabbit_heartbeat_in_pthread,
     rabbit_qos_prefetch_count       => $rabbit_qos_prefetch_count,
     rabbit_quorum_queue             => $rabbit_quorum_queue,

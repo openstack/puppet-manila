@@ -37,6 +37,8 @@ describe 'manila' do
           :amqp_durable_queues             => '<SERVICE DEFAULT>',
           :rabbit_ha_queues                => '<SERVICE DEFAULT>',
           :kombu_failover_strategy         => '<SERVICE DEFAULT>',
+          :heartbeat_timeout_threshold     => '<SERVICE DEFAULT>',
+          :heartbeat_rate                  => '<SERVICE DEFAULT>',
           :heartbeat_in_pthread            => '<SERVICE DEFAULT>',
           :rabbit_qos_prefetch_count       => '<SERVICE DEFAULT>',
           :rabbit_quorum_queue             => '<SERVICE DEFAULT>',
