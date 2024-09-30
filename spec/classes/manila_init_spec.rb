@@ -31,6 +31,7 @@ describe 'manila' do
           :transport_url => '<SERVICE DEFAULT>',
           :driver        => '<SERVICE DEFAULT>',
           :topics        => '<SERVICE DEFAULT>',
+          :retry         => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
           :rabbit_use_ssl                  => '<SERVICE DEFAULT>',
@@ -201,6 +202,7 @@ describe 'manila' do
           :notification_transport_url => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver        => 'messagingv2',
           :notification_topics        => ['notifications'],
+          :notification_retry         => 10,
           :executor_thread_pool_size  => 64,
         }
       end
@@ -215,7 +217,8 @@ describe 'manila' do
       it { is_expected.to contain_oslo__messaging__notifications('manila_config').with(
         :transport_url => 'rabbit://rabbit_user:password@localhost:5673',
         :driver        => 'messagingv2',
-        :topics        => ['notifications']
+        :topics        => ['notifications'],
+        :retry         => 10,
       ) }
     end
   end

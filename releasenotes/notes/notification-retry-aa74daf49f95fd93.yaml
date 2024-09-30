@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``manila::notification_retry`` parameter has been added.

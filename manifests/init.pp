@@ -35,14 +35,19 @@
 #      transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #   Defaults to $facts['os_service_default'].
 #
+# [*notification_driver*]
+#   (optional) Driver or drivers to handle sending notifications.
+#   Default to $facts['os_service_default']
+#
 # [*notification_topics*]
 #   (optional) AMQP topics to publish to when using the RPC notification driver.
 #   (list value)
 #   Default to $facts['os_service_default']
 #
-# [*notification_driver*]
-#   (optional) Driver or drivers to handle sending notifications.
-#   Default to $facts['os_service_default']
+# [*notification_retry*]
+#   (Optional) The maximum number of attempts to re-sent a notification
+#   message, which failed to be delivered due to a recoverable error.
+#   Defaults to $facts['os_service_default'].
 #
 # [*rabbit_ha_queues*]
 #   (optional) Use HA queues in RabbitMQ (x-ha-policy: all).
@@ -204,6 +209,7 @@ class manila (
   $notification_transport_url         = $facts['os_service_default'],
   $notification_driver                = $facts['os_service_default'],
   $notification_topics                = $facts['os_service_default'],
+  $notification_retry                 = $facts['os_service_default'],
   $rabbit_ha_queues                   = $facts['os_service_default'],
   $rabbit_quorum_queue                = $facts['os_service_default'],
   $rabbit_transient_quorum_queue      = $facts['os_service_default'],
@@ -292,6 +298,7 @@ class manila (
     transport_url => $notification_transport_url,
     driver        => $notification_driver,
     topics        => $notification_topics,
+    retry         => $notification_retry,
   }
 
   manila_config {
