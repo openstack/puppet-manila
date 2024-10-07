@@ -133,7 +133,7 @@
 #
 # [*storage_availability_zone*]
 #   (optional) Availability zone of the node.
-#   Defaults to 'nova'
+#   Defaults to $facts['os_service_default']
 #
 # [*rootwrap_config*]
 #   (optional) Path to the rootwrap configuration file to use for
@@ -232,7 +232,7 @@ class manila (
   $cert_file                          = false,
   $key_file                           = false,
   $api_paste_config                   = '/etc/manila/api-paste.ini',
-  $storage_availability_zone          = 'nova',
+  $storage_availability_zone          = $facts['os_service_default'],
   $rootwrap_config                    = '/etc/manila/rootwrap.conf',
   $state_path                         = '/var/lib/manila',
   $lock_path                          = $::manila::params::lock_path,
