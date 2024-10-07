@@ -165,31 +165,28 @@ describe 'manila' do
     context 'with SSL socket options set' do
       let :params do
         {
-          :use_ssl         => true,
-          :cert_file       => '/path/to/cert',
-          :ca_file         => '/path/to/ca',
-          :key_file        => '/path/to/key',
+          :use_ssl   => true,
+          :cert_file => '/path/to/cert',
+          :ca_file   => '/path/to/ca',
+          :key_file  => '/path/to/key',
         }
       end
 
-      it { is_expected.to contain_manila_config('DEFAULT/ssl_ca_file').with_value('/path/to/ca') }
-      it { is_expected.to contain_manila_config('DEFAULT/ssl_cert_file').with_value('/path/to/cert') }
-      it { is_expected.to contain_manila_config('DEFAULT/ssl_key_file').with_value('/path/to/key') }
+      it { is_expected.to contain_manila_config('ssl/ca_file').with_value('/path/to/ca') }
+      it { is_expected.to contain_manila_config('ssl/cert_file').with_value('/path/to/cert') }
+      it { is_expected.to contain_manila_config('ssl/key_file').with_value('/path/to/key') }
     end
 
     context 'with SSL socket options set to false' do
       let :params do
         {
-          :use_ssl         => false,
-          :cert_file       => false,
-          :ca_file         => false,
-          :key_file        => false,
+          :use_ssl => false,
         }
       end
 
-      it { is_expected.to contain_manila_config('DEFAULT/ssl_ca_file').with_ensure('absent') }
-      it { is_expected.to contain_manila_config('DEFAULT/ssl_cert_file').with_ensure('absent') }
-      it { is_expected.to contain_manila_config('DEFAULT/ssl_key_file').with_ensure('absent') }
+      it { is_expected.to contain_manila_config('ssl/ca_file').with_ensure('absent') }
+      it { is_expected.to contain_manila_config('ssl/cert_file').with_ensure('absent') }
+      it { is_expected.to contain_manila_config('ssl/key_file').with_ensure('absent') }
     end
 
     context 'with transport_url entries' do

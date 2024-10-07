@@ -114,19 +114,19 @@
 #
 # [*use_ssl*]
 #   (optional) Enable SSL on the API server
-#   Defaults to false, not set
+#   Defaults to false
 #
 # [*cert_file*]
 #   (optional) Certificate file to use when starting API server securely
-#   Defaults to false, not set
+#   Defaults to $facts['os_service_default'].
 #
 # [*key_file*]
 #   (optional) Private key file to use when starting API server securely
-#   Defaults to false, not set
+#   Defaults to $facts['os_service_default'].
 #
 # [*ca_file*]
 #   (optional) CA certificate file to use to verify connecting clients
-#   Defaults to false, not set_
+#   Defaults to $facts['os_service_default'].
 #
 # [*api_paste_config*]
 #   (Optional) Allow Configuration of /etc/manila/api-paste.ini.
@@ -228,9 +228,9 @@ class manila (
   $rabbit_qos_prefetch_count          = $facts['os_service_default'],
   $package_ensure                     = 'present',
   Boolean $use_ssl                    = false,
-  $ca_file                            = false,
-  $cert_file                          = false,
-  $key_file                           = false,
+  $ca_file                            = $facts['os_service_default'],
+  $cert_file                          = $facts['os_service_default'],
+  $key_file                           = $facts['os_service_default'],
   $api_paste_config                   = '/etc/manila/api-paste.ini',
   $storage_availability_zone          = 'nova',
   $rootwrap_config                    = '/etc/manila/rootwrap.conf',
@@ -248,10 +248,10 @@ class manila (
   include manila::db
 
   if $use_ssl {
-    if !$cert_file {
+    if is_service_default($cert_file) {
       fail('The cert_file parameter is required when use_ssl is set to true')
     }
-    if !$key_file {
+    if is_service_default($key_file) {
       fail('The key_file parameter is required when use_ssl is set to true')
     }
   }
@@ -318,24 +318,21 @@ class manila (
   # SSL Options
   if $use_ssl {
     manila_config {
-      'DEFAULT/ssl_cert_file' : value => $cert_file;
-      'DEFAULT/ssl_key_file' :  value => $key_file;
-    }
-    if $ca_file {
-      manila_config { 'DEFAULT/ssl_ca_file' :
-        value => $ca_file,
-      }
-    } else {
-      manila_config { 'DEFAULT/ssl_ca_file' :
-        ensure => absent,
-      }
+      'ssl/cert_file': value => $cert_file;
+      'ssl/key_file':  value => $key_file;
+      'ssl/ca_file':   value => $ca_file;
     }
   } else {
     manila_config {
-      'DEFAULT/ssl_cert_file' : ensure => absent;
-      'DEFAULT/ssl_key_file' :  ensure => absent;
-      'DEFAULT/ssl_ca_file' :   ensure => absent;
+      'ssl/cert_file': ensure => absent;
+      'ssl/key_file':  ensure => absent;
+      'ssl/ca_file':   ensure => absent;
     }
   }
-
+  # TODO(tkajinam): Remove this after 2025.1 release
+  manila_config {
+    'DEFAULT/ssl_cert_file': ensure => absent;
+    'DEFAULT/ssl_key_file':  ensure => absent;
+    'DEFAULT/ssl_ca_file':   ensure => absent;
+  }
 }
