@@ -317,17 +317,13 @@ class manila (
 
   # SSL Options
   if $use_ssl {
-    manila_config {
-      'ssl/cert_file': value => $cert_file;
-      'ssl/key_file':  value => $key_file;
-      'ssl/ca_file':   value => $ca_file;
+    oslo::service::ssl { 'manila_config':
+      cert_file => $cert_file,
+      key_file  => $key_file,
+      ca_file   => $ca_file
     }
   } else {
-    manila_config {
-      'ssl/cert_file': ensure => absent;
-      'ssl/key_file':  ensure => absent;
-      'ssl/ca_file':   ensure => absent;
-    }
+    oslo::service::ssl { 'manila_config': }
   }
   # TODO(tkajinam): Remove this after 2025.1 release
   manila_config {

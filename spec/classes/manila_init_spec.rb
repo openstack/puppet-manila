@@ -172,9 +172,11 @@ describe 'manila' do
         }
       end
 
-      it { is_expected.to contain_manila_config('ssl/ca_file').with_value('/path/to/ca') }
-      it { is_expected.to contain_manila_config('ssl/cert_file').with_value('/path/to/cert') }
-      it { is_expected.to contain_manila_config('ssl/key_file').with_value('/path/to/key') }
+      it { is_expected.to contain_oslo__service__ssl('manila_config').with(
+        :ca_file   => '/path/to/ca',
+        :cert_file => '/path/to/cert',
+        :key_file  => '/path/to/key'
+      )}
     end
 
     context 'with SSL socket options set to false' do
@@ -184,9 +186,7 @@ describe 'manila' do
         }
       end
 
-      it { is_expected.to contain_manila_config('ssl/ca_file').with_ensure('absent') }
-      it { is_expected.to contain_manila_config('ssl/cert_file').with_ensure('absent') }
-      it { is_expected.to contain_manila_config('ssl/key_file').with_ensure('absent') }
+      it { is_expected.to contain_oslo__service__ssl('manila_config') }
     end
 
     context 'with transport_url entries' do
