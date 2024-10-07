@@ -50,7 +50,7 @@ describe 'manila' do
           :enable_cancel_on_failover       => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_manila_config('DEFAULT/storage_availability_zone').with(
-          :value => 'nova'
+          :value => '<SERVICE DEFAULT>'
         )
         is_expected.to contain_manila_config('DEFAULT/api_paste_config').with(
           :value => '/etc/manila/api-paste.ini'
