@@ -65,15 +65,11 @@ Puppet::Type.type(:manila_type).provide(
     @property_hash[:ensure] == :present
   end
 
-  def self.parse_specs(specs)
-    JSON.parse(specs.gsub(/'/, '"'))
-  end
-
   def self.instances
     self.do_not_manage = true
     list = request('share type', 'list').collect do |type|
-      required_extra_specs = self.parse_specs(type[:required_extra_specs])
-      optional_extra_specs = self.parse_specs(type[:optional_extra_specs])
+      required_extra_specs = self.parse_python_dict(type[:required_extra_specs])
+      optional_extra_specs = self.parse_python_dict(type[:optional_extra_specs])
 
       new({
         :name                               => type[:name],
