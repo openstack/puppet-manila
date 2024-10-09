@@ -36,6 +36,10 @@
 #   (Optional) Should the admin role be configured for the service user?
 #   Defaults to true
 #
+# [*configure_service*]
+#   (Optional) Should the service be configurd?
+#   Defaults to True
+#
 # [*service_type*]
 #   (Optional) Type of service.
 #   Defaults to 'share'.
@@ -82,6 +86,10 @@
 # [*configure_endpoint_v2*]
 #   (Optional) Should Manila v2 endpoint be configured?
 #   Defaults to true.
+#
+# [*configure_service_v2*]
+#   (Optional) Should the service v2 be configurd?
+#   Defaults to True
 #
 # [*service_type_v2*]
 #   (Optional) Type of service v2. Optional.
@@ -150,6 +158,8 @@ class manila::keystone::auth (
   Boolean $configure_endpoint_v2             = true,
   Boolean $configure_user                    = true,
   Boolean $configure_user_role               = true,
+  Boolean $configure_service                 = true,
+  Boolean $configure_service_v2              = true,
   String[1] $service_type                    = 'share',
   String[1] $service_type_v2                 = 'sharev2',
   String[1] $service_description             = 'Manila Service',
@@ -191,6 +201,7 @@ and will be removed in a future release.")
     configure_user      => $configure_user,
     configure_user_role => $configure_user_role,
     configure_endpoint  => $configure_endpoint,
+    configure_service   => $configure_service,
     service_type        => $service_type,
     service_description => $service_description,
     auth_name           => $auth_name,
@@ -211,6 +222,7 @@ and will be removed in a future release.")
     configure_user      => $configure_user_v2,
     configure_user_role => $configure_user_role_v2,
     configure_endpoint  => $configure_endpoint_v2,
+    configure_service   => $configure_service_v2,
     service_type        => $service_type_v2,
     service_description => $service_description_v2,
     auth_name           => $auth_name_v2,

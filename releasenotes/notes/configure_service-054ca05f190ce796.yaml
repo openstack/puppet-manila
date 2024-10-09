@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``manila::keystone::auth``
+    class.
+
+    - ``configure_service``
+    - ``configure_service_v2``
