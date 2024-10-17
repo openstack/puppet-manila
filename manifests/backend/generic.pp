@@ -1,5 +1,7 @@
 # ==define manila::backend::generic
 #
+# Configures Manila to use the generic share driver
+#
 # ===Parameters
 #
 # [*driver_handles_share_servers*]

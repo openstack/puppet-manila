@@ -1,5 +1,6 @@
 # == Class: manila::share::generic
 #
+# DEPRECATED !!
 # Configures Manila to use the generic share driver
 #
 # ===Parameters
@@ -83,6 +84,9 @@ class manila::share::generic (
   $unmanage_remove_access_rules        = 'False',
   $automatic_share_server_cleanup      = 'True',
 ) {
+
+  warning("The manila::share::generic class is deprecated. \
+Use the manila::backend::generic defined resource type.")
 
   manila::backend::generic { 'DEFAULT':
     driver_handles_share_servers        => $driver_handles_share_servers,
