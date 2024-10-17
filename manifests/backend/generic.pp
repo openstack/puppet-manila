@@ -19,95 +19,93 @@
 #
 # [*smb_template_config_path*]
 #   (optional) Path to smb config.
-#   Defaults to: $state_path/smb.conf
+#   Defaults to $facts['os_service_default'].
 #
 # [*volume_name_template*]
 #   (optional) Volume name template.
-#   Defaults to: manila-share-%s
+#   Defaults to $facts['os_service_default'].
 #
 # [*volume_snapshot_name_template*]
 #   (optional) Volume snapshot name template.
-#   Defaults to: manila-snapshot-%s
+#   Defaults to $facts['os_service_default'].
 #
 # [*share_mount_path*]
 #   (optional) Parent path in service instance where shares will be mounted.
-#   Defaults to: /shares
+#   Defaults to $facts['os_service_default'].
 #
 # [*max_time_to_create_volume*]
 #   (optional) Maximum time to wait for creating cinder volume.
-#   Defaults to: 180
+#   Defaults to $facts['os_service_default'].
 #
 # [*max_time_to_attach*]
 #   (optional) Maximum time to wait for attaching cinder volume.
-#   Defaults to: 120
+#   Defaults to $facts['os_service_default'].
 #
 # [*service_instance_smb_config_path*]
 #   (optional) Path to smb config in service instance.
-#   Defaults to: $share_mount_path/smb.conf
+#   Defaults to $facts['os_service_default'].
 #
 # [*share_volume_fstype*]
 #   (optional) Filesystem type of the share volume.
 #   Choices: 'ext4', 'ext3'
-#   Defaults to: ext4
+#   Defaults to $facts['os_service_default'].
 #
 # [*share_helpers*]
 #   (optional) Specify list of share export helpers.
-#   Defaults to: ['CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess',
-#                 'NFS=manila.share.drivers.helpers.NFSHelper']
+#   Defaults to $facts['os_service_default'].
 #
 # [*cinder_volume_type*]
 #   (optional) Name or id of cinder volume type which will be used for all
 #   volumes created by driver.
+#   Defaults to $facts['os_service_default'].
 #
 # [*delete_share_server_with_last_share*]
 #   (optional) With this option is set to True share server will be deleted
 #   on deletion of last share.
-#   Defaults to: False
+#   Defaults to $facts['os_service_default'].
 #
 # [*unmanage_remove_access_rules*]
 #   (optional) If set to True, then manila will deny access and remove all
 #   access rules on share unmanage. If set to False - nothing will be changed.
-#   Defaults to: False
+#   Defaults to $facts['os_service_default'].
 #
 # [*automatic_share_server_cleanup*]
 #   (optional) If set to True, then Manila will delete all share servers which
 #   were unused more than specified time. If set to False, automatic deletion
 #   of share servers will be disabled.
-#   Defaults to: True
+#   Defaults to $facts['os_service_default'].
 #
 # [*reserved_share_percentage*]
 #   (optional) The percentage of backend capacity reserved.
-#   Defaults to: $facts['os_service_default']
+#   Defaults to $facts['os_service_default']
 #
 # [*reserved_share_from_snapshot_percentage*]
 #   (optional) The percentage of backend capacity reserved. Used for shares
 #   created from the snapshot.
-#   Defaults to: $facts['os_service_default']
+#   Defaults to $facts['os_service_default']
 #
 # [*reserved_share_extend_percentage*]
 #   (optional) The percentage of backend capacity reserved for share extend
 #   operation.
-#   Defaults to: $facts['os_service_default']
+#   Defaults to $facts['os_service_default']
 #
 define manila::backend::generic (
   $driver_handles_share_servers,
   $share_backend_name                      = $name,
   $backend_availability_zone               = $facts['os_service_default'],
-  $smb_template_config_path                = '$state_path/smb.conf',
-  $volume_name_template                    = 'manila-share-%s',
-  $volume_snapshot_name_template           = 'manila-snapshot-%s',
-  $share_mount_path                        = '/shares',
-  $max_time_to_create_volume               = 180,
-  $max_time_to_attach                      = 120,
-  $service_instance_smb_config_path        = '$share_mount_path/smb.conf',
-  $share_volume_fstype                     = 'ext4',
-  $share_helpers = [
-    'CIFS=manila.share.drivers.helpers.CIFSHelperIPAccess',
-    'NFS=manila.share.drivers.helpers.NFSHelper'],
-  $cinder_volume_type                      = undef,
-  $delete_share_server_with_last_share     = 'False',
-  $unmanage_remove_access_rules            = 'False',
-  $automatic_share_server_cleanup          = 'True',
+  $smb_template_config_path                = $facts['os_service_default'],
+  $volume_name_template                    = $facts['os_service_default'],
+  $volume_snapshot_name_template           = $facts['os_service_default'],
+  $share_mount_path                        = $facts['os_service_default'],
+  $max_time_to_create_volume               = $facts['os_service_default'],
+  $max_time_to_attach                      = $facts['os_service_default'],
+  $service_instance_smb_config_path        = $facts['os_service_default'],
+  $share_volume_fstype                     = $facts['os_service_default'],
+  $share_helpers                           = $facts['os_service_default'],
+  $cinder_volume_type                      = $facts['os_service_default'],
+  $delete_share_server_with_last_share     = $facts['os_service_default'],
+  $unmanage_remove_access_rules            = $facts['os_service_default'],
+  $automatic_share_server_cleanup          = $facts['os_service_default'],
   $reserved_share_percentage               = $facts['os_service_default'],
   $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
   $reserved_share_extend_percentage        = $facts['os_service_default'],
@@ -130,7 +128,7 @@ define manila::backend::generic (
     "${name}/max_time_to_attach":                      value => $max_time_to_attach;
     "${name}/service_instance_smb_config_path":        value => $service_instance_smb_config_path;
     "${name}/share_volume_fstype":                     value => $share_volume_fstype;
-    "${name}/share_helpers":                           value => join($share_helpers, ',');
+    "${name}/share_helpers":                           value => join(any2array($share_helpers), ',');
     "${name}/cinder_volume_type":                      value => $cinder_volume_type;
     "${name}/delete_share_server_with_last_share":     value => $delete_share_server_with_last_share;
     "${name}/unmanage_remove_access_rules":            value => $unmanage_remove_access_rules;
