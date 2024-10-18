@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``manila::network::neutron_network`` defined resource type has been
+    added. It supports managing the options of neutron network plugin.

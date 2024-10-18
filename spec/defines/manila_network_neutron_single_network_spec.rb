@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe 'manila::network::neutron_single_network' do
-  let("title") {'neutronsingle'}
+  let(:title) do
+    'neutronsingle'
+  end
 
   let :params do
     {
