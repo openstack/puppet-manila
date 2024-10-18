@@ -1,0 +1,9 @@
+---
+deprecations:
+  - |
+    The following classes were formally deprecated. Use
+    the ``manila::backend::*`` defined resource types instead.
+
+    - ``manila::share::generic``
+    - ``manila::share::hitachi_hnas``
+    - ``manila::share::netapp``

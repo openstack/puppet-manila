@@ -1,5 +1,6 @@
 # == Class: manila::share::netapp
 #
+# DEPRECATED !!
 # Configures Manila to use the NetApp share driver
 #
 # === Parameters
@@ -107,6 +108,9 @@ class manila::share::netapp (
     $netapp_port_name_search_pattern      = '(.*)',
     $netapp_trace_flags                   = undef,
 ) {
+
+  warning("The manila::share::netapp class is deprecated. \
+Use the manila::backend::netapp defined resource type.")
 
   manila::backend::netapp { 'DEFAULT':
     driver_handles_share_servers         => $driver_handles_share_servers,

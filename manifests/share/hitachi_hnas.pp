@@ -1,5 +1,6 @@
 # == Class: manila::share::hitachi_hnas
 #
+# DEPRECATED !!
 # Configures Manila to use the HITACHI NAS platform share driver
 #
 # === Parameters
@@ -51,6 +52,9 @@ class manila::share::hitachi_hnas (
   $hitachi_hnas_file_system_name,
   $driver_handles_share_servers = false,
 ) {
+
+  warning("The manila::share::hitachi_hnas class is deprecated. \
+Use the manila::backend::hitachi_hnas defined resource type.")
 
   manila::backend::hitachi_hnas { 'DEFAULT':
     driver_handles_share_servers  => $driver_handles_share_servers,
