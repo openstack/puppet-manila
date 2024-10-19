@@ -60,7 +60,7 @@
 #
 # [*username*]
 #   (optional) Username
-#   Defaults to 'cinder'
+#   Defaults to 'glance'
 #
 # [*password*]
 #   (optional) User's password
