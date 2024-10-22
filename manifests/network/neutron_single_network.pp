@@ -5,23 +5,21 @@
 # === Parameters
 #
 # [*neutron_net_id*]
-# (required) Default Neutron network that will be used for share server
-# creation. This opt is used only with
-# class 'NeutronSingleNetworkPlugin'.
+#  (required) Default Neutron network that will be used for share server
+#  creation.
 #
 # [*neutron_subnet_id*]
-# (required) Default Neutron subnet that will be used for share server
-# creation. Should be assigned to network defined in opt
-# 'neutron_net_id'. This opt is used only with
-# class 'NeutronSingleNetworkPlugin'.
+#  (required) Default Neutron subnet that will be used for share server
+#  creation. Should be assigned to network defined in opt
+#  'neutron_net_id'.
 #
 # [*network_plugin_ipv4_enabled*]
-# (optional) Whether to support Ipv4 network resource.
-# Defaults to $facts['os_service_default'].
+#  (optional) Whether to support Ipv4 network resource.
+#  Defaults to $facts['os_service_default'].
 #
 # [*network_plugin_ipv6_enabled*]
-# (optional) whether to support IPv6 network resource.
-# Defaults to $facts['os_service_default'].
+#  (optional) whether to support IPv6 network resource.
+#  Defaults to $facts['os_service_default'].
 #
 define manila::network::neutron_single_network (
   $neutron_net_id,
