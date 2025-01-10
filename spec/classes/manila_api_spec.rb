@@ -229,6 +229,7 @@ describe 'manila::api' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
+
       it_behaves_like 'manila::api'
     end
   end

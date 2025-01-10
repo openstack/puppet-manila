@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The ``manila::backend::cephfs`` defined resource type now ensures that
+    the ``ceph-common`` package is installed so that the python libraries
+    required by cephfs share driver are installed. The installation can be
+    disabled by setting the new ``manage_package`` parameter to ``False``.

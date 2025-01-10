@@ -27,6 +27,7 @@ class manila::params {
       $manila_wsgi_script_path     = '/usr/lib/cgi-bin/manila'
       $manila_wsgi_script_source   = '/usr/bin/manila-wsgi'
       $nfs_client_package_name     = 'nfs-common'
+      $ceph_common_package_name    = 'ceph-common'
     }
     'RedHat': {
       $lock_path                   = '/var/lib/manila/tmp'
@@ -44,6 +45,7 @@ class manila::params {
       $manila_wsgi_script_path     = '/var/www/cgi-bin/manila'
       $manila_wsgi_script_source   = '/usr/bin/manila-wsgi'
       $nfs_client_package_name     = 'nfs-utils'
+      $ceph_common_package_name    = 'ceph-common'
     }
     default: {
       fail("unsupported osfamily ${facts['os']['family']}, currently Debian and Redhat are the only supported platforms")

@@ -92,6 +92,10 @@
 #   operation.
 #   Defaults to: $facts['os_service_default']
 #
+# [*manage_package*]
+#   (optional) Ensures ceph client package is installed if true.
+#   Defaults to: true
+#
 define manila::backend::cephfs (
   $driver_handles_share_servers            = false,
   $share_backend_name                      = $name,
@@ -112,9 +116,11 @@ define manila::backend::cephfs (
   $reserved_share_percentage               = $facts['os_service_default'],
   $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
   $reserved_share_extend_percentage        = $facts['os_service_default'],
+  Boolean $manage_package                  = true,
 ) {
 
   include manila::deps
+  include manila::params
 
   $share_driver = 'manila.share.drivers.cephfs.driver.CephFSDriver'
 
@@ -140,4 +146,13 @@ define manila::backend::cephfs (
     "${name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
     "${name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
+
+  if $manage_package {
+    ensure_packages( 'ceph-common', {
+      ensure => present,
+      name   => $::manila::params::ceph_common_package_name,
+    })
+    Package<| title == 'ceph-common' |> { tag +> 'manila-support-package' }
+  }
+
 }

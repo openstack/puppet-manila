@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'manila::backend::cephfs' do
 
-  shared_examples_for 'cephfs driver' do
+  shared_examples_for 'manila::backend::cephfs' do
     let(:title) {'cephfs'}
 
     let :params do
@@ -26,6 +26,13 @@ describe 'manila::backend::cephfs' do
         :reserved_share_from_snapshot_percentage => 10.1,
         :reserved_share_extend_percentage        => 10.2,
       }
+    end
+
+    it 'installs ceph-common' do
+      is_expected.to contain_package('ceph-common').with(
+        :name   => platform_params[:ceph_common_package_name],
+        :ensure => 'installed',
+      )
     end
 
     it 'configures cephfs driver' do
@@ -80,14 +87,22 @@ describe 'manila::backend::cephfs' do
 
   on_supported_os({
     :supported_os   => OSDefaults.get_supported_os
-      }).each do |os,facts|
-        context "on #{os}" do
-          let (:facts) do
-            facts.merge(OSDefaults.get_facts())
-          end
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge(OSDefaults.get_facts())
+      end
 
-          it_configures 'cephfs driver'
+      let :platform_params do
+        case facts[:os]['family']
+        when 'Debian'
+          { :ceph_common_package_name => 'ceph-common' }
+        when 'RedHat'
+          { :ceph_common_package_name => 'ceph-common' }
         end
       end
 
+      it_configures 'manila::backend::cephfs'
+    end
+  end
 end
