@@ -30,16 +30,8 @@ class manila::scheduler (
   include manila::deps
   include manila::params
 
-  if $scheduler_driver {
-    manila_config {
-      'DEFAULT/scheduler_driver': value => $scheduler_driver
-    }
-  } else {
-    warning("Using a false value for scheduler_driver is deprecated. \
-Use the os_service_default fact instead.")
-    manila_config {
-      'DEFAULT/scheduler_driver': value => $facts['os_service_default']
-    }
+  manila_config {
+    'DEFAULT/scheduler_driver': value => $scheduler_driver
   }
 
   if $::manila::params::scheduler_package {

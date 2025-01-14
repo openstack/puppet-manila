@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    Support for using a false value to set
+    the ``manila::scheduler::scheduler_driver`` parameter to remove
+    the ``[DEFAULT] scheduler_driver`` option from manila.conf has been
+    removed. Use the ``os_service_default`` fact instead.
