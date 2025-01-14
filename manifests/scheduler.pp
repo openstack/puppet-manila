@@ -4,8 +4,16 @@
 #
 # === Parameters
 #
-# [*scheduler_driver*]
+# [*driver*]
 #   (Optional) Default scheduler driver to use
+#   Defaults to $facts['os_service_default'].
+#
+# [*host_manager*]
+#   (Optional) The scheduler host manager class to use
+#   Defaults to $facts['os_service_default'].
+#
+# [*max_attempts*]
+#   (Optional) Maximum number of attempts to schedule a share
 #   Defaults to $facts['os_service_default'].
 #
 # [*package_ensure*]
@@ -20,18 +28,38 @@
 #   (Optional) Whether to start/stop the service
 #   Defaults to true.
 #
+# DEPRECATED PARAMETERS
+#
+# [*scheduler_driver*]
+#   (Optional) Default scheduler driver to use
+#   Defaults to undef
+#
 class manila::scheduler (
-  $scheduler_driver       = $facts['os_service_default'],
+  $driver                 = $facts['os_service_default'],
+  $host_manager           = $facts['os_service_default'],
+  $max_attempts           = $facts['os_service_default'],
   $package_ensure         = 'present',
   Boolean $enabled        = true,
-  Boolean $manage_service = true
+  Boolean $manage_service = true,
+  # DEPRECATED PARAMETERS
+  $scheduler_driver       = undef
 ) {
 
   include manila::deps
   include manila::params
 
+  if $scheduler_driver != undef {
+    warning("The scheduler_driver parameter has been deprecated. \
+Use the driver parameter instead")
+    $driver_real = $scheduler_driver
+  } else {
+    $driver_real = $driver
+  }
+
   manila_config {
-    'DEFAULT/scheduler_driver': value => $scheduler_driver
+    'DEFAULT/scheduler_driver':       value => $driver_real;
+    'DEFAULT/scheduler_host_manager': value => $host_manager;
+    'DEFAULT/scheduler_max_attempts': value => $max_attempts;
   }
 
   if $::manila::params::scheduler_package {
