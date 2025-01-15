@@ -1,0 +1,16 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``manila::scheduler``
+    class.
+
+    - ``max_attempts``
+    - ``host_manager``
+
+  - |
+    The new ``manila::scheduler::filter`` class has been added.
+
+deprecations:
+  - |
+    The ``manila::scheduler::scheduler_driver`` parameter has been deprecated,
+    in favor of the new ``driver`` parameter.

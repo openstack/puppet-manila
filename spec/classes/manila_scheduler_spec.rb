@@ -8,7 +8,11 @@ describe 'manila::scheduler' do
 
       it { is_expected.to contain_class('manila::params') }
 
-      it { is_expected.to contain_manila_config('DEFAULT/scheduler_driver').with_value('<SERVICE DEFAULT>') }
+      it 'configures the default values' do
+        is_expected.to contain_manila_config('DEFAULT/scheduler_driver').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/scheduler_host_manager').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('DEFAULT/scheduler_max_attempts').with_value('<SERVICE DEFAULT>')
+      end
 
       it { is_expected.to contain_service('manila-scheduler').with(
         :name      => platform_params[:scheduler_service],
@@ -23,11 +27,21 @@ describe 'manila::scheduler' do
 
       let :params do
         {
-          :scheduler_driver => 'manila.scheduler.filter_scheduler.FilterScheduler',
+          :driver       => 'manila.scheduler.filter_scheduler.FilterScheduler',
+          :host_manager => 'manila.scheduler.host_manager.HostManager',
+          :max_attempts => 3,
         }
       end
 
-      it { is_expected.to contain_manila_config('DEFAULT/scheduler_driver').with_value('manila.scheduler.filter_scheduler.FilterScheduler') }
+      it 'configures the overridden values' do
+        is_expected.to contain_manila_config('DEFAULT/scheduler_driver').with_value(
+          'manila.scheduler.filter_scheduler.FilterScheduler'
+        )
+        is_expected.to contain_manila_config('DEFAULT/scheduler_host_manager').with_value(
+          'manila.scheduler.host_manager.HostManager'
+        )
+        is_expected.to contain_manila_config('DEFAULT/scheduler_max_attempts').with_value(3)
+      end
     end
 
     context 'with manage_service false' do
