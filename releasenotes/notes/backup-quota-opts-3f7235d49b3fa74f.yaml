@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``manila::quota`` class.
+
+    - ``backups``
+    - ``backup_gigabytes``
