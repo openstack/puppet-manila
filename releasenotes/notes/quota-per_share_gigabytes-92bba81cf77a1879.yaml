@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``manila::quota::per_share_gigabytes`` parameter has been added.
