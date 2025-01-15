@@ -36,6 +36,14 @@
 #   (optional) Number of replica gigabytes allowed per project.
 #   Defaults to $facts['os_service_default'].
 #
+# [*backups*]
+#   (optional) Number of share backups allowed per project.
+#   Defaults to $facts['os_service_default'].
+#
+# [*backup_gigabytes*]
+#   (optional) Total amount of share backups allowed per project.
+#   Defaults to $facts['os_service_default'].
+#
 # [*driver*]
 #   (optional) Default driver to use for quota checks.
 #   Defaults to $facts['os_service_default'].
@@ -61,6 +69,8 @@ class manila::quota (
   $share_networks      = $facts['os_service_default'],
   $share_replicas      = $facts['os_service_default'],
   $replica_gigabytes   = $facts['os_service_default'],
+  $backups             = $facts['os_service_default'],
+  $backup_gigabytes    = $facts['os_service_default'],
   $driver              = $facts['os_service_default'],
   $reservation_expire  = $facts['os_service_default'],
   $until_refresh       = $facts['os_service_default'],
@@ -78,6 +88,8 @@ class manila::quota (
     'quota/share_networks':      value => $share_networks;
     'quota/share_replicas':      value => $share_replicas;
     'quota/replica_gigabytes':   value => $replica_gigabytes;
+    'quota/backups':             value => $backups;
+    'quota/backup_gigabytes':    value => $backup_gigabytes;
     'quota/driver':              value => $driver;
     'quota/reservation_expire':  value => $reservation_expire;
     'quota/until_refresh':       value => $until_refresh;
