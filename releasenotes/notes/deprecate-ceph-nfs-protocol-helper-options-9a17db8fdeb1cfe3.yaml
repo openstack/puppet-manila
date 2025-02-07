@@ -1,0 +1,11 @@
+---
+deprecations:
+  - |
+    The following parameters of the ``manila::backend::cephfs`` class are
+    deprecated now, because the corresponding options in manila are already
+    deprecated.
+
+    - ``cephfs_ganesha_server_is_remote``
+    - ``cephfs_ganesha_server_username``
+    - ``cephfs_ganesha_path_to_private_key``
+    - ``cephfs_ganesha_server_password``

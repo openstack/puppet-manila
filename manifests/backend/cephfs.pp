@@ -39,26 +39,6 @@
 #   (optional) List of IPs on which Ganesha provides NFS share service.
 #   Defaults to: $facts['os_service_default']
 #
-# [*cephfs_ganesha_server_is_remote*]
-#   (required) Whether the Ganesha service is remote or colocated on the
-#   same node where the Share service runs.
-#   Defaults to $facts['os_service_default']
-#
-# [*cephfs_ganesha_server_username*]
-#   (optional) The username to use when logging on the remote node
-#   hosting the Ganesha service
-#   Defaults to: $facts['os_service_default']
-#
-# [*cephfs_ganesha_server_password*]
-#   (optional) The password to use when logging on the remote node
-#   hosting the Ganesha service
-#   Defaults to: $facts['os_service_default']
-#
-# [*cephfs_ganesha_path_to_private_key*]
-#   (optional) The secret key to use when logging on the remote node
-#   hosting the Ganesha service (prevails on server_password)
-#   Defaults to: $facts['os_service_default']
-#
 # [*cephfs_nfs_cluster_id*]
 #   (optional) ID of the NFS cluster to use (when using ceph orchestrator
 #   deployed clustered NFS service)
@@ -96,6 +76,28 @@
 #   (optional) Ensures ceph client package is installed if true.
 #   Defaults to: true
 #
+# DEPRECATED PARAMETERS
+#
+# [*cephfs_ganesha_server_is_remote*]
+#   (required) Whether the Ganesha service is remote or colocated on the
+#   same node where the Share service runs.
+#   Defaults to: undef
+#
+# [*cephfs_ganesha_server_username*]
+#   (optional) The username to use when logging on the remote node
+#   hosting the Ganesha service
+#   Defaults to: undef
+#
+# [*cephfs_ganesha_server_password*]
+#   (optional) The password to use when logging on the remote node
+#   hosting the Ganesha service
+#   Defaults to: undef
+#
+# [*cephfs_ganesha_path_to_private_key*]
+#   (optional) The secret key to use when logging on the remote node
+#   hosting the Ganesha service (prevails on server_password)
+#   Defaults to: undef
+#
 define manila::backend::cephfs (
   $driver_handles_share_servers            = false,
   $share_backend_name                      = $name,
@@ -105,10 +107,6 @@ define manila::backend::cephfs (
   $cephfs_cluster_name                     = 'ceph',
   $cephfs_ganesha_server_ip                = $facts['os_service_default'],
   $cephfs_ganesha_export_ips               = $facts['os_service_default'],
-  $cephfs_ganesha_server_is_remote         = $facts['os_service_default'],
-  $cephfs_ganesha_server_username          = $facts['os_service_default'],
-  $cephfs_ganesha_server_password          = $facts['os_service_default'],
-  $cephfs_ganesha_path_to_private_key      = $facts['os_service_default'],
   $cephfs_nfs_cluster_id                   = $facts['os_service_default'],
   $cephfs_volume_mode                      = $facts['os_service_default'],
   $cephfs_protocol_helper_type             = 'CEPHFS',
@@ -117,10 +115,26 @@ define manila::backend::cephfs (
   $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
   $reserved_share_extend_percentage        = $facts['os_service_default'],
   Boolean $manage_package                  = true,
+  # DEPRECATED PARAMETERS
+  $cephfs_ganesha_server_is_remote         = undef,
+  $cephfs_ganesha_server_username          = undef,
+  $cephfs_ganesha_server_password          = undef,
+  $cephfs_ganesha_path_to_private_key      = undef,
 ) {
 
   include manila::deps
   include manila::params
+
+  [
+    'cephfs_ganesha_server_is_remote',
+    'cephfs_ganesha_server_username',
+    'cephfs_ganesha_server_password',
+    'cephfs_ganesha_path_to_private_key'
+  ].each |String $opt| {
+    if getvar($opt) != undef {
+      warning("The ${opt} parameter has been deprecated and will be removed.")
+    }
+  }
 
   $share_driver = 'manila.share.drivers.cephfs.driver.CephFSDriver'
 
@@ -134,10 +148,6 @@ define manila::backend::cephfs (
     "${name}/cephfs_cluster_name":                     value => $cephfs_cluster_name;
     "${name}/cephfs_ganesha_server_ip":                value => $cephfs_ganesha_server_ip;
     "${name}/cephfs_ganesha_export_ips":               value => join(any2array($cephfs_ganesha_export_ips), ',');
-    "${name}/cephfs_ganesha_server_is_remote":         value => $cephfs_ganesha_server_is_remote;
-    "${name}/cephfs_ganesha_server_username":          value => $cephfs_ganesha_server_username;
-    "${name}/cephfs_ganesha_server_password":          value => $cephfs_ganesha_server_password, secret => true;
-    "${name}/cephfs_ganesha_path_to_private_key":      value => $cephfs_ganesha_path_to_private_key;
     "${name}/cephfs_nfs_cluster_id":                   value => $cephfs_nfs_cluster_id;
     "${name}/cephfs_volume_mode":                      value => $cephfs_volume_mode;
     "${name}/cephfs_protocol_helper_type":             value => $cephfs_protocol_helper_type;
@@ -145,6 +155,17 @@ define manila::backend::cephfs (
     "${name}/reserved_share_percentage":               value => $reserved_share_percentage;
     "${name}/reserved_share_from_snapshot_percentage": value => $reserved_share_from_snapshot_percentage;
     "${name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
+  }
+
+  manila_config {
+    "${name}/cephfs_ganesha_server_is_remote":
+      value => pick($cephfs_ganesha_server_is_remote, $facts['os_service_default']);
+    "${name}/cephfs_ganesha_server_username":
+      value => pick($cephfs_ganesha_server_username, $facts['os_service_default']);
+    "${name}/cephfs_ganesha_server_password":
+      value => pick($cephfs_ganesha_server_password, $facts['os_service_default']), secret => true;
+    "${name}/cephfs_ganesha_path_to_private_key":
+      value => pick($cephfs_ganesha_path_to_private_key, $facts['os_service_default']);
   }
 
   if $manage_package {
