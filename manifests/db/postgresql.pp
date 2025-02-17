@@ -34,7 +34,7 @@ class manila::db::postgresql(
 
   include manila::deps
 
-  ::openstacklib::db::postgresql { 'manila':
+  openstacklib::db::postgresql { 'manila':
     password   => $password,
     dbname     => $dbname,
     user       => $user,

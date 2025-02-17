@@ -164,7 +164,7 @@ class manila::wsgi::apache (
 
   Anchor['manila::install::end'] -> Class['apache']
 
-  ::openstacklib::wsgi::apache { 'manila_wsgi':
+  openstacklib::wsgi::apache { 'manila_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
     group                       => $::manila::params::group,

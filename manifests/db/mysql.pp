@@ -47,7 +47,7 @@ class manila::db::mysql (
 
   include manila::deps
 
-  ::openstacklib::db::mysql { 'manila':
+  openstacklib::db::mysql { 'manila':
     user          => $user,
     password      => $password,
     dbname        => $dbname,
