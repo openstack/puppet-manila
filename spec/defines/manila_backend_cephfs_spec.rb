@@ -7,24 +7,25 @@ describe 'manila::backend::cephfs' do
 
     let :params do
       {
-        :driver_handles_share_servers            => false,
-        :share_backend_name                      => 'cephfs',
-        :backend_availability_zone               => 'my_zone',
-        :cephfs_conf_path                        => '$state_path/ceph.conf',
-        :cephfs_auth_id                          => 'manila',
-        :cephfs_cluster_name                     => 'ceph',
-        :cephfs_protocol_helper_type             => 'NFS',
-        :cephfs_ganesha_server_ip                => '10.0.0.1',
-        :cephfs_ganesha_export_ips               => '10.0.0.1,1001::1001',
-        :cephfs_ganesha_server_is_remote         => true,
-        :cephfs_ganesha_server_username          => 'ganeshadmin',
-        :cephfs_ganesha_path_to_private_key      => '/readable/by/manila.key',
-        :cephfs_nfs_cluster_id                   => 'mycephfsnfscluster',
-        :cephfs_volume_mode                      => '0775',
-        :cephfs_filesystem_name                  => 'cephfs',
-        :reserved_share_percentage               => 10.0,
-        :reserved_share_from_snapshot_percentage => 10.1,
-        :reserved_share_extend_percentage        => 10.2,
+        :driver_handles_share_servers                     => false,
+        :share_backend_name                               => 'cephfs',
+        :backend_availability_zone                        => 'my_zone',
+        :cephfs_conf_path                                 => '$state_path/ceph.conf',
+        :cephfs_auth_id                                   => 'manila',
+        :cephfs_cluster_name                              => 'ceph',
+        :cephfs_protocol_helper_type                      => 'NFS',
+        :cephfs_ganesha_server_ip                         => '10.0.0.1',
+        :cephfs_ganesha_export_ips                        => '10.0.0.1,1001::1001',
+        :cephfs_ganesha_server_is_remote                  => true,
+        :cephfs_ganesha_server_username                   => 'ganeshadmin',
+        :cephfs_ganesha_path_to_private_key               => '/readable/by/manila.key',
+        :cephfs_nfs_cluster_id                            => 'mycephfsnfscluster',
+        :cephfs_volume_mode                               => '0775',
+        :cephfs_filesystem_name                           => 'cephfs',
+        :cephfs_cached_allocated_capacity_update_interval => 60,
+        :reserved_share_percentage                        => 10.0,
+        :reserved_share_from_snapshot_percentage          => 10.1,
+        :reserved_share_extend_percentage                 => 10.2,
       }
     end
 
@@ -66,6 +67,8 @@ describe 'manila::backend::cephfs' do
         'mycephfsnfscluster')
       is_expected.to contain_manila_config('cephfs/cephfs_filesystem_name').with_value(
         'cephfs')
+      is_expected.to contain_manila_config('cephfs/cephfs_cached_allocated_capacity_update_interval').with_value(
+        60)
       is_expected.to contain_manila_config('cephfs/reserved_share_percentage').with_value(10.0)
       is_expected.to contain_manila_config('cephfs/reserved_share_from_snapshot_percentage').with_value(10.1)
       is_expected.to contain_manila_config('cephfs/reserved_share_extend_percentage').with_value(10.2)

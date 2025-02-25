@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``manila::backend::cephfs::cephfs_cached_allocated_capacity_update_interval``
+    parameter has been added.
