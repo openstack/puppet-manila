@@ -95,8 +95,8 @@ define manila::backend::flashblade (
   ensure_packages('nfs-client', {
     name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
-    tag    => 'manila-support-package',
   })
+  Package<| title == 'nfs-client' |> { tag +> 'manila-support-package' }
 
 }
 
