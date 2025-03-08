@@ -239,7 +239,7 @@ class manila::keystone::authtoken(
 
   keystone::resource::authtoken {
     'manila_config':
-      *                              => $params;
+      * => $params;
     default:
       username                       => $username,
       password                       => $password,
