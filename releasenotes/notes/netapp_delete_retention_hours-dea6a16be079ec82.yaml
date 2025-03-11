@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``manila::backend::netapp::netapp_delete_retention_hours``
+    parameter has been added.

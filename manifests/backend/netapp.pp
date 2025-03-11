@@ -85,6 +85,11 @@
 #   driver_handles_share_servers is set to True.
 #   Defaults to $facts['os_service_default']
 #
+# [*netapp_delete_retention_hours*]
+#   (optional) The number of hours that a deleted volume should be retained
+#   before the delete is completed.
+#   Defaults to $facts['os_service_default']
+#
 # [*netapp_port_name_search_pattern*]
 #   (optional) Pattern for overriding the selection of network ports on which
 #   to create Vserver LIFs.
@@ -146,6 +151,7 @@ define manila::backend::netapp (
   $netapp_aggregate_name_search_pattern    = $facts['os_service_default'],
   $netapp_root_volume_aggregate            = $facts['os_service_default'],
   $netapp_root_volume                      = $facts['os_service_default'],
+  $netapp_delete_retention_hours           = $facts['os_service_default'],
   $netapp_port_name_search_pattern         = $facts['os_service_default'],
   $netapp_trace_flags                      = $facts['os_service_default'],
   $reserved_share_percentage               = $facts['os_service_default'],
@@ -178,6 +184,7 @@ define manila::backend::netapp (
     "${share_backend_name}/netapp_aggregate_name_search_pattern":    value => $netapp_aggregate_name_search_pattern;
     "${share_backend_name}/netapp_root_volume_aggregate":            value => $netapp_root_volume_aggregate;
     "${share_backend_name}/netapp_root_volume":                      value => $netapp_root_volume;
+    "${share_backend_name}/netapp_delete_retention_hours":           value => $netapp_delete_retention_hours;
     "${share_backend_name}/netapp_port_name_search_pattern":         value => $netapp_port_name_search_pattern;
     "${share_backend_name}/netapp_trace_flags":                      value => $netapp_trace_flags;
     "${share_backend_name}/reserved_share_percentage":               value => $reserved_share_percentage;
