@@ -36,6 +36,7 @@ describe 'manila' do
         is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
           :rabbit_use_ssl                  => '<SERVICE DEFAULT>',
           :amqp_durable_queues             => '<SERVICE DEFAULT>',
+          :amqp_auto_delete                => '<SERVICE DEFAULT>',
           :rabbit_ha_queues                => '<SERVICE DEFAULT>',
           :kombu_failover_strategy         => '<SERVICE DEFAULT>',
           :heartbeat_timeout_threshold     => '<SERVICE DEFAULT>',
@@ -44,6 +45,7 @@ describe 'manila' do
           :rabbit_qos_prefetch_count       => '<SERVICE DEFAULT>',
           :rabbit_quorum_queue             => '<SERVICE DEFAULT>',
           :rabbit_transient_quorum_queue   => '<SERVICE DEFAULT>',
+          :rabbit_transient_queues_ttl     => '<SERVICE DEFAULT>',
           :rabbit_quorum_delivery_limit    => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_length => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_bytes  => '<SERVICE DEFAULT>',
@@ -138,27 +140,17 @@ describe 'manila' do
       )}
     end
 
-    context 'with amqp_durable_queues disabled' do
-      let :params do
-        req_params.merge({
-          :amqp_durable_queues => false,
-        })
-      end
-
-      it { is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
-        :amqp_durable_queues => false,
-      )}
-    end
-
-    context 'with amqp_durable_queues enabled' do
+    context 'with amqp options' do
       let :params do
         req_params.merge({
           :amqp_durable_queues => true,
+          :amqp_auto_delete    => false,
         })
       end
 
       it { is_expected.to contain_oslo__messaging__rabbit('manila_config').with(
         :amqp_durable_queues => true,
+        :amqp_auto_delete    => false,
       )}
     end
 
