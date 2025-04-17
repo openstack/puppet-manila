@@ -344,10 +344,4 @@ class manila (
   } else {
     oslo::service::ssl { 'manila_config': }
   }
-  # TODO(tkajinam): Remove this after 2025.1 release
-  manila_config {
-    'DEFAULT/ssl_cert_file': ensure => absent;
-    'DEFAULT/ssl_key_file':  ensure => absent;
-    'DEFAULT/ssl_ca_file':   ensure => absent;
-  }
 }
