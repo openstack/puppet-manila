@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    The following classes have been removed.
+
+    - ``manila::share::generic``
+    - ``manila::share::glusterfs``
+    - ``manila::share::hitachi_hnas``
+    - ``manila::share::netapp``
