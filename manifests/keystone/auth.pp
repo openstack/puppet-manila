@@ -114,28 +114,6 @@
 #   This url should *not* contain any trailing '/'.
 #   Defaults to 'http://127.0.0.1:8786/v2'
 #
-# DEPRECATED PARAMETERS
-#
-# [*password_v2*]
-#   (Optional) Password for Manila v2 user.
-#   Defaults to undef.
-#
-# [*email_v2*]
-#   (Optional) Email for Manila v2 user.
-#   Defaults to 'manilav2@localhost'.
-#
-# [*auth_name_v2*]
-#   (Optional) Username for Manila v2 service.
-#   Defaults to 'manilav2'.
-#
-# [*configure_user_v2*]
-#   (Optional) Should the v2 service user be configured?
-#   Defaults to false
-#
-# [*configure_user_role_v2*]
-#   (Optional) Should the admin role be configured for the v2 service user?
-#   Defaults to false
-#
 # === Examples
 #
 #  class { 'manila::keystone::auth':
@@ -171,31 +149,12 @@ class manila::keystone::auth (
   Keystone::EndpointUrl $admin_url_v2        = 'http://127.0.0.1:8786/v2',
   Keystone::EndpointUrl $internal_url        = 'http://127.0.0.1:8786/v1/%(tenant_id)s',
   Keystone::EndpointUrl $internal_url_v2     = 'http://127.0.0.1:8786/v2',
-  # DEPRECATED PARAMETERS
-  Optional[String[1]] $password_v2           = undef,
-  String[1] $auth_name_v2                    = 'manilav2',
-  String[1] $email_v2                        = 'manilav2@localhost',
-  Boolean $configure_user_v2                 = false,
-  Boolean $configure_user_role_v2            = false,
 ) {
 
   include manila::deps
 
   Keystone::Resource::Service_identity['manila'] -> Anchor['manila::service::end']
   Keystone::Resource::Service_identity['manilav2'] -> Anchor['manila::service::end']
-
-  if $configure_user_v2 or $configure_user_role_v2 {
-    warning("Management of share v2 user has been deprecated and will be removed \
-and will be removed in a future release.")
-  }
-
-  # for interface backward compatibility, we can't enforce to set a new parameter
-  # so we take 'password' parameter by default but allow to override it.
-  if ! $password_v2 {
-    $password_v2_real = $password
-  } else {
-    $password_v2_real = $password_v2
-  }
 
   keystone::resource::service_identity { 'manila':
     configure_user      => $configure_user,
@@ -219,21 +178,14 @@ and will be removed in a future release.")
   }
 
   keystone::resource::service_identity { 'manilav2':
-    configure_user      => $configure_user_v2,
-    configure_user_role => $configure_user_role_v2,
+    configure_user      => false,
+    configure_user_role => false,
     configure_endpoint  => $configure_endpoint_v2,
     configure_service   => $configure_service_v2,
     service_type        => $service_type_v2,
     service_description => $service_description_v2,
-    auth_name           => $auth_name_v2,
     service_name        => $service_name_v2,
     region              => $region,
-    password            => $password_v2_real,
-    email               => $email_v2,
-    tenant              => $tenant,
-    roles               => $roles,
-    system_scope        => $system_scope,
-    system_roles        => $system_roles,
     public_url          => $public_url_v2,
     admin_url           => $admin_url_v2,
     internal_url        => $internal_url_v2,
