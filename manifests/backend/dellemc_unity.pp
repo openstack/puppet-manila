@@ -166,7 +166,7 @@ define manila::backend::dellemc_unity (
     "${share_backend_name}/max_over_subscription_ratio":             value => $max_over_subscription_ratio;
   }
 
-  ensure_packages('nfs-client', {
+  stdlib::ensure_packages('nfs-client', {
     name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
   })
@@ -174,7 +174,7 @@ define manila::backend::dellemc_unity (
 
   if $manage_storops {
     # Python library storops is required to run Unity driver.
-    ensure_packages( 'storops', {
+    stdlib::ensure_packages( 'storops', {
       ensure   => $package_ensure,
       provider => 'pip',
       tag      => 'manila-support-package',

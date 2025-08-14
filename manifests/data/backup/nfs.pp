@@ -47,7 +47,7 @@ class manila::data::backup::nfs (
     'DEFAULT/backup_mount_options':    value => $backup_mount_options;
   }
 
-  ensure_packages('nfs-client', {
+  stdlib::ensure_packages('nfs-client', {
     name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
   })

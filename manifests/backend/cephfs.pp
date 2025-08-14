@@ -176,7 +176,7 @@ define manila::backend::cephfs (
   }
 
   if $manage_package {
-    ensure_packages( 'ceph-common', {
+    stdlib::ensure_packages( 'ceph-common', {
       ensure => present,
       name   => $::manila::params::ceph_common_package_name,
     })

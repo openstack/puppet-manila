@@ -83,7 +83,7 @@ define manila::backend::ganesha (
     "${share_backend_name}/ganesha_rados_export_index":    value => $ganesha_rados_export_index;
   }
 
-  ensure_packages( 'nfs-ganesha', {
+  stdlib::ensure_packages( 'nfs-ganesha', {
     ensure => present,
     tag    => ['openstack', 'manila-support-package'],
   })

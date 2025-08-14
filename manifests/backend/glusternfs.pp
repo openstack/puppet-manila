@@ -86,7 +86,7 @@ define manila::backend::glusternfs (
     "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 
-  ensure_packages( [
+  stdlib::ensure_packages( [
     $::manila::params::gluster_package_name,
     $::manila::params::gluster_client_package_name
   ], {

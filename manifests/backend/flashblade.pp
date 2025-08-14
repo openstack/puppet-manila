@@ -92,7 +92,7 @@ define manila::backend::flashblade (
     "${share_backend_name}/max_over_subscription_ratio":             value => $max_over_subscription_ratio;
   }
 
-  ensure_packages('nfs-client', {
+  stdlib::ensure_packages('nfs-client', {
     name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
   })

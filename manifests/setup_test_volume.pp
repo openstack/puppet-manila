@@ -29,7 +29,7 @@ class manila::setup_test_volume(
 
   include manila::deps
 
-  ensure_packages ( 'lvm2', {
+  stdlib::ensure_packages ( 'lvm2', {
     ensure => present,
   })
   Package<| title == 'lvm2' |> { tag +> 'manila-support-package' }

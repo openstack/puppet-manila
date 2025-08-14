@@ -127,7 +127,7 @@ define manila::backend::dellemc_powermax (
     "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 
-  ensure_packages('nfs-client', {
+  stdlib::ensure_packages('nfs-client', {
     name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
   })

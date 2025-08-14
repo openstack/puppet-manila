@@ -98,7 +98,7 @@ define manila::backend::dellemc_isilon (
     "${share_backend_name}/emc_nas_server_secure":        value => $emc_nas_server_secure;
   }
 
-  ensure_packages('nfs-client', {
+  stdlib::ensure_packages('nfs-client', {
     name   => $::manila::params::nfs_client_package_name,
     ensure => $package_ensure,
   })
