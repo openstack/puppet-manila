@@ -24,7 +24,7 @@
 # [*share_backend_name*]
 #   (optional) Name of the backend in manila.conf that
 #   these settings will reside in
-#   Defaults to $::name.
+#   Defaults to $name.
 #
 # [*backend_availability_zone*]
 #   (Optional) Availability zone for this share backend.
@@ -194,7 +194,7 @@ define manila::backend::netapp (
   }
 
   stdlib::ensure_packages('nfs-client', {
-    name   => $::manila::params::nfs_client_package_name,
+    name   => $manila::params::nfs_client_package_name,
     ensure => $package_ensure,
   })
   Package<| title == 'nfs-client' |> { tag +> 'manila-support-package' }

@@ -15,7 +15,7 @@ class manila::coordination (
   include manila::deps
 
   oslo::coordination{ 'manila_config':
-    backend_url => $backend_url
+    backend_url => $backend_url,
   }
 
   # all coordination settings should be applied and all packages should be

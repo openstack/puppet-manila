@@ -16,7 +16,7 @@ class manila::client (
 
   package { 'python-manilaclient':
     ensure => $package_ensure,
-    name   => $::manila::params::client_package,
+    name   => $manila::params::client_package,
     tag    => ['openstack', 'openstackclient'],
   }
 

@@ -36,7 +36,7 @@
 #   service, and you must use another class to configure that
 #   web service. For example, use class { 'manila::wsgi::apache'...}
 #   to make manila-api be a web app using apache mod_wsgi.
-#   Defaults to '$::manila::params::api_service'
+#   Defaults to '$manila::params::api_service'
 #
 # [*manage_service*]
 #   (optional) Whether to start/stop the service
@@ -79,7 +79,7 @@ class manila::api (
   Boolean $enabled              = true,
   Boolean $sync_db              = true,
   Boolean $manage_service       = true,
-  $service_name                 = $::manila::params::api_service,
+  $service_name                 = $manila::params::api_service,
   $ratelimits                   = undef,
   $ratelimits_factory           = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
   $enable_proxy_headers_parsing = $facts['os_service_default'],
@@ -94,10 +94,10 @@ class manila::api (
   include manila::policy
   include openstacklib::openstackclient
 
-  if $::manila::params::api_package {
+  if $manila::params::api_package {
     package { 'manila-api':
       ensure => $package_ensure,
-      name   => $::manila::params::api_package,
+      name   => $manila::params::api_package,
       tag    => ['openstack', 'manila-package'],
     }
   }
@@ -113,10 +113,10 @@ class manila::api (
       $ensure = 'stopped'
     }
 
-    if $service_name == $::manila::params::api_service {
+    if $service_name == $manila::params::api_service {
       service { 'manila-api':
         ensure    => $ensure,
-        name      => $::manila::params::api_service,
+        name      => $manila::params::api_service,
         enable    => $enabled,
         hasstatus => true,
         tag       => 'manila-service',
@@ -132,7 +132,7 @@ class manila::api (
       # start apache
       service { 'manila-api':
         ensure => 'stopped',
-        name   => $::manila::params::api_service,
+        name   => $manila::params::api_service,
         enable => false,
         tag    => ['manila-service'],
       }

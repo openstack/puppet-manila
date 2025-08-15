@@ -101,10 +101,10 @@ class manila::share (
   include manila::deps
   include manila::params
 
-  if $::manila::params::share_package {
+  if $manila::params::share_package {
     package { 'manila-share':
       ensure => $package_ensure,
-      name   => $::manila::params::share_package,
+      name   => $manila::params::share_package,
       tag    => ['openstack', 'manila-package'],
     }
   }
@@ -135,7 +135,7 @@ class manila::share (
 
     service { 'manila-share':
       ensure    => $ensure,
-      name      => $::manila::params::share_service,
+      name      => $manila::params::share_service,
       enable    => $enabled,
       hasstatus => true,
       tag       => 'manila-service',

@@ -99,7 +99,7 @@ define manila::backend::dellemc_isilon (
   }
 
   stdlib::ensure_packages('nfs-client', {
-    name   => $::manila::params::nfs_client_package_name,
+    name   => $manila::params::nfs_client_package_name,
     ensure => $package_ensure,
   })
   Package<| title == 'nfs-client' |> { tag +> 'manila-support-package' }

@@ -62,10 +62,10 @@ Use the driver parameter instead")
     'DEFAULT/scheduler_max_attempts': value => $max_attempts;
   }
 
-  if $::manila::params::scheduler_package {
+  if $manila::params::scheduler_package {
     package { 'manila-scheduler':
       ensure => $package_ensure,
-      name   => $::manila::params::scheduler_package,
+      name   => $manila::params::scheduler_package,
       tag    => ['openstack', 'manila-package'],
     }
   }
@@ -79,7 +79,7 @@ Use the driver parameter instead")
 
     service { 'manila-scheduler':
       ensure    => $ensure,
-      name      => $::manila::params::scheduler_service,
+      name      => $manila::params::scheduler_service,
       enable    => $enabled,
       hasstatus => true,
       tag       => 'manila-service',

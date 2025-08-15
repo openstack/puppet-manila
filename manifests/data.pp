@@ -71,10 +71,10 @@ class manila::data (
   include manila::deps
   include manila::params
 
-  if $::manila::params::data_package {
+  if $manila::params::data_package {
     package { 'manila-data':
       ensure => $package_ensure,
-      name   => $::manila::params::data_package,
+      name   => $manila::params::data_package,
       tag    => ['openstack', 'manila-package'],
     }
   }
@@ -100,7 +100,7 @@ class manila::data (
 
     service { 'manila-data':
       ensure    => $ensure,
-      name      => $::manila::params::data_service,
+      name      => $manila::params::data_service,
       enable    => $enabled,
       hasstatus => true,
       tag       => 'manila-service',

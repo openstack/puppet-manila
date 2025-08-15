@@ -135,7 +135,7 @@ define manila::backend::cephfs (
     'cephfs_ganesha_server_is_remote',
     'cephfs_ganesha_server_username',
     'cephfs_ganesha_server_password',
-    'cephfs_ganesha_path_to_private_key'
+    'cephfs_ganesha_path_to_private_key',
   ].each |String $opt| {
     if getvar($opt) != undef {
       warning("The ${opt} parameter has been deprecated and will be removed.")
@@ -178,7 +178,7 @@ define manila::backend::cephfs (
   if $manage_package {
     stdlib::ensure_packages( 'ceph-common', {
       ensure => present,
-      name   => $::manila::params::ceph_common_package_name,
+      name   => $manila::params::ceph_common_package_name,
     })
     Package<| title == 'ceph-common' |> { tag +> 'manila-support-package' }
   }

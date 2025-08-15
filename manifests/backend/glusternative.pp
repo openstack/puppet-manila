@@ -76,8 +76,8 @@ define manila::backend::glusternative (
   }
 
   stdlib::ensure_packages( [
-    $::manila::params::gluster_package_name,
-    $::manila::params::gluster_client_package_name
+    $manila::params::gluster_package_name,
+    $manila::params::gluster_client_package_name,
   ], {
     ensure => $package_ensure,
     tag    => 'manila-support-package',

@@ -15,9 +15,9 @@ class manila::db::sync(
   include manila::params
 
   exec { 'manila-manage db_sync':
-    command     => $::manila::params::db_sync_command,
+    command     => $manila::params::db_sync_command,
     path        => '/usr/bin',
-    user        => $::manila::params::user,
+    user        => $manila::params::user,
     refreshonly => true,
     try_sleep   => 5,
     tries       => 10,

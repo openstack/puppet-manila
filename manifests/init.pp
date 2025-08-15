@@ -161,7 +161,7 @@
 #
 # [*lock_path*]
 #   (optional) Location to store Manila locks
-#   Defaults to $::manila::params::lock_path
+#   Defaults to $manila::params::lock_path
 #
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
@@ -260,7 +260,7 @@ class manila (
   $storage_availability_zone          = $facts['os_service_default'],
   $rootwrap_config                    = '/etc/manila/rootwrap.conf',
   $state_path                         = '/var/lib/manila',
-  $lock_path                          = $::manila::params::lock_path,
+  $lock_path                          = $manila::params::lock_path,
   Boolean $purge_config               = false,
   $host                               = $facts['os_service_default'],
   $report_interval                    = $facts['os_service_default'],
@@ -285,7 +285,7 @@ class manila (
 
   package { 'manila':
     ensure => $package_ensure,
-    name   => $::manila::params::package_name,
+    name   => $manila::params::package_name,
     tag    => ['openstack', 'manila-package'],
   }
 
@@ -351,7 +351,7 @@ class manila (
     oslo::service::ssl { 'manila_config':
       cert_file => $cert_file,
       key_file  => $key_file,
-      ca_file   => $ca_file
+      ca_file   => $ca_file,
     }
   } else {
     oslo::service::ssl { 'manila_config': }
