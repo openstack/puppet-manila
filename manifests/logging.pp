@@ -97,7 +97,7 @@
 #   Defaults to $facts['os_service_default']
 #   Example: 'Y-%m-%d %H:%M:%S'
 #
-class manila::logging(
+class manila::logging (
   $use_syslog                    = $facts['os_service_default'],
   $use_json                      = $facts['os_service_default'],
   $use_journal                   = $facts['os_service_default'],
@@ -118,7 +118,6 @@ class manila::logging(
   $instance_uuid_format          = $facts['os_service_default'],
   $log_date_format               = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   oslo::log { 'manila_config':
@@ -142,5 +141,4 @@ class manila::logging(
     instance_format               => $instance_format,
     instance_uuid_format          => $instance_uuid_format,
   }
-
 }

@@ -79,7 +79,6 @@ class manila::volume::cinder (
   $http_retries                = $facts['os_service_default'],
   $cross_az_attach             = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   if is_service_default($system_scope) {

@@ -35,7 +35,6 @@ class manila::data::backup::nfs (
   $backup_mount_options    = $facts['os_service_default'],
   $package_ensure          = 'present',
 ) {
-
   include manila::deps
   include manila::params
 

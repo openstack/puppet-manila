@@ -17,12 +17,11 @@
 #   is set.
 #   Defaults to $facts['os_service_default']
 #
-class manila::reports(
+class manila::reports (
   $log_dir                     = $facts['os_service_default'],
   $file_event_handler          = $facts['os_service_default'],
   $file_event_handler_interval = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   oslo::reports { 'manila_config':

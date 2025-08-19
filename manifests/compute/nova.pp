@@ -73,7 +73,6 @@ class manila::compute::nova (
   $password                  = $facts['os_service_default'],
   $api_microversion          = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   if is_service_default($system_scope) {

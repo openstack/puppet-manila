@@ -101,7 +101,6 @@ define manila::backend::dellemc_powermax (
   $reserved_share_extend_percentage        = $facts['os_service_default'],
   $package_ensure                          = 'present',
 ) {
-
   include manila::deps
   include manila::params
 
@@ -132,5 +131,4 @@ define manila::backend::dellemc_powermax (
     ensure => $package_ensure,
   })
   Package<| title == 'nfs-client' |> { tag +> 'manila-support-package' }
-
 }

@@ -74,7 +74,6 @@ define manila::backend::dellemc_isilon (
   # DEPRECATED PARAMETERS
   $driver_handles_share_servers = undef,
 ) {
-
   include manila::deps
   include manila::params
 

@@ -44,7 +44,6 @@ class manila::scheduler (
   # DEPRECATED PARAMETERS
   $scheduler_driver       = undef
 ) {
-
   include manila::deps
   include manila::params
 

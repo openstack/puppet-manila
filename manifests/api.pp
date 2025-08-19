@@ -88,7 +88,6 @@ class manila::api (
   $service_workers              = $facts['os_workers'],
   $admin_only_metadata          = $facts['os_service_default'],
 ) inherits manila::params {
-
   include manila::deps
   include manila::params
   include manila::policy
@@ -126,7 +125,6 @@ class manila::api (
       Manila_api_paste_ini<||> ~> Service['manila-api']
       # On any uwsgi config change, we must restart Manila API.
       Manila_api_uwsgi_config<||> ~> Service['manila-api']
-
     } elsif $service_name == 'httpd' {
       # We need to make sure manila-api/eventlet is stopped before trying to
       # start apache
@@ -142,7 +140,6 @@ class manila::api (
 
       # On any api-paste.ini config change, we must restart Manila API.
       Manila_api_paste_ini<||> ~> Service[$service_name]
-
     } else {
       fail("Invalid service_name. Either use manila-api/openstack-manila-api \
 for running as a standalone service, or httpd for being run by a httpd \

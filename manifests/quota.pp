@@ -76,7 +76,6 @@ class manila::quota (
   $until_refresh       = $facts['os_service_default'],
   $max_age             = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   manila_config {

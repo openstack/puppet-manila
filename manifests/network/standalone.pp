@@ -43,6 +43,7 @@ define manila::network::standalone (
   $network_plugin_ipv4_enabled                 = $facts['os_service_default'],
   $network_plugin_ipv6_enabled                 = $facts['os_service_default'],
 ) {
+  include manila::deps
 
   $standalone_plugin_name = 'manila.network.standalone_network_plugin.StandaloneNetworkPlugin'
 

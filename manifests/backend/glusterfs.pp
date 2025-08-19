@@ -51,7 +51,6 @@ define manila::backend::glusterfs (
   $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
   $reserved_share_extend_percentage        = $facts['os_service_default'],
 ) {
-
   include manila::deps
   $share_driver = 'manila.share.drivers.glusterfs.GlusterfsShareDriver'
 

@@ -67,7 +67,6 @@ class manila::data (
   $backup_share_unmount_template    = $facts['os_service_default'],
   $backup_ignore_files              = $facts['os_service_default'],
 ) {
-
   include manila::deps
   include manila::params
 

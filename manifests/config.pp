@@ -35,7 +35,6 @@ class manila::config (
   Hash $api_paste_ini_config   = {},
   Hash $manila_rootwrap_config = {},
 ) {
-
   include manila::deps
 
   create_resources('manila_config', $manila_config)

@@ -194,7 +194,7 @@
 #  (Optional) Hash of additional parameters to pass through to the keystone
 #  authtoken class. Values set here override the individual parameters above.
 #
-class manila::keystone::authtoken(
+class manila::keystone::authtoken (
   String[1] $password,
   $username                       = 'manila',
   $auth_url                       = 'http://localhost:5000',
@@ -234,7 +234,6 @@ class manila::keystone::authtoken(
   $interface                      = $facts['os_service_default'],
   $params                         = {}
 ) {
-
   include manila::deps
 
   keystone::resource::authtoken {
