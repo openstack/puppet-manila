@@ -161,7 +161,7 @@ describe 'manila::wsgi::apache' do
         when 'RedHat'
           {
             :wsgi_script_path   => '/var/www/cgi-bin/manila',
-            :wsgi_script_source => '/usr/bin/manila-wsgi'
+            :wsgi_script_source => '/usr/lib/python3.9/site-packages/manila/wsgi/api.py',
           }
         end
       end

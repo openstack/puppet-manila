@@ -5,6 +5,8 @@
 class manila::params {
   include openstacklib::defaults
 
+  $pyver3 = $openstacklib::defaults::pyver3
+
   $client_package   = 'python3-manilaclient'
   $db_sync_command  = 'manila-manage db sync'
   $user             = 'manila'
@@ -43,7 +45,7 @@ class manila::params {
       $gluster_client_package_name = 'glusterfs-fuse'
       $gluster_package_name        = 'glusterfs'
       $manila_wsgi_script_path     = '/var/www/cgi-bin/manila'
-      $manila_wsgi_script_source   = '/usr/bin/manila-wsgi'
+      $manila_wsgi_script_source   = "/usr/lib/python${pyver3}/site-packages/manila/wsgi/api.py"
       $nfs_client_package_name     = 'nfs-utils'
       $ceph_common_package_name    = 'ceph-common'
     }
