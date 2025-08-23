@@ -38,7 +38,6 @@ class manila::scheduler::filter (
   $pool_weight_multiplier      = $facts['os_service_default'],
   $capacity_weight_multiplier  = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   manila_config {

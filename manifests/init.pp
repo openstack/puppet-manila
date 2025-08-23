@@ -270,7 +270,6 @@ class manila (
   # DEPRECATED PARAMETERS
   $rabbit_heartbeat_in_pthread        = undef,
 ) inherits manila::params {
-
   include manila::deps
   include manila::db
 

@@ -118,7 +118,6 @@ define manila::backend::dellemc_vnx (
   # DEPRECATED PARAMETERS
   $driver_handles_share_servers            = undef,
 ) {
-
   include manila::deps
   include manila::params
 
@@ -155,6 +154,4 @@ define manila::backend::dellemc_vnx (
     ensure => $package_ensure,
   })
   Package<| title == 'nfs-client' |> { tag +> 'manila-support-package' }
-
 }
-

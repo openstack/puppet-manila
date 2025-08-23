@@ -11,10 +11,9 @@
 class manila::coordination (
   $backend_url = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
-  oslo::coordination{ 'manila_config':
+  oslo::coordination { 'manila_config':
     backend_url => $backend_url,
   }
 

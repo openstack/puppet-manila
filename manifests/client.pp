@@ -10,7 +10,6 @@
 class manila::client (
   $package_ensure = 'present'
 ) {
-
   include manila::deps
   include manila::params
 

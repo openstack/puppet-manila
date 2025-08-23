@@ -44,7 +44,6 @@ class manila::db::mysql (
   $collate       = 'utf8_general_ci',
   $cluster_id    = 'localzone',
 ) {
-
   include manila::deps
 
   openstacklib::db::mysql { 'manila':

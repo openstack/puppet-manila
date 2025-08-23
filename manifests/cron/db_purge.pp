@@ -70,7 +70,6 @@ class manila::cron::db_purge (
   Integer[0] $maxdelay              = 0,
   Enum['present', 'absent'] $ensure = 'present',
 ) inherits manila::params {
-
   include manila::deps
 
   if $maxdelay == 0 {

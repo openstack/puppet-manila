@@ -52,6 +52,5 @@ class manila::params {
     default: {
       fail("unsupported osfamily ${facts['os']['family']}, currently Debian and Redhat are the only supported platforms")
     }
-
   }
 }

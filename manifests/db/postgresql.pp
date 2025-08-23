@@ -24,14 +24,13 @@
 #    (Optional) Privileges given to the database user.
 #    Default to 'ALL'
 #
-class manila::db::postgresql(
+class manila::db::postgresql (
   $password,
   $dbname     = 'manila',
   $user       = 'manila',
   $encoding   = undef,
   $privileges = 'ALL',
 ) {
-
   include manila::deps
 
   openstacklib::db::postgresql { 'manila':
@@ -45,5 +44,4 @@ class manila::db::postgresql(
   Anchor['manila::db::begin']
   ~> Class['manila::db::postgresql']
   ~> Anchor['manila::db::end']
-
 }

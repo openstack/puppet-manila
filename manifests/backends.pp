@@ -13,12 +13,10 @@
 class manila::backends (
   Variant[String[1], Array[String[1], 1]] $enabled_share_backends
 ) {
-
   include manila::deps
 
   # Maybe this could be extended to dynamically find the enabled names
   manila_config {
     'DEFAULT/enabled_share_backends': value => join(any2array($enabled_share_backends), ',');
   }
-
 }

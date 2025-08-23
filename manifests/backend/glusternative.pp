@@ -55,7 +55,6 @@ define manila::backend::glusternative (
   $reserved_share_extend_percentage        = $facts['os_service_default'],
   $package_ensure                          = 'present',
 ) {
-
   include manila::deps
   include manila::params
 
@@ -75,7 +74,7 @@ define manila::backend::glusternative (
     "${share_backend_name}/reserved_share_extend_percentage":        value => $reserved_share_extend_percentage;
   }
 
-  stdlib::ensure_packages( [
+  stdlib::ensure_packages([
     $manila::params::gluster_package_name,
     $manila::params::gluster_client_package_name,
   ], {

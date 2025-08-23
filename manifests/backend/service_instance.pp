@@ -94,7 +94,6 @@ define manila::backend::service_instance (
   $interface_driver                       = 'manila.network.linux.interface.OVSInterfaceDriver',
   $connect_share_server_to_tenant_network = false,
 ) {
-
   include manila::deps
 
   if $create_service_image {

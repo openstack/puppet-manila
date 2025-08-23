@@ -38,7 +38,6 @@ class manila::ganesha (
   $ganesha_export_dir          = $facts['os_service_default'],
   $ganesha_export_template_dir = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   manila::backend::ganesha { 'DEFAULT':

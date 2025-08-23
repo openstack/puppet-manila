@@ -158,7 +158,6 @@ class manila::wsgi::apache (
   $request_headers             = undef,
   $vhost_custom_fragment       = undef,
 ) {
-
   include manila::deps
   include manila::params
 

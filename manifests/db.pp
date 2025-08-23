@@ -54,7 +54,6 @@ class manila::db (
   $mysql_enable_ndb                 = $facts['os_service_default'],
   $database_db_max_retries          = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   oslo::db { 'manila_config':

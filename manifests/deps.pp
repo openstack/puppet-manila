@@ -70,5 +70,3 @@ class manila::deps {
   Anchor['manila::install::end'] ~> Anchor['manila::service::begin']
   Anchor['manila::config::end']  ~> Anchor['manila::service::begin']
 }
-
-

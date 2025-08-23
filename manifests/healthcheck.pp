@@ -46,7 +46,6 @@ class manila::healthcheck (
   $disable_by_file_paths   = $facts['os_service_default'],
   $enable_by_file_paths    = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   oslo::healthcheck { 'manila_config':

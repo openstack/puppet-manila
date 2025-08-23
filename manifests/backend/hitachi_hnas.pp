@@ -91,7 +91,6 @@ define manila::backend::hitachi_hnas (
   $max_over_subscription_ratio             = $facts['os_service_default'],
   $package_ensure                          = 'present',
 ) {
-
   include manila::deps
   include manila::params
 

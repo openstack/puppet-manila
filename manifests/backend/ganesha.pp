@@ -67,7 +67,6 @@ define manila::backend::ganesha (
   $ganesha_rados_export_counter  = $facts['os_service_default'],
   $ganesha_rados_export_index    = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   manila_config {

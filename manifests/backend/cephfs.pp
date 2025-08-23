@@ -127,7 +127,6 @@ define manila::backend::cephfs (
   $cephfs_ganesha_server_password                   = undef,
   $cephfs_ganesha_path_to_private_key               = undef,
 ) {
-
   include manila::deps
   include manila::params
 
@@ -182,5 +181,4 @@ define manila::backend::cephfs (
     })
     Package<| title == 'ceph-common' |> { tag +> 'manila-support-package' }
   }
-
 }

@@ -71,7 +71,6 @@ define manila::backend::flashblade (
   $max_over_subscription_ratio             = $facts['os_service_default'],
   $package_ensure                          = 'present',
 ) {
-
   include manila::deps
   include manila::params
 
@@ -97,6 +96,4 @@ define manila::backend::flashblade (
     ensure => $package_ensure,
   })
   Package<| title == 'nfs-client' |> { tag +> 'manila-support-package' }
-
 }
-

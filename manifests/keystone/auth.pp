@@ -150,7 +150,6 @@ class manila::keystone::auth (
   Keystone::EndpointUrl $internal_url        = 'http://127.0.0.1:8786/v1/%(tenant_id)s',
   Keystone::EndpointUrl $internal_url_v2     = 'http://127.0.0.1:8786/v2',
 ) {
-
   include manila::deps
 
   Keystone::Resource::Service_identity['manila'] -> Anchor['manila::service::end']

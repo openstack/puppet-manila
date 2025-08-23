@@ -83,7 +83,6 @@ class manila::image::glance (
   $username                    = 'glance',
   $password                    = $facts['os_service_default'],
 ) {
-
   include manila::deps
 
   if is_service_default($system_scope) {

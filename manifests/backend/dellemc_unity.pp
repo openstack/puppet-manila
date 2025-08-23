@@ -137,7 +137,6 @@ define manila::backend::dellemc_unity (
   $package_ensure                          = 'present',
   Boolean $manage_storops                  = true,
 ) {
-
   include manila::deps
   include manila::params
 

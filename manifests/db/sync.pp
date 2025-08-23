@@ -7,10 +7,9 @@
 #   (Optional) Timeout for the execution of the db_sync
 #   Defaults to 300
 #
-class manila::db::sync(
+class manila::db::sync (
   $db_sync_timeout = 300,
 ) {
-
   include manila::deps
   include manila::params
 

@@ -97,7 +97,6 @@ class manila::share (
   $driver_backup_continue_update_interval           = $facts['os_service_default'],
   $driver_restore_continue_update_interval          = $facts['os_service_default'],
 ) {
-
   include manila::deps
   include manila::params
 

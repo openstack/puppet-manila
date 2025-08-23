@@ -72,7 +72,6 @@ define manila::backend::lvm (
   # DEPRECATED PARAMETERS
   $driver_handles_share_servers            = undef,
 ) {
-
   include manila::deps
   $share_driver = 'manila.share.drivers.lvm.LVMShareDriver'
 

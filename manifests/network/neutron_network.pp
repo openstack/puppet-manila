@@ -21,6 +21,7 @@ define manila::network::neutron_network (
   $network_plugin_ipv4_enabled = $facts['os_service_default'],
   $network_plugin_ipv6_enabled = $facts['os_service_default'],
 ) {
+  include manila::deps
 
   $neutron_single_plugin_name = 'manila.network.neutron.neutron_network_plugin.NeutronNetworkPlugin'
 
