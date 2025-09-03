@@ -209,18 +209,6 @@
 #   (optional) Maximum time since last check-in for up service.
 #   Defaults to $facts['os_service_default'].
 #
-# DEPRECATED PARAMETERS
-#
-# [*rabbit_heartbeat_in_pthread*]
-#   (Optional) EXPERIMENTAL: Run the health check heartbeat thread
-#   through a native python thread. By default if this
-#   option isn't provided the  health check heartbeat will
-#   inherit the execution model from the parent process. By
-#   example if the parent process have monkey patched the
-#   stdlib by using eventlet/greenlet then the heartbeat
-#   will be run through a green thread.
-#   Defaults to undef
-#
 class manila (
   $default_transport_url              = $facts['os_service_default'],
   $rpc_response_timeout               = $facts['os_service_default'],
@@ -267,8 +255,6 @@ class manila (
   $periodic_interval                  = $facts['os_service_default'],
   $periodic_fuzzy_delay               = $facts['os_service_default'],
   $service_down_time                  = $facts['os_service_default'],
-  # DEPRECATED PARAMETERS
-  $rabbit_heartbeat_in_pthread        = undef,
 ) inherits manila::params {
   include manila::deps
   include manila::db
@@ -304,7 +290,6 @@ class manila (
     kombu_failover_strategy         => $kombu_failover_strategy,
     heartbeat_timeout_threshold     => $rabbit_heartbeat_timeout_threshold,
     heartbeat_rate                  => $rabbit_heartbeat_rate,
-    heartbeat_in_pthread            => $rabbit_heartbeat_in_pthread,
     rabbit_qos_prefetch_count       => $rabbit_qos_prefetch_count,
     rabbit_quorum_queue             => $rabbit_quorum_queue,
     rabbit_transient_quorum_queue   => $rabbit_transient_quorum_queue,
