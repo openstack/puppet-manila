@@ -91,7 +91,6 @@ class manila::api (
   include manila::deps
   include manila::params
   include manila::policy
-  include openstacklib::openstackclient
 
   if $manila::params::api_package {
     package { 'manila-api':
