@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The new ``timeout`` parameter has been added to the following classes.
+
+    - ``manila::compute::nova``
+    - ``manila::image::glance``
+    - ``manila::volume::cinder``

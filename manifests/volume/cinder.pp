@@ -41,6 +41,10 @@
 #   (optional) Region name for connecting to cinder
 #   Defaults to $facts['os_service_default']
 #
+# [*timeout*]
+#   (optional) Timeout value for http requests
+#   Defaults to $facts['os_service_default']
+#
 # [*endpoint_type*]
 #   (optional) The type of cinder endpoint to use when
 #   looking up in the keystone catalog.
@@ -74,6 +78,7 @@ class manila::volume::cinder (
   $system_scope                = $facts['os_service_default'],
   $region_name                 = $facts['os_service_default'],
   $endpoint_type               = $facts['os_service_default'],
+  $timeout                     = $facts['os_service_default'],
   $username                    = 'cinder',
   $password                    = $facts['os_service_default'],
   $http_retries                = $facts['os_service_default'],
@@ -95,6 +100,7 @@ class manila::volume::cinder (
     'cinder/auth_type':           value => $auth_type;
     'cinder/cafile':              value => $cafile;
     'cinder/region_name':         value => $region_name;
+    'cinder/timeout':             value => $timeout;
     'cinder/endpoint_type':       value => $endpoint_type;
     'cinder/username':            value => $username;
     'cinder/user_domain_name':    value => $user_domain_name;

@@ -41,6 +41,10 @@
 #   (optional) Region name for connecting to nova
 #   Defaults to $facts['os_service_default']
 #
+# [*timeout*]
+#   (optional) Timeout value for http requests
+#   Defaults to $facts['os_service_default']
+#
 # [*endpoint_type*]
 #   (optional) The type of nova endpoint to use when
 #   looking up in the keystone catalog.
@@ -68,6 +72,7 @@ class manila::compute::nova (
   $project_name              = 'services',
   $system_scope              = $facts['os_service_default'],
   $region_name               = $facts['os_service_default'],
+  $timeout                   = $facts['os_service_default'],
   $endpoint_type             = $facts['os_service_default'],
   $username                  = 'nova',
   $password                  = $facts['os_service_default'],
@@ -89,6 +94,7 @@ class manila::compute::nova (
     'nova/auth_type':           value => $auth_type;
     'nova/cafile':              value => $cafile;
     'nova/region_name':         value => $region_name;
+    'nova/timeout':             value => $timeout;
     'nova/endpoint_type':       value => $endpoint_type;
     'nova/username':            value => $username;
     'nova/user_domain_name':    value => $user_domain_name;

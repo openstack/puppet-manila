@@ -9,6 +9,7 @@ describe 'manila::volume::cinder' do
         is_expected.to contain_manila_config('cinder/auth_type').with_value('password')
         is_expected.to contain_manila_config('cinder/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/region_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('cinder/timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/user_domain_name').with_value('Default')
         is_expected.to contain_manila_config('cinder/project_domain_name').with_value('Default')
@@ -29,6 +30,7 @@ describe 'manila::volume::cinder' do
           :auth_type       => 'v3password',
           :cafile          => '/etc/ssl/certs/ca.crt',
           :region_name     => 'RegionOne',
+          :timeout         => 60,
           :endpoint_type   => 'publicURL',
           :username        => 'cinderv1',
           :password        => '123123',
@@ -46,6 +48,7 @@ describe 'manila::volume::cinder' do
         is_expected.to contain_manila_config('cinder/project_domain_name').with_value('Default')
         is_expected.to contain_manila_config('cinder/project_name').with_value('services')
         is_expected.to contain_manila_config('cinder/region_name').with_value('RegionOne')
+        is_expected.to contain_manila_config('cinder/timeout').with_value(60)
         is_expected.to contain_manila_config('cinder/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('cinder/endpoint_type').with_value('publicURL')
         is_expected.to contain_manila_config('cinder/username').with_value('cinderv1')

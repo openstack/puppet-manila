@@ -53,6 +53,10 @@
 #   (optional) Region name for connecting to cinder
 #   Defaults to $facts['os_service_default']
 #
+# [*timeout*]
+#   (optional) Timeout value for http requests
+#   Defaults to $facts['os_service_default']
+#
 # [*endpoint_type*]
 #   (optional) The type of cinder endpoint to use when
 #   looking up in the keystone catalog.
@@ -79,6 +83,7 @@ class manila::image::glance (
   $project_name                = 'services',
   $system_scope                = $facts['os_service_default'],
   $region_name                 = $facts['os_service_default'],
+  $timeout                     = $facts['os_service_default'],
   $endpoint_type               = $facts['os_service_default'],
   $username                    = 'glance',
   $password                    = $facts['os_service_default'],
@@ -106,6 +111,7 @@ class manila::image::glance (
     'glance/project_name':        value => $project_name_real;
     'glance/system_scope':        value => $system_scope;
     'glance/region_name':         value => $region_name;
+    'glance/timeout':             value => $timeout;
     'glance/endpoint_type':       value => $endpoint_type;
     'glance/username':            value => $username;
     'glance/password':            value => $password, secret => true;
