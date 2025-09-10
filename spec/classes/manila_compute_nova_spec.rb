@@ -5,7 +5,7 @@ describe 'manila::compute::nova' do
     context 'with default parameters' do
       it 'configures manila compute nova' do
         is_expected.to contain_manila_config('nova/insecure').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('nova/auth_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/auth_url').with_value('http://127.0.0.1:5000')
         is_expected.to contain_manila_config('nova/auth_type').with_value('password')
         is_expected.to contain_manila_config('nova/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('nova/user_domain_name').with_value('Default')
