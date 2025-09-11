@@ -10,7 +10,7 @@
 #
 # [*auth_url*]
 #   (optional) Authentication URL
-#   Defaults to $facts['os_service_default']
+#   Defaults to 'http://127.0.0.1:5000'
 #
 # [*auth_type*]
 #   (optional) Authentication type to load
@@ -69,7 +69,7 @@
 #
 class manila::volume::cinder (
   $insecure                    = $facts['os_service_default'],
-  $auth_url                    = $facts['os_service_default'],
+  $auth_url                    = 'http://127.0.0.1:5000',
   $auth_type                   = 'password',
   $cafile                      = $facts['os_service_default'],
   $user_domain_name            = 'Default',

@@ -6,7 +6,7 @@ describe 'manila::image::glance' do
       it 'configures manila image glance' do
         is_expected.to contain_manila_config('glance/api_microversion').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/insecure').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('glance/auth_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('glance/auth_url').with_value('http://127.0.0.1:5000')
         is_expected.to contain_manila_config('glance/auth_type').with_value('password')
         is_expected.to contain_manila_config('glance/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/certfile').with_value('<SERVICE DEFAULT>')

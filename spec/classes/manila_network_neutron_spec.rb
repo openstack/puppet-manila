@@ -5,7 +5,7 @@ describe 'manila::network::neutron' do
     context 'with default parameters' do
       it 'configures manila network neutron' do
         is_expected.to contain_manila_config('neutron/insecure').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_manila_config('neutron/auth_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('neutron/auth_url').with_value('http://127.0.0.1:5000')
         is_expected.to contain_manila_config('neutron/auth_type').with_value('password')
         is_expected.to contain_manila_config('neutron/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/user_domain_name').with_value('Default')
