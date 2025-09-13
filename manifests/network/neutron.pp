@@ -4,6 +4,9 @@
 #
 # === Parameters
 #
+# [*password*]
+#   (required) User's password
+#
 # [*insecure*]
 #   (optional) Verify HTTPS connections
 #   Defaults to $facts['os_service_default']
@@ -54,10 +57,6 @@
 #   (optional) Username
 #   Defaults to 'neutron'
 #
-# [*password*]
-#   (optional) User's password
-#   Defaults to $facts['os_service_default']
-#
 # [*network_plugin_ipv4_enabled*]
 #   (optional) Whether to support Ipv4 network resource
 #   Defaults to $facts['os_service_default']
@@ -67,21 +66,21 @@
 #   Defaults to $facts['os_service_default']
 #
 class manila::network::neutron (
-  $insecure                     = $facts['os_service_default'],
-  $auth_url                     = 'http://127.0.0.1:5000',
-  $auth_type                    = 'password',
-  $cafile                       = $facts['os_service_default'],
-  $user_domain_name             = 'Default',
-  $project_domain_name          = 'Default',
-  $project_name                 = 'services',
-  $system_scope                 = $facts['os_service_default'],
-  $region_name                  = $facts['os_service_default'],
-  $timeout                      = $facts['os_service_default'],
-  $endpoint_type                = $facts['os_service_default'],
-  $username                     = 'neutron',
-  $password                     = $facts['os_service_default'],
-  $network_plugin_ipv4_enabled  = $facts['os_service_default'],
-  $network_plugin_ipv6_enabled  = $facts['os_service_default'],
+  $password,
+  $insecure                    = $facts['os_service_default'],
+  $auth_url                    = 'http://127.0.0.1:5000',
+  $auth_type                   = 'password',
+  $cafile                      = $facts['os_service_default'],
+  $user_domain_name            = 'Default',
+  $project_domain_name         = 'Default',
+  $project_name                = 'services',
+  $system_scope                = $facts['os_service_default'],
+  $region_name                 = $facts['os_service_default'],
+  $timeout                     = $facts['os_service_default'],
+  $endpoint_type               = $facts['os_service_default'],
+  $username                    = 'neutron',
+  $network_plugin_ipv4_enabled = $facts['os_service_default'],
+  $network_plugin_ipv6_enabled = $facts['os_service_default'],
 ) {
   include manila::deps
 

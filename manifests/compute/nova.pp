@@ -4,6 +4,9 @@
 #
 # === Parameters
 #
+# [*password*]
+#   (required) User's password
+#
 # [*insecure*]
 #   (optional) Verify HTTPS connections
 #   Defaults to $facts['os_service_default']
@@ -54,29 +57,25 @@
 #   (optional) Username
 #   Defaults to 'nova'
 #
-# [*password*]
-#   (optional) User's password
-#   Defaults to $facts['os_service_default']
-#
 # [*api_microversion*]
 #   (optional) Version of Nova API to be used
 #   Defaults to $facts['os_service_default']
 #
 class manila::compute::nova (
-  $insecure                  = $facts['os_service_default'],
-  $auth_url                  = 'http://127.0.0.1:5000',
-  $auth_type                 = 'password',
-  $cafile                    = $facts['os_service_default'],
-  $user_domain_name          = 'Default',
-  $project_domain_name       = 'Default',
-  $project_name              = 'services',
-  $system_scope              = $facts['os_service_default'],
-  $region_name               = $facts['os_service_default'],
-  $timeout                   = $facts['os_service_default'],
-  $endpoint_type             = $facts['os_service_default'],
-  $username                  = 'nova',
-  $password                  = $facts['os_service_default'],
-  $api_microversion          = $facts['os_service_default'],
+  $password,
+  $insecure            = $facts['os_service_default'],
+  $auth_url            = 'http://127.0.0.1:5000',
+  $auth_type           = 'password',
+  $cafile              = $facts['os_service_default'],
+  $user_domain_name    = 'Default',
+  $project_domain_name = 'Default',
+  $project_name        = 'services',
+  $system_scope        = $facts['os_service_default'],
+  $region_name         = $facts['os_service_default'],
+  $timeout             = $facts['os_service_default'],
+  $endpoint_type       = $facts['os_service_default'],
+  $username            = 'nova',
+  $api_microversion    = $facts['os_service_default'],
 ) {
   include manila::deps
 

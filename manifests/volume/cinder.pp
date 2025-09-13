@@ -4,6 +4,9 @@
 #
 # === Parameters
 #
+# [*password*]
+#   (required) User's password
+#
 # [*insecure*]
 #   (optional) Verify HTTPS connections
 #   Defaults to $facts['os_service_default']
@@ -54,10 +57,6 @@
 #   (optional) Username
 #   Defaults to 'cinder'
 #
-# [*password*]
-#   (optional) User's password
-#   Defaults to $facts['os_service_default']
-#
 # [*http_retries*]
 #   (optional) Number of cinderclient retries on failed http calls.
 #   Defaults to $facts['os_service_default']
@@ -68,21 +67,21 @@
 #   Defaults to $facts['os_service_default']
 #
 class manila::volume::cinder (
-  $insecure                    = $facts['os_service_default'],
-  $auth_url                    = 'http://127.0.0.1:5000',
-  $auth_type                   = 'password',
-  $cafile                      = $facts['os_service_default'],
-  $user_domain_name            = 'Default',
-  $project_domain_name         = 'Default',
-  $project_name                = 'services',
-  $system_scope                = $facts['os_service_default'],
-  $region_name                 = $facts['os_service_default'],
-  $endpoint_type               = $facts['os_service_default'],
-  $timeout                     = $facts['os_service_default'],
-  $username                    = 'cinder',
-  $password                    = $facts['os_service_default'],
-  $http_retries                = $facts['os_service_default'],
-  $cross_az_attach             = $facts['os_service_default'],
+  $password,
+  $insecure            = $facts['os_service_default'],
+  $auth_url            = 'http://127.0.0.1:5000',
+  $auth_type           = 'password',
+  $cafile              = $facts['os_service_default'],
+  $user_domain_name    = 'Default',
+  $project_domain_name = 'Default',
+  $project_name        = 'services',
+  $system_scope        = $facts['os_service_default'],
+  $region_name         = $facts['os_service_default'],
+  $endpoint_type       = $facts['os_service_default'],
+  $timeout             = $facts['os_service_default'],
+  $username            = 'cinder',
+  $http_retries        = $facts['os_service_default'],
+  $cross_az_attach     = $facts['os_service_default'],
 ) {
   include manila::deps
 

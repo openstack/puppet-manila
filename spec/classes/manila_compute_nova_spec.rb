@@ -3,6 +3,12 @@ require 'spec_helper'
 describe 'manila::compute::nova' do
   shared_examples 'manila::nova' do
     context 'with default parameters' do
+      let :params do
+        {
+          :password => 'novapass',
+        }
+      end
+
       it 'configures manila compute nova' do
         is_expected.to contain_manila_config('nova/insecure').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('nova/auth_url').with_value('http://127.0.0.1:5000')
@@ -16,7 +22,7 @@ describe 'manila::compute::nova' do
         is_expected.to contain_manila_config('nova/timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('nova/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('nova/username').with_value('nova')
-        is_expected.to contain_manila_config('nova/password').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('nova/password').with_value('novapass').with_secret(true)
         is_expected.to contain_manila_config('nova/api_microversion').with_value('<SERVICE DEFAULT>')
       end
     end
@@ -32,7 +38,7 @@ describe 'manila::compute::nova' do
           :timeout          => 60,
           :endpoint_type    => 'publicURL',
           :username         => 'novav1',
-          :password         => '123123',
+          :password         => 'novapass',
           :api_microversion => '2.10'
         }
       end
@@ -50,7 +56,7 @@ describe 'manila::compute::nova' do
         is_expected.to contain_manila_config('nova/timeout').with_value(60)
         is_expected.to contain_manila_config('nova/endpoint_type').with_value('publicURL')
         is_expected.to contain_manila_config('nova/username').with_value('novav1')
-        is_expected.to contain_manila_config('nova/password').with_value('123123').with_secret(true)
+        is_expected.to contain_manila_config('nova/password').with_value('novapass').with_secret(true)
         is_expected.to contain_manila_config('nova/api_microversion').with_value('2.10')
        end
     end
@@ -58,6 +64,7 @@ describe 'manila::compute::nova' do
     context 'when system_scope is set' do
       let :params do
         {
+          :password     => 'novapass',
           :system_scope => 'all'
         }
       end

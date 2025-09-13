@@ -4,6 +4,9 @@
 #
 # === Parameters
 #
+# [*password*]
+#   (required) User's password
+#
 # [*api_microversion*]
 #   (optional) Version of Glance API to be used
 #   Defaults to $facts['os_service_default']
@@ -66,27 +69,23 @@
 #   (optional) Username
 #   Defaults to 'glance'
 #
-# [*password*]
-#   (optional) User's password
-#   Defaults to $facts['os_service_default'],
-#
 class manila::image::glance (
-  $api_microversion            = $facts['os_service_default'],
-  $insecure                    = $facts['os_service_default'],
-  $auth_url                    = 'http://127.0.0.1:5000',
-  $auth_type                   = 'password',
-  $cafile                      = $facts['os_service_default'],
-  $certfile                    = $facts['os_service_default'],
-  $keyfile                     = $facts['os_service_default'],
-  $user_domain_name            = 'Default',
-  $project_domain_name         = 'Default',
-  $project_name                = 'services',
-  $system_scope                = $facts['os_service_default'],
-  $region_name                 = $facts['os_service_default'],
-  $timeout                     = $facts['os_service_default'],
-  $endpoint_type               = $facts['os_service_default'],
-  $username                    = 'glance',
-  $password                    = $facts['os_service_default'],
+  $password,
+  $api_microversion    = $facts['os_service_default'],
+  $insecure            = $facts['os_service_default'],
+  $auth_url            = 'http://127.0.0.1:5000',
+  $auth_type           = 'password',
+  $cafile              = $facts['os_service_default'],
+  $certfile            = $facts['os_service_default'],
+  $keyfile             = $facts['os_service_default'],
+  $user_domain_name    = 'Default',
+  $project_domain_name = 'Default',
+  $project_name        = 'services',
+  $system_scope        = $facts['os_service_default'],
+  $region_name         = $facts['os_service_default'],
+  $timeout             = $facts['os_service_default'],
+  $endpoint_type       = $facts['os_service_default'],
+  $username            = 'glance',
 ) {
   include manila::deps
 

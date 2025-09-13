@@ -3,6 +3,12 @@ require 'spec_helper'
 describe 'manila::image::glance' do
   shared_examples 'manila::glance' do
     context 'with default parameters' do
+      let :params do
+        {
+          :password => 'glancepass',
+        }
+      end
+
       it 'configures manila image glance' do
         is_expected.to contain_manila_config('glance/api_microversion').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/insecure').with_value('<SERVICE DEFAULT>')
@@ -19,7 +25,7 @@ describe 'manila::image::glance' do
         is_expected.to contain_manila_config('glance/timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('glance/username').with_value('glance')
-        is_expected.to contain_manila_config('glance/password').with_value('<SERVICE DEFAULT>').with_secret(true)
+        is_expected.to contain_manila_config('glance/password').with_value('glancepass').with_secret(true)
       end
     end
 
@@ -35,7 +41,7 @@ describe 'manila::image::glance' do
           :timeout          => 60,
           :endpoint_type    => 'publicURL',
           :username         => 'glancev1',
-          :password         => '123123',
+          :password         => 'glancepass',
         }
       end
 
@@ -55,13 +61,14 @@ describe 'manila::image::glance' do
         is_expected.to contain_manila_config('glance/timeout').with_value(60)
         is_expected.to contain_manila_config('glance/endpoint_type').with_value('publicURL')
         is_expected.to contain_manila_config('glance/username').with_value('glancev1')
-        is_expected.to contain_manila_config('glance/password').with_value('123123').with_secret(true)
+        is_expected.to contain_manila_config('glance/password').with_value('glancepass').with_secret(true)
        end
     end
 
     context 'when system_scope is set' do
       let :params do
         {
+          :password     => 'glancepass',
           :system_scope => 'all'
         }
       end

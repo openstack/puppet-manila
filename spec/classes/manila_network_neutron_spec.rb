@@ -3,6 +3,12 @@ require 'spec_helper'
 describe 'manila::network::neutron' do
   shared_examples 'manila::neutron' do
     context 'with default parameters' do
+      let :params do
+        {
+          :password => 'neutronpass',
+        }
+      end
+
       it 'configures manila network neutron' do
         is_expected.to contain_manila_config('neutron/insecure').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/auth_url').with_value('http://127.0.0.1:5000')
@@ -16,7 +22,7 @@ describe 'manila::network::neutron' do
         is_expected.to contain_manila_config('neutron/timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('neutron/username').with_value('neutron')
-        is_expected.to contain_manila_config('neutron/password').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_manila_config('neutron/password').with_value('neutronpass').with_secret(true)
         is_expected.to contain_manila_config('DEFAULT/network_plugin_ipv4_enabled').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_manila_config('DEFAULT/network_plugin_ipv6_enabled').with_value('<SERVICE DEFAULT>')
       end
@@ -25,17 +31,17 @@ describe 'manila::network::neutron' do
     context 'with overridden parameters' do
       let :params do
         {
-          :insecure       => true,
-          :auth_url       => 'http://127.0.0.2:5000/',
-          :auth_type      => 'v3password',
-          :cafile         => '/etc/ssl/certs/ca.crt',
-          :region_name    => 'RegionOne',
-          :timeout        => 30,
-          :endpoint_type  => 'publicURL',
-          :username       => 'neutronv1',
-          :password       => '123123',
-          :network_plugin_ipv4_enabled  => false,
-          :network_plugin_ipv6_enabled  => true,
+          :insecure                    => true,
+          :auth_url                    => 'http://127.0.0.2:5000/',
+          :auth_type                   => 'v3password',
+          :cafile                      => '/etc/ssl/certs/ca.crt',
+          :region_name                 => 'RegionOne',
+          :timeout                     => 30,
+          :endpoint_type               => 'publicURL',
+          :username                    => 'neutronv1',
+          :password                    => 'neutronpass',
+          :network_plugin_ipv4_enabled => false,
+          :network_plugin_ipv6_enabled => true,
         }
       end
 
@@ -52,7 +58,7 @@ describe 'manila::network::neutron' do
         is_expected.to contain_manila_config('neutron/timeout').with_value(30)
         is_expected.to contain_manila_config('neutron/endpoint_type').with_value('publicURL')
         is_expected.to contain_manila_config('neutron/username').with_value('neutronv1')
-        is_expected.to contain_manila_config('neutron/password').with_value('123123').with_secret(true)
+        is_expected.to contain_manila_config('neutron/password').with_value('neutronpass').with_secret(true)
         is_expected.to contain_manila_config('DEFAULT/network_plugin_ipv4_enabled').with_value(false)
         is_expected.to contain_manila_config('DEFAULT/network_plugin_ipv6_enabled').with_value(true)
        end
@@ -61,6 +67,7 @@ describe 'manila::network::neutron' do
     context 'when system_scope is set' do
       let :params do
         {
+          :password     => 'neutronpass',
           :system_scope => 'all'
         }
       end
