@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The following classes have been added.
+
+    - ``manila::key_manager``
+    - ``manila::key_manager::barbican``
+    - ``manila::key_manager::barbican::service_user``
