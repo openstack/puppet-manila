@@ -79,7 +79,7 @@
 #   Defaults to $facts['os_service_default'].
 #
 class manila::share (
-  $package_ensure                                   = 'present',
+  Stdlib::Ensure::Package $package_ensure           = 'present',
   Boolean $enabled                                  = true,
   Boolean $manage_service                           = true,
   $delete_share_server_with_last_share              = $facts['os_service_default'],

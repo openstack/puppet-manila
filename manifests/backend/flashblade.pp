@@ -69,7 +69,7 @@ define manila::backend::flashblade (
   $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
   $reserved_share_extend_percentage        = $facts['os_service_default'],
   $max_over_subscription_ratio             = $facts['os_service_default'],
-  $package_ensure                          = 'present',
+  Stdlib::Ensure::Package $package_ensure  = 'present',
 ) {
   include manila::deps
   include manila::params

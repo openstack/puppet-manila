@@ -29,11 +29,11 @@
 #
 class manila::data::backup::nfs (
   String[1] $backup_mount_export,
-  $backup_mount_template   = $facts['os_service_default'],
-  $backup_unmount_template = $facts['os_service_default'],
-  $backup_mount_proto      = $facts['os_service_default'],
-  $backup_mount_options    = $facts['os_service_default'],
-  $package_ensure          = 'present',
+  $backup_mount_template                  = $facts['os_service_default'],
+  $backup_unmount_template                = $facts['os_service_default'],
+  $backup_mount_proto                     = $facts['os_service_default'],
+  $backup_mount_options                   = $facts['os_service_default'],
+  Stdlib::Ensure::Package $package_ensure = 'present',
 ) {
   include manila::deps
   include manila::params

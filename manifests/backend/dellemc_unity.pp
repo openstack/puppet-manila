@@ -134,7 +134,7 @@ define manila::backend::dellemc_unity (
   $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
   $reserved_share_extend_percentage        = $facts['os_service_default'],
   $max_over_subscription_ratio             = $facts['os_service_default'],
-  $package_ensure                          = 'present',
+  Stdlib::Ensure::Package $package_ensure  = 'present',
   Boolean $manage_storops                  = true,
 ) {
   include manila::deps
