@@ -54,18 +54,18 @@
 #   Defaults to $facts['os_service_default'].
 #
 class manila::data (
-  $package_ensure                   = 'present',
-  Boolean $enabled                  = true,
-  Boolean $manage_service           = true,
-  $mount_tmp_location               = $facts['os_service_default'],
-  $backup_mount_tmp_location        = $facts['os_service_default'],
-  $check_hash                       = $facts['os_service_default'],
-  $backup_continue_update_interval  = $facts['os_service_default'],
-  $restore_continue_update_interval = $facts['os_service_default'],
-  $backup_driver                    = $facts['os_service_default'],
-  $backup_share_mount_template      = $facts['os_service_default'],
-  $backup_share_unmount_template    = $facts['os_service_default'],
-  $backup_ignore_files              = $facts['os_service_default'],
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  Boolean $enabled                        = true,
+  Boolean $manage_service                 = true,
+  $mount_tmp_location                     = $facts['os_service_default'],
+  $backup_mount_tmp_location              = $facts['os_service_default'],
+  $check_hash                             = $facts['os_service_default'],
+  $backup_continue_update_interval        = $facts['os_service_default'],
+  $restore_continue_update_interval       = $facts['os_service_default'],
+  $backup_driver                          = $facts['os_service_default'],
+  $backup_share_mount_template            = $facts['os_service_default'],
+  $backup_share_unmount_template          = $facts['os_service_default'],
+  $backup_ignore_files                    = $facts['os_service_default'],
 ) {
   include manila::deps
   include manila::params

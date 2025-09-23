@@ -72,21 +72,21 @@
 #   Defaults to $facts['os_service_default'].
 #
 class manila::api (
-  $auth_strategy                = 'keystone',
-  $package_ensure               = 'present',
-  $bind_host                    = '0.0.0.0',
-  $default_share_type           = $facts['os_service_default'],
-  Boolean $enabled              = true,
-  Boolean $sync_db              = true,
-  Boolean $manage_service       = true,
-  $service_name                 = $manila::params::api_service,
-  $ratelimits                   = undef,
-  $ratelimits_factory           = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
-  $enable_proxy_headers_parsing = $facts['os_service_default'],
-  $max_request_body_size        = $facts['os_service_default'],
-  $enabled_share_protocols      = $facts['os_service_default'],
-  $service_workers              = $facts['os_workers'],
-  $admin_only_metadata          = $facts['os_service_default'],
+  $auth_strategy                          = 'keystone',
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $bind_host                              = '0.0.0.0',
+  $default_share_type                     = $facts['os_service_default'],
+  Boolean $enabled                        = true,
+  Boolean $sync_db                        = true,
+  Boolean $manage_service                 = true,
+  $service_name                           = $manila::params::api_service,
+  $ratelimits                             = undef,
+  $ratelimits_factory                     = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
+  $enable_proxy_headers_parsing           = $facts['os_service_default'],
+  $max_request_body_size                  = $facts['os_service_default'],
+  $enabled_share_protocols                = $facts['os_service_default'],
+  $service_workers                        = $facts['os_workers'],
+  $admin_only_metadata                    = $facts['os_service_default'],
 ) inherits manila::params {
   include manila::deps
   include manila::params

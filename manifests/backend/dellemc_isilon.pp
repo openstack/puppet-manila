@@ -64,15 +64,15 @@ define manila::backend::dellemc_isilon (
   String[1] $emc_nas_login,
   String[1] $emc_nas_password,
   String[1] $emc_nas_server,
-  $emc_share_backend            = 'isilon',
-  $share_backend_name           = $name,
-  $backend_availability_zone    = $facts['os_service_default'],
-  $emc_nas_root_dir             = $facts['os_service_default'],
-  $emc_nas_server_port          = 8080,
-  $emc_nas_server_secure        = true,
-  $package_ensure               = 'present',
+  $emc_share_backend                      = 'isilon',
+  $share_backend_name                     = $name,
+  $backend_availability_zone              = $facts['os_service_default'],
+  $emc_nas_root_dir                       = $facts['os_service_default'],
+  $emc_nas_server_port                    = 8080,
+  $emc_nas_server_secure                  = true,
+  Stdlib::Ensure::Package $package_ensure = 'present',
   # DEPRECATED PARAMETERS
-  $driver_handles_share_servers = undef,
+  $driver_handles_share_servers           = undef,
 ) {
   include manila::deps
   include manila::params

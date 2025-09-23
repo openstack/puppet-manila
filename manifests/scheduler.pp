@@ -35,14 +35,14 @@
 #   Defaults to undef
 #
 class manila::scheduler (
-  $driver                 = $facts['os_service_default'],
-  $host_manager           = $facts['os_service_default'],
-  $max_attempts           = $facts['os_service_default'],
-  $package_ensure         = 'present',
-  Boolean $enabled        = true,
-  Boolean $manage_service = true,
+  $driver                                 = $facts['os_service_default'],
+  $host_manager                           = $facts['os_service_default'],
+  $max_attempts                           = $facts['os_service_default'],
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  Boolean $enabled                        = true,
+  Boolean $manage_service                 = true,
   # DEPRECATED PARAMETERS
-  $scheduler_driver       = undef
+  $scheduler_driver                       = undef
 ) {
   include manila::deps
   include manila::params

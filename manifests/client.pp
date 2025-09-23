@@ -8,7 +8,7 @@
 #   Ensure state for package. Defaults to 'present'.
 #
 class manila::client (
-  $package_ensure = 'present'
+  Stdlib::Ensure::Package $package_ensure = 'present',
 ) {
   include manila::deps
   include manila::params

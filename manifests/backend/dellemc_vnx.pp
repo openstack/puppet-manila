@@ -114,7 +114,7 @@ define manila::backend::dellemc_vnx (
   $reserved_share_percentage               = $facts['os_service_default'],
   $reserved_share_from_snapshot_percentage = $facts['os_service_default'],
   $reserved_share_extend_percentage        = $facts['os_service_default'],
-  $package_ensure                          = 'present',
+  Stdlib::Ensure::Package $package_ensure  = 'present',
   # DEPRECATED PARAMETERS
   $driver_handles_share_servers            = undef,
 ) {
