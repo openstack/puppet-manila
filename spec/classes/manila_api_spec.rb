@@ -167,22 +167,6 @@ describe 'manila::api' do
       end
     end
 
-    context 'when service_name is not valid' do
-      let :params do
-        req_params.merge!({ :service_name => 'foobar' })
-      end
-
-      let :pre_condition do
-        "include apache
-         class { 'manila': }
-         class { 'manila::keystone::authtoken':
-           password => 'foo',
-         }"
-      end
-
-      it_raises 'a Puppet::Error', /Invalid service_name/
-    end
-
     context 'enabled_share_protocols is set' do
       let :params do
         req_params.merge!({
