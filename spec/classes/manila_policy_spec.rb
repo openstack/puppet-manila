@@ -33,7 +33,6 @@ describe 'manila::policy' do
           :file_group   => 'manila',
           :file_format  => 'yaml',
           :purge_config => false,
-          :tag          => 'manila',
         )
         is_expected.to contain_oslo__policy('manila_config').with(
           :enforce_scope        => false,
@@ -64,7 +63,6 @@ describe 'manila::policy' do
           :file_group   => 'manila',
           :file_format  => 'yaml',
           :purge_config => true,
-          :tag          => 'manila',
         )
         is_expected.to contain_oslo__policy('manila_config').with(
           :enforce_scope        => false,
