@@ -79,7 +79,7 @@ class manila::api (
   Boolean $enabled                        = true,
   Boolean $sync_db                        = true,
   Boolean $manage_service                 = true,
-  $service_name                           = $manila::params::api_service,
+  String[1] $service_name                 = $manila::params::api_service,
   $ratelimits                             = undef,
   $ratelimits_factory                     = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
   $enable_proxy_headers_parsing           = $facts['os_service_default'],
@@ -105,44 +105,43 @@ class manila::api (
   }
 
   if $manage_service {
-    if $enabled {
-      $ensure = 'running'
-    } else {
-      $ensure = 'stopped'
-    }
+    case $service_name {
+      'httpd': {
+        Service <| title == 'httpd' |> { tag +> 'manila-service' }
 
-    if $service_name == $manila::params::api_service {
-      service { 'manila-api':
-        ensure    => $ensure,
-        name      => $manila::params::api_service,
-        enable    => $enabled,
-        hasstatus => true,
-        tag       => 'manila-service',
+        # We need to make sure manila-api/eventlet is stopped before trying to
+        # start apache
+        service { 'manila-api':
+          ensure => 'stopped',
+          name   => $manila::params::api_service,
+          enable => false,
+          tag    => ['manila-service'],
+        }
+
+        Service['manila-api'] -> Service['httpd']
+
+        # On any api-paste.ini config change, we must restart Manila API.
+        Manila_api_paste_ini<||> ~> Service['httpd']
       }
+      default: {
+        $service_ensure = $enabled ? {
+          true    => 'running',
+          default => 'stopped',
+        }
 
-      # On any api-paste.ini config change, we must restart Manila API.
-      Manila_api_paste_ini<||> ~> Service['manila-api']
-      # On any uwsgi config change, we must restart Manila API.
-      Manila_api_uwsgi_config<||> ~> Service['manila-api']
-    } elsif $service_name == 'httpd' {
-      # We need to make sure manila-api/eventlet is stopped before trying to
-      # start apache
-      service { 'manila-api':
-        ensure => 'stopped',
-        name   => $manila::params::api_service,
-        enable => false,
-        tag    => ['manila-service'],
+        service { 'manila-api':
+          ensure    => $service_ensure,
+          name      => $service_name,
+          enable    => $enabled,
+          hasstatus => true,
+          tag       => 'manila-service',
+        }
+
+        # On any api-paste.ini config change, we must restart Manila API.
+        Manila_api_paste_ini<||> ~> Service['manila-api']
+        # On any uwsgi config change, we must restart Manila API.
+        Manila_api_uwsgi_config<||> ~> Service['manila-api']
       }
-      Service <| title == 'httpd' |> { tag +> 'manila-service' }
-
-      Service['manila-api'] -> Service[$service_name]
-
-      # On any api-paste.ini config change, we must restart Manila API.
-      Manila_api_paste_ini<||> ~> Service[$service_name]
-    } else {
-      fail("Invalid service_name. Either use manila-api/openstack-manila-api \
-for running as a standalone service, or httpd for being run by a httpd \
-server.")
     }
   }
 
