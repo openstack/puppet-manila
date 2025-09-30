@@ -30,9 +30,11 @@
 #   (Optional) the database collation.
 #   Defaults to 'utf8_general_ci'
 #
+# DEPRECATED PARAMETERS
+#
 # [*cluster_id*]
 #   (Optional) The cluster id.
-#   Defaults to 'localzone'.
+#   Defaults to undef.
 #
 class manila::db::mysql (
   String[1] $password,
@@ -42,9 +44,14 @@ class manila::db::mysql (
   $allowed_hosts = undef,
   $charset       = 'utf8',
   $collate       = 'utf8_general_ci',
-  $cluster_id    = 'localzone',
+  # DEPRECATED PARAMETERS
+  $cluster_id    = undef
 ) {
   include manila::deps
+
+  if $cluster_id {
+    warning('The cluster_id parameter is deprecated and has no effect')
+  }
 
   openstacklib::db::mysql { 'manila':
     user          => $user,
