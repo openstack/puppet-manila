@@ -17,6 +17,14 @@
 #    service instance.
 #   Defaults to: 'manila-service-image'
 #
+# [*service_image_container_format*]
+#   (optional) Container format of the service image.
+#   Defaults to 'bare'
+#
+# [*service_image_disk_format*]
+#   (optional) Disk format of the service image.
+#   Defaults to 'qcow2'
+#
 # [*service_image_location*]
 #   (optional) URL or pathname to the service image. This will be
 #   loaded into Glance. This is required when create_service_image is true.
@@ -80,6 +88,8 @@ define manila::backend::service_instance (
   $service_instance_password,
   Boolean $create_service_image           = true,
   $service_image_name                     = 'manila-service-image',
+  $service_image_container_format         = 'bare',
+  $service_image_disk_format              = 'qcow2',
   $service_image_location                 = undef,
   $service_instance_name_template         = 'manila_service_instance_%s',
   $manila_service_keypair_name            = 'manila-service',
@@ -101,8 +111,8 @@ define manila::backend::service_instance (
       glance_image { $service_image_name:
         ensure           => present,
         is_public        => 'yes',
-        container_format => 'bare',
-        disk_format      => 'qcow2',
+        container_format => $service_image_container_format,
+        disk_format      => $service_image_disk_format,
         source           => $service_image_location,
       }
     }
