@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The ``manila::backend::service_instance`` defined resource type now
+    supports the following parameters, to customize format of the service
+    image being created.
+
+    - ``service_image_container_format``
+    - ``service_image_disk_format``

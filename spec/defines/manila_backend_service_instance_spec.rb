@@ -54,11 +54,13 @@ describe 'manila::backend::service_instance' do
       end
     end
 
-    context 'with custom service image name' do
+    context 'with custom service image parameters' do
       before do
         params.merge!({
-          :service_image_name     => 'custom-image',
-          :service_image_location => 'http://example.com/manila_service_image.iso',
+          :service_image_name             => 'custom-image',
+          :service_image_container_format => 'compressed',
+          :service_image_disk_format      => 'raw',
+          :service_image_location         => 'http://example.com/manila_service_image.iso',
         })
       end
 
@@ -70,8 +72,8 @@ describe 'manila::backend::service_instance' do
         is_expected.to contain_glance_image('custom-image').with(
           :ensure           => 'present',
           :is_public        => 'yes',
-          :container_format => 'bare',
-          :disk_format      => 'qcow2',
+          :container_format => 'compressed',
+          :disk_format      => 'raw',
           :source           => 'http://example.com/manila_service_image.iso',
         )
       end
