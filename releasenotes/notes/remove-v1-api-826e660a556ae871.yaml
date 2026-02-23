@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    The ``manila::keystone::auth`` class now manages the shared-file-system
+    service type and its endpoint.
+
+upgrade:
+  - |
+    Support for v1 API has been removed. Due to the removal, the following
+    parameters of the ``manila::keystone::auth`` class are now prohibited.
+
+    - ``admin_url``
+    - ``internal_url``
+    - ``public_url``

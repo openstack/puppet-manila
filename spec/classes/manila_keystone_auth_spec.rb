@@ -17,7 +17,7 @@ describe 'manila::keystone::auth' do
         :configure_endpoint  => true,
         :configure_service   => true,
         :service_name        => 'manila',
-        :service_type        => 'share',
+        :service_type        => 'shared-file-system',
         :service_description => 'Manila Service',
         :region              => 'RegionOne',
         :auth_name           => 'manila',
@@ -27,9 +27,9 @@ describe 'manila::keystone::auth' do
         :roles               => ['admin', 'service'],
         :system_scope        => 'all',
         :system_roles        => [],
-        :public_url          => 'http://127.0.0.1:8786/v1/%(tenant_id)s',
-        :internal_url        => 'http://127.0.0.1:8786/v1/%(tenant_id)s',
-        :admin_url           => 'http://127.0.0.1:8786/v1/%(tenant_id)s',
+        :public_url          => 'http://127.0.0.1:8786/v2',
+        :internal_url        => 'http://127.0.0.1:8786/v2',
+        :admin_url           => 'http://127.0.0.1:8786/v2',
       ) }
 
       it { is_expected.to contain_keystone__resource__service_identity('manilav2').with(
@@ -64,17 +64,14 @@ describe 'manila::keystone::auth' do
           :service_name           => 'alt_service',
           :service_type           => 'alt_share',
           :region                 => 'RegionTwo',
-          :public_url             => 'https://10.10.10.10:80',
-          :internal_url           => 'http://10.10.10.11:81',
-          :admin_url              => 'http://10.10.10.12:81',
           :configure_endpoint_v2  => false,
           :configure_service_v2   => false,
           :service_description_v2 => 'Alternative Manila Service v2',
           :service_name_v2        => 'alt_servicev2',
           :service_type_v2        => 'alt_sharev2',
-          :public_url_v2          => 'https://10.10.10.20:80',
-          :internal_url_v2        => 'http://10.10.10.21:81',
-          :admin_url_v2           => 'http://10.10.10.22:81' }
+          :public_url_v2          => 'https://10.10.10.10:80',
+          :internal_url_v2        => 'http://10.10.10.11:81',
+          :admin_url_v2           => 'http://10.10.10.12:81' }
       end
 
       it { is_expected.to contain_keystone__resource__service_identity('manila').with(
@@ -107,9 +104,9 @@ describe 'manila::keystone::auth' do
         :service_type        => 'alt_sharev2',
         :service_description => 'Alternative Manila Service v2',
         :region              => 'RegionTwo',
-        :public_url          => 'https://10.10.10.20:80',
-        :internal_url        => 'http://10.10.10.21:81',
-        :admin_url           => 'http://10.10.10.22:81',
+        :public_url          => 'https://10.10.10.10:80',
+        :internal_url        => 'http://10.10.10.11:81',
+        :admin_url           => 'http://10.10.10.12:81',
       ) }
     end
   end

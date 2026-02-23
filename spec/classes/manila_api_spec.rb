@@ -138,7 +138,7 @@ describe 'manila::api' do
 
       it { is_expected.to contain_class('manila::policy') }
       it { is_expected.to contain_manila_api_paste_ini('filter:ratelimit/paste.filter_factory').with(
-        :value => 'manila.api.v1.limits:RateLimitingMiddleware.factory'
+        :value => 'manila.api.v2.limits:RateLimitingMiddleware.factory'
       )}
       it { is_expected.to contain_manila_api_paste_ini('filter:ratelimit/limits').with(
         :value => '(GET, "*", .*, 100, MINUTE);(POST, "*", .*, 200, MINUTE)'

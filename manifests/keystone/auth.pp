@@ -24,8 +24,7 @@
 #   Defaults to 'manilav2'.
 #
 # [*configure_endpoint*]
-#   Should Manila endpoint be configured? Optional.
-#   API v1 endpoint should be enabled in Icehouse for compatibility with Nova.
+#   (Optional) Should Manila endpoint be configured?
 #   Defaults to true
 #
 # [*configure_user*]
@@ -42,7 +41,7 @@
 #
 # [*service_type*]
 #   (Optional) Type of service.
-#   Defaults to 'share'.
+#   Defaults to 'shared-file-system'.
 #
 # [*service_description*]
 #   (Optional) Description for keystone service.
@@ -67,21 +66,6 @@
 # [*system_roles*]
 #   (Optional) List of system roles assigned to Manila user.
 #   Defaults to []
-#
-# [*public_url*]
-#   (Optional) The endpoint's public url.
-#   This url should *not* contain any trailing '/'.
-#   Defaults to 'http://127.0.0.1:8786/v1/%(tenant_id)s'
-#
-# [*admin_url*]
-#   (Optional) The endpoint's admin url.
-#   This url should *not* contain any trailing '/'.
-#   Defaults to 'http://127.0.0.1:8786/v1/%(tenant_id)s'
-#
-# [*internal_url*]
-#   (Optional) The endpoint's internal url.
-#   This url should *not* contain any trailing '/'.
-#   Defaults to 'http://127.0.0.1:8786/v1/%(tenant_id)s'
 #
 # [*configure_endpoint_v2*]
 #   (Optional) Should Manila v2 endpoint be configured?
@@ -114,12 +98,29 @@
 #   This url should *not* contain any trailing '/'.
 #   Defaults to 'http://127.0.0.1:8786/v2'
 #
+# DEPRECATED PARAMETERS
+#
+# [*public_url*]
+#   (Optional) The endpoint's public url.
+#   This url should *not* contain any trailing '/'.
+#   Defaults to undef
+#
+# [*admin_url*]
+#   (Optional) The endpoint's admin url.
+#   This url should *not* contain any trailing '/'.
+#   Defaults to undef
+#
+# [*internal_url*]
+#   (Optional) The endpoint's internal url.
+#   This url should *not* contain any trailing '/'.
+#   Defaults to undef
+#
 # === Examples
 #
 #  class { 'manila::keystone::auth':
-#    public_url   => 'https://10.0.0.10:8786/v1/%(tenant_id)s',
-#    internal_url => 'https://10.0.0.11:8786/v1/%(tenant_id)s',
-#    admin_url    => 'https://10.0.0.11:8786/v1/%(tenant_id)s',
+#    public_url_v2   => 'https://10.0.0.10:8786/v2',
+#    internal_url_v2 => 'https://10.0.0.11:8786/v2',
+#    admin_url_v2    => 'https://10.0.0.11:8786/v2',
 #  }
 #
 class manila::keystone::auth (
@@ -138,19 +139,24 @@ class manila::keystone::auth (
   Boolean $configure_user_role               = true,
   Boolean $configure_service                 = true,
   Boolean $configure_service_v2              = true,
-  String[1] $service_type                    = 'share',
+  String[1] $service_type                    = 'shared-file-system',
   String[1] $service_type_v2                 = 'sharev2',
   String[1] $service_description             = 'Manila Service',
   String[1] $service_description_v2          = 'Manila Service v2',
   String[1] $region                          = 'RegionOne',
-  Keystone::PublicEndpointUrl $public_url    = 'http://127.0.0.1:8786/v1/%(tenant_id)s',
   Keystone::PublicEndpointUrl $public_url_v2 = 'http://127.0.0.1:8786/v2',
-  Keystone::EndpointUrl $admin_url           = 'http://127.0.0.1:8786/v1/%(tenant_id)s',
   Keystone::EndpointUrl $admin_url_v2        = 'http://127.0.0.1:8786/v2',
-  Keystone::EndpointUrl $internal_url        = 'http://127.0.0.1:8786/v1/%(tenant_id)s',
   Keystone::EndpointUrl $internal_url_v2     = 'http://127.0.0.1:8786/v2',
+  # DEPRECATED PARAMETERS
+  Optional[Keystone::PublicEndpointUrl] $public_url = undef,
+  Optional[Keystone::EndpointUrl] $admin_url        = undef,
+  Optional[Keystone::EndpointUrl] $internal_url     = undef,
 ) {
   include manila::deps
+
+  if ($public_url or $admin_url or $internal_url) {
+    fail('Support for v1 API was removed')
+  }
 
   Keystone::Resource::Service_identity['manila'] -> Anchor['manila::service::end']
   Keystone::Resource::Service_identity['manilav2'] -> Anchor['manila::service::end']
@@ -171,9 +177,9 @@ class manila::keystone::auth (
     roles               => $roles,
     system_scope        => $system_scope,
     system_roles        => $system_roles,
-    public_url          => $public_url,
-    admin_url           => $admin_url,
-    internal_url        => $internal_url,
+    public_url          => $public_url_v2,
+    admin_url           => $admin_url_v2,
+    internal_url        => $internal_url_v2,
   }
 
   keystone::resource::service_identity { 'manilav2':

@@ -48,7 +48,7 @@
 #
 # [*ratelimits_factory*]
 #   (optional) Factory to use for ratelimiting
-#   Defaults to 'manila.api.v1.limits:RateLimitingMiddleware.factory'
+#   Defaults to 'manila.api.v2.limits:RateLimitingMiddleware.factory'
 #
 # [*enable_proxy_headers_parsing*]
 #   (Optional) Enable paste middleware to handle SSL requests through
@@ -81,7 +81,7 @@ class manila::api (
   Boolean $manage_service                 = true,
   String[1] $service_name                 = $manila::params::api_service,
   $ratelimits                             = undef,
-  $ratelimits_factory                     = 'manila.api.v1.limits:RateLimitingMiddleware.factory',
+  $ratelimits_factory                     = 'manila.api.v2.limits:RateLimitingMiddleware.factory',
   $enable_proxy_headers_parsing           = $facts['os_service_default'],
   $max_request_body_size                  = $facts['os_service_default'],
   $enabled_share_protocols                = $facts['os_service_default'],
