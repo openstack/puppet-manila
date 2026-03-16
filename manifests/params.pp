@@ -27,7 +27,7 @@ class manila::params {
       $gluster_client_package_name = 'glusterfs-client'
       $gluster_package_name        = 'glusterfs-common'
       $manila_wsgi_script_path     = '/usr/lib/cgi-bin/manila'
-      $manila_wsgi_script_source   = '/usr/bin/manila-wsgi'
+      $manila_wsgi_script_source   = '/usr/lib/python3/dist-packages/manila/wsgi/api.py'
       $nfs_client_package_name     = 'nfs-common'
       $ceph_common_package_name    = 'ceph-common'
     }

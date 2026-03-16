@@ -156,7 +156,7 @@ describe 'manila::wsgi::apache' do
         when 'Debian'
           {
             :wsgi_script_path   => '/usr/lib/cgi-bin/manila',
-            :wsgi_script_source => '/usr/bin/manila-wsgi'
+            :wsgi_script_source => '/usr/lib/python3/dist-packages/manila/wsgi/api.py'
           }
         when 'RedHat'
           {
