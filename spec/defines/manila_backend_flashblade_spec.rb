@@ -30,7 +30,7 @@ describe 'manila::backend::flashblade' do
 
     it 'configures pure storage flashblade share driver' do
       is_expected.to contain_manila_config("flashblade/share_driver").with_value(
-	      'manila.share.drivers.purestorage.flashblade.FlashBladeShareDriver')
+        'manila.share.drivers.purestorage.flashblade.FlashBladeShareDriver')
       is_expected.to contain_manila_config("flashblade/driver_handles_share_servers").with_value ( false )
       params_hash.each_pair do |config,value|
         is_expected.to contain_manila_config("flashblade/#{config}").with_value( value )
