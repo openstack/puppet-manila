@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    Thw following parameters have been removed from
+    the ``manila::keystone::auth`` class.
+
+    - ``public_url``
+    - ``internal_url``
+    - ``admin_url``

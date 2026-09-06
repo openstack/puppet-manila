@@ -98,23 +98,6 @@
 #   This url should *not* contain any trailing '/'.
 #   Defaults to 'http://127.0.0.1:8786/v2'
 #
-# DEPRECATED PARAMETERS
-#
-# [*public_url*]
-#   (Optional) The endpoint's public url.
-#   This url should *not* contain any trailing '/'.
-#   Defaults to undef
-#
-# [*admin_url*]
-#   (Optional) The endpoint's admin url.
-#   This url should *not* contain any trailing '/'.
-#   Defaults to undef
-#
-# [*internal_url*]
-#   (Optional) The endpoint's internal url.
-#   This url should *not* contain any trailing '/'.
-#   Defaults to undef
-#
 # === Examples
 #
 #  class { 'manila::keystone::auth':
@@ -147,16 +130,8 @@ class manila::keystone::auth (
   Keystone::PublicEndpointUrl $public_url_v2 = 'http://127.0.0.1:8786/v2',
   Keystone::EndpointUrl $admin_url_v2        = 'http://127.0.0.1:8786/v2',
   Keystone::EndpointUrl $internal_url_v2     = 'http://127.0.0.1:8786/v2',
-  # DEPRECATED PARAMETERS
-  Optional[Keystone::PublicEndpointUrl] $public_url = undef,
-  Optional[Keystone::EndpointUrl] $admin_url        = undef,
-  Optional[Keystone::EndpointUrl] $internal_url     = undef,
 ) {
   include manila::deps
-
-  if ($public_url or $admin_url or $internal_url) {
-    fail('Support for v1 API was removed')
-  }
 
   Keystone::Resource::Service_identity['manila'] -> Anchor['manila::service::end']
   Keystone::Resource::Service_identity['manilav2'] -> Anchor['manila::service::end']
